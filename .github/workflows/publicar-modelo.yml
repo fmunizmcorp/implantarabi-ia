@@ -1,0 +1,76 @@
+name: Publicar repositório-modelo
+
+# Envia modelo-repo-clinica/ para o repositório-modelo público
+# fmunizmcorp/implantarabi-modelo-clinica (marcado como Template repository),
+# de onde cada clínica cria o seu repo pelo botão "Use this template".
+#
+# Precisa do secret MODELO_PUSH_TOKEN: token fine-grained com acesso SÓ ao
+# repositório implantarabi-modelo-clinica, permissões "Contents: Read and write"
+# e "Workflows: Read and write" (o modelo leva .github/workflows/automerge.yml;
+# sem "Workflows" o GitHub recusa o push desse arquivo).
+# Detalhes: ferramentas/kit/00-INDICE.md.
+# Sem o secret o job só avisa e termina verde (publique pela sessão do kit).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'modelo-repo-clinica/**'
+      - 'ferramentas/kit/exportar_modelo.py'
+      - 'ferramentas/kit/_comum.py'
+      - '.github/workflows/publicar-modelo.yml'
+      - 'VERSION'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publicar-modelo
+  cancel-in-progress: false
+
+env:
+  REPO_MODELO: fmunizmcorp/implantarabi-modelo-clinica
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Conferir o secret MODELO_PUSH_TOKEN
+        id: token
+        env:
+          TOKEN: ${{ secrets.MODELO_PUSH_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::warning::Secret MODELO_PUSH_TOKEN não configurado: o repositório-modelo NÃO foi atualizado. Configure o secret (ferramentas/kit/00-INDICE.md) ou publique pela sessão do kit com exportar_modelo.py."
+            echo "tem=nao" >> "$GITHUB_OUTPUT"
+          else
+            echo "tem=sim" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout do kit
+        if: steps.token.outputs.tem == 'sim'
+        uses: actions/checkout@v4
+
+      - name: Exportar e enviar para o repositório-modelo
+        if: steps.token.outputs.tem == 'sim'
+        env:
+          TOKEN: ${{ secrets.MODELO_PUSH_TOKEN }}
+        run: |
+          set -euo pipefail
+          DEST="$RUNNER_TEMP/modelo"
+          git clone "https://x-access-token:${TOKEN}@github.com/${REPO_MODELO}.git" "$DEST"
+          python3 ferramentas/kit/exportar_modelo.py --destino "$DEST"
+          python3 ferramentas/kit/exportar_modelo.py --checar "$DEST"
+          cd "$DEST"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Repositório-modelo já está igual ao kit. Nada a enviar."
+            exit 0
+          fi
+          git commit -m "modelo: kit $(cat "$GITHUB_WORKSPACE/VERSION") (${GITHUB_SHA::7})"
+          git push origin HEAD:main
+          echo "Repositório-modelo atualizado: $(git log -1 --format='%h %s')"

@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v0.2.0 — 2026-09-25
+- MANUAL-PASSO-A-PASSO.md + manual/ (8 partes): passo a passo detalhado para o implantador leigo.
+- Frase de disparo no repo da clínica: "Vamos implantar <clínica>" (primeira vez personaliza; depois retoma
+  de onde parou); resumo de retomada no início de cada sessão.
+- Repositório-modelo (GitHub Template) `implantarabi-modelo-clinica`: `exportar_modelo.py`,
+  `personalizar_clinica.py` e workflow `publicar-modelo.yml` (secret MODELO_PUSH_TOKEN).
+
 ## v0.1.2 — 2026-09-25
 - Leitura real (só GET) com chave válida incorporada: envelopes padronizados em produção; campos reais
   do Farol (`conta_no_total`, `motivo_exclusao`, `receita_sem_zerar`, `fonte_id`…) — Swagger incompleto;

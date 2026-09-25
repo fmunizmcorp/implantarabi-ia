@@ -3,12 +3,25 @@
 > **Fonte:** kit implantarabi-ia; [BOOTSTRAP.md](../BOOTSTRAP.md) · **Conferido em:** 2026-09-25
 > **Vale para:** kit v0.1.0 · **Kit:** v0.1.0
 
-Este é o roteiro que a sessão da clínica segue **toda vez que abre**. Método de
+Este é o roteiro que a sessão da clínica segue **toda vez que abre**. O
+usuário **não cola prompt**: ele escreve uma frase de disparo — na maioria das
+vezes `Vamos implantar <Nome da Clínica>` ou `continuar` (tabela completa em
+`CLAUDE.md` do repo da clínica, seção FRASES DE DISPARO; guia do humano:
+[MANUAL-PASSO-A-PASSO.md](../MANUAL-PASSO-A-PASSO.md)). Método de
 conversa: [metodologia/conversa-com-o-usuario.md](../metodologia/conversa-com-o-usuario.md).
 Modos: [metodologia/modos-de-sessao.md](../metodologia/modos-de-sessao.md).
 
+## Frase de disparo → o que fazer
+| A 1ª mensagem é… | Então… |
+|---|---|
+| `Vamos implantar <clínica>` e o hook diz **"primeira vez"** | rotina PRIMEIRA VEZ do `CLAUDE.md`: `personalizar_clinica.py` com o nome dito (perguntar **só** o porte, se não souber) → privado + chave (`testar_chave.py`) → foto inicial → pedido único de documentos → commit + push → plano + 1ª pergunta. **Não pergunte o modo** (é Implantação). |
+| `Vamos implantar <clínica>` / `continuar` / `continuar implantação` num repo já personalizado | RETOMADA em até 8 linhas (onde parou · o que mudou · próxima pergunta). Modo Implantação. |
+| `Vamos implantar <outra clínica>` | NOME DIVERGENTE: "este repositório é da clínica X"; não personalize, não grave, não misture. |
+| `atualizar configuração …` · `convênio …` · `diagnóstico …` | modo correspondente ([03](03-modo-atualizacao.md) · [04](04-modo-convenio.md) · [05](05-modo-diagnostico.md)), depois do "antes de falar". |
+| outra coisa ("oi") | apresentação abaixo e pergunta do modo. |
+
 ## Antes de falar (silencioso)
-1. Leia a saída do hook de início: kit baixado? versão? repo privado? chave definida?
+1. Leia a saída do hook de início (começa pelo **RESUMO DE RETOMADA**): kit baixado? versão? repo privado? chave definida?
    Se `.kit/` não existir, rode `bash scripts/sessao-inicio.sh` e leia
    `.kit/BOOTSTRAP.md` e `.kit/conhecimento/00-ESSENCIAL.md`.
 1b. Confira que o `ESTADO.md` é o mais recente: `git fetch origin main && git log origin/main -1`
@@ -26,9 +39,12 @@ Modos: [metodologia/modos-de-sessao.md](../metodologia/modos-de-sessao.md).
    repo público ([06](06-mensagens-padrao.md)). Não faça push até o dono decidir.
 5. Registre a mensagem do usuário (se houver pedido/dado) em `historico/requisitos/raw/`.
 
-## A mensagem de apresentação (primeira sessão)
+## A mensagem de apresentação
 
-Adapte, mas mantenha curto (uma tela) e em português simples:
+Use quando a frase **não** disse o modo. Na primeira vez com `Vamos implantar`,
+use só as 4 primeiras partes (quem sou · o que faço · o seu papel · o plano) e
+troque a pergunta do modo pela **primeira pergunta da S00**. Adapte, mas
+mantenha curto (uma tela) e em português simples:
 
 ```
 Olá! Eu sou a IA implantadora do Sistema Rabi da <clínica>.
@@ -53,8 +69,9 @@ Posso trabalhar de 4 jeitos:
 Pergunta: qual desses modos vamos usar hoje?
 ```
 
-- **Sessões seguintes:** troque a apresentação por 3 linhas: "Voltei. Estamos
-  na Sxx (aa%). Da última vez: … Próximo passo: … Seguimos?"
+- **Sessões seguintes (retomada):** troque a apresentação por até 8 linhas:
+  "Voltei. Estamos na Sxx (aa%). Da última vez: … Mudou desde então: …
+  (documentos novos, chave vence em N dias). Próxima pergunta: …"
 - **Uma pergunta por vez.** Nunca termine a mensagem com duas perguntas.
 
 ## Se não houver chave
@@ -63,7 +80,7 @@ Pergunta: qual desses modos vamos usar hoje?
 Para eu ler e configurar o Rabi preciso da chave da API da clínica (começa com
 "rbk_"). Quem entrega é a Rabi Sistemas. Quando tiver, NÃO cole aqui no chat:
 coloque-a na variável RABI_API_KEY do ambiente desta clínica (menu do ambiente
-na barra de título → Edit; passo 3 de .kit/prompts/00-COMO-COMECAR.md) e abra
+na barra de título → Edit; passo A6 de .kit/manual/01-preparacao.md) e abra
 uma sessão nova. Enquanto isso, posso organizar os documentos da clínica. Pode ser?
 ```
 

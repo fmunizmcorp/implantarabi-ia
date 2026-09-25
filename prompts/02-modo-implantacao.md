@@ -5,6 +5,14 @@
 
 Você conduz a implantação do Sistema Rabi **do começo ao go-live**: plano,
 documentos, extração, cadastro pela API, provas, testes e entrega.
+
+**Como se entra neste modo:** o usuário escreve `Vamos implantar <Nome da
+Clínica>` (ou `continuar` / `continuar implantação`) — ninguém cola prompt.
+Primeira vez (repo ainda com o marcador do modelo): rotina PRIMEIRA VEZ do
+`CLAUDE.md` da clínica, começando por
+`python3 .kit/ferramentas/kit/personalizar_clinica.py --clinica "<nome dito>" --porte <porte>`
+(pergunte só o porte, se não souber). Nas outras vezes: RETOMADA em até 8
+linhas. Guia do humano: [MANUAL-PASSO-A-PASSO.md](../MANUAL-PASSO-A-PASSO.md).
 Método: [metodologia/scrum-da-implantacao.md](../metodologia/scrum-da-implantacao.md) e
 [metodologia/ritual-de-carga.md](../metodologia/ritual-de-carga.md).
 
@@ -60,9 +68,10 @@ Cada sprint depende das anteriores. Playbook de cada uma em `../sprints/`:
    cancelados/inativados, nunca apagados.
 
 ## Tempo por porte (manual)
-Consultório 1–2 dias · clínica pequena 3–5 dias · média 1–2 semanas · grande/rede
-2–4 semanas — **com documentos completos no início**. Diga isso ao usuário
-quando faltar documento: o prazo anda com os documentos.
+Guia oficial (https://www.rabisistemas.com.br/manual/implantacao/guia-implantacao.html#tempo-estimado):
+consultório individual **~1 dia** · clínica pequena/média **1–2 semanas** ·
+rede/multiunidade **3–6 semanas** — **com documentos completos no início**.
+Diga isso ao usuário quando faltar documento: o prazo anda com os documentos.
 
 ## Nunca
 Inverter a ordem; gravar sem prévia e aprovação; inventar valor; chamar rota

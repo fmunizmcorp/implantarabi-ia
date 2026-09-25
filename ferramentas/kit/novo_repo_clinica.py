@@ -18,54 +18,21 @@ Só stdlib. Datas em America/Sao_Paulo quando disponível.
 from __future__ import annotations
 
 import argparse
-import datetime as dt
-import re
 import shutil
 import sys
-import unicodedata
 from pathlib import Path
 
-RAIZ_KIT = Path(__file__).resolve().parents[2]
-MODELO = RAIZ_KIT / "modelo-repo-clinica"
-PORTES = {
-    "consultorio": "Consultório individual",
-    "pequena-media": "Clínica pequena/média",
-    "rede": "Rede / policlínica",
-}
-TEXTO = {".md", ".sh", ".json", ".csv", ".txt", ".gitignore", ".yml", ".yaml"}
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _comum import (  # noqa: E402
+    MODELO, PORTES, RAIZ_KIT, eh_texto, hoje, ler_versao, slugificar, substituir, valores_clinica,
+)
+
 PASTAS_CLAUDE = ("agents", "skills", "commands")
-
-
-def slugificar(nome: str) -> str:
-    s = unicodedata.normalize("NFKD", nome).encode("ascii", "ignore").decode()
-    s = re.sub(r"[^a-zA-Z0-9]+", "-", s).strip("-").lower()
-    return s or "clinica"
-
-
-def hoje() -> str:
-    try:
-        from zoneinfo import ZoneInfo
-
-        return dt.datetime.now(ZoneInfo("America/Sao_Paulo")).date().isoformat()
-    except Exception:  # pragma: no cover - sem tzdata
-        return dt.date.today().isoformat()
+__all__ = ["slugificar", "hoje", "versao_kit", "substituir", "eh_texto", "PORTES", "RAIZ_KIT", "MODELO"]
 
 
 def versao_kit() -> str:
-    try:
-        return (RAIZ_KIT / "VERSION").read_text(encoding="utf-8").strip() or "?"
-    except OSError:
-        return "?"
-
-
-def eh_texto(p: Path) -> bool:
-    return p.suffix in TEXTO or p.name in TEXTO
-
-
-def substituir(texto: str, valores: dict[str, str]) -> str:
-    for chave, valor in valores.items():
-        texto = texto.replace(chave, valor)
-    return texto
+    return ler_versao(RAIZ_KIT)
 
 
 def copiar_modelo(destino: Path, valores: dict[str, str], forcar: bool,
@@ -120,14 +87,8 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Atualizados {len(criados)} arquivos de .claude/ a partir do kit {versao}.")
         return 0
 
-    slug = args.slug or f"rabi-implantacao-{slugificar(args.clinica)}"
-    valores = {
-        "<NOME_DA_CLINICA>": args.clinica,
-        "<SLUG_DA_CLINICA>": slug,
-        "<PORTE>": PORTES[args.porte],
-        "<VERSAO_DO_KIT>": versao,
-        "<DATA_CRIACAO>": data,
-    }
+    valores = valores_clinica(args.clinica, args.porte, versao, data, args.slug)
+    slug = valores["<SLUG_DA_CLINICA>"]
     destino.mkdir(parents=True, exist_ok=True)
     criados, pulados = copiar_modelo(destino, valores, args.forcar)
 

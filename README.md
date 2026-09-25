@@ -32,13 +32,19 @@ cada gravação.
 | Implantador | da clínica, parceiro ou Rabi | entrega documentos, aprova prévias, confere resultados |
 | IA implantadora | sessão Claude da clínica | todo o trabalho técnico, com aprovação antes de gravar |
 
-## Começar uma clínica (3 passos)
+## Começar uma clínica
 
-1. Criar um repositório **privado** no GitHub da clínica (ex.: `rabi-implantacao-minhaclinica`).
-2. Abrir uma sessão do Claude (web) nesse repositório e colar o texto de
-   `prompts/00-COMO-COMECAR.md`. A sessão monta a estrutura a partir de `modelo-repo-clinica/`.
-3. Gerar a chave da API no portal comercial do Rabi e seguir a sessão: ela se
-   apresenta, mostra o plano e conduz tudo, uma pergunta por vez.
+Guia completo, clique a clique, para o implantador leigo:
+**[MANUAL-PASSO-A-PASSO.md](MANUAL-PASSO-A-PASSO.md)**. Em resumo:
+
+1. Criar o repositório **privado** da clínica pelo modelo:
+   https://github.com/fmunizmcorp/implantarabi-modelo-clinica/generate
+   (*Use this template*, marcar **Private**).
+2. Pedir a chave da API ao time Rabi e guardá-la no **ambiente da clínica** do
+   Claude Code na web (variável `RABI_API_KEY`; nunca no chat).
+3. Abrir uma sessão no Claude Code na web nesse repositório e escrever:
+   `Vamos implantar <Nome da Clínica>`. A IA personaliza o repositório,
+   confere tudo e conduz a implantação, uma pergunta por vez.
 
 ## Para o mantenedor
 
@@ -49,5 +55,10 @@ cada gravação.
   python3 ferramentas/kit/verificar_tamanhos.py
   python3 ferramentas/kit/verificar_links.py
   python3 ferramentas/kit/verificar_vazamento.py
+  python3 ferramentas/kit/sincronizar_claude_modelo.py --checar
+  python3 ferramentas/kit/gerar_sprints_modelo.py --checar
   ```
+- Repositório-modelo (GitHub Template): `ferramentas/kit/exportar_modelo.py`;
+  publicação automática pelo workflow `publicar-modelo.yml` com o secret
+  `MODELO_PUSH_TOKEN` ([manual/06-mantenedor.md](manual/06-mantenedor.md)).
 - Atualizar a API: `python3 ferramentas/rabi_api/atualizar_spec.py`

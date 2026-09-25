@@ -17,7 +17,7 @@ cada clínica, criado a partir de `modelo-repo-clinica/`.
 | Se você é… | Então… |
 |---|---|
 | **Sessão do mantenedor** (Rabi/Diretor evoluindo o kit) | Pode alterar o kit. Siga `metodologia/politicas.md` e registre em `CHANGELOG.md` + `historico/HISTORICO.md`. |
-| **Sessão de clínica** que leu o kit por engano aqui | **Não altere nada.** Vá para o repo da clínica. Se ele não existe: `prompts/00-COMO-COMECAR.md`. |
+| **Sessão de clínica** que leu o kit por engano aqui | **Não altere nada.** Vá para o repo da clínica. Se ele não existe: `MANUAL-PASSO-A-PASSO.md` (resumo em `prompts/00-COMO-COMECAR.md`). |
 
 ## Mapa rápido (leia sob demanda, pelo índice)
 

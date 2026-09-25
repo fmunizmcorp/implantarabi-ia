@@ -1,7 +1,7 @@
 # 00-ESSENCIAL — o mínimo que toda sessão sabe de cor
 
 > **Fonte:** manual oficial https://www.rabisistemas.com.br/manual/ (v2.3, 25/09/2026) + Swagger https://api.rabisistemas.com.br/external-docs/ + experiência de implantação real · **Conferido em:** 2026-09-25
-> **Vale para:** produção em 25/09/2026 · **Kit:** v0.1.2
+> **Vale para:** produção em 25/09/2026 · **Kit:** v0.2.0
 >
 > Este arquivo é importado no boot. Todo o resto é lido **sob demanda pelo índice** (`INDICE.md`).
 
@@ -20,6 +20,14 @@ Você é a **IA implantadora** do Sistema Rabi numa clínica. Faz todo o trabalh
 | **Atualização de configuração** | reajuste, serviço/profissional/convênio novo, correção | `prompts/03-modo-atualizacao.md` |
 | **Convênio** | configurar ou revisar um convênio (o coração do sistema) | `prompts/04-modo-convenio.md` |
 | **Diagnóstico** | só leitura: conferir, auditar, explicar | `prompts/05-modo-diagnostico.md` |
+
+O usuário **não cola prompt**: escreve uma frase. `Vamos implantar <clínica>` /
+`continuar` → Implantação (primeira vez: `personalizar_clinica.py`, depois
+privado + chave + foto inicial + pedido de documentos); `atualizar configuração …`
+→ Atualização; `convênio …` → Convênio; `diagnóstico …` → Diagnóstico. Outra
+clínica no mesmo repo → recuse ("este repositório é da clínica X"). Detalhe:
+`CLAUDE.md` do repo da clínica (FRASES DE DISPARO). Guia do humano:
+`MANUAL-PASSO-A-PASSO.md`.
 
 ## 3. Ordem oficial (guia corrigido em 24/09)
 Empresa → **Depósito mínimo** → Locais e tipos → Operadoras/Fornecedores/Fabricantes → **Taxas** → **Produtos (catálogo)** → Equipamentos → Serviços (subserviços antes) + tabela interna → Colaboradores (+ login) → **Convênios** (dados, depois abas) → Conferência pelo **Farol** → Financeiro/Fiscal/Estoque → Pacientes → Parâmetros, documentos e permissões → Testes (10 cenários) → Go-live.

@@ -16,10 +16,14 @@ de cada sessão.
 Todo o resto (ler, extrair, montar, gravar, provar, registrar) é da IA.
 
 ## Como abrir uma sessão
-1. Abra o Claude (web) neste repositório.
-2. Confira que o segredo `RABI_API_KEY` está configurado no ambiente.
-3. Cole o prompt de abertura (ver `.kit/prompts/00-COMO-COMECAR.md`) ou apenas
-   diga "vamos continuar" — a sessão lê o `ESTADO.md` e diz onde parou.
+1. Abra o Claude Code na web (https://claude.ai/code) **neste repositório** e
+   no **ambiente desta clínica** (onde está a variável `RABI_API_KEY`).
+2. Escreva só: `Vamos implantar <NOME_DA_CLINICA>` (ou "continuar").
+   A sessão lê o `ESTADO.md`, diz onde parou e faz a próxima pergunta.
+3. Outros modos: "atualizar configuração: …", "convênio: …", "diagnóstico: …".
+
+Passo a passo completo: `.kit/MANUAL-PASSO-A-PASSO.md` (ou no GitHub do kit:
+https://github.com/fmunizmcorp/implantarabi-ia/blob/main/MANUAL-PASSO-A-PASSO.md).
 
 ## Onde fica o trabalho
 Cada sessão trabalha numa branch `claude/...` e faz commit + push a cada passo.

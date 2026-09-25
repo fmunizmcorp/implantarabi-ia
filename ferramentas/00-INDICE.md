@@ -7,6 +7,6 @@
 | [implantacao/](implantacao/00-INDICE.md) | dia a dia da sessão implantadora | `painel.py`, `fila_perguntas.py` (uma pergunta por vez), `carga.py` (ritual de 5 passos), `importar_planilha.py` (sistema anterior → CSV com origem) |
 | [referencias/](referencias/00-INDICE.md) | nomenclatura e códigos de produtos | `buscar.py`, `enriquecer_produtos.py`, `normalizar.py` |
 | [ingestao/](ingestao/README.md) | documentos do cliente | `inventario.py` (hash, tipo, páginas), `extrair_texto.py` (PDF/OCR/Excel/Word → texto fatiado) |
-| [kit/](kit/00-INDICE.md) | manutenção do kit e criação de repo de clínica | `novo_repo_clinica.py`, verificadores de tamanho/links/vazamento, sincronizadores do modelo |
+| [kit/](kit/00-INDICE.md) | manutenção do kit e criação de repo de clínica | `personalizar_clinica.py` (1ª sessão da clínica), `exportar_modelo.py` (repositório-modelo), `novo_repo_clinica.py` (plano B), verificadores de tamanho/links/vazamento, sincronizadores do modelo |
 
 Rodar tudo: `python3 -m pytest ferramentas -q`

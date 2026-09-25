@@ -12,6 +12,58 @@ TO=""; command -v timeout >/dev/null 2>&1 && TO="timeout 60"
 
 echo "== Implantação Rabi · sessão da clínica (SessionStart) =="
 
+# 0) RESUMO DE RETOMADA (máx. ~10 linhas; nunca imprime segredo)
+#    O marcador do nome é montado em duas partes para a personalização não trocá-lo aqui.
+MARCA_NOME="<NOME_DA""_CLINICA>"
+campo() { grep -m1 -F "**$1:**" ESTADO.md 2>/dev/null | sed 's/^- //; s/\*\*[^*]*:\*\* *//'; }
+echo "== RESUMO DE RETOMADA =="
+if [ ! -f ESTADO.md ]; then
+  echo "Clínica: (ESTADO.md não existe — este repo não veio do modelo?)"
+elif grep -qF "$MARCA_NOME" ESTADO.md 2>/dev/null; then
+  echo "Clínica: ainda não personalizado — primeira vez (o usuário diz: Vamos implantar <nome da clínica>)"
+else
+  echo "Clínica: $(campo 'Clínica')"
+fi
+if [ -f ESTADO.md ]; then
+  echo "Modo: $(campo 'Modo atual') · Sprint atual: $(campo 'Sprint atual')"
+  echo "Próximo passo: $(campo 'Próximo passo concreto')"
+fi
+N_LAC=0
+[ -f pendencias/LACUNAS.md ] && N_LAC="$(grep -ciE '\|[[:space:]]*(aberta|aberto|pendente)[[:space:]]*\|[[:space:]]*$' pendencias/LACUNAS.md 2>/dev/null || true)"
+echo "Lacunas abertas: ${N_LAC:-0} (pendencias/LACUNAS.md)"
+ULT_DAILY="$(ls -1 historico/daily/*.md 2>/dev/null | grep -v '/00-INDICE\.md$' | sort | tail -n 1)"
+echo "Última daily: ${ULT_DAILY:-nenhuma ainda}"
+if [ -d documentos-do-cliente ]; then
+  NOVOS=""; N_NOVOS=0
+  while IFS= read -r -d '' ARQ; do
+    BASE="$(basename "$ARQ")"
+    if ! grep -qF -- "$BASE" documentos-do-cliente/inventario.md 2>/dev/null; then
+      N_NOVOS=$((N_NOVOS + 1)); [ "$N_NOVOS" -le 3 ] && NOVOS="$NOVOS; ${ARQ#documentos-do-cliente/}"
+    fi
+  done < <(find documentos-do-cliente -type f ! -name '00-INDICE.md' ! -name 'inventario.md' \
+             ! -name 'README.md' ! -name '.gitkeep' ! -path '*/fichas-de-extracao/*' -print0 2>/dev/null)
+  if [ "$N_NOVOS" -gt 0 ]; then
+    echo "Documentos novos (fora do inventário): $N_NOVOS → ${NOVOS#; }$([ "$N_NOVOS" -gt 3 ] && echo ' …')"
+  else
+    echo "Documentos novos (fora do inventário): 0"
+  fi
+fi
+VALIDADE="$(grep -iE 'validade|expires' credenciais/rabi-api-externa.md 2>/dev/null \
+  | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}' | head -n 1)"
+if [ -n "$VALIDADE" ] && command -v python3 >/dev/null 2>&1; then
+  DIAS="$(python3 -c 'import sys,datetime as d
+try:
+    from zoneinfo import ZoneInfo; h=d.datetime.now(ZoneInfo("America/Sao_Paulo")).date()
+except Exception:
+    h=d.date.today()
+print((d.date.fromisoformat(sys.argv[1])-h).days)' "$VALIDADE" 2>/dev/null || echo "?")"
+  echo "Validade da chave (registrada): $VALIDADE (faltam $DIAS dias; renovar com o time Rabi antes de vencer)"
+else
+  echo "Validade da chave: sem data registrada em credenciais/rabi-api-externa.md"
+fi
+if [ -n "${RABI_API_KEY:-}" ]; then echo "RABI_API_KEY: definida (valor não exibido)"; else echo "RABI_API_KEY: NÃO definida no ambiente"; fi
+echo "== fim do resumo =="
+
 # 1) Kit em .kit/ (somente leitura)
 if [ -d .kit/.git ]; then
   if $TO git -C .kit pull --ff-only --quiet >/dev/null 2>&1; then
@@ -68,23 +120,19 @@ if $TO git fetch --quiet origin main >/dev/null 2>&1; then
   echo "  Confira que o ESTADO.md desta sessão é o mais recente (git log origin/main -1 -- ESTADO.md)."
 fi
 
-# 3) Painel (ESTADO.md)
+# 3) Painel (ESTADO.md) — o resto já saiu no resumo de retomada
 if [ -f ESTADO.md ]; then
-  for campo in "Clínica" "Porte" "Modo atual" "Sprint atual" "Próximo passo concreto" "Última sessão"; do
+  for campo in "Porte" "Bloqueios" "Última sessão"; do
     grep -m1 -F "**$campo:**" ESTADO.md 2>/dev/null | sed 's/^- //; s/\*\*//g'
   done
 else
-  echo "(ESTADO.md não existe — o repo foi gerado do modelo? Ver .kit/prompts/00-COMO-COMECAR.md)"
+  echo "(ESTADO.md não existe — o repo foi gerado do modelo? Ver .kit/MANUAL-PASSO-A-PASSO.md)"
 fi
 
 # 4) Pendências abertas
 if [ -f pendencias/PENDENCIAS.md ]; then
   N="$(grep -ci '| *aberta *|' pendencias/PENDENCIAS.md 2>/dev/null || true)"
   echo "Pendências abertas: ${N:-0} (pendencias/PENDENCIAS.md)"
-fi
-if [ -f pendencias/LACUNAS.md ]; then
-  N="$(grep -ci '| *aberta *|' pendencias/LACUNAS.md 2>/dev/null || true)"
-  echo "Lacunas de dados abertas: ${N:-0} (pendencias/LACUNAS.md)"
 fi
 
 # 5) Chave da API (sem imprimir o valor)
@@ -107,6 +155,6 @@ if [ -d .kit/modelo-repo-clinica/.claude ]; then
   fi
 fi
 
-echo ">>> Apresente-se com .kit/prompts/01-abertura-sessao.md e pergunte o MODO. Uma pergunta por vez."
+echo ">>> Siga as FRASES DE DISPARO do CLAUDE.md (primeira vez × retomada). Abertura: .kit/prompts/01-abertura-sessao.md. Uma pergunta por vez."
 echo "== fim =="
 exit 0

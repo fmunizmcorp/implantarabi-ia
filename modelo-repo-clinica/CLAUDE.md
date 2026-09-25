@@ -4,6 +4,56 @@
 > da clínica). O kit de implantação fica em `.kit/` (baixado pelo hook de
 > início de sessão; **somente leitura**).
 
+## FRASES DE DISPARO (leia antes de tudo)
+
+O usuário não cola prompt: ele escreve **uma frase**. Reconheça e siga:
+
+| O usuário escreve | Modo | Prompt do modo |
+|---|---|---|
+| "Vamos implantar <clínica>", "continuar", "continuar implantação" | **Implantação** | `.kit/prompts/02-modo-implantacao.md` |
+| "atualizar configuração …" (ex.: reajuste, serviço novo) | **Atualização** | `.kit/prompts/03-modo-atualizacao.md` |
+| "convênio …" (ex.: "convênio: configurar Convênio B") | **Convênio** | `.kit/prompts/04-modo-convenio.md` |
+| "diagnóstico …" (ex.: "diagnóstico: por que o orçamento saiu zerado?") | **Diagnóstico** (só leitura) | `.kit/prompts/05-modo-diagnostico.md` |
+
+Frase ambígua ou só "oi": faça a abertura (`.kit/prompts/01-abertura-sessao.md`)
+e pergunte o modo. **Uma pergunta por mensagem.**
+
+### PRIMEIRA VEZ — o repositório ainda não foi personalizado
+Sinal: o resumo do hook diz **"ainda não personalizado — primeira vez"** (a
+linha **Clínica:** do `ESTADO.md` ainda mostra o marcador do modelo, entre `<` e `>`).
+Faça, nesta ordem, **sem pedir licença para cada passo**:
+1. **Personalizar** com o nome que o usuário disse:
+   `python3 .kit/ferramentas/kit/personalizar_clinica.py --clinica "Nome Dito" --porte <consultorio|pequena-media|rede>`.
+   Se não souber o porte, faça **só esta pergunta** (uma): "A clínica é um
+   consultório de 1 profissional, uma clínica pequena/média ou uma rede com
+   várias unidades?". Não pergunte mais nada antes de personalizar.
+2. **Conferir** que o repo é **privado** (saída do hook) e a chave: `RABI_API_KEY`
+   definida? Rode `python3 .kit/ferramentas/rabi_api/testar_chave.py --saida provas/S00/teste-chave-<data>.md`.
+   Faltou chave: explique o passo A6 de `.kit/manual/01-preparacao.md` (variável
+   no ambiente da clínica). **Nunca peça a chave no chat.** Repo público: aviso
+   de repo público (`.kit/prompts/06-mensagens-padrao.md`) e **nenhum push de credencial**.
+3. **Foto inicial** do que já existe no Rabi (se houver chave), em
+   `provas/S00/foto-inicial/` (só leitura; pacientes só contagem).
+4. **Pedido único de documentos** (`.kit/metodologia/lista-unica-de-documentos.md`;
+   versão curta ⭐ para consultório).
+5. **Commit + push** ("S00: repositório personalizado para a clínica + foto inicial").
+6. **Apresente o plano** da clínica (sprints S00–S17 com o tempo do porte) e
+   faça **a primeira pergunta** (uma só).
+
+### RETOMADA — o repositório já é da clínica
+Leia `ESTADO.md`, a sprint atual (`sprints/Sxx.md`), `pendencias/LACUNAS.md`, a
+última daily (`historico/daily/`), os documentos novos que o hook listou e o
+histórico recente de `historico/requisitos/raw/`. Responda em **até 8 linhas**:
+onde paramos · o que mudou desde a última sessão (documentos novos, respostas,
+chave) · **a PRÓXIMA pergunta** (uma só).
+
+### NOME DIVERGENTE
+Se o usuário disser "Vamos implantar" com **outra** clínica: não personalize,
+não grave nada. Diga que **este repositório é da clínica** registrada no
+`ESTADO.md`, que cada clínica tem o seu repositório (criado pelo modelo:
+`.kit/manual/01-preparacao.md`, passo A3) e pergunte se ele abriu o repositório
+errado. (O `personalizar_clinica.py` recusa com código 3.)
+
 ## PRIMEIRA AÇÃO de toda sessão (sem exceção)
 Ler **`.kit/BOOTSTRAP.md`** e **`.kit/conhecimento/00-ESSENCIAL.md`** com a
 ferramenta de leitura, antes de responder qualquer coisa. O hook de início já
@@ -23,9 +73,10 @@ sessão nova na web o `.kit/` ainda não existe quando este arquivo é lido.)
      `main` estiver atrás de uma branch `claude/...` antiga, avise antes de seguir.
 2. Leia `ESTADO.md`, `PAPEIS.md`, `diretrizes-da-equipe.md` e a sprint atual
    (`sprints/Sxx.md` aqui + o playbook `.kit/sprints/Sxx-<nome>.md`).
-3. Apresente-se usando `.kit/prompts/01-abertura-sessao.md`: quem você é, o
-   painel, o próximo passo e **qual modo** (Implantação · Atualização ·
-   Convênio · Diagnóstico). Prompts de cada modo: `.kit/prompts/02` a `05`.
+3. Aplique as **FRASES DE DISPARO** acima (primeira vez × retomada × nome
+   divergente). Se a frase não indicar o modo, apresente-se usando
+   `.kit/prompts/01-abertura-sessao.md` e pergunte o modo. Prompts de cada
+   modo: `.kit/prompts/02` a `05`.
 
 ## Regras de ouro
 1. **Uma pergunta por vez**, em português simples, dizendo o efeito prático.
