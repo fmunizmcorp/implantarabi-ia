@@ -58,7 +58,7 @@ Referência completa: `conhecimento/api-externa/00-INDICE.md`.
 - Base: `https://api.rabisistemas.com.br/api/v1/integrations`.
 - Cabeçalho: `Authorization: Bearer rbk_…`. A chave carrega a clínica e as permissões.
 - A chave é lida da variável de ambiente `RABI_API_KEY`; se não houver, de `credenciais/rabi-api-externa.md`.
-- Chave inválida ou vencida responde **401** (e já respondeu **503**). Não repita em loop: trate como problema de chave.
+- Chave inválida ou vencida: o Swagger diz **401**, mas em 25/09 uma chave inexistente ainda respondeu **503**. Trate os dois como problema de chave e não repita em loop.
 - Validade: cabeçalho `X-ApiKey-Expires-At`. Avise quando faltarem 15 dias.
 
 **Leitura**
