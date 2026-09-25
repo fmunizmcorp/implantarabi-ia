@@ -11,7 +11,7 @@ cada clínica. Decisão: kit público e público-seguro (CI de vazamento).
 ## K03 — "200 da API do GitHub" não quer dizer público
 Pelo proxy autenticado, repo privado ligado responde 200. Confira o campo `"private"`.
 
-## K04 — Documentação de API externa ≠ comportamento
+## K04 — Documentação de API externa ≠ comportamento (e validade curta da chave é proteção, não defeito)
 O Swagger de 25/09 diz 401 para chave inválida; a medição do mesmo dia deu 503. O kit trata os dois
 como "problema de chave" e registra a medição para reconfirmar.
 

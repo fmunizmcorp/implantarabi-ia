@@ -3,13 +3,52 @@
   "description": "Settings do KIT implantarabi-ia (sessão do mantenedor). SessionStart mostra versão, índice-mestre e próximo passo. PreCompact lembra o que preservar. Sessões de clínica usam o .claude/ do repo da clínica (modelo-repo-clinica/.claude/).",
   "hooks": {
     "SessionStart": [
-      { "matcher": "startup", "hooks": [ { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/sessao-kit.sh\"" } ] },
-      { "matcher": "resume",  "hooks": [ { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/sessao-kit.sh\"" } ] },
-      { "matcher": "clear",   "hooks": [ { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/sessao-kit.sh\"" } ] },
-      { "matcher": "compact", "hooks": [ { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/sessao-kit.sh\"" } ] }
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/sessao-kit.sh\""
+          }
+        ]
+      },
+      {
+        "matcher": "resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/sessao-kit.sh\""
+          }
+        ]
+      },
+      {
+        "matcher": "clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/sessao-kit.sh\""
+          }
+        ]
+      },
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/sessao-kit.sh\""
+          }
+        ]
+      }
     ],
     "PreCompact": [
-      { "hooks": [ { "type": "command", "command": "echo '== PreCompact (kit): preserve no resumo a lista de arquivos modificados, os comandos de verificação (python3 -m pytest ferramentas -q; python3 ferramentas/kit/verificar_tamanhos.py; python3 ferramentas/kit/verificar_links.py; python3 ferramentas/kit/verificar_vazamento.py) e o próximo passo de historico/HISTORICO.md. =='" } ] }
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '== PreCompact (kit): preserve no resumo a lista de arquivos modificados, os comandos de verificação (python3 -m pytest ferramentas -q; python3 ferramentas/kit/verificar_tamanhos.py; python3 ferramentas/kit/verificar_links.py; python3 ferramentas/kit/verificar_vazamento.py) e o próximo passo de historico/HISTORICO.md. =='"
+          }
+        ]
+      }
     ]
   },
   "permissions": {
@@ -21,7 +60,26 @@
       "Bash(git push -f:*)",
       "Bash(git reset --hard:*)",
       "Bash(curl* | sh)",
-      "Bash(curl* | bash)"
+      "Bash(curl* | bash)",
+      "Bash(rm -rf $HOME)"
+    ],
+    "allow": [
+      "Bash",
+      "Read",
+      "Edit",
+      "Write",
+      "Glob",
+      "Grep",
+      "NotebookEdit",
+      "WebFetch",
+      "WebSearch",
+      "Agent",
+      "Skill",
+      "Artifact",
+      "TaskCreate",
+      "TaskUpdate",
+      "mcp__github",
+      "mcp__Claude_Code_Remote"
     ]
   }
 }

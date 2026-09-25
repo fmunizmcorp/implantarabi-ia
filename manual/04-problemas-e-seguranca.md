@@ -5,6 +5,8 @@
 
 Voltar ao [manual](../MANUAL-PASSO-A-PASSO.md).
 
+> 🔒 **Validade curta é proteção, não problema** (decisão do proprietário, 25/09/2026): a chave **deve** expirar, e pedir uma chave nova ao time Rabi é o **fluxo normal** da implantação. A sessão avisa com antecedência, pede a chave nova ao dono e segue — nunca trata o vencimento como falha nem tenta contornar a expiração.
+
 ## Parte E — Problemas comuns (sintoma → o que fazer)
 
 ### A chave está vencendo ou venceu

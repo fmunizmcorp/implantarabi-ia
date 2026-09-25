@@ -67,7 +67,7 @@ Referência completa: `conhecimento/api-externa/00-INDICE.md`.
 - Cabeçalho: `Authorization: Bearer rbk_…`. A chave carrega a clínica e as permissões.
 - A chave é lida da variável de ambiente `RABI_API_KEY`; se não houver, de `credenciais/rabi-api-externa.md`.
 - Chave não aceita (inexistente, revogada, não ativada): responde **503** "Não foi possível validar a chave de API." (medido em 25/09 em produção e homologação; o 401 do Swagger ainda não vale). Sem cabeçalho: 401. Trate os dois como problema de chave e não repita em loop.
-- Validade: cabeçalho `X-ApiKey-Expires-At`. Uma chave medida valia só **~7 dias** após a emissão: olhe a validade ao abrir a sessão e peça a renovação ao time Rabi **com antecedência** (alerta automático a 15 dias).
+- Validade: cabeçalho `X-ApiKey-Expires-At`. A chave dura poucos dias (**~7 dias** medidos) **de propósito — é proteção**: renovar é o fluxo normal, não um problema. Olhe a validade ao abrir a sessão e peça a chave nova ao dono/time Rabi com antecedência (alerta automático a 15 dias).
 
 **Leitura**
 - `page` começa em **1**; `pageSize` máximo é **200**.
