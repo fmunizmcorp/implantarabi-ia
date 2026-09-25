@@ -22,6 +22,7 @@ Todo o resto (ler, extrair, montar, gravar, provar, registrar) é da IA.
    A sessão lê o `ESTADO.md`, diz onde parou e faz a próxima pergunta.
 3. Outros modos: "atualizar configuração: …", "convênio: …", "diagnóstico: …".
 
+Passo a passo na web (manual do Rabi): https://www.rabisistemas.com.br/manual/implantacao/implantacao-com-ia.html
 Passo a passo completo: `.kit/MANUAL-PASSO-A-PASSO.md` (ou no GitHub do kit:
 https://github.com/fmunizmcorp/implantarabi-ia/blob/main/MANUAL-PASSO-A-PASSO.md).
 

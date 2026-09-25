@@ -1,7 +1,7 @@
 # 00-ESSENCIAL — o mínimo que toda sessão sabe de cor
 
 > **Fonte:** manual oficial https://www.rabisistemas.com.br/manual/ (v2.3, 25/09/2026) + Swagger https://api.rabisistemas.com.br/external-docs/ + experiência de implantação real · **Conferido em:** 2026-09-25
-> **Vale para:** produção em 25/09/2026 · **Kit:** v0.2.0
+> **Vale para:** produção em 25/09/2026 · **Kit:** v0.2.1
 >
 > Este arquivo é importado no boot. Todo o resto é lido **sob demanda pelo índice** (`INDICE.md`).
 

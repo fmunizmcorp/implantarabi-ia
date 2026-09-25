@@ -70,7 +70,9 @@ def readme_modelo(versao: str) -> str:
 
 Passo a passo completo, clique a clique (contas, chave da API, ambiente do
 Claude, problemas comuns):
-https://github.com/{REPO_KIT}/blob/main/MANUAL-PASSO-A-PASSO.md
+https://www.rabisistemas.com.br/manual/implantacao/implantacao-com-ia.html
+
+(Versão em texto no kit: https://github.com/{REPO_KIT}/blob/main/MANUAL-PASSO-A-PASSO.md)
 
 ## Já é o repositório da sua clínica?
 

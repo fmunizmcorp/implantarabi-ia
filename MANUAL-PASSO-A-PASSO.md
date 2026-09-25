@@ -1,7 +1,9 @@
 # Manual passo a passo — implantar o Sistema Rabi com a IA
 
 > **Fonte:** este kit + guia oficial https://www.rabisistemas.com.br/manual/implantacao/guia-implantacao.html + documentação do Claude Code na web https://code.claude.com/docs/en/claude-code-on-the-web · **Conferido em:** 2026-09-25
-> **Vale para:** produção em 25/09/2026 (repositório-modelo por "Use this template") · **Kit:** v0.1.2
+> **Vale para:** produção em 25/09/2026 (repositório-modelo por "Use this template") · **Kit:** v0.2.1
+>
+> 🌐 **Versão web (pública, no manual oficial do Rabi):** https://www.rabisistemas.com.br/manual/implantacao/implantacao-com-ia.html
 
 Este manual é para **quem vai implantar** o Sistema Rabi numa clínica: o dono,
 alguém da equipe ou um parceiro. **Não precisa saber programar.** Você vai

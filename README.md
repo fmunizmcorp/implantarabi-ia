@@ -5,6 +5,8 @@ do **Sistema Rabi** numa clínica pela **API externa**, sprint a sprint,
 conversando **uma pergunta por vez** com quem entende da clínica e provando
 cada gravação.
 
+> 🌐 **Passo a passo do implantador (página pública no manual do Rabi):** https://www.rabisistemas.com.br/manual/implantacao/implantacao-com-ia.html
+
 > Versão: veja `VERSION` · Mudanças: `CHANGELOG.md` · Índice de tudo: `INDICE.md`
 
 ## Como funciona (em uma figura)

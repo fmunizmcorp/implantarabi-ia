@@ -1,7 +1,9 @@
 # 07 — Onde ler mais no manual oficial, etapa por etapa
 
 > **Fonte:** manual oficial do Sistema Rabi (https://www.rabisistemas.com.br/manual/) · **Conferido em:** 2026-09-25
-> **Vale para:** manual v2.3 · **Kit:** v0.2.0
+> **Vale para:** manual v2.3 · **Kit:** v0.2.1
+>
+> Versão web deste passo a passo, com esta tabela: https://www.rabisistemas.com.br/manual/implantacao/implantacao-com-ia.html#etapas
 
 Em **cada etapa** a IA mostra o link abaixo ("📖 Para saber mais: …"). Abra quando quiser
 entender **o que** está sendo feito e **como** a tela funciona. O manual oficial é a fonte

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.2.1 — 2026-09-25
+- Passo a passo do implantador publicado como página pública no manual oficial do Rabi:
+  https://www.rabisistemas.com.br/manual/implantacao/implantacao-com-ia.html (links em README, MANUAL-PASSO-A-PASSO, manual/07, README do modelo e do repo-modelo).
+
 ## v0.2.0 — 2026-09-25
 - MANUAL-PASSO-A-PASSO.md + manual/ (8 partes): passo a passo detalhado para o implantador leigo.
 - Frase de disparo no repo da clínica: "Vamos implantar <clínica>" (primeira vez personaliza; depois retoma
