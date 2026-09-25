@@ -24,3 +24,5 @@ jobs:
         run: python ferramentas/kit/verificar_vazamento.py
       - name: Modelo da clínica com .claude sincronizado
         run: python ferramentas/kit/sincronizar_claude_modelo.py --checar
+      - name: Checklists do modelo iguais aos playbooks
+        run: python ferramentas/kit/gerar_sprints_modelo.py --checar

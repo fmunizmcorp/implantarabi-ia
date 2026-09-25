@@ -21,3 +21,4 @@
 | [parametros/](parametros/00-INDICE.md) | S14 | parâmetros, documentos, perfis |
 | [importacao-sistema-anterior/](importacao-sistema-anterior/README.md) | S13 | mapeamento de colunas do sistema antigo |
 | [pacientes/](pacientes/README.md) | S13 | **vazio no git** (LGPD) |
+| [dicionario-de-ids.md](dicionario-de-ids.md) | nome ↔ ID de tudo que foi criado ou reaproveitado no Rabi (consulta rápida para montar corpos da API) |

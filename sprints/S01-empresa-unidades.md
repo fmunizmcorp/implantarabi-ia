@@ -90,7 +90,7 @@ CNES e contatos. Uma pergunta por mensagem.
 - `PUT /empresas/{id}` **substitui o cadastro por completo** (diz a própria rota):
   campo omitido some. Sempre GET antes e reenvio completo.
 - 409 = CNPJ já existe (inclusive em empresa desativada): reutilizar o ID.
-- Guardar o `empresaId` de cada unidade no dicionário de IDs do repo — é usado
+- Guardar o `empresaId` de cada unidade no dicionário de IDs (`dados/dicionario-de-ids.md`) — é usado
   por depósitos, locais, colaboradores (`empresas`) e convênios (`empresaId`,
   `unidadesIds`).
 - Exemplo mínimo (fictício):

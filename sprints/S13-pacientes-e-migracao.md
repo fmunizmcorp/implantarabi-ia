@@ -78,7 +78,7 @@ sistema). Ver [lista única](../metodologia/lista-unica-de-documentos.md).
 - **CEP → endereço** (em lote, sem gravar o resultado no repo).
 - Validação de CPF (dígito verificador) e normalização de telefone e datas.
 - Mapeamento automático de colunas por nome e amostra — ver
-  [ingestão de documentos](../metodologia/ingestao-de-documentos.md#importação-de-sistemas-anteriores-planilhas-e-csv).
+  [ingestão de documentos](../metodologia/ingestao-de-documentos.md) (seção "Importação de sistemas anteriores").
 
 ## Leitura do que já existe no Rabi e regra de não perder nada
 

@@ -1,5 +1,8 @@
 # Políticas do kit e dos repos de clínica
 
+> **Fonte:** decisões do mantenedor (2026-09-25) + protocolo MAESTRO · **Conferido em:** 2026-09-25
+> **Vale para:** kit e todos os repos de clínica · **Kit:** v0.1.0
+
 > Contrato de escrita para **todo autor** (humano, sessão ou agente) do kit e
 > dos repos de clínica. A CI (`ferramentas/kit/verificar_*.py`) cobra as
 > regras marcadas com ⚙️.

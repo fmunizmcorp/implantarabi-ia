@@ -83,7 +83,7 @@ def ler_sprint(arquivo: Path) -> Sprint:
     texto = arquivo.read_text(encoding="utf-8")
     m = re.search(r"^#\s*(S\d{2}[a-z]?)\s*[—-]\s*(.+)$", texto, re.M)
     codigo = m.group(1) if m else arquivo.stem.split("-")[0]
-    nome = m.group(2).strip() if m else arquivo.stem
+    nome = m.group(2).split(" · ")[0].strip() if m else arquivo.stem
     sp = Sprint(codigo=codigo, nome=nome, arquivo=arquivo)
     linhas = texto.splitlines()
     cab = None

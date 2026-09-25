@@ -107,7 +107,7 @@ antes do fim previsto da implantação, pedir a nova **agora** (não há renova�
 automática nem autoatendimento).
 
 **IDs que só existem na tela** (não há rota de listagem na API externa) — anotar
-no dicionário de IDs quando a sprint precisar: especialidades (catálogo),
+no dicionário de IDs (`dados/dicionario-de-ids.md` do repo da clínica: nome ↔ ID de tudo que é criado ou reaproveitado, iniciado nesta sprint com os auxiliares) quando a sprint precisar: especialidades (catálogo),
 categorias de pagamento, contas/caixas, centros de custo, motivos de
 movimentação de estoque, kits de documentos, modelos de XML do convênio, tipos
 de contrato, tipos de anexo, perfis de permissão, fontes de preço de compra.
@@ -162,6 +162,7 @@ de contrato, tipos de anexo, perfis de permissão, fontes de preço de compra.
 | S00-10 | Foto inicial de todas as áreas + resumo | pendente | | provas/S00/foto-inicial/ | |
 | S00-11 | Porte e plano da clínica (sprints aplicáveis) | pendente | | | |
 | S00-12 | Data desejada de go-live | pendente | | | |
+| S00-13 | Dicionário de IDs iniciado (auxiliares) | pendente | | dados/dicionario-de-ids.md | |
 
 ## O que registrar
 
