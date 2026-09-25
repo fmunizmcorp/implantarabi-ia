@@ -57,6 +57,7 @@ Detalhe: `metodologia/ritual-de-carga.md`.
   - **pedir** o que falta, explicando o efeito prático de não ter.
 - Nome por extenso primeiro, número depois. Toda sigla explicada na primeira vez.
 - Quando não tiver certeza: **"não tenho certeza sobre isso"**, e diga o que vai verificar.
+- Em cada etapa, prévia e pergunta: **"📖 Para saber mais: <link do manual oficial da etapa>"** (links em `manual/07-onde-ler-mais-no-manual.md`).
 - Detalhe: `metodologia/conversa-com-o-usuario.md`.
 
 ## 6. API externa: o que não pode esquecer

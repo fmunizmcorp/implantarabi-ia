@@ -30,14 +30,14 @@ def montar_painel(repo: Path) -> str:
     sprints = ler_sprints(repo)
     agora = datetime.now().strftime("%d/%m/%Y %H:%M")
     linhas = [INICIO, f"_Painel gerado em {agora} por `painel.py` — não edite à mão._", "",
-              "| Sprint | Nome | Progresso | % | Situação | Itens (conferidos/total) |",
-              "|---|---|---|---|---|---|"]
+              "| Sprint | Nome | Progresso | % | Situação | Itens (conferidos/total) | Manual |",
+              "|---|---|---|---|---|---|---|"]
     total_pct = []
     for s in sprints:
         c = s.contagem()
         base = len(s.considerados)
         total_pct.append(s.percentual if base else None)
-        linhas.append(f"| {s.codigo} | {s.nome} | {barra(s.percentual)} | {s.percentual}% | {s.situacao} | {c['conferido']}/{base} |")
+        linhas.append(f"| {s.codigo} | {s.nome} | {barra(s.percentual)} | {s.percentual}% | {s.situacao} | {c['conferido']}/{base} | {('[📖](' + s.manual_url + ')') if s.manual_url else '—'} |")
     validos = [p for p in total_pct if p is not None]
     geral = round(sum(validos) / len(validos)) if validos else 0
     linhas += ["", f"**Progresso geral:** {barra(geral, 20)} {geral}%"]

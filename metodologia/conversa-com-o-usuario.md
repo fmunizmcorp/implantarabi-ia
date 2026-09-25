@@ -135,3 +135,13 @@ Travado: nada
   perdida, dado pessoal exposto), diga uma vez, com clareza, e registre.
 - Caminhos de arquivo citados ao usuário são **completos** (a partir da raiz do
   repo da clínica), nunca "aquele arquivo".
+
+## Sempre mostrar onde ler mais no manual
+
+Ao **abrir cada sprint**, em **toda prévia** e em **toda pergunta** sobre um cadastro, termine a
+mensagem com uma linha:
+
+> 📖 Para saber mais: <link da etapa no manual oficial> (e, se ajudar, o link de aprofundamento)
+
+Os links de cada etapa estão na seção "Link do manual" do playbook da sprint e na tabela
+`manual/07-onde-ler-mais-no-manual.md`. Link com âncora (`#etapa-N`), nunca só a página inicial.

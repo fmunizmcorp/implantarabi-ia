@@ -31,6 +31,7 @@ class Sprint:
     arquivo: Path
     itens: list[Item] = field(default_factory=list)
     avisos: list[str] = field(default_factory=list)
+    manual_url: str = ""
 
     @property
     def considerados(self) -> list[Item]:
@@ -85,6 +86,8 @@ def ler_sprint(arquivo: Path) -> Sprint:
     codigo = m.group(1) if m else arquivo.stem.split("-")[0]
     nome = m.group(2).split(" · ")[0].strip() if m else arquivo.stem
     sp = Sprint(codigo=codigo, nome=nome, arquivo=arquivo)
+    mu = re.search(r"https://www\.rabisistemas\.com\.br/manual/[^\s)>`|]+", texto)
+    sp.manual_url = mu.group(0) if mu else ""
     linhas = texto.splitlines()
     cab = None
     for ln in linhas:

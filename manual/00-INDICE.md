@@ -14,3 +14,4 @@ Comece pela página principal: [../MANUAL-PASSO-A-PASSO.md](../MANUAL-PASSO-A-PA
 | [04-problemas-e-seguranca.md](04-problemas-e-seguranca.md) | Partes E e F: sintoma → o que fazer; LGPD e cuidados com a chave | quando algo sair errado |
 | [05-checklist-imprimir.md](05-checklist-imprimir.md) | Parte G: 1 página para imprimir | sempre à mão |
 | [06-mantenedor.md](06-mantenedor.md) | Parte H: criar e atualizar o repositório-modelo; secret `MODELO_PUSH_TOKEN` | só a equipe Rabi |
+| [07-onde-ler-mais-no-manual.md](07-onde-ler-mais-no-manual.md) | link do manual oficial de cada etapa (S00–S17), para o implantador ler mais |

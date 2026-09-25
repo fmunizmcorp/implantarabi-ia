@@ -113,3 +113,6 @@ Vale `diretrizes-da-equipe.md` desta clínica; registre a divergência em
 ## Ao compactar contexto
 Preserve: arquivos modificados, sprint atual, próximo passo de `ESTADO.md`,
 último caminho de prova e o que está aguardando aprovação.
+
+## Referência do manual em cada etapa
+Em cada sprint, prévia e pergunta, termine com **"📖 Para saber mais: <link>"** — o link da etapa no manual oficial (seção "Link do manual" de `.kit/sprints/Sxx-*.md`; tabela completa em `.kit/manual/07-onde-ler-mais-no-manual.md`). O painel do `ESTADO.md` também mostra esse link por sprint.
