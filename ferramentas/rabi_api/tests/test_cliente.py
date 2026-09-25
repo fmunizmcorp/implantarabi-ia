@@ -288,3 +288,31 @@ def test_401_de_rota_com_defeito_nao_e_chave(cli):
 def test_corpo_401_disfarcado_em_200(cli):
     with pytest.raises(ErroRabi, match="disfarçado"):
         cli.get("/agendamentos/motivo-cancelamento")
+
+
+def _porta_livre():
+    import socket
+    s = socket.socket()
+    s.bind(("127.0.0.1", 0))
+    p = s.getsockname()[1]
+    s.close()
+    return p
+
+
+def test_testar_chave_para_no_primeiro_erro_de_conexao():
+    base = f"http://127.0.0.1:{_porta_livre()}/api/v1/integrations"  # ninguém escuta: conexão recusada
+    c = ClienteRabi(base, CHAVE, esperas_429=(), esperas_503=(), timeout=5)
+    res = testar_chave.testar(c)
+    assert res["parou"] == "conexão"
+    assert len(res["linhas"]) == 1 and res["linhas"][0][3] == "SEM CONEXÃO"
+    assert "sem conexão com a API" in testar_chave.relatorio_md(res)
+
+
+def test_testar_chave_codigo_de_saida(monkeypatch, servidor):
+    base = f"http://127.0.0.1:{_porta_livre()}/api/v1/integrations"
+    monkeypatch.setenv("RABI_API_KEY", CHAVE)
+    assert testar_chave.main(["--base", base]) == 1          # sem conexão: 0 de 25 áreas
+    Estado.contagem.clear()
+    assert testar_chave.main(["--base", servidor]) == 0      # servidor falso: áreas OK
+    monkeypatch.setenv("RABI_API_KEY", "rbk_" + "errada" * 5)
+    assert testar_chave.main(["--base", servidor]) == 1      # 401: parou na chave

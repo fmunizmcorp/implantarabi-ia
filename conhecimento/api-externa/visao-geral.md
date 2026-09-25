@@ -64,7 +64,7 @@ Ordem do roteiro de implantação do manual (grupos 1 a 20) e depois os de opera
 | | **Total** | | **268** | |
 
 Conferência feita por script em 25/09/2026: soma = 268 operações, 191 caminhos
-(`python3 -m ferramentas.rabi_api.gerar_rotas`).
+(`python3 ferramentas/rabi_api/gerar_rotas.py`).
 
 ## 4. API externa × API interna × tela — quando usar cada uma
 
@@ -80,7 +80,7 @@ Detalhes em [nao-coberto-e-api-interna.md](nao-coberto-e-api-interna.md).
 
 1. **Chave**: segredo de ambiente `RABI_API_KEY` (ou registro no repo privado) — ver
    [chave-e-token.md](chave-e-token.md).
-2. **Teste**: `python3 -m ferramentas.rabi_api.testar_chave --saida provas/S00/teste-chave.md`.
+2. **Teste**: `python3 .kit/ferramentas/rabi_api/testar_chave.py --saida provas/S00/teste-chave.md`.
 3. **Leitura**: sempre pelo cliente (`ler_tudo`), que pagina, normaliza e confere o total.
 4. **Gravação**: sempre no ritual de 5 passos (foto antes → prévia → aprovação → grava →
    foto depois + diff), com `ferramentas/rabi_api/foto.py`.

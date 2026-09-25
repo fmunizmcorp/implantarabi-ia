@@ -58,5 +58,5 @@ kit ainda não mediu — o cliente continua tolerante ao comportamento antigo.
 2. Registre em `historico/APRENDIZADOS.md` da clínica.
 3. Se servir a todas as clínicas, sugira ao mantenedor do kit (issue no repo do kit, **sem
    dado da clínica**) — ele atualiza este arquivo e, se for o caso, o `cliente.py`.
-4. Depois de cada atualização do Swagger (`python3 -m ferramentas.rabi_api.atualizar_spec`),
+4. Depois de cada atualização do Swagger (`python3 ferramentas/rabi_api/atualizar_spec.py`),
    o mantenedor revisa este quadro: `grep -rn -i "reportado\|bug conhecido" conhecimento/api-externa/rotas/`.

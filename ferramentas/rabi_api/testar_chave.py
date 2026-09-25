@@ -4,15 +4,18 @@ Só faz GET. Não imprime dado de nenhum registro — só status e contagem (tot
 Nunca imprime a chave (mostra mascarada).
 
 Uso (a partir da raiz do repo da clínica ou do kit):
-    python3 -m ferramentas.rabi_api.testar_chave
-    python3 -m ferramentas.rabi_api.testar_chave --saida provas/S00/teste-chave-2026-10-01.md
-    RABI_API_BASE=https://api.hmg.rabisistemas.dev/api/v1/integrations python3 -m ferramentas.rabi_api.testar_chave
+    python3 .kit/ferramentas/rabi_api/testar_chave.py
+    python3 .kit/ferramentas/rabi_api/testar_chave.py --saida provas/S00/teste-chave-2026-10-01.md
+    RABI_API_BASE=https://api.hmg.rabisistemas.dev/api/v1/integrations python3 .kit/ferramentas/rabi_api/testar_chave.py
 
 Leitura do resultado:
     OK            a chave lê esta área (a coluna "total" mostra quantos registros existem)
     OK (validação) a rota respondeu erro de validação (400/404/422) → a permissão existe
     SEM PERMISSÃO 403 → falta a permissão indicada; peça ao time Rabi
     CHAVE         401/503 → problema com a chave; o teste para na hora (sem repetir)
+    SEM CONEXÃO   não chegou à API (rede/DNS/conexão recusada); o teste para na primeira área
+
+Código de saída: 0 = ao menos uma área OK e sem parada; 1 = parou (chave/conexão) ou 0 áreas OK.
 """
 from __future__ import annotations
 
@@ -20,7 +23,14 @@ import argparse
 import datetime as _dt
 import sys
 
-from .cliente import ClienteRabi, ErroRabi, normalizar_envelope
+import os as _os
+import sys as _sys
+
+if __package__ in (None, ""):
+    _sys.path.insert(0, _os.path.abspath(_os.path.join(_os.path.dirname(__file__), "..", "..")))
+    __package__ = "ferramentas.rabi_api"
+
+from .cliente import ClienteRabi, ErroRabi, SemConexao, normalizar_envelope  # noqa: E402
 
 # (grupo, rota de leitura sem dado pessoal, params, permissão)
 SONDAS = [
@@ -72,6 +82,11 @@ def testar(cliente: ClienteRabi) -> dict:
     for grupo, rota, params, perm in SONDAS:
         try:
             r = cliente.requisicao("GET", rota, params or None, levantar=False)
+        except SemConexao as e:
+            # sem rede/DNS/conexão recusada: as outras 24 áreas dariam o mesmo erro — parar já
+            linhas.append((grupo, rota, perm, "SEM CONEXÃO", "-", str(e)[:80]))
+            parou = "conexão"
+            break
         except ErroRabi as e:
             linhas.append((grupo, rota, perm, "ERRO", "-", str(e)[:80]))
             continue
@@ -104,9 +119,13 @@ def relatorio_md(res: dict) -> str:
     if res["dias"] is not None and res["dias"] < 15:
         out += [f"> ⚠️ **A chave vence em {res['dias']} dias.** Peça a chave nova ao time Rabi agora "
                 "(não há renovação automática nem autoatendimento).", ""]
-    if res["parou"]:
+    if res["parou"] == "conexão":
+        out += [f"> ⛔ **O teste parou: sem conexão com a API** ({res['base']}). Não é problema de chave. "
+                "Confira a internet do ambiente, o endereço (RABI_API_BASE) e se a API está no ar; "
+                "tente de novo em alguns minutos.", ""]
+    elif res["parou"]:
         out += [f"> ⛔ **O teste parou com {res['parou']}:** a API não aceitou a chave. Não repita em loop. "
-                "Confira a chave (ver conhecimento/api-externa/chave-e-token.md) e, se estiver certa, "
+                "Confira a chave (ver .kit/conhecimento/api-externa/chave-e-token.md no repo da clínica) e, se estiver certa, "
                 "avise o time Rabi.", ""]
     out += ["| Área | Rota testada | Permissão | Resultado | Total | HTTP |", "|---|---|---|---|---|---|"]
     for g, r, p, s, t, h in res["linhas"]:
@@ -119,7 +138,7 @@ def relatorio_md(res: dict) -> str:
 
 
 def main(argv=None) -> int:
-    ap = argparse.ArgumentParser(prog="python3 -m ferramentas.rabi_api.testar_chave",
+    ap = argparse.ArgumentParser(prog="python3 .kit/ferramentas/rabi_api/testar_chave.py",
                                  description="Testa a chave da API externa do Rabi (25 áreas + validade).")
     ap.add_argument("--base", help="URL base (padrão: RABI_API_BASE ou produção)")
     ap.add_argument("--saida", help="grava o resumo Markdown neste arquivo")
@@ -136,7 +155,12 @@ def main(argv=None) -> int:
         with open(a.saida, "w", encoding="utf-8") as f:
             f.write(md)
         print(f"Resumo gravado em {a.saida}")
-    return 1 if res["parou"] else 0
+    ok = sum(1 for l in res["linhas"] if l[3].startswith("OK"))
+    if res["parou"] == "conexão":
+        print("⛔ Sem conexão com a API: teste interrompido na primeira área.", file=sys.stderr)
+    if ok == 0:
+        print(f"⛔ Nenhuma das {len(SONDAS)} áreas respondeu OK.", file=sys.stderr)
+    return 1 if (res["parou"] or ok == 0) else 0
 
 
 if __name__ == "__main__":

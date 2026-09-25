@@ -3,10 +3,10 @@
 Toda gravação no Rabi segue o ritual: foto antes → prévia → aprovação → grava → foto depois + diff.
 
 CLI (a partir da raiz do repo):
-    python3 -m ferramentas.rabi_api.foto antes  --caminho /convenios/12/servicos --destino provas/S10/conv-a/servicos-passe-1/20261001-1030
-    python3 -m ferramentas.rabi_api.foto depois --caminho /convenios/12/servicos --destino provas/S10/conv-a/servicos-passe-1/20261001-1030
-    python3 -m ferramentas.rabi_api.foto diff   --destino provas/S10/conv-a/servicos-passe-1/20261001-1030
-    python3 -m ferramentas.rabi_api.foto diff   --antes a.json --depois b.json [--saida diff.txt]
+    python3 .kit/ferramentas/rabi_api/foto.py antes  --caminho /convenios/12/servicos --destino provas/S10/conv-a/servicos-passe-1/20261001-1030
+    python3 .kit/ferramentas/rabi_api/foto.py depois --caminho /convenios/12/servicos --destino provas/S10/conv-a/servicos-passe-1/20261001-1030
+    python3 .kit/ferramentas/rabi_api/foto.py diff   --destino provas/S10/conv-a/servicos-passe-1/20261001-1030
+    python3 .kit/ferramentas/rabi_api/foto.py diff   --antes a.json --depois b.json [--saida diff.txt]
 
 Opções de foto: --param chave=valor (repetível), --unico (GET simples, sem paginar),
 --sem-mascara (não recomendado: grava dados pessoais sem máscara).
@@ -24,7 +24,14 @@ import os
 import re
 import sys
 
-from .cliente import ClienteRabi, FormatoInesperado
+import os as _os
+import sys as _sys
+
+if __package__ in (None, ""):
+    _sys.path.insert(0, _os.path.abspath(_os.path.join(_os.path.dirname(__file__), "..", "..")))
+    __package__ = "ferramentas.rabi_api"
+
+from .cliente import ClienteRabi, FormatoInesperado  # noqa: E402
 
 CAMPOS_PESSOAIS = {
     "cpf", "cpfmae", "rg", "numerodocumento", "email", "telefone", "celular", "telefonefornecedor",
@@ -169,7 +176,7 @@ def _params(lista):
 
 
 def main(argv=None) -> int:
-    ap = argparse.ArgumentParser(prog="python3 -m ferramentas.rabi_api.foto", description=__doc__,
+    ap = argparse.ArgumentParser(prog="python3 .kit/ferramentas/rabi_api/foto.py", description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("acao", choices=["antes", "depois", "diff"])
     ap.add_argument("--caminho", help="rota, ex.: /convenios/12/servicos")

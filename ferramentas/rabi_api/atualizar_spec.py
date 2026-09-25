@@ -2,9 +2,9 @@
 e regenera conhecimento/api-externa/rotas/.
 
 Uso (a partir da raiz do kit — só o MANTENEDOR do kit roda isto; sessões de clínica só leem):
-    python3 -m ferramentas.rabi_api.atualizar_spec
-    python3 -m ferramentas.rabi_api.atualizar_spec --arquivo-js swagger-ui-init.js   # offline
-    python3 -m ferramentas.rabi_api.atualizar_spec --sem-rotas --relatorio mudancas.md
+    python3 ferramentas/rabi_api/atualizar_spec.py
+    python3 ferramentas/rabi_api/atualizar_spec.py --arquivo-js swagger-ui-init.js   # offline
+    python3 ferramentas/rabi_api/atualizar_spec.py --sem-rotas --relatorio mudancas.md
 
 O spec fica embutido em https://api.rabisistemas.com.br/external-docs/swagger-ui-init.js, no
 objeto "swaggerDoc". Não precisa de chave.
@@ -18,8 +18,15 @@ import os
 import sys
 import urllib.request
 
-from . import gerar_rotas
-from .cliente import _abridor
+import os as _os
+import sys as _sys
+
+if __package__ in (None, ""):
+    _sys.path.insert(0, _os.path.abspath(_os.path.join(_os.path.dirname(__file__), "..", "..")))
+    __package__ = "ferramentas.rabi_api"
+
+from . import gerar_rotas  # noqa: E402
+from .cliente import _abridor  # noqa: E402
 
 URL_JS = "https://api.rabisistemas.com.br/external-docs/swagger-ui-init.js"
 
@@ -89,7 +96,7 @@ def relatorio(c: dict, arq_ant: str | None, arq_novo: str) -> str:
 
 
 def main(argv=None) -> int:
-    ap = argparse.ArgumentParser(prog="python3 -m ferramentas.rabi_api.atualizar_spec", description=__doc__,
+    ap = argparse.ArgumentParser(prog="python3 ferramentas/rabi_api/atualizar_spec.py", description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--url", default=URL_JS)
     ap.add_argument("--arquivo-js", help="usar um swagger-ui-init.js já baixado")

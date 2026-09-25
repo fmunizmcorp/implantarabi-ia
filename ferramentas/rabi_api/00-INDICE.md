@@ -3,8 +3,9 @@
 > **Fonte:** código deste kit · Swagger https://api.rabisistemas.com.br/external-docs/ · **Conferido em:** 2026-09-25
 > **Vale para:** produção (Swagger de 25/09/2026) · **Kit:** v0.1.0
 
-Python 3.11, **só biblioteca padrão** (urllib, json). Rode tudo da raiz do repo com
-`python3 -m ferramentas.rabi_api.<modulo>`.
+Python 3.11, **só biblioteca padrão** (urllib, json). Rode tudo da raiz do repo, pelo
+caminho: na clínica `python3 .kit/ferramentas/rabi_api/<modulo>.py`; no kit (mantenedor)
+`python3 ferramentas/rabi_api/<modulo>.py`.
 
 | Arquivo | O que faz | Quando usar |
 |---|---|---|

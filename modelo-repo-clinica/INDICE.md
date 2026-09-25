@@ -20,4 +20,10 @@
 | [historico/](historico/00-INDICE.md) | histórico, aprendizados, dailies, reviews, mensagens verbatim | ao fechar a sessão |
 | [ANALISE-CONTRATOS.md](ANALISE-CONTRATOS.md) | análise dos contratos em 6 dimensões | S10 |
 | [scripts/](scripts/00-INDICE.md) | hooks de sessão | se algo no início falhar |
+| [.github/](.github/00-INDICE.md) | workflow `automerge` (leva a branch `claude/...` da sessão para a `main`) | se a `main` não estiver atualizada |
 | `.kit/` | kit de implantação (baixado; só leitura; fora do git) | sempre, pelo índice do kit |
+
+> **Ferramentas só do kit:** `.kit/ferramentas/kit/verificar_tamanhos.py`,
+> `verificar_links.py` e `verificar_vazamento.py` são do **mantenedor do kit**.
+> **Não rode no repo da clínica** (aqui há credenciais e dados de propósito,
+> e o contrato de tamanho/índice é o do kit).

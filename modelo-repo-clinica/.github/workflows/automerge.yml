@@ -1,0 +1,82 @@
+name: automerge
+
+# Leva o trabalho da sessão (branch claude/...) para a main em ~1 minuto.
+# Cada sessão do Claude Code na web trabalha numa branch claude/... e faz push;
+# a sessão seguinte abre na branch padrão (main). Sem este workflow, a próxima
+# sessão não veria o ESTADO.md atualizado.
+# Baseado nos workflows de auto-merge do MAESTRO e do manual do Rabi.
+# Primeira vez: se a main não existir, é criada a partir da branch.
+# Conflito: tenta o merge normal; se houver conflito, a versão da branch vence
+# (-X theirs: é o trabalho mais recente). O log do Actions mostra o que houve.
+
+on:
+  push:
+    branches:
+      - 'claude/**'
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch para levar à main (ex.: claude/sessao-xyz)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: automerge-main
+  cancel-in-progress: false
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configurar Git (bot)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Determinar branch
+        id: branch
+        env:
+          ENTRADA: ${{ github.event.inputs.branch }}
+          REF: ${{ github.ref_name }}
+        run: |
+          if [ -n "$ENTRADA" ]; then B="$ENTRADA"; else B="$REF"; fi
+          echo "branch=$B" >> "$GITHUB_OUTPUT"
+
+      - name: Merge na main
+        env:
+          BRANCH: ${{ steps.branch.outputs.branch }}
+        run: |
+          set -e
+          git fetch origin "$BRANCH"
+          if ! git fetch origin main 2>/dev/null; then
+            echo "A main ainda não existe: criando a partir de $BRANCH."
+            git push origin "refs/remotes/origin/$BRANCH:refs/heads/main"
+            exit 0
+          fi
+          NOVOS=$(git log --oneline "origin/main..origin/$BRANCH" | wc -l)
+          echo "Commits novos de $BRANCH em relação à main: $NOVOS"
+          if [ "$NOVOS" -eq 0 ]; then
+            echo "Nada a levar para a main."
+            exit 0
+          fi
+          git checkout -B main origin/main
+          if git merge --no-ff "origin/$BRANCH" -m "automerge: $BRANCH na main"; then
+            echo "Merge sem conflito."
+          else
+            echo "Conflito: refazendo com a versão da branch (trabalho mais recente)."
+            git diff --name-only --diff-filter=U || true
+            git merge --abort
+            git merge --no-ff -X theirs "origin/$BRANCH" -m "automerge: $BRANCH na main (conflito: versão da branch)"
+          fi
+          git push origin main
+          echo "main agora em: $(git log -1 --format='%h %s')"

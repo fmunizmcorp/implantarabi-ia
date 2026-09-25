@@ -96,7 +96,14 @@ em `referencias/LICENCAS.md`.
 
 - A sessão da clínica faz **commit + push** a cada passo concluído, com
   mensagem em PT-BR (`S03: taxas gravadas (12) + provas`).
-- Nada fica só no container. Se o push falhar, a sessão avisa e tenta de novo.
+- O push vai para a **branch da sessão** (`claude/...`: cada sessão do Claude
+  Code na web trabalha numa). O workflow `.github/workflows/automerge.yml` do
+  repo da clínica leva o trabalho para a `main` em ~1 min; a próxima sessão
+  abre na `main`.
+- Ao abrir, a sessão confere que o `ESTADO.md` da `main` é o mais recente
+  (`git fetch origin main && git log origin/main -1`).
+- Nada fica só no container. Se o push falhar, a sessão avisa e tenta de novo;
+  o hook de parada bloqueia o encerramento se houver algo sem commit/push.
 
 ## 9. Versão
 

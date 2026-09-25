@@ -77,6 +77,10 @@ class SemPermissao(ErroRabi):
     """403: a chave é válida, mas não tem a permissão da rota."""
 
 
+class SemConexao(ErroRabi):
+    """Não chegou à API (sem rede, DNS, conexão recusada, tempo esgotado)."""
+
+
 class LeituraIncompleta(ErroRabi):
     """Leitura paginada terminou com quantidade diferente do total anunciado."""
 
@@ -207,7 +211,7 @@ class ClienteRabi:
             raise ChaveAusente(
                 "Não achei a chave da API do Rabi. Configure o segredo de ambiente RABI_API_KEY "
                 "(preferido) ou registre a linha 'api_key: rbk_...' em credenciais/rabi-api-externa.md "
-                "no repo da clínica. Passo a passo: conhecimento/api-externa/chave-e-token.md.")
+                "no repo da clínica. Passo a passo: (.kit/conhecimento/api-externa/chave-e-token.md no repo da clínica).")
         if not chave.startswith("rbk_"):
             raise ChaveInvalida("A chave não começa com 'rbk_' — confira se copiou a chave certa "
                                 f"(origem: {self.origem_chave}).")
@@ -266,7 +270,7 @@ class ClienteRabi:
             except urllib.error.HTTPError as e:
                 resp = Resposta(e.code, e.read().decode("utf-8", "replace") if e.fp else "", dict(e.headers.items()))
             except urllib.error.URLError as e:
-                raise ErroRabi(f"Sem conexão com a API ({metodo} {caminho}): {e.reason}",
+                raise SemConexao(f"Sem conexão com a API ({metodo} {caminho}): {e.reason}",
                                metodo=metodo, caminho=caminho) from None
             self.ultima_resposta = resp
             exp = {k.lower(): v for k, v in resp.cabecalhos.items()}.get("x-apikey-expires-at")
@@ -312,7 +316,7 @@ class ClienteRabi:
             perm = m.group(1) if m else "(ver a rota no Swagger)"
             raise SemPermissao(
                 f"403 em {onde}: a chave não tem a permissão {perm}. Peça ao time Rabi uma chave que inclua "
-                "essa permissão (lista em conhecimento/api-externa/chave-e-token.md).",
+                "essa permissão (lista em .kit/conhecimento/api-externa/chave-e-token.md no repo da clínica).",
                 resp.status, resp.texto, metodo, caminho)
         if resp.status == 503:
             raise ChaveInvalida(

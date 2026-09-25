@@ -9,6 +9,10 @@ Ferramentas em Python 3.11, só biblioteca padrão, para **montar**, **prever** 
 Elas **não gravam nada**. Quem grava é o cliente da API
 (`ferramentas/rabi_api/cliente.py`), sempre depois da aprovação humana.
 
+**Como rodar:** da raiz do repo, pelo caminho do arquivo. No repo da clínica:
+`python3 .kit/ferramentas/conversao/<x>.py …` (como nos exemplos abaixo). No
+próprio kit (mantenedor), tire o `.kit/`.
+
 O motor é uma **previsão**. Quem manda é o Rabi. Toda gravação termina com
 `conferir_farol.py`, que compara a previsão com o que o Rabi devolve.
 
@@ -34,11 +38,11 @@ O motor é uma **previsão**. Quem manda é o Rabi. Toda gravação termina com
    monte o cenário com `montar_cenario.py` (seção abaixo). Monte também o `atual.json`
    (`{"servicos": …, "produtos": …, "taxas": …}`) para a prévia de → para.
 3. **Simule:**
-   `python3 -m ferramentas.conversao.simulador cenario.json --csv precos-convenio-a.csv --invariantes`.
+   `python3 .kit/ferramentas/conversao/simulador.py cenario.json --csv precos-convenio-a.csv --invariantes`.
    Mostre ao usuário o Σ de 3 serviços (um simples, um com medicamento, um pacote).
    Nunca mostre JSON ao usuário.
 4. **Prévia:**
-   `python3 -m ferramentas.conversao.montar_convenio precos-convenio-a.csv --convenio-id 12 --saida saida/ --catalogo cenario.json --atual atual.json`.
+   `python3 .kit/ferramentas/conversao/montar_convenio.py precos-convenio-a.csv --convenio-id 12 --saida saida/ --catalogo cenario.json --atual atual.json`.
    Mostre a `previa.md` (item · campo · de → para · porquê). Com erro, nenhum lote é gerado (código 2).
 5. **Aprovação** do implantador.
 6. **Grave** na ordem do `manifesto.json` (fases: Utiliza → valores → textos → tipo de
@@ -47,7 +51,7 @@ O motor é uma **previsão**. Quem manda é o Rabi. Toda gravação termina com
    Em 207, reenvie só os itens `reenviar`.
 7. **Foto depois + conferência:** leia `/farol/servicos`, `/farol/itens` e `/farol/produtos`
    (todas as páginas) e rode
-   `python3 -m ferramentas.conversao.conferir_farol cenario.json --csv precos-convenio-a.csv --servicos s.json --itens i.json --produtos p.json --ignorar-inativos --saida provas/.../conferencia.md`.
+   `python3 .kit/ferramentas/conversao/conferir_farol.py cenario.json --csv precos-convenio-a.csv --servicos s.json --itens i.json --produtos p.json --ignorar-inativos --saida provas/.../conferencia.md`.
    Divergência = investigar antes de dizer "pronto" (código de saída 1).
 
 Estudo das regras: [casos de teste](../../conhecimento/precos-e-conversao/12-casos-de-teste.md) ·
@@ -97,14 +101,14 @@ Coluna que não existe na aba do item = **ERRO** (ex.: `pacote` em produto, `fat
 ## Montar o cenário a partir da API (`montar_cenario.py`)
 
 ```bash
-python3 -m ferramentas.conversao.montar_cenario --convenio-id 12 --nome "Convênio A" \
+python3 .kit/ferramentas/conversao/montar_cenario.py --convenio-id 12 --nome "Convênio A" \
   --servicos fotos/servicos.json --produtos fotos/produtos.json --taxas fotos/taxas.json \
   --conv-servicos fotos/conv-servicos.json --conv-produtos fotos/conv-produtos.json \
   --conv-taxas fotos/conv-taxas.json --politicas dados/convenios/convenio-a/politicas.json \
   [--farol-produtos …] [--ultima-compra …] [--tabelas-preco …] [--precificacao …] \
   [--parametros …] [--composicao …] [--complemento-produtos …] \
   --saida dados/convenios/convenio-a/cenario.json
-python3 -m ferramentas.conversao.simulador dados/convenios/convenio-a/cenario.json \
+python3 .kit/ferramentas/conversao/simulador.py dados/convenios/convenio-a/cenario.json \
   --csv dados/convenios/convenio-a/precos-convenio-a.csv --invariantes
 ```
 

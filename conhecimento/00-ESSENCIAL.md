@@ -116,7 +116,7 @@ Estudo completo: `conhecimento/precos-e-conversao/00-INDICE.md`.
 - **Pendências e lacunas:** `pendencias/`.
 - **Histórico:** `historico/`, com as mensagens verbatim em `historico/requisitos/raw/`.
 
-A sessão faz **commit + push** a cada passo concluído.
+A cada passo concluído: **commit + push na branch da sessão (`claude/...`)**; o workflow `automerge` leva à `main` em ~1 min; ao abrir, a sessão confere que o `ESTADO.md` da `main` é o mais recente (`git log origin/main -1`).
 
 ## 10. Não perder nada que já existe
 Antes de cadastrar qualquer área:

@@ -21,6 +21,11 @@ Todo o resto (ler, extrair, montar, gravar, provar, registrar) é da IA.
 3. Cole o prompt de abertura (ver `.kit/prompts/00-COMO-COMECAR.md`) ou apenas
    diga "vamos continuar" — a sessão lê o `ESTADO.md` e diz onde parou.
 
+## Onde fica o trabalho
+Cada sessão trabalha numa branch `claude/...` e faz commit + push a cada passo.
+O workflow `automerge` (em `.github/workflows/`) leva tudo para a `main` em
+cerca de 1 minuto — é a `main` que a próxima sessão abre.
+
 ## Onde olhar
 - **Onde estamos:** [ESTADO.md](ESTADO.md)
 - **Quem é quem:** [PAPEIS.md](PAPEIS.md)

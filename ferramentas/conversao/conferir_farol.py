@@ -1,7 +1,7 @@
 """Confere a previsão do motor contra o que o Rabi devolve na aba Farol.
 
 Uso:
-  python3 -m ferramentas.conversao.conferir_farol cenario.json \\
+  python3 .kit/ferramentas/conversao/conferir_farol.py cenario.json \\
       [--csv precos-<slug>.csv] --servicos farol-servicos.json --itens farol-itens.json \\
       [--produtos farol-produtos.json] [--ignorar-inativos] [--tolerancia 0.01] [--saida conferencia.md]
 

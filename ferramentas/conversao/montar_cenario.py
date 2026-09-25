@@ -1,6 +1,6 @@
 """Monta o ``cenario.json`` que o simulador exige a partir das FOTOS lidas da API.
 
-O simulador (``python3 -m ferramentas.conversao.simulador <cenario.json> --csv precos-<slug>.csv``)
+O simulador (``python3 .kit/ferramentas/conversao/simulador.py <cenario.json> --csv precos-<slug>.csv``)
 precisa de ``{"catalogo": {...}, "convenio": {...}}`` (formato de ``modelo.cenario_from_dict``).
 Esta ferramenta converte as leituras da API externa nesse formato e **lista as lacunas**:
 o que a API não devolve e precisa vir do repo da clínica (régua, cadastro da S06/S08).
@@ -31,7 +31,7 @@ Entradas (todas JSON; envelope ``{dados: [...]}``, ``{data: [...]}`` ou lista cr
 
 Saída: ``cenario.json`` (com ``_lacunas``) e, na tela, a lista de lacunas.
 Uso:
-  python3 -m ferramentas.conversao.montar_cenario --convenio-id 12 --nome "Convênio A" \\
+  python3 .kit/ferramentas/conversao/montar_cenario.py --convenio-id 12 --nome "Convênio A" \\
       --servicos fotos/servicos.json --produtos fotos/produtos.json --taxas fotos/taxas.json \\
       --conv-servicos fotos/conv-servicos.json --conv-produtos fotos/conv-produtos.json \\
       --conv-taxas fotos/conv-taxas.json --politicas dados/convenios/convenio-a/politicas.json \\
@@ -319,7 +319,7 @@ def main(argv=None) -> int:
         print(f"\n{len(lacunas)} LACUNA(S) — a previsão só vale depois de resolvê-las:")
         for x in lacunas:
             print(f"- {x}")
-    print(f"\nPróximo: python3 -m ferramentas.conversao.simulador {a.saida} --csv precos-<slug>.csv --invariantes")
+    print(f"\nPróximo: python3 .kit/ferramentas/conversao/simulador.py {a.saida} --csv precos-<slug>.csv --invariantes")
     return 0
 
 

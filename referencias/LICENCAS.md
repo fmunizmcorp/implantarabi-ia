@@ -34,6 +34,9 @@ Consequências práticas:
 - Brasíndice, SIMPRO e CBHPM são **obras protegidas**. Se o repositório do kit
   ficar **público**, essas tabelas ficam expostas a qualquer pessoa. O
   proprietário do kit conhece e aceitou esse risco.
+- **25/09/2026:** o proprietário decidiu tornar o kit **público** (para que
+  qualquer clínica baixe o kit sem convite). A decisão está registrada no
+  maestro (`requisitos/raw/2026-09-25b-kit-implantacao-rabi-via-ia.md`).
 - Se um titular de direitos pedir a retirada, remova as pastas `brasindice/`,
   `simpro/` e `cbhpm/` e o registro delas no `manifest.json` (as ferramentas
   continuam funcionando com TUSS, CMED e as tabelas da clínica).

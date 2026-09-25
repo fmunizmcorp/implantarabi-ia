@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "description": "Repo da clínica <NOME_DA_CLINICA>. SessionStart baixa/atualiza o kit em .kit/ e mostra o painel. PreCompact lembra o que preservar. Stop avisa (não bloqueia) se há mudança sem commit ou ESTADO.md desatualizado.",
+  "description": "Repo da clínica <NOME_DA_CLINICA>. SessionStart baixa/atualiza o kit em .kit/ e mostra o painel. PreCompact lembra o que preservar. Stop bloqueia uma vez se há mudança sem commit ou commit sem push.",
   "hooks": {
     "SessionStart": [
       { "matcher": "startup", "hooks": [ { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/scripts/sessao-inicio.sh\"" } ] },

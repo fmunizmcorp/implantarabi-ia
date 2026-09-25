@@ -1,7 +1,7 @@
 """Monta os corpos dos PUT das abas do convênio a partir de ``precos-<slug>.csv``.
 
 Uso:
-  python3 -m ferramentas.conversao.montar_convenio precos-convenio-a.csv \\
+  python3 .kit/ferramentas/conversao/montar_convenio.py precos-convenio-a.csv \\
       --convenio-id 12 --saida saida/ [--catalogo cenario.json] [--atual atual.json] \\
       [--fontes fontes.json] [--unico]
 
@@ -478,11 +478,11 @@ def main(argv=None) -> int:
         json.dump({"convenio_id": a.convenio_id, "erros": len(erros), "chamadas": manifesto}, f,
                   ensure_ascii=False, indent=1)
     for x in achados:
-        print(f"{x.nivel}: linha {x.linha} · {x.item} · {x.mensagem}")
+        print(f"{x.nivel}: linha {x.linha or '—'} · {x.item} · {x.mensagem}")
     if erros:
-        print(f"{len(erros)} erro(s): nenhum lote gerado. Corrija o CSV. Prévia em {a.saida}/previa.md")
+        print(f"{len(erros)} erro(s): nenhum lote gerado. Corrija o CSV. Prévia em {os.path.join(a.saida, 'previa.md')}")
         return 2
-    print(f"OK: {len(linhas)} itens, {len(chamadas)} chamada(s). Prévia em {a.saida}/previa.md")
+    print(f"OK: {len(linhas)} itens, {len(chamadas)} chamada(s). Prévia em {os.path.join(a.saida, 'previa.md')}")
     return 0
 
 

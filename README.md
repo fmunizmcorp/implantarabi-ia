@@ -50,4 +50,4 @@ cada gravação.
   python3 ferramentas/kit/verificar_links.py
   python3 ferramentas/kit/verificar_vazamento.py
   ```
-- Atualizar a API: `python3 -m ferramentas.rabi_api.atualizar_spec`
+- Atualizar a API: `python3 ferramentas/rabi_api/atualizar_spec.py`

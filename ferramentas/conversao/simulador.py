@@ -1,8 +1,8 @@
 """Simulador: prevê, antes de gravar, o que o Rabi vai mostrar em cada serviço.
 
 Uso:
-  python3 -m ferramentas.conversao.simulador exemplos/cenario-convenio-a.json
-  python3 -m ferramentas.conversao.simulador cenario.json --csv precos-convenio-a.csv
+  python3 .kit/ferramentas/conversao/simulador.py exemplos/cenario-convenio-a.json
+  python3 .kit/ferramentas/conversao/simulador.py cenario.json --csv precos-convenio-a.csv
   opções: --servico ID (repetível) · --so-ativos · --invariantes · --json
 
 Por serviço imprime as 4 linhas da coluna Valor (🔒 casa · 🔁 combinado ·

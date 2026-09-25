@@ -3,9 +3,10 @@
 > **Fonte:** Swagger https://api.rabisistemas.com.br/external-docs/ · manual https://www.rabisistemas.com.br/manual/api-externa/ · **Conferido em:** 2026-09-25
 > **Vale para:** produção (Swagger de 25/09/2026) · **Kit:** v0.1.0
 
-Tudo roda da **raiz do repo**. No kit: `python3 -m ferramentas.rabi_api.<modulo>`. No repo
-da clínica (kit em `.kit/`): `PYTHONPATH=.kit python3 -m ferramentas.rabi_api.<modulo>` —
-assim os caminhos (`provas/…`, `credenciais/…`) continuam relativos à raiz da clínica.
+Tudo roda da **raiz do repo**, pelo caminho do arquivo. No repo da clínica (kit em
+`.kit/`): `python3 .kit/ferramentas/rabi_api/<modulo>.py` — os caminhos (`provas/…`,
+`credenciais/…`) continuam relativos à raiz da clínica. No próprio kit (mantenedor),
+tire o `.kit/`: `python3 ferramentas/rabi_api/<modulo>.py`.
 Python 3.11, sem `pip install`.
 
 ## 1. Chave e ambiente
@@ -21,7 +22,7 @@ A chave **nunca** é impressa (aparece como `rbk_…abcd`). Detalhes:
 ## 2. Testar a chave (sempre no começo)
 
 ```bash
-python3 -m ferramentas.rabi_api.testar_chave --saida provas/S00/teste-chave-2026-10-01.md
+python3 .kit/ferramentas/rabi_api/testar_chave.py --saida provas/S00/teste-chave-2026-10-01.md
 ```
 Tabela área → OK / SEM PERMISSÃO / CHAVE, validade e dias restantes (alerta < 15).
 Sai com código 1 se a chave foi recusada (401/503) — sem repetir em loop.
@@ -75,10 +76,10 @@ Convênio (`PUT /convenios/{id}`): o GET também não serve de base — ver
 
 ```bash
 P=provas/S05/taxas/2026-10-01
-python3 -m ferramentas.rabi_api.foto antes  --caminho /taxas --param ativo=true --destino $P
+python3 .kit/ferramentas/rabi_api/foto.py antes  --caminho /taxas --param ativo=true --destino $P
 # … prévia, aprovação, gravação …
-python3 -m ferramentas.rabi_api.foto depois --caminho /taxas --param ativo=true --destino $P
-python3 -m ferramentas.rabi_api.foto diff --destino $P        # grava $P/diff.txt
+python3 .kit/ferramentas/rabi_api/foto.py depois --caminho /taxas --param ativo=true --destino $P
+python3 .kit/ferramentas/rabi_api/foto.py diff --destino $P        # grava $P/diff.txt
 ```
 Em Python: `foto(c, caminho, destino, "antes")` e `diff(antes_json, depois_json)`.
 Dados pessoais (CPF, e-mail, telefone, nascimento…; e o nome em pacientes, atendimentos,
@@ -87,11 +88,11 @@ agenda, orçamentos e tomadores) saem mascarados. `--unico` = GET sem paginar.
 ## 5. Atualizar o spec (mantenedor do kit)
 
 ```bash
-python3 -m ferramentas.rabi_api.atualizar_spec --relatorio historico/mudancas-swagger.md
+python3 ferramentas/rabi_api/atualizar_spec.py --relatorio historico/mudancas-swagger.md
 ```
 Baixa `swagger-ui-init.js`, extrai `swaggerDoc`, salva `spec/openapi-AAAA-MM-DD.json` (só se
 mudou), lista operações adicionadas/removidas/alteradas e regenera `rotas/`. Offline:
-`--arquivo-js caminho.js`. Só o gerador: `python3 -m ferramentas.rabi_api.gerar_rotas`.
+`--arquivo-js caminho.js`. Só o gerador: `python3 ferramentas/rabi_api/gerar_rotas.py`.
 Se o proxy exigir certificado próprio, defina `SSL_CERT_FILE`.
 
 ## 6. Testes

@@ -6,8 +6,8 @@ campos do corpo (obrigatórios marcados, tipos, enums) e respostas.
 Arquivos que passariam de 40 KB são divididos em parte-1, parte-2...
 
 Uso (a partir da raiz do kit):
-    python3 -m ferramentas.rabi_api.gerar_rotas
-    python3 -m ferramentas.rabi_api.gerar_rotas --spec caminho/openapi.json --saida pasta/
+    python3 ferramentas/rabi_api/gerar_rotas.py
+    python3 ferramentas/rabi_api/gerar_rotas.py --spec caminho/openapi.json --saida pasta/
 
 Só biblioteca padrão.
 """
@@ -355,7 +355,7 @@ def cabecalho(titulo: str, fonte_spec: str, data_spec: str) -> str:
         f" · **Conferido em:** {data_spec}\n"
         f"> **Vale para:** produção (Swagger publicado em {data_spec}) · **Kit:** {versao_kit()}\n\n"
         "> Arquivo **gerado** por `ferramentas/rabi_api/gerar_rotas.py` — não edite à mão; rode "
-        "`python3 -m ferramentas.rabi_api.atualizar_spec` para atualizar. Toda rota pode responder "
+        "`python3 ferramentas/rabi_api/atualizar_spec.py` para atualizar. Toda rota pode responder "
         "também `401` (chave rejeitada), `403` (chave sem a permissão) e `503` (falha ao validar a chave) — "
         "ver [convenções](../convencoes.md) e [chave e token](../chave-e-token.md).\n\n"
     )

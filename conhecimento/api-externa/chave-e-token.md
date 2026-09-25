@@ -29,19 +29,24 @@ A ordem de busca do `cliente.py` é: **variável de ambiente `RABI_API_KEY` → 
 
 Passos simples para o dono da clínica (ou implantador):
 
-1. Abra a sessão da clínica no Claude Code na web (claude.ai/code).
-2. No **título da sessão**, abra o menu do **ambiente de nuvem** e escolha **Editar**
-   (Edit).
-3. Onde houver a seção de **credenciais de API**, cadastre ali; se não houver, adicione
+1. Use **um ambiente por clínica** (não misture chaves de clínicas diferentes
+   no mesmo ambiente).
+2. Na sessão da clínica no Claude Code na web (claude.ai/code), abra o **menu do
+   ambiente na barra de título da sessão** e escolha **Edit** (Editar).
+3. Se houver a seção **"API credentials"**, cadastre ali; se não houver, adicione
    uma **variável de ambiente**:
    - nome: `RABI_API_KEY`
    - valor: a chave `rbk_...` recebida do time Rabi
 4. (Opcional) para ensaiar em homologação, outra variável:
    `RABI_API_BASE=https://api.hmg.rabisistemas.dev/api/v1/integrations`.
-5. Salve e **abra uma sessão nova** — a variável só aparece nas sessões iniciadas depois.
+5. Salve e **abra uma sessão nova** — a variável passa a ser enxergada nas sessões
+   iniciadas depois.
 
-> **Não tenho certeza** de que os nomes dos botões serão exatamente estes: a tela do
-> produto muda com frequência. Se não achar, siga a documentação oficial:
+**Nunca cole a chave no chat.** Não precisa: a IA grava `credenciais/rabi-api-externa.md`
+(§2.2) **a partir da variável** (ex.: `python3 -c` que lê `os.environ` e escreve a
+linha `api_key:` no arquivo), sem a chave aparecer na conversa nem na saída.
+
+> Se a tela mudar de nome, siga a documentação oficial:
 > https://code.claude.com/docs/en/claude-code-on-the-web (parte de ambientes / variáveis de
 > ambiente).
 
@@ -102,7 +107,7 @@ Regras:
 ## 5. Testar a chave
 
 ```bash
-python3 -m ferramentas.rabi_api.testar_chave --saida provas/S00/teste-chave-AAAA-MM-DD.md
+python3 .kit/ferramentas/rabi_api/testar_chave.py --saida provas/S00/teste-chave-AAAA-MM-DD.md
 ```
 
 Faz **uma leitura por grupo** (25 áreas), só `GET`, sem exibir dado de registro (pacientes:

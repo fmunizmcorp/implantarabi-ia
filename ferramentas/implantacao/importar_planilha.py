@@ -2,11 +2,16 @@
 
 Fluxo (nada é gravado no Rabi aqui — só prepara dados com ORIGEM):
  1) sugerir:  python3 importar_planilha.py sugerir --entrada lista.csv --alvo colaboradores
-        → imprime/grava um mapa JSON coluna_origem → campo_kit (por semelhança de nome)
+        → imprime/grava um mapa JSON coluna_origem → campo_kit (por semelhança de nome).
+          Ligação com nota < 0.8 sai com "?" na tela e em "incertos": [...] no JSON:
+          a IA confirma essas colunas com o usuário antes de aplicar.
  2) a IA revisa o mapa com o usuário (confirma coluna a coluna quando houver dúvida)
  3) aplicar:  python3 importar_planilha.py aplicar --entrada lista.csv --mapa mapa.json --saida dados/colaboradores/colaboradores.csv
-        → CSV normalizado (UTF-8, ';') com colunas do alvo + 'origem' (arquivo:linha),
-          CPF/CNPJ/CEP/telefone limpos e validados, duplicados sinalizados.
+        → CSV normalizado (UTF-8, ';') com colunas do alvo + 'origem' (caminho relativo:linha),
+          CPF/CNPJ/CEP/telefone limpos e validados, e-mail conferido, duplicados sinalizados.
+          Coluna "CRM"/"CRO"/"COREN"/"CRP"/"CREFITO"/"CRN" preenche o número do conselho e,
+          se não houver coluna de conselho, também o conselho com essa sigla.
+          O mapa pode ser {coluna: campo} ou {coluna: {"campo": ..., "incerto": true}}.
 Aceita CSV (',' ';' tab ou '|', detecção automática, UTF-8 ou latin-1) e XLSX (se openpyxl instalado).
 """
 from __future__ import annotations
@@ -42,11 +47,21 @@ SINONIMOS = {
     "celular": ["celular", "whatsapp", "cel"], "telefone": ["telefone", "fone", "tel"],
     "email": ["email", "e-mail"], "carteirinha": ["carteirinha", "carteira", "matricula", "numero carteira"],
     "numeroConselho": ["crm", "numero conselho", "registro"], "conselho": ["conselho"],
+    "ufConselho": ["uf crm", "uf conselho", "uf do conselho", "uf do crm"],
     "razaoSocial": ["razao social", "razao"], "nomeFantasia": ["fantasia", "nome fantasia"],
     "valor": ["valor", "preco", "preço"], "valor_combinado": ["valor", "preco", "preço"],
     "codigo": ["codigo", "cod", "tuss"], "registroANS": ["ans", "registro ans"],
 }
 PII = {"pacientes"}
+# Cabeçalhos que ganham antes da semelhança de nome (ex.: "UF CRM" é a UF do
+# conselho, não a UF do endereço). Comparados sem acento, em minúsculas.
+PRIORITARIOS: list[tuple[str, str]] = [
+    ("uf do conselho", "ufConselho"), ("uf conselho", "ufConselho"),
+    ("uf do crm", "ufConselho"), ("uf crm", "ufConselho"),
+]
+SIGLAS_CONSELHO = ("crm", "cro", "coren", "crp", "crefito", "crn")
+NOTA_CERTA = 0.8
+EMAIL = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
 
 def sem_acento(t: str) -> str:
@@ -108,11 +123,44 @@ def ler_tabela(caminho: Path) -> tuple[list[str], list[list[str]]]:
     return [str(c).strip() for c in linhas[0]], linhas[1:]
 
 
+def sigla_conselho(col: str) -> str | None:
+    """'CRM', 'Nº CRO', 'numero coren' → sigla em maiúsculas; 'UF CRM' → None."""
+    tokens = re.findall(r"[a-z]+", sem_acento(col))
+    if "uf" in tokens or "estado" in tokens:
+        return None
+    achadas = [t for t in tokens if t in SIGLAS_CONSELHO]
+    return achadas[0].upper() if len(achadas) == 1 else None
+
+
+def _prioritario(col: str, campos: list[str]) -> str | None:
+    nc = " ".join(re.findall(r"[a-z0-9]+", sem_acento(col)))
+    for frase, campo in PRIORITARIOS:
+        if campo in campos and (nc == frase or re.search(rf"\b{re.escape(frase)}\b", nc)):
+            return campo
+    if "numeroConselho" in campos and sigla_conselho(col):
+        return "numeroConselho"
+    return None
+
+
 def sugerir_mapa(cabecalho: list[str], alvo: str) -> dict[str, str | None]:
+    """Mapa simples coluna → campo (compatível com versões anteriores)."""
+    return sugerir_mapa_detalhado(cabecalho, alvo)[0]
+
+
+def sugerir_mapa_detalhado(cabecalho: list[str], alvo: str) -> tuple[dict[str, str | None], dict[str, float]]:
+    """Devolve (mapa, notas). Nota 1.0 = regra prioritária; < 0.8 = incerto."""
     campos = ALVOS[alvo]
     mapa: dict[str, str | None] = {}
+    notas: dict[str, float] = {}
     usados = set()
     for col in cabecalho:
+        pri = _prioritario(col, campos)
+        if pri and pri not in usados:
+            mapa[col], notas[col] = pri, 1.0
+            usados.add(pri)
+    for col in cabecalho:
+        if col in mapa:
+            continue
         nc = sem_acento(col)
         melhor, nota = None, 0.0
         for campo in campos:
@@ -124,9 +172,24 @@ def sugerir_mapa(cabecalho: list[str], alvo: str) -> dict[str, str | None]:
                 if r > nota:
                     melhor, nota = campo, r
         mapa[col] = melhor if nota >= 0.6 and melhor not in usados else None
+        notas[col] = round(nota, 2) if mapa[col] else 0.0
         if mapa[col]:
             usados.add(mapa[col])
-    return mapa
+    return {c: mapa[c] for c in cabecalho}, notas
+
+
+def _campo(v) -> str | None:
+    """Aceita o mapa antigo (coluna → 'campo') e o novo (coluna → {'campo': ..})."""
+    if isinstance(v, dict):
+        return v.get("campo")
+    return v
+
+
+def _origem(entrada: Path) -> str:
+    try:
+        return entrada.resolve().relative_to(Path.cwd().resolve()).as_posix()
+    except ValueError:
+        return entrada.name
 
 
 def normalizar_valor(campo: str, v: str) -> tuple[str, str]:
@@ -162,6 +225,8 @@ def normalizar_valor(campo: str, v: str) -> tuple[str, str]:
         if re.match(r"\d{4}-\d{2}-\d{2}", v):
             return v[:10], ""
         return v, "data em formato desconhecido"
+    if campo == "email":
+        return v, "" if EMAIL.match(v) else "e-mail em formato inválido"
     if campo == "uf":
         return v.upper()[:2] if len(v) <= 3 else v, ""
     return v, ""
@@ -175,6 +240,15 @@ def aplicar(entrada: Path, mapa: dict, alvo: str, saida: Path) -> dict:
     campos = ALVOS[alvo]
     idx = {col: i for i, col in enumerate(cab)}
     vistos: dict[tuple, int] = {}
+    mapa = {col: _campo(v) for col, v in mapa.items()}
+    origem = _origem(entrada)
+    # coluna "CRM"/"CRO"/... sem coluna de conselho → preenche o conselho com a sigla
+    sigla_fixa = None
+    if "conselho" in campos and "conselho" not in mapa.values():
+        for col, campo in mapa.items():
+            if campo == "numeroConselho" and sigla_conselho(col):
+                sigla_fixa = sigla_conselho(col)
+                break
     saida.parent.mkdir(parents=True, exist_ok=True)
     resumo = {"linhas": 0, "avisos": 0, "duplicados": 0}
     with saida.open("w", encoding="utf-8", newline="") as f:
@@ -189,6 +263,8 @@ def aplicar(entrada: Path, mapa: dict, alvo: str, saida: Path) -> dict:
                     reg[campo] = val
                     if av:
                         avisos.append(f"{campo}: {av}")
+            if sigla_fixa and reg.get("numeroConselho") and not reg.get("conselho"):
+                reg["conselho"] = sigla_fixa
             chave = next(((c, reg[c]) for c in campos if c in CHAVE_DEDUP and reg.get(c)), None)
             if chave is None and reg.get(campos[0]):
                 chave = (campos[0], sem_acento(reg[campos[0]]))
@@ -199,7 +275,7 @@ def aplicar(entrada: Path, mapa: dict, alvo: str, saida: Path) -> dict:
                 vistos[chave] = n
             resumo["linhas"] += 1
             resumo["avisos"] += bool(avisos)
-            w.writerow([reg[c] for c in campos] + [f"{entrada.name}:linha {n}", " | ".join(avisos)])
+            w.writerow([reg[c] for c in campos] + [f"{origem}:linha {n}", " | ".join(avisos)])
     return resumo
 
 
@@ -211,11 +287,15 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     if a.cmd == "sugerir":
         cab, linhas = ler_tabela(Path(a.entrada))
-        mapa = sugerir_mapa(cab, a.alvo)
-        doc = {"alvo": a.alvo, "mapa": mapa}
-        print(f"{len(linhas)} linhas; colunas → campos (None = ignorar ou perguntar ao usuário):")
+        mapa, notas = sugerir_mapa_detalhado(cab, a.alvo)
+        incertos = [c for c, v in mapa.items() if v and notas.get(c, 0) < NOTA_CERTA]
+        doc = {"alvo": a.alvo, "mapa": mapa, "incertos": incertos}
+        print(f"{len(linhas)} linhas; colunas → campos (None = ignorar ou perguntar; ? = ligação incerta, confirmar):")
         for k, v in mapa.items():
-            print(f"  {k!r:35} → {v}")
+            marca = " ?" if k in incertos else ""
+            print(f"  {k!r:35} → {v}{marca}")
+        if incertos:
+            print("Confirme com o usuário (ligação incerta):", ", ".join(incertos))
         faltando = [c for c in ALVOS[a.alvo] if c not in mapa.values()]
         if faltando:
             print("Campos do alvo sem coluna correspondente:", ", ".join(faltando))

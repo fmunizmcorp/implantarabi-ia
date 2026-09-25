@@ -3,7 +3,11 @@
 > Texto claro por decisão do proprietário. Repo **privado**. Como a chave
 > funciona: `.kit/conhecimento/api-externa/` (autenticação e chave).
 
-api_key: <cole aqui>
+api_key: <preenchido pela sessão a partir da variável RABI_API_KEY>
+
+> **Ninguém cola a chave no chat.** O dono põe a chave na variável
+> `RABI_API_KEY` do ambiente desta clínica (um ambiente por clínica) e a sessão
+> grava a linha acima a partir da variável, sem a chave aparecer na conversa.
 
 | Campo | Valor |
 |---|---|
@@ -15,7 +19,7 @@ api_key: <cole aqui>
 | Entregue por / em | |
 | Validade (`X-ApiKey-Expires-At`) | (preenchido por `testar_chave.py`) |
 | Renovação | pelo time Rabi (sem autoatendimento); pedir **15 dias antes** de vencer |
-| Segredo de ambiente | `RABI_API_KEY` configurado no Claude web? sim · não |
+| Segredo de ambiente | `RABI_API_KEY` configurado no ambiente desta clínica no Claude web? sim · não |
 
 ## Permissões testadas (`python3 .kit/ferramentas/rabi_api/testar_chave.py`)
 

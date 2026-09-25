@@ -5,6 +5,12 @@
 
 Python 3 só com biblioteca padrão. Todos devolvem código 0 (pass) ou 1 (fail).
 
+> **Só do kit:** `verificar_tamanhos.py`, `verificar_links.py`,
+> `verificar_vazamento.py`, `sincronizar_claude_modelo.py` e
+> `gerar_sprints_modelo.py` são do **mantenedor do kit**. **Não rode no repo da
+> clínica**: lá há credenciais e dados de propósito, e as regras de
+> tamanho/índice são as do kit. Na clínica só se usa `novo_repo_clinica.py`.
+
 | Arquivo | O que faz | Quando usar |
 |---|---|---|
 | `novo_repo_clinica.py` | gera o repo de uma clínica a partir de `modelo-repo-clinica/` (placeholders, versão do kit no `ESTADO.md`; não sobrescreve sem `--forcar`; `--atualizar-claude` traz agentes novos) | ao começar uma clínica; quando o hook avisar que os agentes mudaram |

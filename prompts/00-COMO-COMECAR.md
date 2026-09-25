@@ -31,27 +31,41 @@ Prepare este repositório como repo de implantação do Sistema Rabi.
 1) Baixe o kit: git clone --depth 1 https://github.com/fmunizmcorp/implantarabi-ia .kit
 2) Rode: python3 .kit/ferramentas/kit/novo_repo_clinica.py --destino . --clinica "<NOME DA CLÍNICA>" --porte <consultorio|pequena-media|rede> --forcar
 3) Confira que ESTADO.md, CLAUDE.md, .claude/settings.json e .gitignore existem e que .kit/ está no .gitignore.
-4) Faça commit ("S00: repo criado a partir do modelo do kit") e push.
+4) Faça commit ("S00: repo criado a partir do modelo do kit") e push. Confira que .github/workflows/automerge.yml foi junto: ele leva o trabalho da branch desta sessão para a main em ~1 min.
 5) Me diga em 3 linhas o que foi criado. Não grave nada no Rabi.
 ```
 
 Troque `<NOME DA CLÍNICA>` pelo nome da clínica e escolha o porte:
 `consultorio` (1 profissional), `pequena-media` ou `rede` (várias unidades).
 
-> Se o passo 1 da mensagem falhar por falta de acesso ao kit, peça à Rabi
-> Sistemas acesso de leitura ao repositório `implantarabi-ia` para a sua conta
-> GitHub (ou uma cópia do kit).
+> O kit é **público**: não precisa pedir acesso. Se o passo 1 falhar, é falta
+> de internet no ambiente ou o GitHub fora do ar: tente de novo em alguns
+> minutos. **Plano B:** baixe o ZIP em https://github.com/fmunizmcorp/implantarabi-ia
+> (botão *Code → Download ZIP*), descompacte e envie o conteúdo para a sessão,
+> pedindo que ela o coloque na pasta `.kit/` (tem de existir `.kit/BOOTSTRAP.md`).
+>
+> Se o GitHub recusar o push do arquivo `.github/workflows/automerge.yml`,
+> crie-o pela página do repositório (*Add file → Create new file*) colando o
+> conteúdo de `.kit/modelo-repo-clinica/.github/workflows/automerge.yml`. Em
+> *Settings → Actions → General → Workflow permissions*, marque **Read and write**.
 
 ## Passo 3 — Configurar o segredo da chave (RABI_API_KEY)
 
-No Claude Code na web, nas configurações do **ambiente** deste repositório,
-crie a variável de ambiente (segredo):
+Use **um ambiente por clínica** no Claude Code na web (assim a chave de uma
+clínica nunca se mistura com a de outra).
 
-- **Nome:** `RABI_API_KEY`
-- **Valor:** a chave `rbk_…` que a Rabi entregou.
+1. Na sessão deste repositório, abra o **menu do ambiente** na barra de título
+   da sessão e escolha **Edit** (Editar).
+2. Se houver a seção **"API credentials"**, cadastre a chave ali; se não houver,
+   adicione uma **variável de ambiente**:
+   - **Nome:** `RABI_API_KEY`
+   - **Valor:** a chave `rbk_…` que a Rabi entregou.
+3. Salve. A chave passa a valer nas **sessões novas** (abra uma sessão nova).
 
-Não cole a chave em issue, e-mail ou mensagem pública. A sessão também vai
-registrá-la no arquivo `credenciais/rabi-api-externa.md` do repo privado.
+⚠️ **Nunca cole a chave no chat**, nem em issue, e-mail ou mensagem. Não é
+preciso: a própria sessão grava o arquivo `credenciais/rabi-api-externa.md`
+do repo privado **a partir da variável**, sem a chave passar pela conversa.
+Detalhes: `.kit/conhecimento/api-externa/chave-e-token.md` §2.1.
 
 ## Passo 4 — Abrir a sessão de trabalho
 
@@ -75,4 +89,7 @@ Nas próximas vezes basta escrever **"vamos continuar"**.
 2. **Aprovar** o que ela mostra antes de gravar ("pode gravar").
 3. **Conferir** o resultado que ela mostra depois.
 
-A IA faz o resto e salva tudo no repositório (commit + push) a cada passo.
+A IA faz o resto e salva tudo no repositório a cada passo: commit + push na
+branch da sessão (`claude/...`); o workflow `automerge` leva à `main` em ~1 min;
+ao abrir, a sessão confere que o `ESTADO.md` da `main` é o mais recente
+(`git log origin/main -1`).
