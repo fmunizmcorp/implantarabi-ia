@@ -317,7 +317,7 @@ class ClienteRabi:
         if resp.status == 503:
             raise ChaveInvalida(
                 f"503 em {onde} depois de nova tentativa: a API não conseguiu validar a chave. Pelo Swagger "
-                "de 25/09 isso é falha de rede/tempo, mas até 24/09 era a resposta para chave inválida. "
+                "de 25/09 isso é falha de rede/tempo, mas na prática (medido em 25/09) chave inexistente também dá 503. "
                 "Não vou repetir em loop: confira a chave e, se ela estiver certa, avise o time Rabi.",
                 resp.status, resp.texto, metodo, caminho)
         raise ErroRabi(f"{resp.status} em {onde}: {msg_srv}", resp.status, resp.texto, metodo, caminho)

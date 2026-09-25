@@ -7,7 +7,7 @@ Cada subpasta é um conjunto normalizado. Leia o `00-INDICE.md` dela para coluna
 
 | Conjunto | O que tem | Edição | Linhas | Quando usar |
 |---|---|---|---|---|
-| [material/](material/00-INDICE.md) | SIMPRO — material | 2026-04-12 | 202484 | material sem Brasíndice, código SIMPRO (tabela 12) |
-| [medicamento/](medicamento/00-INDICE.md) | SIMPRO — medicamento | 2026-04-12 | 28770 | material sem Brasíndice, código SIMPRO (tabela 12) |
-| [reagente/](reagente/00-INDICE.md) | SIMPRO — reagente | 2026-04-12 | 57 | material sem Brasíndice, código SIMPRO (tabela 12) |
-| [saneante/](saneante/00-INDICE.md) | SIMPRO — saneante | 2026-04-12 | 711 | material sem Brasíndice, código SIMPRO (tabela 12) |
+| [material/](material/00-INDICE.md) | SIMPRO — material | 2026-04-12 | 203659 | item sem Brasíndice (materiais sobretudo), código SIMPRO (tabela 12) |
+| [medicamento/](medicamento/00-INDICE.md) | SIMPRO — medicamento | 2026-04-12 | 28770 | item sem Brasíndice (materiais sobretudo), código SIMPRO (tabela 12) |
+| [reagente/](reagente/00-INDICE.md) | SIMPRO — reagente | 2026-04-12 | 57 | item sem Brasíndice (materiais sobretudo), código SIMPRO (tabela 12) |
+| [saneante/](saneante/00-INDICE.md) | SIMPRO — saneante | 2026-04-12 | 711 | item sem Brasíndice (materiais sobretudo), código SIMPRO (tabela 12) |

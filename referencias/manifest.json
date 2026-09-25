@@ -81,77 +81,77 @@
    ],
    "pasta": "brasindice/materiais",
    "linhas": 7767,
-   "bytes": 1529919,
+   "bytes": 1525093,
    "fatias": [
     {
      "prefixo": "0-9",
      "arquivo": "0-9.csv",
      "linhas": 11,
-     "bytes": 2263,
-     "sha256": "9f0727f3c8aee25d48ad9a17622f66aa82102891b79b0a399070254dc8ddf98b"
+     "bytes": 2261,
+     "sha256": "8f482a6219304060c1dc2077c4c879f770f7e485d63d7357af31121d0df56ff8"
     },
     {
      "prefixo": "A",
      "arquivo": "A.csv",
      "linhas": 578,
-     "bytes": 116675,
-     "sha256": "5c677c066ae49046c6dbb19eb24d6e462d88e76bf4f0c7946a6ef46f52151fff"
+     "bytes": 116390,
+     "sha256": "38365e3437fb5f0abdb02da8b6ff3f0fcf1715ce881190616c3ce42f9bebf514"
     },
     {
      "prefixo": "B",
      "arquivo": "B.csv",
      "linhas": 390,
-     "bytes": 72770,
-     "sha256": "007ece0cb3f7fc5d9512140b737e9cdeb1eae6d63fd16c2bb0616dfd7f25b918"
+     "bytes": 72426,
+     "sha256": "eeb8855a552c676fb3eb2364235b2efe93c702e416bbdd8c58f7ad392f66db5c"
     },
     {
      "prefixo": "C",
      "arquivo": "C.csv",
      "linhas": 505,
-     "bytes": 98851,
-     "sha256": "10e4195fd9a7d13f451de8a8ff5a6bc9365776260cd9f7c418d7e7c06a795171"
+     "bytes": 98313,
+     "sha256": "4fa92ffd290e432eda3c0a792113afb8a2b35207b7f7f08c59cf2a235b950038"
     },
     {
      "prefixo": "D",
      "arquivo": "D.csv",
      "linhas": 302,
-     "bytes": 56184,
-     "sha256": "53fd6b4c97e0c3413eeaf507dd2f6b1a77a55fdde170b07b9f16490c6301bbaf"
+     "bytes": 56021,
+     "sha256": "322d871be7283468b10463746993a2a2371dc987b5ca47d94809e4b7253cd92f"
     },
     {
      "prefixo": "E",
      "arquivo": "E.csv",
      "linhas": 341,
-     "bytes": 67563,
-     "sha256": "012427ed32b11c3de62af874d4b5159f784bf208651b34bf6918e0d8f75342f1"
+     "bytes": 67244,
+     "sha256": "b2c1121d003571bdcda19b3a92aec7b515270c2d3d020c86923f1c1178f20af9"
     },
     {
      "prefixo": "F",
      "arquivo": "F.csv",
      "linhas": 279,
-     "bytes": 52122,
-     "sha256": "de1dcbeb063190db6e54bfc6c76d919b594c795c865a633f3888728c4af7365e"
+     "bytes": 51856,
+     "sha256": "4b1d7765ebdab9a927fcc7f123c5059f9f85280c94af27beb7c9dbf2020f06f0"
     },
     {
      "prefixo": "G",
      "arquivo": "G.csv",
      "linhas": 70,
-     "bytes": 12443,
-     "sha256": "a274a1d804717f75af143834d79c41e7db83d0b2b6b01da3b0263916ececd585"
+     "bytes": 12440,
+     "sha256": "13e890857fbacb098aa22659b01eca9f1a2a2628439aed20ff77d48751817888"
     },
     {
      "prefixo": "H",
      "arquivo": "H.csv",
      "linhas": 338,
-     "bytes": 66430,
-     "sha256": "0f1e1761950c95043e3b04662674bc5d0834a6a7d339ae08a635c01c996cb3e7"
+     "bytes": 66376,
+     "sha256": "aee55d1e5b06160fbb1aec8505fceeb4ddb77eb545a432bbdd8599510d2d108f"
     },
     {
      "prefixo": "I",
      "arquivo": "I.csv",
      "linhas": 267,
-     "bytes": 49014,
-     "sha256": "4963a122b26414571ae9d1e025e24f2cf13c3ea79d73d01763a3ca2e5700daa9"
+     "bytes": 48911,
+     "sha256": "7991810ed16dac6f51acb79a6ed43e63f82386b65a626f3ba01b50c3829b63dc"
     },
     {
      "prefixo": "J",
@@ -164,43 +164,43 @@
      "prefixo": "K",
      "arquivo": "K.csv",
      "linhas": 198,
-     "bytes": 40872,
-     "sha256": "0f6ab2ee014362b56ed25d47462ebefa7cca90cd60d6d34e1f6493f343006bd0"
+     "bytes": 40500,
+     "sha256": "66f95aa20e72e3f7fe94e073ceb2eee4782b62a2d3ffcfe733ea4c535b2cdb1d"
     },
     {
      "prefixo": "L",
      "arquivo": "L.csv",
      "linhas": 530,
-     "bytes": 107833,
-     "sha256": "010dc8f9f0b664d267f9b0ba29c1a467752f796b69ae264d72ddc26c8b24b448"
+     "bytes": 107709,
+     "sha256": "ffa6947c63149db7d25e1517fe16ccc194766d248151182aae8e793110b65494"
     },
     {
      "prefixo": "M",
      "arquivo": "M.csv",
      "linhas": 450,
-     "bytes": 81149,
-     "sha256": "f43a0d2aac22053a0a46ce4b03037a79c1477f0e2e2fa86aa2275aaf11628d16"
+     "bytes": 80751,
+     "sha256": "437a22e05d443d613d3c1e299730fc5090c32f415ab3ed5a37816e65e2edc628"
     },
     {
      "prefixo": "N",
      "arquivo": "N.csv",
      "linhas": 853,
-     "bytes": 165924,
-     "sha256": "339a7a0b6d27468a83e410d1b61c748e647322f85de158466cc17c6a6fd63dfd"
+     "bytes": 165286,
+     "sha256": "1760c61c72e5512147fdb1d3c316c0c262a0ce8cd7bc88e95f84b628f11df1c7"
     },
     {
      "prefixo": "O",
      "arquivo": "O.csv",
      "linhas": 303,
-     "bytes": 67107,
-     "sha256": "1a99af37e0094f335395cfd78ee510f1a64af5dcc2870528b701a76c871b4b3d"
+     "bytes": 67106,
+     "sha256": "cab97a162f31b75ce65e18e2e8c909154774e7abb521aac8d27b895cd56cf7b5"
     },
     {
      "prefixo": "P",
      "arquivo": "P.csv",
      "linhas": 774,
-     "bytes": 165401,
-     "sha256": "f75ff799ea451368f0550012a63200b2033ab0cdc1958f0a62f26ed0c7538541"
+     "bytes": 164996,
+     "sha256": "41142cea9ca5e9b1eb8f0f99c0d711f5353f9e81c26368898a7f7d5c789c2c82"
     },
     {
      "prefixo": "Q",
@@ -213,22 +213,22 @@
      "prefixo": "R",
      "arquivo": "R.csv",
      "linhas": 150,
-     "bytes": 28833,
-     "sha256": "38c8506414c5ecabc008ef6cf7d3ce6f3e1a8bc26192f5f797e2d9cd38efcca1"
+     "bytes": 28822,
+     "sha256": "e41e8b250ac21864e1ef41393cecd422faba8b4fe8c08696568ce6e592a0684f"
     },
     {
      "prefixo": "S",
      "arquivo": "S.csv",
      "linhas": 718,
-     "bytes": 142220,
-     "sha256": "5785e6cb8d1931cdcbc84285c57c46f6e9a8e83202d8571b4fa7536576459e7b"
+     "bytes": 141529,
+     "sha256": "c6b0f52452aa8752c7fe1f39d6a42492ef6d195dde0287528b78df51299e5b9a"
     },
     {
      "prefixo": "T",
      "arquivo": "T.csv",
      "linhas": 361,
-     "bytes": 71087,
-     "sha256": "e0ac2275d697c42267cb03f0e596587abba7ccc5077fa3358b93511e483aedf3"
+     "bytes": 71000,
+     "sha256": "cb79241c3061c6df80fef87aa3da1d2884d6f232c9ccff5cfe57c02e5fdd4ab2"
     },
     {
      "prefixo": "U",
@@ -241,8 +241,8 @@
      "prefixo": "V",
      "arquivo": "V.csv",
      "linhas": 214,
-     "bytes": 38595,
-     "sha256": "faf800d0e7a48703263312de3493367942a130cb511865c5c6e5bbcb365dddd0"
+     "bytes": 38573,
+     "sha256": "32c2101be205317848978b7b1dd24f346a2f7513e26737b96e8bd0491f3bc3ec"
     },
     {
      "prefixo": "W",
@@ -367,7 +367,7 @@
    ],
    "pasta": "brasindice/medicamentos",
    "linhas": 16946,
-   "bytes": 4206780,
+   "bytes": 4206635,
    "fatias": [
     {
      "prefixo": "0-9",
@@ -380,8 +380,8 @@
      "prefixo": "A",
      "arquivo": "A.csv",
      "linhas": 1671,
-     "bytes": 411037,
-     "sha256": "c428313dcb61eaa45564b230dfae92f3c2042b79a25bda0902f94561634efd4e"
+     "bytes": 411010,
+     "sha256": "bbdc17e06e353ab651a817b9849d111b1893882dbb7d50d066b9068a3d838976"
     },
     {
      "prefixo": "B",
@@ -394,8 +394,8 @@
      "prefixo": "C",
      "arquivo": "C.csv",
      "linhas": 2204,
-     "bytes": 570163,
-     "sha256": "2ea607d97cf4dbf84a4206fcd14fd5ab19a89f41f989acf0342be3e6a1bd8316"
+     "bytes": 570148,
+     "sha256": "427bd7cc99d143a18d801e9058f2deb4bf57b6cf0cb430b3d8f451dfe394ed78"
     },
     {
      "prefixo": "D",
@@ -415,8 +415,8 @@
      "prefixo": "F",
      "arquivo": "F.csv",
      "linhas": 734,
-     "bytes": 180204,
-     "sha256": "cd5b4c8f6aa9d6cffbb934d9f364d5f1c7e6bb7fb7f3f95e10f23af8365abd81"
+     "bytes": 180197,
+     "sha256": "d2495a2fccca1a5f89534487e95384d3382c007e5b5d505909ebc7995ea8041f"
     },
     {
      "prefixo": "G",
@@ -478,15 +478,15 @@
      "prefixo": "O",
      "arquivo": "O.csv",
      "linhas": 601,
-     "bytes": 151280,
-     "sha256": "2c58760fc8b49c7b3ce12e493021b74b88cfc8493d390e05a5a91e8e703b5398"
+     "bytes": 151226,
+     "sha256": "2436633610cca2f6e30be0f3e908eb90366293818388dfd25bf804f7af38fbc8"
     },
     {
      "prefixo": "P",
      "arquivo": "P.csv",
      "linhas": 1068,
-     "bytes": 261849,
-     "sha256": "9470d8c0dd8afa0771290255031e03935af6a0463c3338e2d9ec1cb2ca85081e"
+     "bytes": 261842,
+     "sha256": "2958fc1aca38b080aa8f96a78b6ecd2f9959c4c96204806482a06e69a6267904"
     },
     {
      "prefixo": "Q",
@@ -513,8 +513,8 @@
      "prefixo": "T",
      "arquivo": "T.csv",
      "linhas": 795,
-     "bytes": 198705,
-     "sha256": "d6aa45b5a3efeb740aa3f54c753bae6dfcb2381f47de16d7af31a99b5f6b8edb"
+     "bytes": 198700,
+     "sha256": "0ec108f5be14abc7e2cf297185f3e58cd0e14347be81b887705c32f0d703cebd"
     },
     {
      "prefixo": "U",
@@ -527,8 +527,8 @@
      "prefixo": "V",
      "arquivo": "V.csv",
      "linhas": 716,
-     "bytes": 173209,
-     "sha256": "55c005b5ca691b02448cac7dd35764b885d09ab1ad40b03a21bbc736e4776b66"
+     "bytes": 173179,
+     "sha256": "dd25ca8265a6fb048260d9ce68323d4d2bc77d0abd04462f228ad4ca1a4cda9e"
     },
     {
      "prefixo": "W",
@@ -895,7 +895,7 @@
    "data_edicao": "2026-04-12 (coleta)",
    "licenca": "licenciada — incluída só como referência de nomenclatura/códigos",
    "descricao": "Descrição, fabricante, código SIMPRO (tabela 12) e valor vigente com data.",
-   "quando_usar": "material sem Brasíndice, código SIMPRO (tabela 12)",
+   "quando_usar": "item sem Brasíndice (materiais sobretudo), código SIMPRO (tabela 12)",
    "colunas": [
     "fonte",
     "edicao",
@@ -954,7 +954,7 @@
    },
    "origem": [
     {
-     "arquivo": "TST_SIMPRO_MATERIAL.csv",
+     "arquivo": "SIMPRO_MATERIAL_coleta.csv",
      "bytes": 27287638,
      "sha256": "75ba78df3cd7669f91ffaf6634d958328171a6a7f387704720006008ac94e019"
     }
@@ -962,12 +962,12 @@
    "observacoes": [
     "`produto` e `laboratorio` foram separados no último '. ' da descrição publicada (ex.: 'SERINGA 10ML. FABRICANTE.').",
     "Campo bruto 'Desde dd/mm/aaaa R$ x,xxx' separado em `vigencia` (AAAA-MM-DD) e `preco_ref`.",
-    "Código repetido: ficou a vigência mais recente. Linhas inválidas ignoradas: 1175.",
+    "Código repetido: ficou a vigência mais recente. Linhas inválidas ignoradas: 0.",
     "Colunas sempre vazias ou constantes na coleta (capítulo, grupo, especialidade 'Todas'…) foram descartadas."
    ],
    "pasta": "simpro/material",
-   "linhas": 202484,
-   "bytes": 29785253,
+   "linhas": 203659,
+   "bytes": 29943675,
    "fatias": [
     {
      "prefixo": "0-9",
@@ -979,30 +979,30 @@
     {
      "prefixo": "A",
      "arquivo": "A.csv",
-     "linhas": 10853,
-     "bytes": 1555477,
-     "sha256": "64dda27aa84a7f17e176b9981f26b9fbb32dc96d4766452f09ae06fe54248910"
+     "linhas": 10850,
+     "bytes": 1555117,
+     "sha256": "9bf82d4d11cee1f6d11fc8773e4d396df8d3190e30898c2148ec1f0434e05bf2"
     },
     {
      "prefixo": "B",
      "arquivo": "B.csv",
-     "linhas": 10624,
-     "bytes": 1530067,
-     "sha256": "2b9e0c9d3cd4d9e1c227e01feed90df1721867217b48a68afff4e19af6f9701b"
+     "linhas": 10646,
+     "bytes": 1532579,
+     "sha256": "d5fdd33d1df67985bfc4242f0d7f3c275675f8bff1e553a80921748b4785744c"
     },
     {
      "prefixo": "CA",
      "arquivo": "CA-001.csv",
-     "linhas": 26505,
-     "bytes": 4006747,
-     "sha256": "0e3c745c353f651ea13d5965a78281415ac45c6e4997586ecbed1b8f2ccd2133"
+     "linhas": 25861,
+     "bytes": 3908053,
+     "sha256": "b8c162367d191694d4428eef2722a99f2ef21092a2c69caf4aa8ed037ebd259d"
     },
     {
      "prefixo": "CA",
      "arquivo": "CA-002.csv",
-     "linhas": 14967,
-     "bytes": 2242248,
-     "sha256": "fe2b97c3f5410ffea401ec0d91fc34ddcfc2ea4aab0ec65862f43d5507df42f0"
+     "linhas": 15436,
+     "bytes": 2314990,
+     "sha256": "c5964366a69249d7e81e5efe59a7e586190391b2d1edf87f18967766052ce8d4"
     },
     {
      "prefixo": "CE",
@@ -1105,16 +1105,16 @@
     {
      "prefixo": "E",
      "arquivo": "E.csv",
-     "linhas": 13152,
-     "bytes": 1973651,
-     "sha256": "d0514a8402051f9b938e81c2aafafe6c9ae5c3449a620ebb2d3abd9c6a2ba00e"
+     "linhas": 13197,
+     "bytes": 1980028,
+     "sha256": "859a8af47e002b46d5bb781f06cdc9c2dfd6df7aeb2e3934ba3db06d41bb9c19"
     },
     {
      "prefixo": "F",
      "arquivo": "F.csv",
-     "linhas": 17747,
-     "bytes": 2660695,
-     "sha256": "d6a7d67451aab403f6bb730313dacf4ea5703a8d0d58e9ba87136092ded0a480"
+     "linhas": 17676,
+     "bytes": 2650158,
+     "sha256": "fbdf0c76468a4b85cd87decc917d1c8d7fac13a2c82733008b26a04c14fc414f"
     },
     {
      "prefixo": "G",
@@ -1126,16 +1126,16 @@
     {
      "prefixo": "H",
      "arquivo": "H.csv",
-     "linhas": 2836,
-     "bytes": 392063,
-     "sha256": "c27afbd87584a17033245eb8c8da62f5c77e4af0b0d1c88fa1c78b832f587725"
+     "linhas": 2840,
+     "bytes": 392679,
+     "sha256": "ce275136e3f005de6dd796e103a38c94bdd8670059374bdb696ff315893e3290"
     },
     {
      "prefixo": "I",
      "arquivo": "I.csv",
-     "linhas": 4773,
-     "bytes": 714505,
-     "sha256": "0229da799174e032196392e733ef34a628c4323f40f2f7dfd8346e47a6cd1426"
+     "linhas": 4830,
+     "bytes": 721755,
+     "sha256": "9b1086d4477db0d1f253969fedee5410b59149be63d3562fe799c15c8e99c29e"
     },
     {
      "prefixo": "J",
@@ -1154,16 +1154,16 @@
     {
      "prefixo": "L",
      "arquivo": "L.csv",
-     "linhas": 5813,
-     "bytes": 837574,
-     "sha256": "2c77504936d2d75e9ddd204447a3b478da5f63898bbdbab144391c3c1a6d8fb9"
+     "linhas": 5822,
+     "bytes": 838691,
+     "sha256": "7e2014c226b618574b1ffce0c1b47d5c66404a8fe0071da88ccf0c087b083024"
     },
     {
      "prefixo": "M",
      "arquivo": "M.csv",
-     "linhas": 9007,
-     "bytes": 1301736,
-     "sha256": "3bc0788cf8fe53eb56b8c5546d99f13fa980a3f4b9644fa7c984912c8fbb64b1"
+     "linhas": 9008,
+     "bytes": 1301894,
+     "sha256": "a92ea0ccb52ae76430698e86a3ab52d9bca0b87850fd8ce5f94bc467d5099c56"
     },
     {
      "prefixo": "N",
@@ -1182,9 +1182,9 @@
     {
      "prefixo": "P",
      "arquivo": "P.csv",
-     "linhas": 22768,
-     "bytes": 3254600,
-     "sha256": "82e543d9334d1b8b682faaa6014ed44fd07f75ffb890a82d707a64c7dbb7fdf6"
+     "linhas": 23176,
+     "bytes": 3305637,
+     "sha256": "c3479b985c0a7038e69a7044650d974d56192fde23f7da9210436ebdab607964"
     },
     {
      "prefixo": "Q",
@@ -1203,16 +1203,16 @@
     {
      "prefixo": "S",
      "arquivo": "S.csv",
-     "linhas": 24051,
-     "bytes": 3561540,
-     "sha256": "f454c3cc65f64b7d508d0f3a57e63f613d825d77ae4add46c5c2a1d3d5aeb575"
+     "linhas": 24132,
+     "bytes": 3571370,
+     "sha256": "e1bdf3b8f26f536826a888ff5a29ca1065451cd7868ce0d41136b4b4f29d8a44"
     },
     {
      "prefixo": "T",
      "arquivo": "T.csv",
-     "linhas": 7963,
-     "bytes": 1132471,
-     "sha256": "61a554db1493d77d307c60fb56d0c2dd8efa5eed68371d5e9d6e4221b424d49f"
+     "linhas": 7979,
+     "bytes": 1134525,
+     "sha256": "380655bac96d72b8b34995bd8664c85531552be52cc87dc651af0e76a0e18c4d"
     },
     {
      "prefixo": "U",
@@ -1255,6 +1255,13 @@
      "linhas": 3,
      "bytes": 713,
      "sha256": "7a9df5a82db8f97e067b8a3538a7fcc40be32e977ded28da6b0776122766b44f"
+    },
+    {
+     "prefixo": "_",
+     "arquivo": "_.csv",
+     "linhas": 781,
+     "bytes": 114320,
+     "sha256": "2b27b0f41aa03cfb5376ad72e10e1d35a34771f543c7e8a8bc0bd2d2ea98819b"
     }
    ],
    "normalizado_em": "2026-09-25"
@@ -1267,7 +1274,7 @@
    "data_edicao": "2026-04-12 (coleta)",
    "licenca": "licenciada — incluída só como referência de nomenclatura/códigos",
    "descricao": "Descrição, fabricante, código SIMPRO (tabela 12) e valor vigente com data.",
-   "quando_usar": "material sem Brasíndice, código SIMPRO (tabela 12)",
+   "quando_usar": "item sem Brasíndice (materiais sobretudo), código SIMPRO (tabela 12)",
    "colunas": [
     "fonte",
     "edicao",
@@ -1326,7 +1333,7 @@
    },
    "origem": [
     {
-     "arquivo": "TST_SIMPRO_MEDICAMENTO.csv",
+     "arquivo": "SIMPRO_MEDICAMENTO_coleta.csv",
      "bytes": 3540455,
      "sha256": "83454ff5e7029cbc14d45ee17116c2971e7dad5281491315a1d52b1624b1fd74"
     }
@@ -1541,7 +1548,7 @@
    "data_edicao": "2026-04-12 (coleta)",
    "licenca": "licenciada — incluída só como referência de nomenclatura/códigos",
    "descricao": "Descrição, fabricante, código SIMPRO (tabela 12) e valor vigente com data.",
-   "quando_usar": "material sem Brasíndice, código SIMPRO (tabela 12)",
+   "quando_usar": "item sem Brasíndice (materiais sobretudo), código SIMPRO (tabela 12)",
    "colunas": [
     "fonte",
     "edicao",
@@ -1600,7 +1607,7 @@
    },
    "origem": [
     {
-     "arquivo": "TST_SIMPRO_REAGENTE.csv",
+     "arquivo": "SIMPRO_REAGENTE_coleta.csv",
      "bytes": 5912,
      "sha256": "8dc44be6aecea1c953dba0d015abf2c8e4e2e823eb0718313b8ed283af5b7e38"
     }
@@ -1717,7 +1724,7 @@
    "data_edicao": "2026-04-12 (coleta)",
    "licenca": "licenciada — incluída só como referência de nomenclatura/códigos",
    "descricao": "Descrição, fabricante, código SIMPRO (tabela 12) e valor vigente com data.",
-   "quando_usar": "material sem Brasíndice, código SIMPRO (tabela 12)",
+   "quando_usar": "item sem Brasíndice (materiais sobretudo), código SIMPRO (tabela 12)",
    "colunas": [
     "fonte",
     "edicao",
@@ -1776,7 +1783,7 @@
    },
    "origem": [
     {
-     "arquivo": "TST_SIMPRO_SANEANTE.csv",
+     "arquivo": "SIMPRO_SANEANTE_coleta.csv",
      "bytes": 85995,
      "sha256": "11854b3be8b8a1fba85c5aa649df8252d1681bc93a0521305d93ae4e9d5b45ba"
     }

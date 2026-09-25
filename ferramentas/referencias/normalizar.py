@@ -120,8 +120,10 @@ def registrar(saida: Path, conjunto: str, fatias: List[Dict], meta: Dict) -> Non
     print(f"{conjunto}: {meta['linhas']} linhas em {len(fatias)} fatia(s), {meta['bytes']/1e6:.2f} MB")
 
 
-def _origem(caminhos: Iterable[Path]) -> List[Dict]:
-    return [{"arquivo": Path(c).name, "bytes": Path(c).stat().st_size,
+def _origem(caminhos: Iterable[Path], rotulo: str = "") -> List[Dict]:
+    """Registro dos brutos (nome, tamanho, sha256). ``rotulo`` troca o nome do
+    arquivo quando ele identifica quem publicou (ex.: portal de operadora)."""
+    return [{"arquivo": rotulo or Path(c).name, "bytes": Path(c).stat().st_size,
              "sha256": comum.sha256_arquivo(Path(c))} for c in caminhos if c]
 
 
@@ -331,7 +333,8 @@ def _bras_campos(r: List[str]) -> Dict[str, str]:
     """
     d = {"cod_lab": r[0], "lab": r[1], "cod_prod": r[2], "nome": r[3], "cod_apres": r[4],
          "apres": r[5], "pmc_total": r[6], "pf_total": r[7], "qtd": r[8], "pmc_unit": r[10],
-         "pf_unit": r[12], "ed_preco": r[13], "ean": r[16].strip(), "tiss": r[17].strip(),
+         "pf_unit": r[12], "ed_preco": r[13], "ean": r[16].strip() if len(so_digitos(r[16])) >= 8 and so_digitos(r[16]).strip("0") else "",
+         "tiss": r[17].strip(),
          "restrito": ""}
     if len(r) >= 23:
         d.update(generico=r[18], tuss=r[19], ggrem=r[20], registro=r[21])
@@ -450,11 +453,11 @@ def cmd_simpro(a) -> None:
     por_codigo: Dict[str, List[str]] = {}
     ignoradas = 0
     with open(a.arquivo, encoding="utf-8", errors="replace", newline="") as f:
-        for r in csv.DictReader(f, delimiter="|"):
+        for r in csv.DictReader(f, delimiter="|", quoting=csv.QUOTE_NONE):
             cod = (r.get("CODIGO") or "").strip()
             m = RE_VIG.search(r.get("VIGENCIA_ATUAL") or "")
             desc = " ".join((r.get("DESCRICAO") or "").split())
-            if not re.fullmatch(r"\d{6,12}", cod) or not m or not desc:
+            if not re.fullmatch(r"\d{1,12}", cod) or not m or not desc:
                 ignoradas += 1
                 continue
             vig = f"{m.group(3)}-{m.group(2)}-{m.group(1)}"
@@ -481,9 +484,9 @@ def cmd_simpro(a) -> None:
         "fonte_publica": "coleta de portal de operadora que publica a tabela SIMPRO",
         "edicao": a.edicao, "data_edicao": a.data or "", "licenca": "licenciada — incluída só como referência de nomenclatura/códigos",
         "descricao": "Descrição, fabricante, código SIMPRO (tabela 12) e valor vigente com data.",
-        "quando_usar": "material sem Brasíndice, código SIMPRO (tabela 12)",
+        "quando_usar": "item sem Brasíndice (materiais sobretudo), código SIMPRO (tabela 12)",
         "colunas": COLUNAS_PRODUTO, "descricao_colunas": DESC_PRODUTO,
-        "origem": _origem([Path(a.arquivo)]),
+        "origem": _origem([Path(a.arquivo)], a.rotulo_origem or f"SIMPRO_{a.tipo.upper()}_coleta.csv"),
         "observacoes": [
             "`produto` e `laboratorio` foram separados no último '. ' da descrição publicada (ex.: 'SERINGA 10ML. FABRICANTE.').",
             "Campo bruto 'Desde dd/mm/aaaa R$ x,xxx' separado em `vigencia` (AAAA-MM-DD) e `preco_ref`.",
@@ -779,6 +782,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     s = sp.add_parser("simpro")
     s.add_argument("--tipo", required=True, choices=["material", "medicamento", "saneante", "reagente"])
     s.add_argument("--arquivo", required=True); s.add_argument("--edicao", required=True); s.add_argument("--data", default="")
+    s.add_argument("--rotulo-origem", default="", help="nome a registrar no índice no lugar do nome do arquivo bruto")
 
     s = sp.add_parser("tuss-historico"); s.add_argument("--arquivo", required=True); s.add_argument("--competencia", required=True)
     s = sp.add_parser("tuss-registros-anvisa"); s.add_argument("--arquivo", required=True); s.add_argument("--competencia", required=True)

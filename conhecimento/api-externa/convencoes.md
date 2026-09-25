@@ -241,7 +241,7 @@ especialidade de um serviço. Por isso o ritual sempre tem foto antes e depois.
 | 422 | referência inválida/inativa (quase sempre ordem de implantação) | não | criar/ativar o pré-requisito — [ordem-de-carga-via-api.md](ordem-de-carga-via-api.md) |
 | 429 | lote em andamento | sim, depois de esperar | um lote por vez |
 | 500 | erro do servidor | às vezes | reler para ver se gravou (há rotas que gravam e devolvem 500) |
-| 503 | falha ao validar a chave (e, até 24/09, chave inválida) | uma vez | depois parar e tratar como problema de chave |
+| 503 | falha ao validar a chave — e, medido em 25/09/2026, **ainda a resposta para chave inexistente** | uma vez | depois parar e tratar como problema de chave |
 
 Corpo de erro: `{ "error": "mensagem" }`.
 

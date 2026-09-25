@@ -70,12 +70,12 @@ Abra só a fatia da letra inicial do nome (ou use `ferramentas/referencias/busca
 | Arquivo | Prefixo | Linhas | Bytes | sha256 |
 |---|---|---|---|---|
 | [0-9.csv](0-9.csv) | 0-9 | 5 | 1107 | `43931a7ed28610ae…` |
-| [A.csv](A.csv) | A | 1671 | 411037 | `c428313dcb61eaa4…` |
+| [A.csv](A.csv) | A | 1671 | 411010 | `bbdc17e06e353ab6…` |
 | [B.csv](B.csv) | B | 861 | 212166 | `f280604f43ebc99c…` |
-| [C.csv](C.csv) | C | 2204 | 570163 | `2ea607d97cf4dbf8…` |
+| [C.csv](C.csv) | C | 2204 | 570148 | `427bd7cc99d143a1…` |
 | [D.csv](D.csv) | D | 1286 | 319269 | `c3f21903e785b5da…` |
 | [E.csv](E.csv) | E | 772 | 189793 | `0c2c3300f8c0e3b7…` |
-| [F.csv](F.csv) | F | 734 | 180204 | `cd5b4c8f6aa9d6cf…` |
+| [F.csv](F.csv) | F | 734 | 180197 | `d2495a2fccca1a5f…` |
 | [G.csv](G.csv) | G | 396 | 97670 | `222091222bddd0b6…` |
 | [H.csv](H.csv) | H | 467 | 119180 | `ab90e90b59d25b7f…` |
 | [I.csv](I.csv) | I | 414 | 98291 | `485b4e8ebb95c45f…` |
@@ -84,14 +84,14 @@ Abra só a fatia da letra inicial do nome (ou use `ferramentas/referencias/busca
 | [L.csv](L.csv) | L | 841 | 204676 | `6e94ff43048d9f17…` |
 | [M.csv](M.csv) | M | 874 | 217465 | `1f47b148128bd92c…` |
 | [N.csv](N.csv) | N | 720 | 175304 | `ed99a1ccd19369d9…` |
-| [O.csv](O.csv) | O | 601 | 151280 | `2c58760fc8b49c7b…` |
-| [P.csv](P.csv) | P | 1068 | 261849 | `9470d8c0dd8afa07…` |
+| [O.csv](O.csv) | O | 601 | 151226 | `2436633610cca2f6…` |
+| [P.csv](P.csv) | P | 1068 | 261842 | `2958fc1aca38b080…` |
 | [Q.csv](Q.csv) | Q | 68 | 16365 | `3b85f02dd02598bc…` |
 | [R.csv](R.csv) | R | 704 | 170179 | `845fb49172f0d707…` |
 | [S.csv](S.csv) | S | 969 | 244445 | `1b22947a524ab690…` |
-| [T.csv](T.csv) | T | 795 | 198705 | `d6aa45b5a3efeb74…` |
+| [T.csv](T.csv) | T | 795 | 198700 | `0ec108f5be14abc7…` |
 | [U.csv](U.csv) | U | 119 | 28904 | `4203262e2de08895…` |
-| [V.csv](V.csv) | V | 716 | 173209 | `55c005b5ca691b02…` |
+| [V.csv](V.csv) | V | 716 | 173179 | `dd25ca8265a6fb04…` |
 | [W.csv](W.csv) | W | 32 | 9179 | `5125c8b3b162900c…` |
 | [X.csv](X.csv) | X | 123 | 31273 | `ca3a01db9d2dec27…` |
 | [Y.csv](Y.csv) | Y | 14 | 3872 | `9a9046252273744f…` |

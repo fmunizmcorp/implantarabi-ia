@@ -100,7 +100,7 @@ Ferramentas: [../../ferramentas/rabi_api/README.md](../../ferramentas/rabi_api/R
 | 24/09/2026 | `equipamento:read` passou a existir na chave | grupo Equipamentos legível |
 | 25/09/2026 | envelope único nas listagens; `GET /agendamentos` exige `data`; grades paginadas | ver [convencoes.md](convencoes.md) |
 | 25/09/2026 | cabeçalho `X-ApiKey-Expires-At` em toda resposta de sucesso | monitorar a validade — ver [chave-e-token.md](chave-e-token.md) |
-| 25/09/2026 | chave rejeitada responde **401**; 503 fica para falha de rede | na prática já respondeu 503 para chave inválida: trate os dois como problema de chave, sem repetir em loop |
+| 25/09/2026 | documentação: chave rejeitada responde **401**; 503 fica para falha de rede | **medido em 25/09/2026 03:07: chave inexistente ainda responde 503.** Trate 401 e 503 como problema de chave, sem repetir em loop |
 
 Roadmap (não prometer): geração de chave self-service dentro do sistema (issue #624,
 sem data).

@@ -57,7 +57,7 @@ Descrição, fabricante, código SIMPRO (tabela 12) e valor vigente com data.
 
 | Arquivo | Bytes | sha256 |
 |---|---|---|
-| TST_SIMPRO_MEDICAMENTO.csv | 3540455 | `83454ff5e7029cbc…` |
+| SIMPRO_MEDICAMENTO_coleta.csv | 3540455 | `83454ff5e7029cbc…` |
 
 ## Fatias
 

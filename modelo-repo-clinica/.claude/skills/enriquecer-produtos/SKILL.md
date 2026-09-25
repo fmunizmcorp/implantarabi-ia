@@ -15,7 +15,8 @@ Playbook: `.kit/sprints/S06-produtos-catalogo.md`. Ferramentas:
 
 ## Passos
 1. Lista de produtos da clínica em `dados/produtos/produtos.csv` (com coluna ORIGEM).
-2. Rode `python3 .kit/ferramentas/referencias/enriquecer_produtos.py` → candidatos
+2. Rode `python3 .kit/ferramentas/referencias/enriquecer_produtos.py dados/produtos/produtos.csv --saida dados/produtos/candidatos.csv --referencias-clinica config/referencias-da-clinica.md`
+   (o `--referencias-clinica` só tem efeito se a clínica preencheu esse arquivo; as tabelas dela vêm primeiro) → candidatos
    por produto (nome + dose, EAN, registro ANVISA, TUSS) com pontuação.
 3. Mostre ao usuário **um produto por vez** (ou um bloco pequeno, se ele pedir),
    com os 3 melhores candidatos: "É este? (1, 2, 3 ou nenhum)".

@@ -113,7 +113,7 @@ restantes, e grava um resumo Markdown **sem a chave**.
 |---|---|---|
 | **401** | chave rejeitada: ausente, errada, vencida ou revogada | **não repetir**; conferir a chave; pedir nova ao time Rabi |
 | **403** | chave válida, mas **sem a permissão** da rota (a mensagem diz qual, ex.: `'paciente:read'`) | pedir chave com a permissão (tabela da seção 7) |
-| **503** | pelo Swagger de 25/09: falha de rede/tempo ao validar a chave. **Até 24/09, era a resposta para chave inválida** | o cliente tenta **uma vez** de novo e depois para com `ChaveInvalida`; sem loop. Se persistir com chave certa, avisar o time Rabi |
+| **503** | pelo Swagger de 25/09: falha de rede/tempo ao validar a chave. **Na prática, chave inexistente ainda responde 503** (medido em 25/09/2026 03:07) | o cliente tenta **uma vez** de novo e depois para com `ChaveInvalida`; sem loop. Se persistir com chave certa, avisar o time Rabi |
 
 Atenção: em 3 rotas de parâmetros e nas 3 rotas `PUT /faturamento/glosas/*`, **401 não é
 problema de chave** — ver [defeitos-conhecidos.md](defeitos-conhecidos.md). O cliente
