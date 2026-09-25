@@ -61,9 +61,9 @@ e no botão "Expandir serviço"
 | 🔒 valor do cadastro do serviço/taxa | `GET /servicos/{id}` → `valor` · `GET /taxas` → `valor` | ✅ spec |
 | ✅ valor próprio do serviço | **não** vem pronto. Calcule: `valorInternoConvenio` se não-nulo (inclusive 0) → senão 0 se `somarItens` → senão `valor` do cadastro. Também em `GET /convenios/{id}/farol/servicos` → `receita_propria_servico` | ✅ spec (campo do farol) |
 | Σ total do serviço no convênio | `GET /convenios/{id}/farol/servicos` → **`receita_total`** | ✅ spec |
-| Σ por linha da árvore | `GET /convenios/{id}/farol/itens?servicoRaizId=` → `receita` da linha do serviço | ✅ spec |
+| Σ por linha da árvore | `GET /convenios/{id}/farol/itens?servicoRaizId=` → `receita_total_servico` (repetido em cada linha) e `receita_item_total` de cada item (nomes da resposta real de 25/09; o Swagger diz `receita`) | ✅ resposta real |
 | `efetivo.totalConvenio` | **não exposto** na API externa (existe só na API interna usada pela tela) | ❌ não use |
-| valor efetivo (✅) do produto | não vem pronto; use `GET /convenios/{id}/farol/produtos` → `receita` | ✅ spec |
+| valor efetivo (✅) do produto | não vem pronto; use `GET /convenios/{id}/farol/produtos` → `receita` (e `receita_sem_zerar` = antes do Zerar; `fonte_nome`/`fator_k`/`origem_receita` = de onde veio) | ✅ resposta real |
 
 > **I13:** linha Σ = `valor(S, C)` = receita do Farol do serviço =
 > `receita_total` de `/farol/servicos`. Se divergir do simulador, pare.

@@ -1,7 +1,7 @@
 # 00-ESSENCIAL — o mínimo que toda sessão sabe de cor
 
 > **Fonte:** manual oficial https://www.rabisistemas.com.br/manual/ (v2.3, 25/09/2026) + Swagger https://api.rabisistemas.com.br/external-docs/ + experiência de implantação real · **Conferido em:** 2026-09-25
-> **Vale para:** produção em 25/09/2026 · **Kit:** v0.1.0
+> **Vale para:** produção em 25/09/2026 · **Kit:** v0.1.2
 >
 > Este arquivo é importado no boot. Todo o resto é lido **sob demanda pelo índice** (`INDICE.md`).
 
@@ -58,15 +58,16 @@ Referência completa: `conhecimento/api-externa/00-INDICE.md`.
 - Base: `https://api.rabisistemas.com.br/api/v1/integrations`.
 - Cabeçalho: `Authorization: Bearer rbk_…`. A chave carrega a clínica e as permissões.
 - A chave é lida da variável de ambiente `RABI_API_KEY`; se não houver, de `credenciais/rabi-api-externa.md`.
-- Chave inválida ou vencida: o Swagger diz **401**, mas em 25/09 uma chave inexistente ainda respondeu **503** (medição única em 25/09, reconfirmar). Trate os dois como problema de chave e não repita em loop.
-- Validade: cabeçalho `X-ApiKey-Expires-At`. Avise quando faltarem 15 dias.
+- Chave não aceita (inexistente, revogada, não ativada): responde **503** "Não foi possível validar a chave de API." (medido em 25/09 em produção e homologação; o 401 do Swagger ainda não vale). Sem cabeçalho: 401. Trate os dois como problema de chave e não repita em loop.
+- Validade: cabeçalho `X-ApiKey-Expires-At`. Uma chave medida valia só **~7 dias** após a emissão: olhe a validade ao abrir a sessão e peça a renovação ao time Rabi **com antecedência** (alerta automático a 15 dias).
 
 **Leitura**
 - `page` começa em **1**; `pageSize` máximo é **200**.
 - Leia até `totalPages` e confira que o total lido bate com `total`.
+- Envelope padrão `{dados, page, pageSize, total, totalPages}` em todas as listagens (as exceções antigas foram corrigidas em produção em 25/09; o cliente ainda aceita os formatos antigos).
 
 **Escrita**
-- **PUT sobrescreve** o registro inteiro. Exceções: as abas do convênio e `/parametros/desconto`. `/parametros/financeiro` é misto: sempre reenvie `categoriaPagamentoId` e `centroDeCustoId`. Regra prática: GET antes e reenvie o objeto completo — em serviço/produto convertido por `ferramentas/rabi_api/corpo_escrita.py` (a leitura tem outros nomes); nos dados do convênio montado da régua + dicionário de IDs (o GET não traz tudo).
+- **PUT sobrescreve** o registro inteiro. Exceções: as abas do convênio e `/parametros/desconto`. `/parametros/financeiro` é misto: sempre reenvie `categoriaPagamentoId` e `centroDeCustoId`. Regra prática: GET antes e reenvie o objeto completo — em serviço/produto convertido por `ferramentas/rabi_api/corpo_escrita.py` (a leitura tem outros nomes); nos dados do convênio o GET real serve de base, mas `unidadesIds` e `politicasPorTipoProduto` **não vêm** (complete da régua + dicionário de IDs e confira os nomes de leitura × escrita). O GET de serviço **não traz** composição nem especialidades.
 - `DELETE` é inativação lógica.
 
 **Lotes**
@@ -102,7 +103,7 @@ Lista completa: `conhecimento/api-externa/proibidas-sem-ordem-escrita.md`.
 - Monte `precos-<slug>.csv` com a coluna **origem** preenchida.
 - Monte o cenário com `ferramentas/conversao/montar_cenario.py` (fotos da API + políticas da régua; resolva as lacunas que ele listar) e rode `python3 ferramentas/conversao/simulador.py <cenario.json> --csv precos-<slug>.csv`. Mostre a prévia.
 - Grave as abas nesta ordem: Utiliza → valores → textos e códigos → tipo de atendimento → Pacote/Zerar.
-- Confira com `ferramentas/conversao/conferir_farol.py`: pelo menos 3 serviços por convênio (um simples, um com medicamento, um com pacote).
+- Confira com `ferramentas/conversao/conferir_farol.py` (a resposta real do Farol traz `conta_no_total` e `motivo_exclusao` por item): pelo menos 3 serviços por convênio (um simples, um com medicamento, um com pacote).
 
 Estudo completo: `conhecimento/precos-e-conversao/00-INDICE.md`.
 

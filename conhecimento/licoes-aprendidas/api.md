@@ -1,6 +1,6 @@
 # Lições — API externa do Rabi
 
-> **Fonte:** registros de uma implantação real anterior (sessões de 22 a 25/09/2026), generalizados · https://www.rabisistemas.com.br/manual/api-externa/erros-e-boas-praticas.html#armadilhas · **Conferido em:** 2026-09-25
+> **Fonte:** registros de uma implantação real anterior (sessões de 22 a 25/09/2026, incluindo leitura real só-GET em 25/09), generalizados · https://www.rabisistemas.com.br/manual/api-externa/erros-e-boas-praticas.html#armadilhas · **Conferido em:** 2026-09-25
 > **Vale para:** API externa em produção em 25/09/2026 · **Kit:** v0.1.0
 
 Convenções atuais da API: [../api-externa/00-INDICE.md](../api-externa/00-INDICE.md).
@@ -9,13 +9,16 @@ Origem das lições: [origem.md](origem.md).
 ## L01 — Chave inválida já respondeu 503, não 401
 
 **O que aconteceu:** a chave foi trocada três vezes num mesmo dia; as revogadas
-passaram a responder 503 ("serviço indisponível"; medição única em 25/09, reconfirmar). Uma sessão que tratasse 503
+passaram a responder 503 (`"Não foi possível validar a chave de API."`). Reconfirmado em
+25/09 ~12h em produção **e** homologação: chave inexistente e chave real não aceita
+(revogada/não ativada) → 503; sem cabeçalho → 401. Uma sessão que tratasse 503
 como instabilidade ficaria em laço de nova tentativa, sem nunca avisar que a
 chave morreu.
 **Regra que ficou:** 401 **e** 503 no primeiro teste = problema de chave. Pare,
-avise o usuário, peça a chave nova. Sem retry em loop. (Desde 25/09 o Swagger
-diz 401 para qualquer chave rejeitada e 503 só para falha de rede — trate os
-dois do mesmo jeito até a clínica confirmar.)
+avise o usuário, peça a chave nova. Sem retry em loop. (O Swagger de 25/09 diz 401 para chave rejeitada e 503 só para falha de rede —
+na prática, 503 = chave não aceita. Trate os dois do mesmo jeito.) A validade
+medida de uma chave de implantação foi de **~7 dias**: olhe
+`X-ApiKey-Expires-At` em toda abertura e peça a renovação cedo.
 **Como detectar:** toda chamada falha com 401/503 desde o início da sessão;
 cabeçalho `X-ApiKey-Expires-At` ausente ou vencido.
 
@@ -32,7 +35,11 @@ upsert (abas do convênio e dois parâmetros). Sempre: GET antes → montar o
 objeto **completo** com os nomes do **schema de escrita** do Swagger → prévia →
 gravar → GET depois e comparar **todos** os campos, não só o alterado. Para
 `/servicos` e `/produtos`, converta a leitura com `ferramentas/rabi_api/corpo_escrita.py`
-(ele recusa quando falta campo obrigatório de escrita).
+(ele recusa quando falta campo obrigatório de escrita). A leitura real (medida em
+25/09/2026) mostra por quê: o `GET /servicos/{id}` **não traz** a composição
+(produtos, taxa, subserviços, equipamentos) nem as especialidades — elas têm de
+vir do dicionário de IDs / da foto da prova da criação (S08); o `GET /produtos/{id}`
+traz fabricante, tipo, unidade e depósito **aninhados** (objeto, não id).
 **Como detectar:** diff depois × antes mostra campos que você não pretendia
 mudar (zerados, vazios, listas encolhidas).
 
@@ -44,12 +51,14 @@ limpa as datas; omitir `exigirToken` grava `false`; a lista de políticas por
 tipo de produto, quando enviada, é a lista completa (as que faltarem são
 inativadas).
 **Regra que ficou:** no PUT dos **dados** do convênio, mande o objeto
-**completo** — e ele **não** vem do GET: `GET /convenios/{id}` devolve só o
-resumo (sem unidades, prazos, datas de fim/reajuste/renovação, `exigirToken`
-nem políticas). Monte o corpo a partir da régua contratual
-(`dados/convenios/<slug>/regua-contratual.md`) e do dicionário de IDs
-(`dados/dicionario-de-ids.md`) e confira na tela antes e depois. Nunca mande
-só "o que mudou", nem "o que o GET devolveu".
+**completo**. O `GET /convenios/{id}` real (medido em 25/09/2026) traz datas,
+prazos, `exigirToken` e `faturadoPagamento` — use-o como base; mas
+`unidadesIds` e `politicasPorTipoProduto` **NÃO vêm** (nem `fatorK`): complete
+da régua contratual (`dados/convenios/<slug>/regua-contratual.md`) + dicionário
+de IDs (`dados/dicionario-de-ids.md`). Confira os nomes de leitura × escrita no
+schema do PUT (`ConvenioUpdate`) antes de reenviar (ex.: a leitura traz
+`empresaPrincipalId`, a escrita pede `empresaId`) e confira na tela antes e
+depois. Nunca mande só "o que mudou", nem "o GET cru".
 **Como detectar:** depois do PUT, operadora vazia, datas nulas, políticas
 inativadas.
 

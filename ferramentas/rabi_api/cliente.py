@@ -144,7 +144,10 @@ def normalizar_envelope(corpo) -> dict:
     """Devolve {'itens': [...], 'total': int|None, 'totalPages': int|None, 'formato': str}.
 
     Formatos reconhecidos:
-      {dados:[...], page, pageSize, total, totalPages}   (padrão desde 25/09/2026)
+      {dados:[...], page, pageSize, total, totalPages}   (padrão; em 25/09/2026 medido também em
+                                                          /tabelas-preco, /orcamentos, /financeiro/movimentacoes,
+                                                          /estoque/saldo-produtos, /grades-colaborador e nas
+                                                          abas e no Farol do convênio)
       {data:[...], meta:{total, totalPages|lastPage}}    (antigo /financeiro/movimentacoes)
       {message, data:[...]}                               (antigo /orcamentos)
       {items:[...], total, page, pageSize, totalPages}   (antigo /estoque/saldo-produtos)
@@ -320,9 +323,10 @@ class ClienteRabi:
                 resp.status, resp.texto, metodo, caminho)
         if resp.status == 503:
             raise ChaveInvalida(
-                f"503 em {onde} depois de nova tentativa: a API não conseguiu validar a chave. Pelo Swagger "
-                "de 25/09 isso é falha de rede/tempo, mas na prática (medido em 25/09) chave inexistente também dá 503. "
-                "Não vou repetir em loop: confira a chave e, se ela estiver certa, avise o time Rabi.",
+                f"503 em {onde} depois de nova tentativa: a API não aceitou a chave (\"Não foi possível validar "
+                "a chave de API.\"). Medido em 25/09 em produção e homologação: é assim que responde para chave "
+                "inexistente, revogada ou ainda não ativada (o 401 do Swagger ainda não vale). Não vou repetir em "
+                "loop: confira a chave e, se ela estiver certa, peça ao time Rabi para ativá-la ou renová-la.",
                 resp.status, resp.texto, metodo, caminho)
         raise ErroRabi(f"{resp.status} em {onde}: {msg_srv}", resp.status, resp.texto, metodo, caminho)
 

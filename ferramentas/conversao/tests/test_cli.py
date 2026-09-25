@@ -162,16 +162,35 @@ def test_conferir_sem_divergencia(capsys):
     assert "Nenhuma divergência" in capsys.readouterr().out
 
 
+def _farol(nome):
+    return copy.deepcopy(json.load(open(os.path.join(EX, f"farol-{nome}-convenio-a.json"), encoding="utf-8")))
+
+
+def _item(itens, raiz, iid):
+    return next(i for i in itens["dados"] if i["servico_raiz_id"] == raiz and i["item_id"] == iid)
+
+
+def test_exemplos_estao_no_formato_real():
+    """Os exemplos usam os nomes de campo medidos na resposta REAL de produção (25/09)."""
+    itens, prods, serv = _farol("itens"), _farol("produtos"), _farol("servicos")
+    for k in ("page", "pageSize", "total", "totalPages", "dados"):
+        assert k in itens and k in prods and k in serv
+    for campo in ("conta_no_total", "motivo_exclusao", "receita_item_total", "quantidade_efetiva",
+                  "receita_total_servico", "utiliza_no_convenio", "servico_pai_id", "farol_servico"):
+        assert campo in itens["dados"][0], campo
+    for campo in ("receita", "custo", "utiliza", "farol"):  # nomes do Swagger que a resposta real NÃO tem
+        assert campo not in itens["dados"][0], campo
+    for campo in ("receita_sem_zerar", "fonte_id", "fonte_nome", "fator_k", "origem_receita", "custo_status"):
+        assert campo in prods["dados"][0], campo
+
+
 def test_conferir_aponta_divergencias(tmp_path, capsys):
-    serv = json.load(open(os.path.join(EX, "farol-servicos-convenio-a.json"), encoding="utf-8"))
-    itens = json.load(open(os.path.join(EX, "farol-itens-convenio-a.json"), encoding="utf-8"))
-    serv = copy.deepcopy(serv)
+    serv, itens = _farol("servicos"), _farol("itens")
     for s in serv["dados"]:
         if s["servico_id"] == 303:
             s["receita_total"] = 121.0  # medicamento ficou fora (ex.: faltou Utiliza)
-    for i in itens["dados"]:
-        if i["servico_raiz_id"] == 304 and i["item_id"] == 104:
-            i["receita"] = 12.0  # tela mostra o preço do item zerado
+    _item(itens, 304, 104)["conta_no_total"] = True  # a API diz que o item zerado conta
+    _item(itens, 304, 104)["receita_item_total"] = 12.0
     itens["dados"] = [i for i in itens["dados"] if not (i["servico_raiz_id"] == 303 and i["item_id"] == 101)]
     rc = cf.main([CENARIO, "--servicos", _arq(tmp_path, "s.json", serv), "--itens", _arq(tmp_path, "i.json", itens),
                   "--saida", str(tmp_path / "rel.md")])
@@ -179,8 +198,75 @@ def test_conferir_aponta_divergencias(tmp_path, capsys):
     assert rc == 1
     assert "| [303] Medicamento Exemplo aplicado | (serviço) | receita_total | 176.0 | 121.0 |" in out
     assert "(ausente na API)" in out
-    assert "a API mostra o preço do item" in out
+    assert "| conta_no_total | False | True | motivo previsto: ZERADO_EM_PACOTE |" in out
+    assert "| receita_item_total | 0.0 | 12.0 |" in out
     assert (tmp_path / "rel.md").exists()
+
+
+def test_item_fora_com_preco_cheio_e_conta_no_total_nao_e_divergencia():
+    cat, conv = cenario_from_dict(json.load(open(CENARIO, encoding="utf-8")))
+    itens = _farol("itens")
+    _item(itens, 304, 104)["receita_item_total"] = 12.0  # preço cheio (2 × 6,00), mas conta_no_total = false
+    assert cf.conferir_itens(cat, conv, itens["dados"], 0.01, False) == []
+    _item(itens, 304, 104)["receita_item_total"] = 9.0
+    divs = cf.conferir_itens(cat, conv, itens["dados"], 0.01, False)
+    assert [(d.campo, d.lido) for d in divs] == [("receita_item_total", 9.0)]
+
+
+def test_itens_campos_reais_de_servico_e_quantidade():
+    cat, conv = cenario_from_dict(json.load(open(CENARIO, encoding="utf-8")))
+    itens = _farol("itens")
+    for i in itens["dados"]:
+        if i["servico_raiz_id"] == 302:
+            i["receita_total_servico"] = 100.0
+    _item(itens, 303, 102)["receita_unitaria"] = 1.5  # preço de casa em vez do convertido
+    _item(itens, 303, 102)["quantidade_efetiva"] = 3
+    _item(itens, 303, 102)["utiliza_no_convenio"] = False
+    divs = {(d.servico.split("]")[0], d.campo): d for d in cf.conferir_itens(cat, conv, itens["dados"], 0.01, False)}
+    assert divs[("[302", "receita_total_servico")].previsto == 121.0
+    assert divs[("[303", "receita_unitaria")].previsto == 2.0
+    assert "CONVERTIDO" in divs[("[303", "receita_unitaria")].nota
+    assert ("[303", "quantidade_efetiva") in divs and ("[303", "utiliza_no_convenio") in divs
+
+
+def test_itens_formato_antigo_do_swagger_continua_aceito():
+    """Compatibilidade: receita/custo/utiliza/farol (nomes do Swagger) sem os campos reais."""
+    cat, conv = cenario_from_dict(json.load(open(CENARIO, encoding="utf-8")))
+    antigos = []
+    for i in _farol("itens")["dados"]:
+        antigos.append({"servico_raiz_id": i["servico_raiz_id"], "item_tipo": i["item_tipo"], "item_id": i["item_id"],
+                        "item_nome": i["item_nome"], "receita": i["receita_item_total"],
+                        "custo": i["custo_item_total"], "utiliza": i["utiliza_no_convenio"]})
+    assert cf.conferir_itens(cat, conv, antigos, 0.01, False) == []
+    next(a for a in antigos if a["servico_raiz_id"] == 304 and a["item_id"] == 104)["receita"] = 12.0
+    divs = cf.conferir_itens(cat, conv, antigos, 0.01, False)
+    assert len(divs) == 1 and "a API mostra o preço do item" in divs[0].nota
+
+
+def test_produtos_campos_reais():
+    cat, conv = cenario_from_dict(json.load(open(CENARIO, encoding="utf-8")))
+    prods = _farol("produtos")
+    assert cf.conferir_produtos(cat, conv, prods["dados"], 0.01, False) == []
+    p104 = next(p for p in prods["dados"] if p["produto_id"] == 104)
+    assert p104["zerar_valor"] and p104["receita"] == 0.0 and p104["receita_sem_zerar"] == 6.0
+    p101 = next(p for p in prods["dados"] if p["produto_id"] == 101)
+    p101["receita_sem_zerar"] = p101["receita"] = 50.0
+    p101["fonte_nome"] = "PRECO FIXO CADASTRADO"
+    p101["fator_k"] = 0
+    divs = {d.campo: d for d in cf.conferir_produtos(cat, conv, prods["dados"], 0.01, False)}
+    assert set(divs) >= {"receita", "receita_sem_zerar", "fonte_nome", "fator_k"}
+    assert "origem_receita=" in divs["receita"].nota and "previsão: FONTE" in divs["receita"].nota
+
+
+def test_servicos_campos_reais_por_tipo():
+    cat, conv = cenario_from_dict(json.load(open(CENARIO, encoding="utf-8")))
+    serv = _farol("servicos")
+    s303 = next(s for s in serv["dados"] if s["servico_id"] == 303)
+    assert (s303["receita_produtos"], s303["receita_servicos"], s303["receita_taxas"]) == (61.0, 80.0, 35.0)  # 80 + 61 + 35 = 176
+    s303["receita_produtos"] = 0.0
+    s303["somar_itens"] = False
+    divs = {d.campo for d in cf.conferir_servicos(cat, conv, [s303], 0.01, False)}
+    assert divs == {"receita_produtos", "somar_itens"}
 
 
 def test_conferir_ignora_inativos(tmp_path):
@@ -188,3 +274,24 @@ def test_conferir_ignora_inativos(tmp_path):
     api = [{"servico_id": 305, "servico": "Serviço antigo (inativo)", "receita_total": 999, "servico_ativo": False}]
     assert cf.conferir_servicos(cat, conv, api, 0.01, True) == []
     assert cf.conferir_servicos(cat, conv, api, 0.01, False)
+
+
+# Nomes de campo das abas do convênio na resposta REAL de produção (GET medido em 25/09/2026).
+LEITURA_REAL_ABAS = {
+    "servicos": {"ativo", "autorizacaoPrevia", "codigo", "codigoConvenio", "codigoTuss", "descricaoConvenio", "id",
+                 "kitDocumentoId", "nomeConversao", "pacote", "parcelasMaximas", "retornoServico", "servicoId",
+                 "tabela87ANSId", "tipoAtendimentoId", "tipoCodigoId", "utiliza", "valorInternoConvenio", "zerarValor"},
+    "produtos": {"codigo", "codigoConversao", "codigoTiss", "codigoTuss", "descricaoConversao", "fatorK",
+                 "fontePrecoCompraOptionsId", "id", "nomeConversao", "parcelasMaximas", "produtoId", "tabela87ANSId",
+                 "tipoCodigoId", "tipoPrecificacao", "utiliza", "valorUnitarioConversao", "zerarValor"},
+    "taxas": {"codigo", "codigoTabelaConversao", "descricaoConversaoTabela", "descricaoConvertida", "id",
+              "nomeConvertido", "tabela87ANSId", "taxaId", "tipoCodigoId", "tipoTaxaId", "utiliza", "valorConvertido",
+              "zerarValor"},
+}
+
+
+def test_mapa_usa_os_nomes_da_leitura_real_das_abas():
+    for tipo, mapa in mc.MAPA.items():
+        reais = LEITURA_REAL_ABAS[mc.ABA[tipo]]
+        for campo in list(mapa.values()) + [mc.CHAVE_ID[tipo]]:
+            assert campo in reais, f"{tipo}.{campo} não aparece no GET real de /convenios/{{id}}/{mc.ABA[tipo]}"

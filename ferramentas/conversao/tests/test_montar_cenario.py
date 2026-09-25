@@ -115,3 +115,33 @@ def test_cli_grava_cenario_lido_pelo_simulador(tmp_path, capsys):
     from ferramentas.conversao import simulador
     assert simulador.main([str(tmp_path / "cenario.json")]) == 0
     assert "Convênio A" in capsys.readouterr().out
+
+
+FAROL_PRODUTOS = Path(__file__).resolve().parents[1] / "exemplos" / "farol-produtos-convenio-a.json"
+
+
+def test_farol_produtos_real_supre_custo_fonte_e_confere_preco():
+    """Sem --complemento-produtos: custo, fonte, Fator K e preço fixo vêm de /farol/produtos (formato real)."""
+    cen = json.loads(EX.read_text(encoding="utf-8"))
+    fotos, pols, _ = _fotos(cen)
+    fotos["farol_produtos"] = json.loads(FAROL_PRODUTOS.read_text(encoding="utf-8"))
+    novo, lacunas = mc.montar_cenario(fotos, pols, convenio_id=12, nome="Convênio A")
+    texto = " | ".join(lacunas)
+    assert "vieram de /farol/produtos" in texto
+    assert "previsão R$" not in texto  # o preço previsto bate com o que o Rabi calculou
+    assert not any("sem custo" in x for x in lacunas)
+    # 102 tem valor convertido na linha: o Farol não mostra fonte — a do cadastro continua lacuna
+    assert [x for x in lacunas if "sem fonte_preco" in x] == [x for x in lacunas if x.startswith("produto 102")]
+    p102 = next(p for p in novo["catalogo"]["produtos"] if p["id"] == 102)
+    assert p102["preco_venda_tabela"] == 1.5 and p102["custo"] == 0.5  # centavos → reais
+    cat0, c0 = cenario_from_dict(cen)
+    cat1, c1 = cenario_from_dict(novo)
+    for sid in cat0.servicos:  # neste convênio os números são os mesmos (a linha 🔒 pode divergir)
+        a, b = motor.calcular_servico(cat0, c0, sid), motor.calcular_servico(cat1, c1, sid)
+        assert (a.base, a.total, a.custo, a.farol) == (b.base, b.total, b.custo, b.farol), sid
+    # preço diferente do calculado pelo Rabi vira lacuna
+    fp = json.loads(FAROL_PRODUTOS.read_text(encoding="utf-8"))
+    next(x for x in fp["dados"] if x["produto_id"] == 103)["receita_sem_zerar"] = 9.99
+    fotos["farol_produtos"] = fp
+    _, lac2 = mc.montar_cenario(fotos, pols, convenio_id=12)
+    assert any(x.startswith("produto 103: previsão R$ 4.00 ≠ Farol R$ 9.99") for x in lac2)

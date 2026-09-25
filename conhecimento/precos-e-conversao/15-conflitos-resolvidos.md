@@ -111,16 +111,33 @@ marca **não confirmado** e diz como verificar.
 - **Prevalece:** manual (receitas F, G, I) com a cautela da regra antiga
   para itens de pacote.
 
-### C12. Farol › Itens pela API traz "conta no total" e motivo?
+### C12. Farol › Itens pela API traz "conta no total" e motivo? — RESOLVIDO em 25/09
 - **Versões:** (a) plano de sprints: `/farol/itens` traz `conta_no_total`,
   `motivo_exclusao`, `receita_total_servico`; `/farol/produtos` traz
   `origem_receita`, `fonte_nome`, `fator_k`, `dbg_*`; (b) Swagger e manual
   25/09: itens trazem só `servico_raiz_id, item_tipo, item_id, item_nome,
   custo, receita, farol, utiliza`; margem, valor efetivo e Conta no total
   **só na tela**.
-- **Decisão:** o motor e as conferências usam **só** os campos do Swagger;
-  campos extras, se aparecerem, são bônus.
-- **Prevalece:** Swagger 25/09 + guia-ia.html#alg-farol-itens.
+- **Evidência:** leitura real (só GET) na API de **produção** em 25/09/2026:
+  `conta_no_total` e `motivo_exclusao` **existem** na resposta; a resposta
+  real de itens usa `receita_item_total`, `custo_item_total`,
+  `utiliza_no_convenio`, `quantidade_efetiva`, `receita_unitaria` e os totais
+  do serviço raiz — e **não** traz `custo`, `receita`, `farol`, `utiliza` do
+  Swagger. `/farol/produtos` traz `origem_receita`, `fonte_id`, `fonte_nome`,
+  `fator_k`, `receita_sem_zerar`, `custo_status` e `dbg_*`. Lista completa em
+  [08-farol.md §3](08-farol.md#3-aba-farol-do-convênio-e-api).
+- **Decisão:** vale a **resposta real**; o Swagger está incompleto no Farol
+  ([defeitos-conhecidos](../api-externa/defeitos-conhecidos.md)).
+  `conferir_farol.py` usa os nomes reais como primários (inclusive
+  `conta_no_total`/`motivo_exclusao`) e aceita os do Swagger por
+  compatibilidade; `montar_cenario.py` usa `/farol/produtos` para custo,
+  fonte, Fator K e para conferir o preço previsto.
+- **Ainda aberto:** o significado exato de `receita_item_total` em item fora
+  da conta, de `quantidade_efetiva` e de `receita` com `zerar_valor`, e se
+  `fonte_id` = `fontePrecoCompraOptionsId` — o kit aceita as leituras
+  possíveis até confirmar gravando 1 item em homologação.
+- **Prevalece:** resposta real de produção (25/09) sobre Swagger 25/09 e
+  guia-ia.html#alg-farol-itens.
 
 ### C13. Fronteiras exatas do Farol
 - **Versões:** manual "≤ Vermelho → bloqueado" e T14 (100 = bloqueado);

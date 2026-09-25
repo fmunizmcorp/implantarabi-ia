@@ -311,7 +311,8 @@ PUT /convenios/{id}/produtos  { "produtos": [ { "produtoId": 120, "utiliza": tru
 PUT /convenios/{id}/taxas     { "taxas":    [ { "taxaId": 15,    "utiliza": true, "zerarValor": true } ] }
 # 3) conferir
 GET /convenios/{id}/farol/itens?servicoRaizId=47&apenasAtivosNoConvenio=true&pageSize=200
-    → itens zerados com receita 0; linha do serviço com receita = total esperado
+    → itens zerados com conta_no_total = false e motivo_exclusao = ZERADO_EM_PACOTE;
+      receita_total_servico = total esperado (nomes da resposta real de 25/09)
 GET /convenios/{id}/farol/servicos?servicoAtivo=true → receita_total do 47 = Σ esperado
 ```
 

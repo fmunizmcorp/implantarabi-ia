@@ -134,3 +134,64 @@ def test_produto_fornecedores_de_linhas_de_vinculo():
                    ProdutoFornecedor=[{"id": 1, "produtoId": 120, "fornecedorId": 5}])
     corpo = corpo_put_produto(leitura)
     assert corpo["fornecedores"] == [5] and corpo["principioAtivoId"] == 3
+
+
+# ---------- formas REAIS de leitura (GET de produção medido em 25/09/2026; valores fictícios) ----------
+
+def _leitura_servico_real():
+    """Exatamente as chaves do GET /servicos/{id} real: SEM composição e SEM especialidades."""
+    return {
+        "agendamentoId": None, "apenasComColaboradorDesignado": False, "ativo": True, "codigo": "A1",
+        "codigoTUSS": "20104090", "convenioId": None, "createdAt": "2026-01-01T00:00:00.000Z",
+        "descricao": "Aplicação endovenosa", "habilitarAgendamentoOnline": False, "id": 46,
+        "informacoesProAtendente": None, "linkAuxiliar": None, "nome": "Aplicação endovenosa",
+        "perfilFiscalId": None, "preparamentos": None, "regimeDeAtendimentoId": 1, "somarItens": False,
+        "tabelaANS87ID": 22, "tempoServico": 30, "tipoAtendimentoId": 5, "tipoCodigoId": 3, "tipoGuiaId": 2,
+        "tipoServicoId": 4, "updatedAt": "2026-01-02T00:00:00.000Z", "valor": 80.0,
+    }
+
+
+COMPOSICAO_E_ESPECIALIDADES = {"taxaServicoId", "valorTaxaServico", "especialidadesId", "produtoIds",
+                               "equipamentoIds", "servicosRelacionados"}
+
+
+def test_servico_forma_real_exige_composicao_e_especialidades_por_complemento():
+    with pytest.raises(CampoDeEscritaAusente) as e:
+        corpo_put_servico(_leitura_servico_real())
+    assert set(e.value.faltam) == COMPOSICAO_E_ESPECIALIDADES | {"preparo"}
+
+
+def test_servico_forma_real_com_complementos_da_s08():
+    comp = {"preparo": None, "taxaServicoId": 9, "valorTaxaServico": None, "especialidadesId": [12],
+            "produtoIds": [501, 502], "equipamentoIds": [], "servicosRelacionados": [47], "valor": 90.0}
+    corpo = corpo_put_servico(_leitura_servico_real(), complementos=comp)
+    assert set(corpo) == set(CAMPOS_SERVICO)
+    assert corpo["somarItems"] is False and corpo["tipoAtendimento"] == 5  # tipoAtendimentoId → tipoAtendimento
+    assert corpo["tabelaANS87ID"] == 22 and corpo["tempoServico"] == 30 and corpo["codigoTUSS"] == "20104090"
+    assert corpo["tipoServicoId"] == 4 and corpo["regimeDeAtendimentoId"] == 1 and corpo["valor"] == 90.0
+    for k in ("informacoesProAtendente", "perfilFiscalId", "agendamentoId", "convenioId", "id", "ativo"):
+        assert k not in corpo
+
+
+def _leitura_produto_real():
+    """Exatamente as chaves do GET /produtos/{id} real (objetos aninhados com inicial maiúscula)."""
+    return {
+        "Fabricante": {"id": 8, "nome": "Fabricante Exemplo"}, "TipoProduto": {"id": 4, "nome": "MEDICAMENTO"},
+        "UnidadeDeMedida": {"id": 6, "descricao": "Ampola", "termo": "AMP"}, "apresentacao": "Ampola",
+        "ativo": True, "codigoEAN": None, "codigoNCM": None, "codigoProduto": "P1", "contendo": 1,
+        "createdAt": "2026-01-01T00:00:00.000Z", "deposito": {"id": 2, "descricaoDeposito": "Depósito Principal"},
+        "id": 120, "nome": "Medicamento Exemplo 100mg", "permitirEstoqueNegativo": False, "prazoDeReposicao": 7,
+        "updatedAt": "2026-01-02T00:00:00.000Z", "valorUnitario": None,
+    }
+
+
+def test_produto_forma_real_mapeia_aninhados_e_lista_o_resto():
+    with pytest.raises(CampoDeEscritaAusente) as e:
+        corpo_put_produto(_leitura_produto_real())
+    assert set(e.value.faltam) == {"principioAtivoId", "cdId", "tipoCodigoId", "tabelaANS87ID",
+                                   "precoUltimaPesquisa", "dataUltimaPesquisa", "fornecedores", "anexos"}
+    comp = {c: None for c in e.value.faltam}
+    comp.update(fornecedores=[5], anexos=[])
+    corpo = corpo_put_produto(_leitura_produto_real(), complementos=comp)
+    assert (corpo["fabricanteId"], corpo["tipoProdutoId"], corpo["unidadeDeMedidaId"], corpo["depositoId"]) == (8, 4, 6, 2)
+    assert corpo["estoquePodeNegativar"] is False and "valorUnitario" not in corpo

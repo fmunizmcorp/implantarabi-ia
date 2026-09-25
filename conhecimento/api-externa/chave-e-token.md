@@ -95,6 +95,13 @@ Regras:
   nova ao time Rabi". Sem chave nova, a integração para com 401 no dia do vencimento.
 - Antes de uma implantação longa: se a chave vence antes do fim previsto, peça a nova
   **antes de começar**.
+- **Validade medida: ~7 dias.** Numa leitura real em produção (25/09/2026), a chave de
+  implantação vinha com `X-ApiKey-Expires-At` cerca de **7 dias depois da emissão**. Com
+  prazo tão curto, o alerta de 15 dias dispara desde o primeiro dia: a IA mostra a data de
+  vencimento **em toda abertura de sessão**, registra em `pendencias/PENDENCIAS.md` e pede
+  a renovação ao time Rabi (via dono da clínica) **alguns dias antes** — não no dia. Não
+  há autoatendimento para renovar. Chave vencida ou não renovada a tempo = 503/401 e a
+  implantação para.
 
 ## 4. Revogação
 
@@ -110,15 +117,16 @@ Regras:
 python3 .kit/ferramentas/rabi_api/testar_chave.py --saida provas/S00/teste-chave-AAAA-MM-DD.md
 ```
 
-Faz **uma leitura por grupo** (25 áreas), só `GET`, sem exibir dado de registro (pacientes:
+Faz **uma leitura por grupo** (25 áreas; numa chave de implantação completa, medida em
+25/09/2026, as 25 responderam OK), só `GET`, sem exibir dado de registro (pacientes:
 só a contagem). Mostra a tabela área → OK / SEM PERMISSÃO / CHAVE, a validade e os dias
 restantes, e grava um resumo Markdown **sem a chave**.
 
 | Resposta | O que significa | O que fazer |
 |---|---|---|
-| **401** | chave rejeitada: ausente, errada, vencida ou revogada | **não repetir**; conferir a chave; pedir nova ao time Rabi |
+| **401** | sem cabeçalho de autorização (`"Token não fornecido."`); pelo Swagger, também chave rejeitada | **não repetir**; conferir se a chave foi carregada; pedir nova ao time Rabi |
 | **403** | chave válida, mas **sem a permissão** da rota (a mensagem diz qual, ex.: `'paciente:read'`) | pedir chave com a permissão (tabela da seção 7) |
-| **503** | pelo Swagger de 25/09: falha de rede/tempo ao validar a chave. **Na prática, chave inexistente ainda responde 503** (medição única em 25/09/2026 03:07, reconfirmar) | o cliente tenta **uma vez** de novo e depois para com `ChaveInvalida`; sem loop. Se persistir com chave certa, avisar o time Rabi |
+| **503** | `"Não foi possível validar a chave de API."` = **chave não aceita**: inexistente, revogada ou ainda não ativada. Medido em 25/09/2026 (madrugada e ~12h) em produção **e** homologação, inclusive com uma chave real ainda não validada; o 401 que o Swagger promete ainda não vale para isso | o cliente tenta **uma vez** de novo e depois para com `ChaveInvalida`; sem loop. Com a chave certa: pedir ao time Rabi para ativá-la/renová-la |
 
 Atenção: em 3 rotas de parâmetros e nas 3 rotas `PUT /faturamento/glosas/*`, **401 não é
 problema de chave** — ver [defeitos-conhecidos.md](defeitos-conhecidos.md). O cliente

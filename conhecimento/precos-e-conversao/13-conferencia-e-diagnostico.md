@@ -1,6 +1,6 @@
 # 13 — Conferência depois de gravar e diagnóstico
 
-> **Fonte:** https://www.rabisistemas.com.br/manual/precos/guia-implantador.html#como-conferir · https://www.rabisistemas.com.br/manual/precos/guia-implantador.html#diagnostico · https://www.rabisistemas.com.br/manual/precos/guia-clinica.html#erros-comuns · https://www.rabisistemas.com.br/manual/precos/arvore-de-decisao.html#checklist · https://www.rabisistemas.com.br/manual/api-externa/implantacao-via-api.html#passo-11 · https://www.rabisistemas.com.br/manual/api-externa/implantacao-via-api.html#ler-farol-itens · experiência real (generalizada) · **Conferido em:** 2026-09-25
+> **Fonte:** https://www.rabisistemas.com.br/manual/precos/guia-implantador.html#como-conferir · https://www.rabisistemas.com.br/manual/precos/guia-implantador.html#diagnostico · https://www.rabisistemas.com.br/manual/precos/guia-clinica.html#erros-comuns · https://www.rabisistemas.com.br/manual/precos/arvore-de-decisao.html#checklist · https://www.rabisistemas.com.br/manual/api-externa/implantacao-via-api.html#passo-11 · https://www.rabisistemas.com.br/manual/api-externa/implantacao-via-api.html#ler-farol-itens · experiência real (generalizada) · leitura real (GET) da API de produção em 25/09/2026 · **Conferido em:** 2026-09-25
 > **Vale para:** produção desde 23–24/09/2026 · **Kit:** v0.1.0
 
 Gravar não é terminar. **Relido = confirmado.** Um convênio só está pronto
@@ -17,23 +17,35 @@ API, pela tela e por um orçamento/agendamento de teste.
    `GET /convenios/{id}/farol/servicos?servicoAtivo=true&ativoNoConvenio=true&pageSize=200`
    - `receita_total` = Σ previsto pelo simulador (I13);
    - `receita_propria_servico` = base prevista (✅, I11);
-   - `farol` e `margem_resultado_pct` coerentes com custo e régua.
+   - `receita_produtos` + `receita_taxas` (+ `receita_servicos` dos subserviços) explicam a Σ;
+   - `custo_total` / `custo_produtos`, `farol` e `margem_resultado_pct` coerentes com custo e régua;
+   - `somar_itens` e `zerar_valor` iguais ao que foi gravado.
 3. **Farol por item** de cada serviço conferido:
    `GET /convenios/{id}/farol/itens?servicoRaizId=<id>&apenasAtivosNoConvenio=true&servicoAtivo=true&pageSize=200`
-   - uma linha por item: `servico_raiz_id, item_tipo, item_id, item_nome,
-     custo, receita, farol, utiliza`;
-   - `utiliza=false` → fora (NAO_UTILIZA); `utiliza=true` com `receita=0` →
-     zerado em pacote fechado **ou** valor gravado 0 que deveria ser vazio;
-   - a linha do serviço traz o total; a de um subserviço, o total de dentro;
-   - "Conta no total", motivo e margem **só aparecem na tela** (calcule a
-     margem = receita ÷ custo × 100).
+   - uma linha por item, com os nomes da **resposta real** (medida em 25/09/2026;
+     o Swagger usa outros nomes): `item_tipo, item_id, item_nome,
+     servico_pai_id, quantidade, quantidade_efetiva, receita_unitaria,
+     receita_item_total, custo_item_total, utiliza_no_convenio, zerar_valor`;
+   - **`conta_no_total` + `motivo_exclusao`** (`NAO_UTILIZA_NO_CONVENIO`,
+     `ZERADO_EM_PACOTE`, `PAI_FORA_DO_TOTAL`) vêm pela API: conferência
+     **primária** de "entra / não entra" — compare com a previsão item a item;
+   - cada linha repete os totais do serviço raiz (`receita_total_servico`,
+     `custo_total_servico`, `margem_servico_pct`, `farol_servico`): têm de
+     bater com o passo 2;
+   - `receita_unitaria` diferente do previsto = cadeia de preço errada
+     (valor convertido, política, Fator K ou fonte — arquivo 04).
 4. **Farol por produto:**
    `GET /convenios/{id}/farol/produtos?ativoNoConvenio=true&produtoAtivo=true&pageSize=200`
-   - `receita` = valor efetivo do produto no convênio (arquivo 04);
-   - `custo` nulo → roxo (falta custo; confira de novo após as entradas de estoque).
-   > Experiência (fora do Swagger, **não confirmado**): respostas reais já
-   > trouxeram `origem_receita`, `fonte_nome`, `fator_k`, `conta_no_total`,
-   > `motivo_exclusao`. Se vierem, use como conferência extra; não dependa.
+   - `receita_sem_zerar` = preço do produto no convênio antes do Zerar (arquivo 04);
+     `receita` pode vir 0 com `zerar_valor` (não confirmado — o kit aceita as duas);
+   - `origem_receita`, `fonte_nome`/`fonte_id`, `tipo_precificacao`, `fator_k`
+     mostram **de onde** saiu o preço: use para achar a causa de um preço errado;
+   - `custo` nulo (ou `custo_status` indicando falta) → roxo: falta custo;
+     confira de novo após as entradas de estoque;
+   - `dbg_*_centavos` estão em **centavos** (divida por 100 antes de comparar).
+   - Tudo isso é feito por
+     `python3 .kit/ferramentas/conversao/conferir_farol.py cenario.json --servicos s.json --itens i.json --produtos p.json --ignorar-inativos`
+     (nomes reais como primários; aceita também os do Swagger).
 5. **Tela** (a IA descreve e o usuário confere, ou a IA lê se tiver acesso):
    - aba Serviços › linhas ✅ e Σ; botão **Expandir serviço** (árvore como
      sairá na guia, com farol por item);

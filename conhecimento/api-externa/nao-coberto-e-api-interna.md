@@ -43,8 +43,9 @@ de documentos).
 
 **Fonte de preço de compra (`fontePrecoCompraOptionsId`, aba Produtos do convênio):** não
 é um "id só na tela". O provável é que seja o `fontePrecoId` de
-`GET /tabelas-preco/precificacao` — **confirmar gravando 1 item em homologação** antes de
-usar em lote.
+`GET /tabelas-preco/precificacao` — e o `fonte_id`/`fonte_nome` que a resposta real de
+`GET /convenios/{id}/farol/produtos` traz (medido em 25/09/2026) provavelmente é o mesmo id,
+o que dá o nome da fonte. **Confirmar gravando 1 item em homologação** antes de usar em lote.
 
 Exceção útil: o **motivo de cancelamento** tem leitura em
 `GET /agendamentos/motivo-cancelamento`.

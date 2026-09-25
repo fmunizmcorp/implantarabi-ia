@@ -22,6 +22,17 @@ Uso:
     corpo = corpo_put_servico(atual, complementos={"valor": 40.0})   # aplica a mudança
     c.put("/servicos/46", corpo)
 
+Forma REAL medida em produção (GET de 25/09/2026; testes em test_corpo_escrita.py):
+- `GET /servicos/{id}` traz os ids no primeiro nível (`tipoServicoId`, `tipoCodigoId`, `tipoGuiaId`,
+  `tipoAtendimentoId`, `regimeDeAtendimentoId`, `tabelaANS87ID`), `codigoTUSS`, `tempoServico`,
+  `somarItens` e `valor`, mas **NÃO traz** a composição (`produtoIds`, `taxaServicoId`,
+  `valorTaxaServico`, `servicosRelacionados`, `equipamentoIds`), as especialidades
+  (`especialidadesId`) nem `preparo`. Esses vêm SEMPRE por `complementos`: do dicionário de IDs /
+  da foto da prova da criação (S08). Nunca "reenvie vazio".
+- `GET /produtos/{id}` traz `Fabricante`, `TipoProduto`, `UnidadeDeMedida` e `deposito` aninhados
+  (convertidos para ids aqui) e `permitirEstoqueNegativo`; não traz princípio ativo, CD, tipo de
+  código, tabela 87, última pesquisa, fornecedores nem anexos (→ `complementos`).
+
 Colaborador NÃO tem conversor: o GET de colaborador não traz `conselho`, `vinculoRepasse`,
 `mensagem` nem `uf`/`conselhoProfissionalId` de cada especialidade, que o `ColaboradorCreate`
 exige. Monte o corpo do PUT de colaborador a partir do cadastro do repo (dados da S09).

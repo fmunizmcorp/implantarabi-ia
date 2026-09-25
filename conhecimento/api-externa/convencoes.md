@@ -1,6 +1,6 @@
 # Convenções da API externa (paginação, envelope, valores, PUT, DELETE, lotes, erros)
 
-> **Fonte:** https://www.rabisistemas.com.br/manual/api-externa/index.html#convencoes (#paginacao, #valores, #put, #delete, #lotes, #codigos) · https://www.rabisistemas.com.br/manual/api-externa/erros-e-boas-praticas.html#armadilhas · Swagger (seção "Convenções gerais", snapshot `spec/openapi-2026-09-25.json`) · experiência de implantação real (24/09/2026) · **Conferido em:** 2026-09-25
+> **Fonte:** https://www.rabisistemas.com.br/manual/api-externa/index.html#convencoes (#paginacao, #valores, #put, #delete, #lotes, #codigos) · https://www.rabisistemas.com.br/manual/api-externa/erros-e-boas-praticas.html#armadilhas · Swagger (seção "Convenções gerais", snapshot `spec/openapi-2026-09-25.json`) · experiência de implantação real (24/09/2026) · leitura real (só GET) da API de produção em 25/09/2026 ~12h · **Conferido em:** 2026-09-25
 > **Vale para:** produção (Swagger de 25/09/2026) · **Kit:** v0.1.0
 
 O `ferramentas/rabi_api/cliente.py` já aplica quase tudo isto. Este arquivo explica o
@@ -36,15 +36,19 @@ falha.
 
 ## 2. Envelope das listagens (e as exceções)
 
-**Padrão (o Swagger de 25/09/2026 afirma que é único em toda listagem):**
+**Padrão (o Swagger de 25/09/2026 afirma que é único em toda listagem — e a leitura real de
+25/09 ~12h confirmou nas rotas que eram exceção):**
 
 ```json
 { "dados": [ ... ], "page": 1, "pageSize": 50, "total": 123, "totalPages": 3 }
 ```
 
-**Formatos antigos que o cliente ainda aceita** (medidos em produção em 24/09; o manual diz
-que as 4 rotas foram normalizadas em 25/09/2026 — o cliente continua aceitando os dois,
-por segurança):
+**Exceções corrigidas em produção — medido em 25/09/2026 ~12h:** `GET /tabelas-preco`,
+`/orcamentos`, `/financeiro/movimentacoes`, `/estoque/saldo-produtos` e `/grades-colaborador`
+devolvem o envelope padrão acima. As abas `GET /convenios/{id}/servicos|produtos|taxas` e o
+Farol `GET /convenios/{id}/farol/itens|servicos|produtos` também usam o envelope padrão,
+paginado. **Formatos antigos que o cliente ainda aceita** (medidos em 24/09; ficam só por
+segurança, caso algum ambiente volte ao formato antigo):
 
 | Formato | Rota onde foi visto | Como o cliente lê |
 |---|---|---|
@@ -162,7 +166,7 @@ mas omitir (ou mandar `0`, `""`, `false`) em `categoriaPagamentoId`/`centroDeCus
 |---|---|
 | `PUT /servicos/{id}` | sobrescreve — omitido **não é preservado** (inclusive composição, especialidades, valor) |
 | `PUT /pacientes/{id}` | sobrescreve os dados cadastrais |
-| `PUT /convenios/{id}` | substitui: `empresaId` e `unidadesIds` obrigatórios (unidade fora da lista é desativada); omitir `operadoraId` **remove** a operadora; omitir `dataFim`/`dataReajuste`/`dataRenovacao` **limpa**; omitir `exigirToken` grava `false`; `politicasPorTipoProduto`, se enviado, é a lista completa. **O `GET /convenios/{id}` não devolve esses campos** (só `id`, nomes, `cnpj`, `descricao`, `codigoANS`, `codigo`, `dataInicio`, `empresaPrincipalId`, `operadoraId`, `ativo`, datas de registro): monte o objeto completo a partir da régua contratual e do dicionário de IDs do repo da clínica e confira na tela antes e depois |
+| `PUT /convenios/{id}` | substitui: `empresaId` e `unidadesIds` obrigatórios (unidade fora da lista é desativada); omitir `operadoraId` **remove** a operadora; omitir `dataFim`/`dataReajuste`/`dataRenovacao` **limpa**; omitir `exigirToken` grava `false`; `politicasPorTipoProduto`, se enviado, é a lista completa. **O `GET /convenios/{id}` real (medido 25/09) traz mais que o Swagger** — datas (`dataInicio`, `dataFim`, `dataReajuste`, `dataRenovacao`), prazos (`prazoAutorizacao`, `prazoLimiteEntregaGuias`, `prazoPagamento`, `prazoPagamentoRecursoGlosa`, `prazoReajuste`, `prazoRecursoGlosa`, `prazoRetorno`), `exigirToken`, `faturadoPagamento`, `operadoraId`, contato, observação e ids de XML/kits: **use-o como base**. Mas **`unidadesIds`, `politicasPorTipoProduto` e `fatorK` NÃO vêm**: complete da régua contratual + dicionário de IDs do repo da clínica. E **confira os nomes de leitura × escrita** no schema `ConvenioUpdate` antes de reenviar: a leitura traz `empresaPrincipalId` (a escrita pede `empresaId`) e `kitDocumentosId`/`limiteParcelasConvenios` (a escrita tem `kitDocumentosPadrao`/`limiteParcelasConvenioParticular` — correspondência provável, **não confirmada**); `id`, `ativo`, `createdAt`, `updatedAt`, `markup`, `perfilFiscalId`, `kitDeProdutosId`, `photoConvenio` não entram no corpo. Confira na tela antes e depois |
 | `PUT /empresas/{id}` | substitui o cadastro inteiro |
 | `PUT /operadoras/{id}` | as listas `plano` e `contato` são sincronizadas: o que não vier é **removido** |
 | `POST /atendimentos/prontuario` | sobrescreve o texto sem guardar versão anterior |
@@ -240,14 +244,14 @@ especialidade de um serviço. Por isso o ritual sempre tem foto antes e depois.
 | 200/201/202 | sucesso | — | guarde o id devolvido |
 | 207 | lote com falha parcial | — | seção 6 |
 | 400 | dado inválido (a resposta traz a mensagem; às vezes `issues[]` com `path`/`message`) — ou DELETE com vínculos | não | corrigir o corpo |
-| 401 | chave rejeitada (ausente, errada, vencida, revogada) — **exceto** nas rotas com defeito ([defeitos-conhecidos.md](defeitos-conhecidos.md)) | não | parar; ver [chave-e-token.md](chave-e-token.md) |
+| 401 | sem cabeçalho (`"Token não fornecido."`); pelo Swagger, também chave rejeitada — mas na prática chave rejeitada ainda dá **503** (abaixo). **Exceto** nas rotas com defeito ([defeitos-conhecidos.md](defeitos-conhecidos.md)) | não | parar; ver [chave-e-token.md](chave-e-token.md) |
 | 403 | chave sem a permissão da rota | não | pedir a permissão |
 | 404 | id não existe nesta clínica/ambiente | não | conferir o id (homologação ≠ produção) |
 | 409 | já existe (CNPJ, CPF, nome de local/depósito/equipamento, login, conflito de grade) | não | buscar pelo GET e **reutilizar** o id |
 | 422 | referência inválida/inativa (quase sempre ordem de implantação) | não | criar/ativar o pré-requisito — [ordem-de-carga-via-api.md](ordem-de-carga-via-api.md) |
 | 429 | lote em andamento | sim, depois de esperar | um lote por vez |
 | 500 | erro do servidor | às vezes | reler para ver se gravou (há rotas que gravam e devolvem 500) |
-| 503 | falha ao validar a chave — e, medido em 25/09/2026, **ainda a resposta para chave inexistente** (medição única em 25/09, reconfirmar) | uma vez | depois parar e tratar como problema de chave |
+| 503 | `"Não foi possível validar a chave de API."` = **chave não aceita** (inexistente, revogada ou não ativada) — medido em 25/09/2026 duas vezes, em produção **e** homologação; o 401 do Swagger ainda não vale para isso | uma vez | depois parar e tratar como problema de chave (pedir ativação/renovação ao time Rabi) |
 
 Corpo de erro: `{ "error": "mensagem" }`.
 

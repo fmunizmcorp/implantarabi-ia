@@ -11,6 +11,6 @@ Todos os nomes, ids e valores são **fictícios** (Clínica Exemplo · Convênio
 | `precos-convenio-a.csv` | O mesmo convênio no formato do CSV, com origem | Modelo do CSV |
 | `precos-com-erros.csv` | CSV com 0,01, coluna fora da aba e linha sem origem | Ver as validações |
 | `atual-convenio-a.json` | Foto "antes" fictícia dos GET das abas | Ver a prévia de → para |
-| `farol-servicos-convenio-a.json`, `farol-itens-convenio-a.json`, `farol-produtos-convenio-a.json` | Respostas simuladas dos GET do Farol | Ver a conferência |
+| `farol-servicos-convenio-a.json`, `farol-itens-convenio-a.json`, `farol-produtos-convenio-a.json` | Respostas simuladas dos GET do Farol, com os **nomes de campo da resposta real** de produção (medidos em 25/09; valores fictícios) | Ver a conferência e montar o cenário com `--farol-produtos` |
 
 Totais previstos: 301 = R$ 180,00 · 302 = R$ 121,00 · 303 = R$ 176,00 (✅ 0,00) · 304 = R$ 120,00.

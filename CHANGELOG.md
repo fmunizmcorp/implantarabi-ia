@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.1.2 — 2026-09-25
+- Leitura real (só GET) com chave válida incorporada: envelopes padronizados em produção; campos reais
+  do Farol (`conta_no_total`, `motivo_exclusao`, `receita_sem_zerar`, `fonte_id`…) — Swagger incompleto;
+  GET real de convênio, serviço e produto documentados; `conferir_farol.py` e `montar_cenario.py` usam
+  os campos reais; 503 reconfirmado para chave não aceita; validade de chave medida em ~7 dias.
+
 ## v0.1.1 — 2026-09-25
 - Validação cruzada (19 achados) corrigida: PUT de convênio montado da régua (o GET não traz tudo);
   conversor leitura→escrita para serviço/produto (`ferramentas/rabi_api/corpo_escrita.py`);

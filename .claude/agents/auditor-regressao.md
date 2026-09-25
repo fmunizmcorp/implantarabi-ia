@@ -17,7 +17,9 @@ model: inherit
 3. Serviços com **Pacote** marcado.
 4. Produtos com **Zerar** marcado (e quantos deles são medicamento — alerta).
 5. Taxas com **Utiliza = sim** e valor preenchido.
-6. Itens com Farol **vermelho** ou **roxo** (`/convenios/{id}/farol/itens`).
+6. Serviços e produtos com Farol **vermelho** ou **roxo** (`/convenios/{id}/farol/servicos`
+   e `/farol/produtos`, campo `farol`; em `/farol/itens` a resposta real só traz
+   `farol_servico`, não há farol por item).
 
 Cruze cada contagem com o catálogo (`GET /servicos`, `/produtos`, `/taxas`,
 campo `ativo`): **o Farol e as abas também listam itens desativados** — conte

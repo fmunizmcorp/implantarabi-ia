@@ -1,6 +1,6 @@
 # S10a — Convênio: dados (fase 1)
 
-> **Fonte:** https://www.rabisistemas.com.br/manual/api-externa/implantacao-via-api.html#convenio-fase-1 · https://www.rabisistemas.com.br/manual/modulos/configuracoes.html#convenios-campos · https://www.rabisistemas.com.br/manual/precos/guia-clinica.html#aba-dados-convenio · spec `openapi-2026-09-25.json` (`POST /convenios`, `PUT /convenios/{id}`) · **Conferido em:** 2026-09-25
+> **Fonte:** https://www.rabisistemas.com.br/manual/api-externa/implantacao-via-api.html#convenio-fase-1 · https://www.rabisistemas.com.br/manual/modulos/configuracoes.html#convenios-campos · https://www.rabisistemas.com.br/manual/precos/guia-clinica.html#aba-dados-convenio · spec `openapi-2026-09-25.json` (`POST /convenios`, `PUT /convenios/{id}`) · leitura real (GET) da API de produção em 25/09/2026 · **Conferido em:** 2026-09-25
 > **Vale para:** produção · **Kit:** v0.1.0
 
 ## Objetivo
@@ -92,16 +92,18 @@ Detalhe do método: [../conhecimento/negocio-clinica/analise-de-contratos.md](..
 
 - `GET /convenios` e `GET /convenios/{id}` — casar por CNPJ e descrição.
 - Existe → diagnóstico NOVO / EM ANDAMENTO / FECHADO (modo Convênio). Corrigir =
-  montar o objeto **completo** a partir de `dados/convenios/<slug>/regua-contratual.md`
-  + `dados/dicionario-de-ids.md` e enviar o PUT (ver armadilhas). O `GET` **não**
-  serve de base: ele devolve só o resumo do convênio.
+  partir do `GET /convenios/{id}` real (traz datas, prazos, `exigirToken`,
+  `faturadoPagamento`, `operadoraId`), **completar** o que ele não traz
+  (`unidadesIds`, `politicasPorTipoProduto`, `fatorK`) a partir de
+  `dados/convenios/<slug>/regua-contratual.md` + `dados/dicionario-de-ids.md`,
+  converter os nomes de leitura para os de escrita e enviar o PUT (ver armadilhas).
 
 ## Gravação
 
 | Ordem | Rota | Permissão | Lote |
 |---|---|---|---|
 | 1 | `POST /convenios` | `convenio:create` | um por vez (o `/bulk`, até 50, só com ordem escrita e depois do 1º provado) |
-| Correção | objeto completo montado da régua + dicionário → `PUT /convenios/{id}` | `convenio:update` | — |
+| Correção | GET real + (unidades, políticas, fatorK) da régua + dicionário, nomes convertidos para a escrita → `PUT /convenios/{id}` | `convenio:update` | — |
 
 Exemplo fictício: `{"descricao":"Operadora Exemplo — Empresarial","dataInicio":"2026-10-01T00:00:00.000Z","empresaId":"<id>","unidadesIds":[<id>],"operadoraId":"<id>","prazoPagamento":30,"prazoRetorno":30}`
 
@@ -121,15 +123,24 @@ Exemplo fictício: `{"descricao":"Operadora Exemplo — Empresarial","dataInicio
   **desativadas** no convênio; omitir `operadoraId` remove a operadora; omitir
   datas (`dataFim`, `dataReajuste`, `dataRenovacao`) as limpa; omitir `exigirToken`
   grava `false`; `politicasPorTipoProduto`, quando enviado, é a lista **completa**.
-- **O `GET /convenios/{id}` não devolve o que o PUT exige.** O schema `Convenio`
-  traz só `id`, `nomeFantasia`, `razaoSocial`, `cnpj`, `descricao`, `codigoANS`,
-  `codigo`, `dataInicio`, `empresaPrincipalId`, `operadoraId`, `ativo`,
-  `createdAt`, `updatedAt` — sem `unidadesIds`, prazos, datas de fim/reajuste/renovação,
-  `exigirToken` nem políticas. Por isso "GET → alterar → reenviar" **apaga dados**.
-  Monte o objeto completo a partir de `dados/convenios/<slug>/regua-contratual.md` +
-  `dados/dicionario-de-ids.md` (`unidadesIds`, `operadoraId`, datas, prazos,
-  `exigirToken`, `politicasPorTipoProduto`) e **confira na tela antes e depois**
-  (print da tela de cadastro do convênio na prova).
+- **O `GET /convenios/{id}` real traz datas, prazos, `exigirToken` e
+  `faturadoPagamento` — use-o como base; mas `unidadesIds` e
+  `politicasPorTipoProduto` NÃO vêm** (nem `fatorK`). Medido em produção em
+  25/09/2026: além do Swagger (que só lista o resumo), a resposta real traz
+  `dataFim`, `dataReajuste`, `dataRenovacao`, `prazoAutorizacao`,
+  `prazoLimiteEntregaGuias`, `prazoPagamento`, `prazoPagamentoRecursoGlosa`,
+  `prazoReajuste`, `prazoRecursoGlosa`, `prazoRetorno`, `exigirToken`,
+  `faturadoPagamento`, `limiteParcelasConvenios`, `email`, `telefone`,
+  `pessoaDeContato`, `observacao`, `kitDocumentosId`, `xmlConsultaId`,
+  `xmlSpSadtId`. Reenviar o GET sem completar **desativa todas as unidades e
+  apaga as políticas**. Complete `unidadesIds` e `politicasPorTipoProduto`
+  (lista completa) da régua + `dados/dicionario-de-ids.md`, e **confira os nomes
+  de leitura × escrita no schema `ConvenioUpdate` antes de reenviar**:
+  `empresaPrincipalId` → `empresaId`; `kitDocumentosId` → `kitDocumentosPadrao`
+  e `limiteParcelasConvenios` → `limiteParcelasConvenioParticular` (provável, não
+  confirmado); tire `id`, `ativo`, `createdAt`, `updatedAt`, `markup`,
+  `perfilFiscalId`, `kitDeProdutosId`, `photoConvenio`. **Confira na tela antes e
+  depois** (print da tela de cadastro do convênio na prova).
 - Registro ANS: `registroANS` na criação, `codigoANS` na atualização.
 - `empresaId` e `operadoraId` são **texto** no schema; `unidadesIds` é lista de números.
 - `fatorK` do cadastro do convênio: unidade e efeito **não confirmados** (o spec

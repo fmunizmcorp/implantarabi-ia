@@ -69,7 +69,11 @@ Conversor leitura → escrita: `corpo_escrita.py` (`corpo_put_servico`, `corpo_p
 Todo campo do schema de escrita precisa ser resolvido pela leitura ou por `complementos`
 (`None` explícito = limpar); senão levanta `CampoDeEscritaAusente` com a lista. Não há
 conversor de colaborador (o GET não traz conselho, repasse etc.): monte o corpo do repo.
-Convênio (`PUT /convenios/{id}`): o GET também não serve de base — ver
+Forma real medida em 25/09/2026: o `GET /servicos/{id}` **não traz** composição nem
+especialidades (sempre por `complementos`, do dicionário de IDs / da prova da criação); o
+`GET /produtos/{id}` traz fabricante, tipo, unidade e depósito aninhados (o conversor tira o id).
+Convênio (`PUT /convenios/{id}`): o GET real serve de base (datas, prazos, `exigirToken`),
+mas `unidadesIds`, `politicasPorTipoProduto` e `fatorK` não vêm e alguns nomes mudam — ver
 `conhecimento/api-externa/convencoes.md` §4.2.
 
 ## 4. Foto e diff (ritual de toda gravação)

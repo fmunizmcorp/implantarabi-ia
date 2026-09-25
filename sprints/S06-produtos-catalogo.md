@@ -1,6 +1,6 @@
 # S06 — Produtos (catálogo)
 
-> **Fonte:** https://www.rabisistemas.com.br/manual/implantacao/guia-implantacao.html#etapa-6 · https://www.rabisistemas.com.br/manual/api-externa/implantacao-via-api.html#passo-6 · https://www.rabisistemas.com.br/manual/modulos/estoque.html#produto-obrigatorios-api · spec `openapi-2026-09-25.json` (`POST /produtos`, `/produtos/bulk`) · **Conferido em:** 2026-09-25
+> **Fonte:** https://www.rabisistemas.com.br/manual/implantacao/guia-implantacao.html#etapa-6 · https://www.rabisistemas.com.br/manual/api-externa/implantacao-via-api.html#passo-6 · https://www.rabisistemas.com.br/manual/modulos/estoque.html#produto-obrigatorios-api · spec `openapi-2026-09-25.json` (`POST /produtos`, `/produtos/bulk`) · leitura real (GET) da API de produção em 25/09/2026 · **Conferido em:** 2026-09-25
 > **Vale para:** produção (ordem corrigida em 24/09/2026: produtos antes dos serviços) · **Kit:** v0.1.0
 
 ## Objetivo
@@ -74,8 +74,10 @@ codificar), SA-3 (cadastro do sistema anterior).
 - `GET /produtos?ativo=true&nome=<termo>` e `GET /produtos` — casar por EAN,
   código interno e nome normalizado **com dose**.
 - Existe → reutilizar; diferenças viram proposta.
-- O campo `valorUnitario` da leitura do produto **não é preço de venda** (a API
-  não expõe o preço calculado). Não use para conferir preço.
+- O campo `valorUnitario` da leitura do produto **não é preço de venda**. Não use
+  para conferir preço. O preço calculado **por convênio** aparece em
+  `GET /convenios/{id}/farol/produtos` (`receita`, `receita_sem_zerar`, com
+  `fonte_nome` e `fator_k`) — use-o na S10b/S11.
 
 ## Gravação
 
@@ -86,8 +88,10 @@ codificar), SA-3 (cadastro do sistema anterior).
 | Correção | `GET /produtos/{id}` → `corpo_put_produto()` (`ferramentas/rabi_api/corpo_escrita.py`) → `PUT /produtos/{id}` completo | `produto:update` | — |
 
 - Exemplo mínimo (fictício): `{"nome":"Soro fisiológico 0,9% 500 ml","codigoProduto":"PRD-0001","apresentacao":"Frasco 500 ml","contendo":1,"depositoId":<id>,"tipoProdutoId":<id>,"fabricanteId":<id>,"unidadeDeMedidaId":<id>,"prazoDeReposicao":15}`
-- A leitura traz `TipoProduto`, `Fabricante`, `deposito`, `UnidadeDeMedida` como objetos e
-  `permitirEstoqueNegativo`; a escrita quer `tipoProdutoId`, `fabricanteId`, `depositoId`,
+- A leitura real (medida em 25/09/2026) traz `TipoProduto`, `Fabricante`, `deposito`,
+  `UnidadeDeMedida` como objetos aninhados e `permitirEstoqueNegativo`, e **não** traz
+  princípio ativo, CD, tipo de código, tabela 87, última pesquisa, fornecedores nem
+  anexos (guarde-os no dicionário de IDs / no corpo enviado na prova da criação); a escrita quer `tipoProdutoId`, `fabricanteId`, `depositoId`,
   `unidadeDeMedidaId`, `estoquePodeNegativar`. O conversor faz isso e **recusa** (com a
   lista) quando o GET não traz algum campo de escrita — complete com o cadastro do repo.
 - 422 = referência inválida (depósito, tipo, fabricante ou unidade inexistente).

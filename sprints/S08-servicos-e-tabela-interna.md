@@ -1,6 +1,6 @@
 # S08 — Serviços (subserviços antes) e tabela de preço interna
 
-> **Fonte:** https://www.rabisistemas.com.br/manual/implantacao/guia-implantacao.html#etapa-8 · https://www.rabisistemas.com.br/manual/api-externa/implantacao-via-api.html#passo-8 · https://www.rabisistemas.com.br/manual/api-externa/implantacao-via-api.html#passo-9b · https://www.rabisistemas.com.br/manual/precos/guia-implantador.html#servico-niveis · spec `openapi-2026-09-25.json` (`POST /servicos`, `PUT /servicos/{id}`, `POST /tabelas-preco`, `/tabelas-preco/produtos/bulk`) · **Conferido em:** 2026-09-25
+> **Fonte:** https://www.rabisistemas.com.br/manual/implantacao/guia-implantacao.html#etapa-8 · https://www.rabisistemas.com.br/manual/api-externa/implantacao-via-api.html#passo-8 · https://www.rabisistemas.com.br/manual/api-externa/implantacao-via-api.html#passo-9b · https://www.rabisistemas.com.br/manual/precos/guia-implantador.html#servico-niveis · spec `openapi-2026-09-25.json` (`POST /servicos`, `PUT /servicos/{id}`, `POST /tabelas-preco`, `/tabelas-preco/produtos/bulk`) · leitura real (GET) da API de produção em 25/09/2026 · **Conferido em:** 2026-09-25
 > **Vale para:** produção (regra única do serviço composto em produção desde 23–24/09/2026) · **Kit:** v0.1.0
 
 ## Objetivo
@@ -87,8 +87,21 @@ venda tabela".
 
 ## Leitura do que já existe no Rabi e regra de não perder nada
 
-- `GET /servicos` (resumida) e `GET /servicos/{id}` (composição completa) —
-  casar por código TUSS, código interno e nome normalizado.
+- `GET /servicos` (resumida) e `GET /servicos/{id}` — casar por código TUSS,
+  código interno e nome normalizado.
+- **O `GET /servicos/{id}` real NÃO traz a composição nem as especialidades**
+  (medido em produção em 25/09/2026). Ele traz: `nome`, `descricao`, `codigo`,
+  `codigoTUSS`, `valor`, `somarItens`, `tempoServico`, `tipoServicoId`,
+  `tipoCodigoId`, `tipoGuiaId`, `tipoAtendimentoId`, `regimeDeAtendimentoId`,
+  `tabelaANS87ID`, `perfilFiscalId`, `linkAuxiliar`, `preparamentos`,
+  `informacoesProAtendente`, `habilitarAgendamentoOnline`,
+  `apenasComColaboradorDesignado`, `ativo`. **Composição** (`produtoIds`,
+  `taxaServicoId`, `valorTaxaServico`, `servicosRelacionados`, `equipamentoIds`)
+  e **especialidades** (`especialidadesId`) têm de vir do
+  `dados/dicionario-de-ids.md` / `dados/catalogo/composicao.md` e da **foto da
+  prova da criação** (`provas/S08/servico-<codigo>/` — guarde sempre o corpo
+  enviado no POST). Sem isso, não há como corrigir o serviço sem apagar a
+  composição.
 - Serviço existente: **GET completo antes de qualquer mudança**; o PUT sobrescreve.
 - Serviços duplicados (mesma consulta cadastrada duas vezes) são sintoma de
   cadastro repetido: resolver com o dono **antes** dos convênios.
@@ -115,8 +128,11 @@ em https://www.rabisistemas.com.br/manual/precos/guia-implantador.html#regra-uni
 
 ## Prova
 
-- `provas/S08/servico-<codigo>/` com `depois.json` = `GET /servicos/{id}`
-  (mostra a composição completa e `somarItens`).
+- `provas/S08/servico-<codigo>/` com `corpo.json` (o **corpo enviado** no POST/PUT
+  — é a única fonte da composição e das especialidades, que o GET não devolve) e
+  `depois.json` = `GET /servicos/{id}` (confere `valor`, `somarItens`, códigos e
+  tipos). A composição se confere pela tela (aba do serviço) ou pelo Farol ›
+  Itens de um convênio que utiliza o serviço (S10b).
 - Review: árvore de cada composto (pai → subserviços → produtos/taxas), com
   nomes; contagem esperado × gravado.
 - Tabela interna: `GET /tabelas-preco`, `GET /tabelas-preco/produtos?id=<id>`,
@@ -135,7 +151,11 @@ em https://www.rabisistemas.com.br/manual/precos/guia-implantador.html#regra-uni
   (`ferramentas/rabi_api/corpo_escrita.py`), que troca os nomes, converte objetos
   aninhados em IDs (`especialidadesId`, `produtoIds`, `servicosRelacionados`,
   `taxaServicoId`…) e **recusa** com a lista do que falta quando o GET não traz
-  um campo de escrita — aí complete com o cadastro do repo (`dados/`).
+  um campo de escrita — aí complete com o cadastro do repo (`dados/`). Com o GET
+  real isso **sempre** acontece para `produtoIds`, `taxaServicoId`,
+  `valorTaxaServico`, `servicosRelacionados`, `equipamentoIds`,
+  `especialidadesId` e `preparo`: passe-os em `complementos` a partir do
+  dicionário de IDs / da prova da criação.
 - **Pacote não existe no cadastro do serviço:** é marcado por convênio (S10b).
 - **Serviço de aplicação × serviço de medicamento:** a aplicação costuma ter
   valor fixo (sem somar itens); o serviço "medicamento X aplicado" soma a

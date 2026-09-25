@@ -18,7 +18,12 @@ Entradas (todas JSON; envelope ``{dados: [...]}``, ``{data: [...]}`` ou lista cr
                   {"tipo_produto" | "tipoProdutoId", "fonte_preco" (nome ou id), "tipo_precificacao",
                    "fator_k", "ativa"}
   opcionais:
-  --farol-produtos GET /convenios/{id}/farol/produtos  → custo do produto (aba Estoque)
+  --farol-produtos GET /convenios/{id}/farol/produtos (RECOMENDADO) → por produto: custo, fonte
+                  (fonte_id/fonte_nome), tipo_precificacao, fator_k, preço de venda fixo
+                  (dbg_preco_venda_tabela_centavos ÷ 100), última compra (dbg_ultima_compra_reais) e o
+                  preço que o Rabi calculou (receita_sem_zerar/receita) — usado para CONFERIR a previsão.
+                  Fonte, tipo e Fator K do Farol são os EFETIVOS neste convênio (podem vir da política
+                  ou da linha): o kit os usa só quando --complemento-produtos não traz o do cadastro.
   --ultima-compra  {"<produtoId>": GET /estoque/ultima-compra/{id}, ...}
   --tabelas-preco  [{"tabela": "<nome>", "resposta": GET /tabelas-preco/produtos?id=<id>}, ...]
   --precificacao   GET /tabelas-preco/precificacao  → nome da fonte de preço por id
@@ -49,6 +54,7 @@ RAIZ_KIT = Path(__file__).resolve().parents[2]
 if str(RAIZ_KIT) not in sys.path:
     sys.path.insert(0, str(RAIZ_KIT))
 
+from ferramentas.conversao import motor  # noqa: E402
 from ferramentas.conversao.modelo import cenario_from_dict  # noqa: E402
 from ferramentas.rabi_api.corpo_escrita import MAPA_SERVICO, CampoDeEscritaAusente, _AUSENTE  # noqa: E402
 
@@ -138,6 +144,14 @@ def montar_cenario(fotos: dict, politicas: list, *, convenio_id: int = 0, nome: 
     if fontes:
         lacunas.append("fontePrecoCompraOptionsId foi lido como o `fontePrecoId` de "
                        "/tabelas-preco/precificacao (provável, NÃO confirmado): grave 1 item em homologação.")
+    # /farol/produtos (resposta real de 25/09): custo, fonte, Fator K e o preço calculado pelo Rabi
+    farol_p = {int(x["produto_id"]): x for x in lista(fotos.get("farol_produtos")) if "produto_id" in x}
+    novas_fontes = {x["fonte_id"]: x["fonte_nome"] for x in farol_p.values()
+                    if x.get("fonte_id") is not None and x.get("fonte_nome") and x["fonte_id"] not in fontes}
+    if novas_fontes:
+        fontes.update(novas_fontes)
+        lacunas.append("fonte_id de /farol/produtos foi lido como o mesmo id de fontePrecoCompraOptionsId "
+                       "(provável, NÃO confirmado): grave 1 item em homologação e releia.")
 
     def nome_fonte(v):
         if v is None or isinstance(v, str):
@@ -177,8 +191,7 @@ def montar_cenario(fotos: dict, politicas: list, *, convenio_id: int = 0, nome: 
         })
 
     # ---- catálogo: produtos
-    custo_farol = {int(x["produto_id"]): x.get("custo") for x in lista(fotos.get("farol_produtos"))
-                   if "produto_id" in x}
+    do_farol: list[int] = []
     ultima = {str(k): v for k, v in (fotos.get("ultima_compra") or {}).items()}
     precos_tab: dict[int, dict] = {}
     for bloco in fotos.get("tabelas_preco") or []:
@@ -208,8 +221,19 @@ def montar_cenario(fotos: dict, politicas: list, *, convenio_id: int = 0, nome: 
         for campo in CAMPOS_PRODUTO_ESTOQUE:
             if campo in comp:
                 item[campo] = comp[campo]
-        if "custo" not in item and custo_farol.get(pid) is not None:
-            item["custo"] = custo_farol[pid]
+        fp = farol_p.get(pid, {})
+        if "custo" not in item and fp.get("custo") is not None:
+            item["custo"] = fp["custo"]
+        if "ultima_compra" not in item and fp.get("dbg_ultima_compra_reais"):
+            item["ultima_compra"] = fp["dbg_ultima_compra_reais"]
+        if "preco_venda_tabela" not in item and fp.get("dbg_preco_venda_tabela_centavos") is not None:
+            item["preco_venda_tabela"] = fp["dbg_preco_venda_tabela_centavos"] / 100.0  # centavos → reais
+        if item.get("fonte_preco") is None and (fp.get("fonte_nome") or fp.get("fonte_id") is not None):
+            item["fonte_preco"] = fp.get("fonte_nome") or fp.get("fonte_id")
+            for campo, chave in (("tipo_precificacao", "tipo_precificacao"), ("fator_k", "fator_k")):
+                if campo not in item and fp.get(chave) is not None:
+                    item[campo] = fp[chave]
+            do_farol.append(pid)
         if item.get("fonte_preco") is not None:
             item["fonte_preco"] = nome_fonte(item["fonte_preco"])
         faltam = [c for c in ("custo", "fonte_preco") if item.get(c) is None]
@@ -217,6 +241,12 @@ def montar_cenario(fotos: dict, politicas: list, *, convenio_id: int = 0, nome: 
             lacunas.append(f"produto {pid} ({item['nome']}): sem {', '.join(faltam)} (aba Estoque; a API não "
                            "devolve) — informe em --complemento-produtos ou --farol-produtos.")
         produtos.append(item)
+
+    if do_farol:
+        lacunas.append(f"produtos {', '.join(map(str, do_farol))}: fonte/tipo/Fator K vieram de /farol/produtos "
+                       "(valor EFETIVO neste convênio — pode ser da política ou da linha). Servem para prever ESTE "
+                       "convênio; o preço de casa (linha 🔒) e outros convênios podem divergir — confirme o "
+                       "cadastro (aba Estoque) em --complemento-produtos.")
 
     # ---- catálogo: taxas
     taxas = [{"id": int(t["id"]), "nome": _pega(t, "taxas", "nome", padrao=f"Taxa {t['id']}"),
@@ -283,7 +313,19 @@ def montar_cenario(fotos: dict, politicas: list, *, convenio_id: int = 0, nome: 
                      "parametro_vermelho": vermelho if vermelho is not None else 100,
                      "parametro_amarelo": amarelo if amarelo is not None else 120},
     }
-    cenario_from_dict(cenario)  # garante que o simulador consegue ler
+    cat, conv = cenario_from_dict(cenario)  # garante que o simulador consegue ler
+    # confere o preço previsto contra o que o Rabi calculou (receita_sem_zerar ou receita)
+    for pid, fp in sorted(farol_p.items()):
+        lido = fp.get("receita_sem_zerar")
+        if lido is None and not fp.get("zerar_valor"):
+            lido = fp.get("receita")  # sem receita_sem_zerar: só confere se o item não está zerado
+        if lido is None or pid not in cat.produtos:
+            continue
+        pr = motor.valor_produto(cat.produtos[pid], conv)
+        if abs(pr.valor - float(lido)) > 0.01:
+            lacunas.append(f"produto {pid}: previsão R$ {pr.valor:.2f} ≠ Farol R$ {float(lido):.2f} "
+                           f"(Farol: origem_receita={fp.get('origem_receita')}, fonte={fp.get('fonte_nome')}, "
+                           f"fator_k={fp.get('fator_k')}; previsão: {pr.detalhe}). Corrija a régua/complemento.")
     return cenario, lacunas
 
 

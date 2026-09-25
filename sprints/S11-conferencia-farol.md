@@ -1,6 +1,6 @@
 # S11 — Conferência pelo Farol
 
-> **Fonte:** https://www.rabisistemas.com.br/manual/implantacao/guia-implantacao.html#etapa-11 · https://www.rabisistemas.com.br/manual/api-externa/implantacao-via-api.html#passo-11 · https://www.rabisistemas.com.br/manual/api-externa/implantacao-via-api.html#ler-farol-itens · https://www.rabisistemas.com.br/manual/precos/guia-implantador.html#como-conferir · spec `openapi-2026-09-25.json` (`GET /convenios/{id}/farol/itens|servicos|produtos`, `GET|PUT /parametros/orcamento`) · **Conferido em:** 2026-09-25
+> **Fonte:** https://www.rabisistemas.com.br/manual/implantacao/guia-implantacao.html#etapa-11 · https://www.rabisistemas.com.br/manual/api-externa/implantacao-via-api.html#passo-11 · https://www.rabisistemas.com.br/manual/api-externa/implantacao-via-api.html#ler-farol-itens · https://www.rabisistemas.com.br/manual/precos/guia-implantador.html#como-conferir · spec `openapi-2026-09-25.json` (`GET /convenios/{id}/farol/itens|servicos|produtos`, `GET|PUT /parametros/orcamento`) · leitura real (GET) da API de produção em 25/09/2026 · **Conferido em:** 2026-09-25
 > **Vale para:** produção (Farol › Itens e farol consolidado em produção desde set/2026) · **Kit:** v0.1.0
 
 ## Objetivo
@@ -54,7 +54,8 @@ limite amarelo; 🟡 amarelo entre os limites; 🔴 vermelho ≤ limite vermelho
 ## Enriquecimento possível
 
 - `ferramentas/conversao/conferir_farol.py`: compara o previsto pelo simulador
-  com `/farol/itens` e `/farol/servicos` e lista as divergências.
+  com `/farol/itens`, `/farol/servicos` e `/farol/produtos` (inclusive "conta no
+  total" e motivo de cada item) e lista as divergências.
 - Relatório por convênio: vermelhos e roxos com o motivo provável.
 
 ## Leitura do que já existe no Rabi e regra de não perder nada
@@ -64,11 +65,17 @@ limite amarelo; 🟡 amarelo entre os limites; 🔴 vermelho ≤ limite vermelho
 - Farol (sempre com os dois filtros de "ativo", e todas as páginas):
   - `GET /convenios/{id}/farol/servicos?servicoAtivo=true&ativoNoConvenio=true` —
     uma linha por serviço: `custo_total`, `receita_total`, `receita_propria_servico`,
-    `margem_resultado_pct`, `farol`;
+    `receita_produtos`, `receita_servicos`, `receita_taxas`, `margem_resultado_pct`, `farol`;
   - `GET /convenios/{id}/farol/itens?apenasAtivosNoConvenio=true&servicoAtivo=true`
-    (e `servicoRaizId=<id>` para um serviço) — a árvore item a item: `servico_raiz_id`,
-    `item_tipo`, `item_id`, `item_nome`, `custo`, `receita`, `farol`, `utiliza`;
-  - `GET /convenios/{id}/farol/produtos?ativoNoConvenio=true&produtoAtivo=true`.
+    (e `servicoRaizId=<id>` para um serviço) — a árvore item a item. Nomes da
+    **resposta real** (medida em 25/09/2026; o Swagger usa outros): `servico_raiz_id`,
+    `servico_pai_id`, `item_tipo`, `item_id`, `item_nome`, `quantidade`,
+    `quantidade_efetiva`, `receita_unitaria`, `receita_item_total`, `custo_item_total`,
+    `utiliza_no_convenio`, `zerar_valor`, **`conta_no_total`**, **`motivo_exclusao`** e os
+    totais do serviço raiz (`receita_total_servico`, `farol_servico`…). Não há farol por item;
+  - `GET /convenios/{id}/farol/produtos?ativoNoConvenio=true&produtoAtivo=true` —
+    `receita`, `receita_sem_zerar`, `custo`, `fonte_nome`, `fator_k`, `origem_receita`, `farol`.
+  - Lista completa: `conhecimento/precos-e-conversao/08-farol.md` §3 do kit.
 - O Farol também lista serviços **desativados** no catálogo: sem os filtros, a
   contagem erra.
 

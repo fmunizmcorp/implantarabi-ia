@@ -114,12 +114,15 @@ python3 .kit/ferramentas/conversao/simulador.py dados/convenios/convenio-a/cenar
 
 | Campo do cenário | Rota de origem (ou arquivo do repo) |
 |---|---|
-| `catalogo.servicos[]`: `nome`, `valor_cadastro`, `somar_itens`, `ativo`, `codigo_tuss`, `tipo_atendimento` | `GET /servicos/{id}` (`valor`, `somarItens`, `codigoTUSS`, `tipoAtendimento`) |
-| `catalogo.servicos[].itens` | `GET /servicos/{id}` quando traz a composição (`produtos`/`ServicoProduto`, `servicosRelacionados`, `taxaServico`, `equipamentos`); **senão** `--composicao` (árvore da S08). O schema do spec não documenta a composição: confira |
+| `catalogo.servicos[]`: `nome`, `valor_cadastro`, `somar_itens`, `ativo`, `codigo_tuss`, `tipo_atendimento` | `GET /servicos/{id}` (`valor`, `somarItens`, `codigoTUSS`, `tipoAtendimentoId`, `tipoCodigoId`, `tabelaANS87ID`) |
+| `catalogo.servicos[].itens` | `--composicao` (árvore da S08: dicionário de IDs / foto da prova da criação). O `GET /servicos/{id}` **real** (25/09) **não traz** a composição nem as especialidades; se algum dia trouxer (`produtos`/`ServicoProduto`, `servicosRelacionados`, `taxaServico`, `equipamentos`), é usada |
 | `catalogo.produtos[]`: `nome`, `tipo_produto`, `codigo` | `GET /produtos` (`TipoProduto.nome`, `codigoProduto`) |
 | `catalogo.produtos[].custo` | `--complemento-produtos` ou `GET /convenios/{id}/farol/produtos` (`custo`) |
-| `catalogo.produtos[].preco_venda_tabela`, `fonte_preco`, `tipo_precificacao`, `fator_k`, `ultima_pesquisa`, `preco_medio` | **só** `--complemento-produtos` (aba Estoque; a API não devolve) |
-| `catalogo.produtos[].ultima_compra` | `GET /estoque/ultima-compra/{id}` (`ultimaCompraUnitaria`; `0` = sem dado) |
+| `catalogo.produtos[].fonte_preco`, `tipo_precificacao`, `fator_k` | `--complemento-produtos` (cadastro, aba Estoque); na falta, `GET /convenios/{id}/farol/produtos` (`fonte_nome`/`fonte_id`, `tipo_precificacao`, `fator_k`) — **valor efetivo neste convênio** (pode vir da política ou da linha): vira lacuna avisando que a linha 🔒 e outros convênios podem divergir |
+| `catalogo.produtos[].preco_venda_tabela` | `--complemento-produtos`; na falta, `/farol/produtos` `dbg_preco_venda_tabela_centavos` ÷ 100 |
+| `catalogo.produtos[].ultima_pesquisa`, `preco_medio` | **só** `--complemento-produtos` (aba Estoque) |
+| `catalogo.produtos[].ultima_compra` | `GET /estoque/ultima-compra/{id}` (`ultimaCompraUnitaria`; `0` = sem dado); na falta, `/farol/produtos` `dbg_ultima_compra_reais` |
+| conferência do preço do produto | `/farol/produtos` `receita_sem_zerar` (ou `receita` se não zerado): previsão ≠ Rabi vira lacuna |
 | `catalogo.produtos[].precos_tabela` | `GET /tabelas-preco/produtos?id=<tabela>` (`tabelaPrecoInterna.precificacao1..3`) |
 | `catalogo.taxas[]` | `GET /taxas` (`taxas` = nome, `codigoTaxa`, `valor`) |
 | `convenio.servicos[]` | `GET /convenios/{id}/servicos` (`valorInternoConvenio`, `pacote`, `zerarValor`, `nomeConversao`, `tipoAtendimentoId`…) |
@@ -158,11 +161,24 @@ produto tem `custo`, `preco_venda_tabela`, `fonte_preco`, `tipo_precificacao`,
 7. **Filhos de subserviço** mostram valores por 1 unidade do pai; o pai multiplica.
 8. **Orçamento:** "usados" é informado por `tipo:id` e vale para todas as ocorrências do item na
    árvore. Item embutido = pacote fechado acima **e** Zerar do próprio item.
-9. **Farol › Itens pela API:** o spec só traz `servico_raiz_id, item_tipo, item_id, item_nome,
-   custo, receita, farol, utiliza`. `conta_no_total`, `motivo_exclusao`, `receita_total_servico`,
-   `origem_receita`, `fonte_nome` **não existem no spec de 25/09**; se vierem, são conferidos.
-   Se a `receita` de um item que a previsão diz "fora" vier igual ao preço dele, o relatório
-   anota em vez de afirmar erro (o manual não diz se a API devolve receita efetiva).
+9. **Farol pela API — nomes REAIS (medidos em produção em 25/09/2026).** O Swagger está
+   incompleto e, em `/farol/itens`, usa nomes que a resposta real não tem (`custo`, `receita`,
+   `farol`, `utiliza`). O `conferir_farol.py` usa os nomes reais como primários e aceita os do
+   Swagger por compatibilidade:
+   - `/farol/itens`: `receita_item_total`, `receita_unitaria`, `custo_item_total`, `quantidade`,
+     `quantidade_efetiva`, `conta_no_total`, `motivo_exclusao`, `utiliza_no_convenio`,
+     `zerar_valor`, `servico_pai_id` e, repetidos em cada linha, os totais do serviço raiz
+     (`receita_total_servico`, `custo_total_servico`, `margem_servico_pct`, `farol_servico`);
+   - `/farol/servicos`: além do Swagger, `receita_produtos`, `receita_servicos`,
+     `receita_taxas`, `custo_produtos`, `somar_itens`, `zerar_valor`, `qtd_*`;
+   - `/farol/produtos`: `receita`, `receita_sem_zerar`, `custo`, `custo_status`, `fator_k`,
+     `fonte_id`, `fonte_nome`, `origem_receita`, `tipo_precificacao`, `zerar_valor` e campos
+     `dbg_*` (em centavos quando o nome diz `_centavos`).
+   Ainda **não confirmado** pela fonte (o kit aceita as duas leituras, nunca acusa erro por elas):
+   `receita_item_total` de item fora da conta (0 ou preço cheio, se `conta_no_total` concorda);
+   `quantidade_efetiva` (quantidade × pais, ou 0 se fora); `receita` de produto com
+   `zerar_valor` (preço ou 0); `receita_servicos` (com ou sem o valor próprio); e se
+   `fonte_id` = `fontePrecoCompraOptionsId` (grave 1 item e releia).
 10. **Código do serviço no convênio:** a coluna `codigo` vai para `codigo` (nível 3).
     O spec também tem `codigoConvenio` e `codigoTuss`; o kit não os preenche.
 11. **Vazio no CSV limpa** valor e Fator K (envia `null`). Use `=` ou `manter` para não mexer.
