@@ -9,6 +9,6 @@ echo "- Arquivos modificados nesta sessão:"
 git status --porcelain 2>/dev/null | head -30 | sed 's/^/    /'
 echo "- Última prova gravada:"
 ls -1td provas/S*/*/* 2>/dev/null | head -3 | sed 's/^/    /'
-grep -m1 -F "**Próximo passo concreto:**" ESTADO.md 2>/dev/null | sed 's/^/- /'
+grep -m1 -F "**Próximo passo concreto:**" ESTADO.md 2>/dev/null | sed 's/\*\*//g'
 echo "Depois de compactar: releia ESTADO.md e a sprint atual. A verdade está nos arquivos."
 exit 0

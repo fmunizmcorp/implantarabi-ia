@@ -5,7 +5,8 @@
 - Nenhum outro arquivo passa de 5 MB (a spec OpenAPI em
   conhecimento/api-externa/spec/*.json também tem teto de 5 MB).
 - Toda pasta com arquivos .md ou de dados tem 00-INDICE.md ou README.md
-  (INDICE.md também vale). Ignora .git, .claude, __pycache__, tests, exemplos.
+  (INDICE.md também vale). Ignora .git, .claude, __pycache__, tests, exemplos e
+  documentos-do-cliente/recebidos/ (originais; o índice é o inventario.md).
 
 Saída: PASS/FAIL + lista. Código de saída 0 (pass) ou 1 (fail).
 Uso: python3 ferramentas/kit/verificar_tamanhos.py [--raiz DIR]
@@ -24,7 +25,7 @@ LIMITE_MD = 40 * 1024
 LIMITE_OUTROS = 5 * 1024 * 1024
 EXT_DADOS = {".csv", ".tsv", ".json", ".jsonl", ".xlsx", ".xls", ".xml", ".txt", ".pdf", ".zip", ".gz"}
 INDICES = {"00-INDICE.md", "README.md", "INDICE.md"}
-IGNORAR_INDICE = {".claude", "tests", "exemplos", ".github"}
+IGNORAR_INDICE = {".claude", "tests", "exemplos", ".github", "recebidos"}
 
 
 def verificar(raiz: Path) -> list[str]:

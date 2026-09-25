@@ -10,7 +10,8 @@ você fala com ela; senão, com o implantador/dono.
 
 Leia antes (pelo índice): `../conhecimento/precos-e-conversao/` (zero × vazio,
 Pacote/Zerar/Utiliza, 4 linhas do Valor, Farol), `../conhecimento/api-externa/`
-(convenções, proibidas), [S10](../sprints/S10-convenios.md) e
+(convenções, proibidas), [S10](../sprints/S10-convenios.md) (visão), [S10a — dados do convênio](../sprints/S10a-convenio-dados.md),
+[S10b — abas e preços](../sprints/S10b-convenio-abas-e-precos.md) e
 [S11](../sprints/S11-conferencia-farol.md). Skill: `configurar-convenio`.
 
 ## A ordem que não muda

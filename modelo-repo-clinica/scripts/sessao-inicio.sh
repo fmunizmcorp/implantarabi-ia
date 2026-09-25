@@ -52,7 +52,7 @@ fi
 # 3) Painel (ESTADO.md)
 if [ -f ESTADO.md ]; then
   for campo in "Clínica" "Porte" "Modo atual" "Sprint atual" "Próximo passo concreto" "Última sessão"; do
-    grep -m1 -F "**$campo:**" ESTADO.md 2>/dev/null | sed 's/^[-* ]*//'
+    grep -m1 -F "**$campo:**" ESTADO.md 2>/dev/null | sed 's/^- //; s/\*\*//g'
   done
 else
   echo "(ESTADO.md não existe — o repo foi gerado do modelo? Ver .kit/prompts/00-COMO-COMECAR.md)"

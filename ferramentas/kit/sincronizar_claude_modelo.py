@@ -26,7 +26,7 @@ PASTAS = ("agents", "skills", "commands")
 _PADRAO = re.compile(
     r"(?<![\w./-])"
     r"(conhecimento/|metodologia/|ferramentas/|prompts/|referencias/|"
-    r"sprints/S(?:\d\d|xx)-|BOOTSTRAP\.md|INDICE\.md(?!\S*\w))"
+    r"sprints/S(?:\d\d[a-z]?|xx)-|BOOTSTRAP\.md|INDICE\.md(?!\S*\w))"
 )
 
 

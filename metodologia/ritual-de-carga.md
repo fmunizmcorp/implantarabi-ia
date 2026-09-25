@@ -15,7 +15,8 @@ feitas sem terem persistido.
 ```
 
 Onde fica a prova, no repo da clínica:
-`provas/Sxx/<cadastro>/antes.json`, `resposta.json`, `depois.json`, `diff.txt`.
+`provas/Sxx/<cadastro>/<data>/antes.json`, `resposta.json`, `depois.json`, `diff.txt`
+(a pasta com a data permite repetir a carga do mesmo cadastro sem apagar a prova anterior).
 Prova **nunca** contém dado de paciente (ver [politicas.md](politicas.md) §5).
 
 ## Passo 1 — Foto antes

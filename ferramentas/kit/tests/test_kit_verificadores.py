@@ -93,7 +93,7 @@ def test_vazamento_detecta_padroes(tmp_path):
 
 def test_vazamento_ignora_teste_placeholder_modelo_e_referencias(tmp_path):
     escrever(tmp_path / "doc.md", "cpf de teste 529.982.247-25 e 111.111.111-11\nsenha: <defina>\nsenha: mínimo\n")
-    escrever(tmp_path / "modelo-repo-clinica" / "c.md", "senha: Troca@123\n")
+    escrever(tmp_path / "modelo-repo-clinica" / "c.md", "sen" + "ha: Troca@123\n")
     escrever(tmp_path / "referencias" / "t.csv", "rbk_" + "Abcdef123456789\n")
     escrever(tmp_path / "conhecimento" / "api-externa" / "spec" / "s.json", '{"x":"' + "rbk_" + 'Abcdef12345678"}')
     escrever(tmp_path / "ok.md", "rbk_" + "Abcdef123456789  <!-- vazamento-ok: exemplo -->\n")
@@ -107,11 +107,11 @@ def test_vazamento_rbk_curto_ou_placeholder_nao_acusa(tmp_path):
 
 # ---------- sincronização .claude → modelo ----------
 def test_reescrever_caminhos_do_kit():
-    t = "Leia `conhecimento/x.md`, rode `python3 ferramentas/conversao/motor.py`, playbook `sprints/S10-convenios.md`."
+    t = "Leia `conhecimento/x.md`, rode `python3 ferramentas/conversao/motor.py`, playbook `sprints/S10-convenios.md` e `sprints/S10b-convenio-abas-e-precos.md`."
     r = sinc.reescrever(t)
     assert "`.kit/conhecimento/x.md`" in r
     assert "python3 .kit/ferramentas/conversao/motor.py" in r
-    assert "`.kit/sprints/S10-convenios.md`" in r
+    assert "`.kit/sprints/S10-convenios.md`" in r and "`.kit/sprints/S10b-convenio-abas-e-precos.md`" in r
 
 
 def test_reescrever_preserva_caminhos_da_clinica():

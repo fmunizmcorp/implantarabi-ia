@@ -79,19 +79,21 @@ Rabi, a data da última alteração das linhas quando disponível.
 
 **A primeira coisa que a sessão entrega é uma tela dizendo o estado e por quê.**
 
-### Passo 0 — As 6 contagens de regressão
+### Passo 0 — As 6 contagens de regressão (R1–R6)
 
 Antes de mexer num convênio que já teve trabalho gravado, conte e compare com a
 última contagem registrada (em `dados/convenios/<slug>/contagens.md`):
 
 | # | Contagem | Como |
 |---|---|---|
-| 1 | Serviços com **Utiliza** marcado — só de serviços **ativos** no catálogo | `GET /convenios/{id}/servicos` cruzado com `GET /servicos?ativo=true` |
-| 2 | Serviços com Utiliza **sem valor combinado** (vazio) | mesma leitura |
-| 3 | Serviços com **Pacote** marcado | mesma leitura |
-| 4 | Itens (serviços, produtos, taxas) com **Zerar** marcado | abas Serviços, Produtos e Taxas |
-| 5 | Produtos e taxas com **Utiliza** marcado | `GET /convenios/{id}/produtos` e `/taxas` |
-| 6 | Serviços com Farol **vermelho ou roxo** | `GET /convenios/{id}/farol/servicos?farol=VERMELHO,ROXO&servicoAtivo=true` (use os nomes de cor exatamente como a API os devolve — confira na primeira leitura) |
+| R1 | Itens com **Utiliza**, por aba — só de itens **ativos** no catálogo | `GET /convenios/{id}/servicos`, `/produtos`, `/taxas` cruzado com `GET /servicos?ativo=true` (e produtos/taxas ativos) |
+| R2 | Itens com valor convertido preenchido — e quantos estão com 0 e com 0,01 | `valorInternoConvenio`, `valorUnitarioConversao`, `valorConvertido` não vazios |
+| R3 | Serviços com **Pacote** | `pacote = true` |
+| R4 | Itens com **Zerar**, por aba | `zerarValor = true` |
+| R5 | Serviços com Farol **vermelho ou roxo** | `GET /convenios/{id}/farol/servicos?farol=VERMELHO,ROXO&servicoAtivo=true` (use os nomes de cor exatamente como a API os devolve — confira na primeira leitura) |
+| R6 | Alterações em massa feitas por fora | muitas linhas do mesmo serviço alteradas na mesma hora em vários convênios; se a leitura não trouxer data de alteração, compare fotos datadas em `provas/` |
+
+Detalhe e checklist de fechamento: `conhecimento/precos-e-conversao/13-conferencia-e-diagnostico.md` do kit.
 
 - Leia **todas** as páginas (`linhas lidas = total`).
 - O Farol também lista serviços **desativados** no catálogo: cruze sempre com o
@@ -100,8 +102,6 @@ Antes de mexer num convênio que já teve trabalho gravado, conte e compare com 
 - Não bateu com a última contagem → **regressão**: identifique os itens, busque
   o valor original **na fonte** (documento/prova anterior, não na memória) e
   avise antes de qualquer outra coisa.
-- Sinal de alteração em massa feita por fora: muitas linhas do mesmo serviço
-  mudadas na mesma hora em vários convênios.
 
 ### Passo 1 — A régua contratual
 

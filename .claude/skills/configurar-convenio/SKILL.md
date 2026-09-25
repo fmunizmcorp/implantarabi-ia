@@ -7,7 +7,8 @@ description: Roteiro com atenção redobrada para configurar UM convênio no Sis
 
 Prompt completo do modo: `prompts/04-modo-convenio.md`. Regras de preço:
 `conhecimento/precos-e-conversao/` (leia pelo índice). Playbooks:
-`sprints/S10-convenios.md` e `sprints/S11-conferencia-farol.md`.
+`sprints/S10-convenios.md` (visão), `sprints/S10a-convenio-dados.md`,
+`sprints/S10b-convenio-abas-e-precos.md` e `sprints/S11-conferencia-farol.md`.
 
 ## Sequência
 1. **Diagnóstico do estado** do convênio: NOVO · EM ANDAMENTO · FECHADO
