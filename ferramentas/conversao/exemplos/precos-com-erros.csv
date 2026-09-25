@@ -1,0 +1,5 @@
+tipo;id_rabi;nome_rabi;utiliza;valor_combinado;pacote;zerar;fator_k;origem
+servico;301;Consulta clínica;sim;0,01;não;não;;Contrato
+produto;102;Seringa 5 ml;sim;2,00;sim;não;;Contrato
+taxa;201;Taxa de sala;sim;35,00;;não;10;Contrato
+servico;302;Aplicação endovenosa;sim;;não;não;;

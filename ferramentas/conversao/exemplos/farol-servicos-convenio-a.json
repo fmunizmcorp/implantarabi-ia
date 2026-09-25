@@ -1,0 +1,69 @@
+{
+ "_leia": "Resposta SIMULADA (fictícia) do GET /convenios/12/servicos para testes do kit; formato do spec 2026-09-25.",
+ "page": 1,
+ "pageSize": 200,
+ "total": 5,
+ "totalPages": 1,
+ "dados": [
+  {
+   "servico_id": 301,
+   "servico": "Consulta clínica",
+   "codigo": "10101012",
+   "custo_total": 0.0,
+   "receita_total": 180.0,
+   "receita_propria_servico": 180.0,
+   "margem_resultado_pct": 100.0,
+   "farol": null,
+   "ativo_no_convenio": true,
+   "servico_ativo": true
+  },
+  {
+   "servico_id": 302,
+   "servico": "Aplicação endovenosa",
+   "codigo": null,
+   "custo_total": 3.5,
+   "receita_total": 121.0,
+   "receita_propria_servico": 80.0,
+   "margem_resultado_pct": 97.11,
+   "farol": "VERDE",
+   "ativo_no_convenio": true,
+   "servico_ativo": true
+  },
+  {
+   "servico_id": 303,
+   "servico": "Medicamento Exemplo aplicado",
+   "codigo": null,
+   "custo_total": 33.5,
+   "receita_total": 176.0,
+   "receita_propria_servico": 0.0,
+   "margem_resultado_pct": 80.97,
+   "farol": "VERDE",
+   "ativo_no_convenio": true,
+   "servico_ativo": true
+  },
+  {
+   "servico_id": 304,
+   "servico": "Curativo em pacote",
+   "codigo": null,
+   "custo_total": 4.0,
+   "receita_total": 120.0,
+   "receita_propria_servico": 120.0,
+   "margem_resultado_pct": 96.67,
+   "farol": "VERDE",
+   "ativo_no_convenio": true,
+   "servico_ativo": true
+  },
+  {
+   "servico_id": 305,
+   "servico": "Serviço antigo (inativo)",
+   "codigo": null,
+   "custo_total": 0.0,
+   "receita_total": 10.0,
+   "receita_propria_servico": 10.0,
+   "margem_resultado_pct": 100.0,
+   "farol": null,
+   "ativo_no_convenio": false,
+   "servico_ativo": false
+  }
+ ]
+}

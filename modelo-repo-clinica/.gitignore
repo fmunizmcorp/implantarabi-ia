@@ -1,0 +1,19 @@
+# kit baixado a cada sessão (somente leitura; nunca versionar aqui)
+.kit/
+
+# LGPD: nenhum extrato de paciente no repo
+dados/pacientes/*
+!dados/pacientes/README.md
+!dados/pacientes/00-INDICE.md
+**/*pacientes*.csv
+**/*pacientes*.xlsx
+**/extrato-*
+**/*-pii.*
+
+# temporários
+*.tmp
+*.bak
+__pycache__/
+*.pyc
+.env
+.env.*

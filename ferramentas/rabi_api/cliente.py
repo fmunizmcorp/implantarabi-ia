@@ -35,6 +35,10 @@ import urllib.request
 BASE_PRODUCAO = "https://api.rabisistemas.com.br/api/v1/integrations"
 BASE_HOMOLOGACAO = "https://api.hmg.rabisistemas.dev/api/v1/integrations"
 ARQUIVO_CREDENCIAL = os.path.join("credenciais", "rabi-api-externa.md")
+# Rotas em que 401 NÃO é problema de chave (defeitos declarados no Swagger de 25/09/2026).
+ROTAS_401_SEM_SER_CHAVE = re.compile(
+    r"^/(parametros/desconto/colaborador/[^/]+|parametros/alcada-compra/colaborador/[^/]+|"
+    r"parametros/acolhimento/atualizar-validacoes/[^/]+|faturamento/glosas/(produto|taxa|servico))$")
 PADRAO_LINHA_CHAVE = re.compile(r"^\s*[-*>]?\s*`?\s*api_key\s*:\s*`?\s*(rbk_[^\s`'\"]+)", re.I | re.M)
 
 
@@ -288,6 +292,14 @@ class ClienteRabi:
         base = ErroRabi("", resp.status, resp.texto, metodo, caminho)
         msg_srv = base.mensagem_servidor()
         onde = f"{metodo} {caminho}"
+        if resp.status == 401 and ROTAS_401_SEM_SER_CHAVE.match(caminho.split("?")[0]):
+            raise ErroRabi(
+                f"401 em {onde}, mas nesta rota o 401 é defeito conhecido da API (não é a chave): "
+                f"'{msg_srv}'. Nas rotas POST /parametros/desconto|alcada-compra/colaborador e "
+                "acolhimento/atualizar-validacoes a chave de API sempre recebe 401 — faça pela tela. "
+                "Nas rotas PUT /faturamento/glosas/*, 401 = motivoGlosado inexistente. "
+                "Ver conhecimento/api-externa/defeitos-conhecidos.md.",
+                resp.status, resp.texto, metodo, caminho)
         if resp.status == 401:
             raise ChaveInvalida(
                 f"401 em {onde}: a API recusou a chave (ausente, errada, vencida ou revogada). "
@@ -319,10 +331,15 @@ class ClienteRabi:
                            "leitura vazia é leitura falha — não conclua nada com ela.",
                            resp.status, "", "GET", caminho)
         try:
-            return resp.json
+            dados = resp.json
         except ValueError:
             raise FormatoInesperado(f"GET {caminho} devolveu corpo que não é JSON", resp.status,
                                     resp.texto[:300], "GET", caminho) from None
+        if dados == 401 and caminho.startswith("/agendamentos/motivo-cancelamento"):
+            raise ErroRabi("GET /agendamentos/motivo-cancelamento devolveu 200 com o número 401 no corpo: "
+                           "é erro de banco disfarçado (defeito conhecido). Tente mais tarde.",
+                           resp.status, resp.texto, "GET", caminho)
+        return dados
 
     def post(self, caminho: str, corpo=None, params: dict | None = None, cabecalhos: dict | None = None):
         return self._escrita("POST", caminho, corpo, params, cabecalhos)

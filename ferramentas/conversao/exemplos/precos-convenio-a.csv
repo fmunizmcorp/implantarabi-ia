@@ -1,0 +1,11 @@
+tipo;id_rabi;nome_rabi;nome_convenio;codigo;tipo_codigo_id;tabela87_id;tipo_atendimento_id;utiliza;valor_combinado;pacote;zerar;autorizacao_previa;retorno;fator_k;fonte_preco;tipo_precificacao;parcelas;origem;observacao
+produto;101;Medicamento Exemplo 100mg;;;;;;sim;;;não;;;;;;;Contrato Convênio A, anexo II (medicamentos pela política);preço vem da política do tipo MEDICAMENTO
+produto;102;Seringa 5 ml;;;;;;sim;2,00;;não;;;;;;;Contrato Convênio A, tabela de materiais, item 12;
+produto;103;Soro fisiológico 100 ml;;;;;;sim;;;não;;;;;;;Contrato Convênio A, tabela de materiais (sem preço próprio);usa o preço da casa
+produto;104;Curativo estéril;;;;;;sim;;;sim;;;;;;;Contrato Convênio A, cláusula 5.2 (curativo incluso no pacote);
+taxa;201;Taxa de sala;;;;;;sim;35,00;;não;;;;;;;Contrato Convênio A, tabela de taxas;
+taxa;202;Taxa de aplicação;;;;;;sim;;;sim;;;;;;;Contrato Convênio A, cláusula 5.2;inclusa no pacote de curativo
+servico;301;Consulta clínica;CONSULTA ELETIVA;;;;5;sim;180,00;não;não;não;sim;;;;;Contrato Convênio A, tabela de honorários;tipo de atendimento exigido pela operadora
+servico;302;Aplicação endovenosa;;;;;;sim;;não;não;;;;;;;Contrato Convênio A, tabela de procedimentos;preço da casa
+servico;303;Medicamento Exemplo aplicado;;;;;;sim;;não;não;;;;;;;Contrato Convênio A (conta aberta: medicamento + aplicação);soma itens
+servico;304;Curativo em pacote;;;;;;sim;120,00;sim;não;;;;;;;Contrato Convênio A, cláusula 5.2 (pacote fechado R$ 120,00);

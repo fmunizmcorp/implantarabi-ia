@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "description": "Repo da clínica <NOME_DA_CLINICA>. SessionStart baixa/atualiza o kit em .kit/ e mostra o painel. PreCompact lembra o que preservar. Stop avisa (não bloqueia) se há mudança sem commit ou ESTADO.md desatualizado.",
+  "hooks": {
+    "SessionStart": [
+      { "matcher": "startup", "hooks": [ { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/scripts/sessao-inicio.sh\"" } ] },
+      { "matcher": "resume",  "hooks": [ { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/scripts/sessao-inicio.sh\"" } ] },
+      { "matcher": "clear",   "hooks": [ { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/scripts/sessao-inicio.sh\"" } ] },
+      { "matcher": "compact", "hooks": [ { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/scripts/sessao-inicio.sh\"" } ] }
+    ],
+    "PreCompact": [
+      { "hooks": [ { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/scripts/antes-de-compactar.sh\"" } ] }
+    ],
+    "Stop": [
+      { "hooks": [ { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/scripts/ao-parar.sh\"" } ] }
+    ]
+  },
+  "permissions": {
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(rm -rf /*)",
+      "Bash(rm -rf ~)",
+      "Bash(rm -rf .git)",
+      "Bash(rm -rf credenciais:*)",
+      "Bash(rm -rf provas:*)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git clean -fdx:*)",
+      "Bash(curl* | sh)",
+      "Bash(curl* | bash)",
+      "Edit(.kit/**)",
+      "Write(.kit/**)"
+    ]
+  }
+}

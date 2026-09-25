@@ -1,0 +1,53 @@
+{
+ "_leia": "Resposta SIMULADA (fictícia) do GET /convenios/12/produtos para testes do kit; formato do spec 2026-09-25.",
+ "page": 1,
+ "pageSize": 200,
+ "total": 4,
+ "totalPages": 1,
+ "dados": [
+  {
+   "produto_id": 101,
+   "produto": "Medicamento Exemplo 100mg",
+   "codigo": null,
+   "custo": 30.0,
+   "receita": 55.0,
+   "margem_resultado_pct": 45.45,
+   "farol": "VERDE",
+   "ativo_no_convenio": true,
+   "produto_ativo": true
+  },
+  {
+   "produto_id": 102,
+   "produto": "Seringa 5 ml",
+   "codigo": null,
+   "custo": 0.5,
+   "receita": 2.0,
+   "margem_resultado_pct": 75.0,
+   "farol": "VERDE",
+   "ativo_no_convenio": true,
+   "produto_ativo": true
+  },
+  {
+   "produto_id": 103,
+   "produto": "Soro fisiológico 100 ml",
+   "codigo": null,
+   "custo": 3.0,
+   "receita": 4.0,
+   "margem_resultado_pct": 25.0,
+   "farol": "VERDE",
+   "ativo_no_convenio": true,
+   "produto_ativo": true
+  },
+  {
+   "produto_id": 104,
+   "produto": "Curativo estéril",
+   "codigo": null,
+   "custo": 2.0,
+   "receita": 6.0,
+   "margem_resultado_pct": 66.67,
+   "farol": "VERDE",
+   "ativo_no_convenio": true,
+   "produto_ativo": true
+  }
+ ]
+}

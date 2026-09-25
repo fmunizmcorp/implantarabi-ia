@@ -1,0 +1,109 @@
+{
+ "_leia": "Resposta SIMULADA (fictícia) do GET /convenios/12/itens para testes do kit; formato do spec 2026-09-25.",
+ "page": 1,
+ "pageSize": 200,
+ "total": 10,
+ "totalPages": 1,
+ "dados": [
+  {
+   "servico_raiz_id": 302,
+   "item_tipo": "produto",
+   "item_id": 102,
+   "item_nome": "Seringa 5 ml",
+   "custo": 0.5,
+   "receita": 2.0,
+   "farol": "VERDE",
+   "utiliza": true
+  },
+  {
+   "servico_raiz_id": 302,
+   "item_tipo": "produto",
+   "item_id": 103,
+   "item_nome": "Soro fisiológico 100 ml",
+   "custo": 3.0,
+   "receita": 4.0,
+   "farol": "VERDE",
+   "utiliza": true
+  },
+  {
+   "servico_raiz_id": 302,
+   "item_tipo": "taxa",
+   "item_id": 201,
+   "item_nome": "Taxa de sala",
+   "custo": 0,
+   "receita": 35.0,
+   "farol": null,
+   "utiliza": true
+  },
+  {
+   "servico_raiz_id": 303,
+   "item_tipo": "produto",
+   "item_id": 101,
+   "item_nome": "Medicamento Exemplo 100mg",
+   "custo": 30.0,
+   "receita": 55.0,
+   "farol": "VERDE",
+   "utiliza": true
+  },
+  {
+   "servico_raiz_id": 303,
+   "item_tipo": "servico",
+   "item_id": 302,
+   "item_nome": "Aplicação endovenosa",
+   "custo": 3.5,
+   "receita": 121.0,
+   "farol": "VERDE",
+   "utiliza": true
+  },
+  {
+   "servico_raiz_id": 303,
+   "item_tipo": "produto",
+   "item_id": 102,
+   "item_nome": "Seringa 5 ml",
+   "custo": 0.5,
+   "receita": 2.0,
+   "farol": "VERDE",
+   "utiliza": true
+  },
+  {
+   "servico_raiz_id": 303,
+   "item_tipo": "produto",
+   "item_id": 103,
+   "item_nome": "Soro fisiológico 100 ml",
+   "custo": 3.0,
+   "receita": 4.0,
+   "farol": "VERDE",
+   "utiliza": true
+  },
+  {
+   "servico_raiz_id": 303,
+   "item_tipo": "taxa",
+   "item_id": 201,
+   "item_nome": "Taxa de sala",
+   "custo": 0,
+   "receita": 35.0,
+   "farol": null,
+   "utiliza": true
+  },
+  {
+   "servico_raiz_id": 304,
+   "item_tipo": "produto",
+   "item_id": 104,
+   "item_nome": "Curativo estéril",
+   "custo": 4.0,
+   "receita": 0.0,
+   "farol": "VERMELHO",
+   "utiliza": true
+  },
+  {
+   "servico_raiz_id": 304,
+   "item_tipo": "taxa",
+   "item_id": 202,
+   "item_nome": "Taxa de aplicação",
+   "custo": 0,
+   "receita": 0.0,
+   "farol": null,
+   "utiliza": true
+  }
+ ]
+}

@@ -1,0 +1,6 @@
+fonte;edicao;tipo_item;codigo_fonte;tabela_fonte;chave_fonte;laboratorio;produto;apresentacao;principio_ativo;ean;registro_anvisa;codigo_tuss;ggrem;generico;restrito_hospitalar;qtd_embalagem;pf_total;pmc_total;pf_unit;pmc_unit;preco_ref;tipo_preco;vigencia;tabela87_sugerida;precos_extra
+BRASINDICE;1094;medicamento;0000094262;05;912-28609-ABNY;MOMENTA;10 BI IMUNE;30 cprs.;;7891317049225;1145467202500;;;N;;30;123.86;0;4.13;0;;BRAS_PF_PMC;ed. 1091;20;
+BRASINDICE;1094;medicamento;0000090316;05;912-22812-FRMS;MOMENTA;20 BI;Ct. 5 capsulas;;7891317031268;4707603680023;;;N;;5;51.51;0;10.3;0;;BRAS_PF_PMC;ed. 1091;20;
+BRASINDICE;1094;medicamento;0000090317;05;912-22812-FRMT;MOMENTA;20 BI;Ct. 10 capsulas;;7891317031275;4707603680023;;;N;;10;77.25;0;7.72;0;;BRAS_PF_PMC;ed. 1091;20;
+BRASINDICE;1094;medicamento;0000090318;05;912-22812-FRMU;MOMENTA;20 BI;Ct. 30 capsulas;;7891317031282;4707603680023;;;N;;30;192.59;0;6.42;0;;BRAS_PF_PMC;ed. 1091;20;
+BRASINDICE;1094;medicamento;0000092694;05;912-28246-FUMF;MOMENTA;20 BI FIBRAS;Ct. 10 envelopes;;7891317043018;;;;N;;10;82.75;0;8.28;0;;BRAS_PF_PMC;ed. 1091;20;

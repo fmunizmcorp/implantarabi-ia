@@ -1,0 +1,26 @@
+name: CI do kit
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Instalar pytest
+        run: pip install pytest
+      - name: Testes (ferramentas)
+        run: python -m pytest ferramentas -q
+      - name: Tamanhos e índices
+        run: python ferramentas/kit/verificar_tamanhos.py
+      - name: Links relativos
+        run: python ferramentas/kit/verificar_links.py
+      - name: Vazamento de segredo ou dado real
+        run: python ferramentas/kit/verificar_vazamento.py
+      - name: Modelo da clínica com .claude sincronizado
+        run: python ferramentas/kit/sincronizar_claude_modelo.py --checar

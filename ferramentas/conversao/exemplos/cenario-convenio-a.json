@@ -1,0 +1,55 @@
+{
+ "_leia": "Cenário FICTÍCIO do kit (Clínica Exemplo · Convênio A). Valores ilustrativos. Formato: catalogo (nível 1) + convenio (níveis 2 e 3). valor_convertido ausente ou null = vazio; 0 = zero de verdade.",
+ "catalogo": {
+  "produtos": [
+   {"id": 101, "nome": "Medicamento Exemplo 100mg", "tipo_produto": "MEDICAMENTO", "custo": 30.0,
+    "preco_venda_tabela": 70.0, "fonte_preco": "PRECO FIXO CADASTRADO", "tabela87": 20,
+    "precos_tabela": {"Tabela Interna Exemplo": {"PRECO_1": 50.0, "PRECO_2": 58.0}}},
+   {"id": 102, "nome": "Seringa 5 ml", "tipo_produto": "MATERIAL", "custo": 0.5,
+    "preco_venda_tabela": 1.5, "fonte_preco": "PRECO FIXO CADASTRADO", "tabela87": 19},
+   {"id": 103, "nome": "Soro fisiológico 100 ml", "tipo_produto": "MATERIAL", "custo": 3.0,
+    "preco_venda_tabela": 4.0, "fonte_preco": "PRECO FIXO CADASTRADO", "tabela87": 19},
+   {"id": 104, "nome": "Curativo estéril", "tipo_produto": "MATERIAL", "custo": 2.0,
+    "preco_venda_tabela": 6.0, "fonte_preco": "PRECO FIXO CADASTRADO", "tabela87": 19}
+  ],
+  "taxas": [
+   {"id": 201, "nome": "Taxa de sala", "valor_cadastro": 40.0, "codigo": "TX-SALA"},
+   {"id": 202, "nome": "Taxa de aplicação", "valor_cadastro": 25.0, "codigo": "TX-APLIC"}
+  ],
+  "servicos": [
+   {"id": 301, "nome": "Consulta clínica", "valor_cadastro": 300.0, "codigo_tuss": "10101012",
+    "tipo_atendimento": 4},
+   {"id": 302, "nome": "Aplicação endovenosa", "valor_cadastro": 80.0,
+    "itens": [{"tipo": "produto", "id": 102, "quantidade": 1}, {"tipo": "produto", "id": 103, "quantidade": 1},
+              {"tipo": "taxa", "id": 201, "quantidade": 1}]},
+   {"id": 303, "nome": "Medicamento Exemplo aplicado", "valor_cadastro": 0.0, "somar_itens": true,
+    "itens": [{"tipo": "produto", "id": 101, "quantidade": 1}, {"tipo": "subservico", "id": 302, "quantidade": 1}]},
+   {"id": 304, "nome": "Curativo em pacote", "valor_cadastro": 150.0,
+    "itens": [{"tipo": "produto", "id": 104, "quantidade": 2}, {"tipo": "taxa", "id": 202, "quantidade": 1}]},
+   {"id": 305, "nome": "Serviço antigo (inativo)", "valor_cadastro": 10.0, "ativo": false}
+  ]
+ },
+ "convenio": {
+  "id": 12, "nome": "Convênio A", "pago_no_ato": true, "limite_parcelas": 3,
+  "parametro_vermelho": 100, "parametro_amarelo": 120,
+  "politicas": [
+   {"tipo_produto": "MEDICAMENTO", "fonte_preco": "Tabela Interna Exemplo", "tipo_precificacao": "PRECO_1", "fator_k": 10}
+  ],
+  "servicos": [
+   {"id": 301, "utiliza": true, "valor_convertido": 180.0, "nome": "CONSULTA ELETIVA", "tipo_atendimento": 5},
+   {"id": 302, "utiliza": true},
+   {"id": 303, "utiliza": true},
+   {"id": 304, "utiliza": true, "pacote": true, "valor_convertido": 120.0}
+  ],
+  "produtos": [
+   {"id": 101, "utiliza": true},
+   {"id": 102, "utiliza": true, "valor_convertido": 2.0},
+   {"id": 103, "utiliza": true},
+   {"id": 104, "utiliza": true, "zerar": true}
+  ],
+  "taxas": [
+   {"id": 201, "utiliza": true, "valor_convertido": 35.0},
+   {"id": 202, "utiliza": true, "zerar": true}
+  ]
+ }
+}

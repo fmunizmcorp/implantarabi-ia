@@ -1,0 +1,4 @@
+fonte;edicao;tipo_item;codigo_fonte;tabela_fonte;chave_fonte;laboratorio;produto;apresentacao;principio_ativo;ean;registro_anvisa;codigo_tuss;ggrem;generico;restrito_hospitalar;qtd_embalagem;pf_total;pmc_total;pf_unit;pmc_unit;preco_ref;tipo_preco;vigencia;tabela87_sugerida;precos_extra
+SIMPRO;2026-04-12;reagente;0003555058;12;;ICAR;ENXOFRE SUBLIMADO 20GRS;;;;;;;;;;;;;;0.059;SIMPRO_VIG;2009-05-26;19;
+SIMPRO;2026-04-12;reagente;0001905077;12;;D.G.L;ETER SULFURICO 1000ML;;;;;;;;;;;;;;0.022;SIMPRO_VIG;2011-02-23;19;
+SIMPRO;2026-04-12;reagente;0000003843;12;;D.G.L;ETER SULFURICO 100ML;;;;;;;;;;;;;;0.03;SIMPRO_VIG;2011-02-23;19;

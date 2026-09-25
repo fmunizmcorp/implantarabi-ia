@@ -1,0 +1,7 @@
+{"_leia": "Foto ANTES fictícia (GET /convenios/12/servicos|produtos|taxas) para a prévia de→para.",
+ "servicos": {"page": 1, "pageSize": 200, "total": 2, "totalPages": 1, "dados": [
+  {"id": 700, "servicoId": 301, "utiliza": true, "pacote": false, "zerarValor": false, "valorInternoConvenio": 150.0, "nomeConversao": "CONSULTA"},
+  {"id": 701, "servicoId": 304, "utiliza": true, "pacote": false, "zerarValor": false, "valorInternoConvenio": 120.0}]},
+ "produtos": {"page": 1, "pageSize": 200, "total": 1, "totalPages": 1, "dados": [
+  {"id": 300, "produtoId": 102, "utiliza": false, "zerarValor": false, "valorUnitarioConversao": null, "fatorK": null}]},
+ "taxas": {"page": 1, "pageSize": 200, "total": 0, "totalPages": 0, "dados": []}}

@@ -1,0 +1,4 @@
+fonte;edicao;tipo_item;codigo_fonte;tabela_fonte;chave_fonte;laboratorio;produto;apresentacao;principio_ativo;ean;registro_anvisa;codigo_tuss;ggrem;generico;restrito_hospitalar;qtd_embalagem;pf_total;pmc_total;pf_unit;pmc_unit;preco_ref;tipo_preco;vigencia;tabela87_sugerida;precos_extra
+SIMPRO;2026-04-12;reagente;0000022084;12;;D.G.L;MERCURIO CROMO 2% SOL.1000GRS;;;;;;;;;;;;;;0.005;SIMPRO_VIG;2001-01-11;19;
+SIMPRO;2026-04-12;reagente;0001905007;12;;D.G.L;MERCURIO VIVO 1000GRS;;;;;;;;;;;;;;0.46;SIMPRO_VIG;2006-04-19;19;
+SIMPRO;2026-04-12;reagente;0000022083;12;;D.G.L;MERCURIO VIVO 100GRS;;;;;;;;;;;;;;0.58;SIMPRO_VIG;2006-04-19;19;

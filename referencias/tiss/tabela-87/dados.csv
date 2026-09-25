@@ -1,0 +1,11 @@
+codigo;descricao;base
+00;Tabela Própria das Operadoras;XSD dm_tabela (comentário oficial)
+05;Brasíndice;"XSD dm_tabelaGeral; domínio do convênio no Rabi"
+12;SIMPRO;"XSD dm_tabelaGeral; domínio do convênio no Rabi"
+18;TUSS — Taxas hospitalares, diárias e gases medicinais;XSD dm_tabela (comentário oficial)
+19;TUSS — Materiais (e OPME);XSD dm_tabela (comentário oficial)
+20;TUSS — Medicamentos;XSD dm_tabela (comentário oficial)
+22;TUSS — Procedimentos e eventos em saúde;XSD dm_tabela (comentário oficial)
+90;Tabela própria de pacote (conferir descrição exata no componente organizacional TISS);XSD dm_tabela (sem comentário)
+97;Taxa Própria (domínio do Sistema Rabi);manual Rabi, configurações do convênio
+98;Tabela própria de pacotes (conferir descrição exata no componente organizacional TISS);XSD dm_tabela (sem comentário)

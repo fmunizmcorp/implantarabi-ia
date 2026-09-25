@@ -1,0 +1,7 @@
+fonte;edicao;tipo_item;codigo_fonte;tabela_fonte;chave_fonte;laboratorio;produto;apresentacao;principio_ativo;ean;registro_anvisa;codigo_tuss;ggrem;generico;restrito_hospitalar;qtd_embalagem;pf_total;pmc_total;pf_unit;pmc_unit;preco_ref;tipo_preco;vigencia;tabela87_sugerida;precos_extra
+BRASINDICE;1094;material;0000048901;05;472-20532-DNUE;CNPH;YESNG;Caneta Eletrocirurgica esteril descartavel c/comando manual;;;;;;N;;1;255;0;255;0;;BRAS_PF_PMC;ed. 1066;19;
+BRASINDICE;1094;material;0000048902;05;472-20532-DNUF;CNPH;YESNG;Placa Eletrocirurgica - Adulto;;;;;;N;;1;153.52;0;153.52;0;;BRAS_PF_PMC;ed. 1066;19;
+BRASINDICE;1094;material;0000048903;05;472-20532-DNUG;CNPH;YESNG;Placa Eletrocirurgica - Pediatrico;;;;;;N;;1;182.09;0;182.09;0;;BRAS_PF_PMC;ed. 1066;19;
+BRASINDICE;1094;material;0000072783;05;472-20532-EVJP;CNPH;YESNG;Placa descartavel p/paciente bi-partida c/cabo Adulto Yesng;;;;;;N;;1;226;0;226;0;;BRAS_PF_PMC;ed. 1066;19;
+BRASINDICE;1094;material;0000072785;05;472-20532-EVJQ;CNPH;YESNG;Placa descartavel p/paciente bi-partida c/cabo Neonatal Yesng;;;;;;N;;1;265;0;265;0;;BRAS_PF_PMC;ed. 1066;19;
+BRASINDICE;1094;material;0000072786;05;472-20532-EVJR;CNPH;YESNG;Placa descartavel p/paciente bi-partida c/cabo Pediatrico Yesng;;;;;;N;;1;237;0;237;0;;BRAS_PF_PMC;ed. 1066;19;

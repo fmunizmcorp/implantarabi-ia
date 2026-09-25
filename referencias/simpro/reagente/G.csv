@@ -1,0 +1,6 @@
+fonte;edicao;tipo_item;codigo_fonte;tabela_fonte;chave_fonte;laboratorio;produto;apresentacao;principio_ativo;ean;registro_anvisa;codigo_tuss;ggrem;generico;restrito_hospitalar;qtd_embalagem;pf_total;pmc_total;pf_unit;pmc_unit;preco_ref;tipo_preco;vigencia;tabela87_sugerida;precos_extra
+SIMPRO;2026-04-12;reagente;0003555029;12;;ICAR;GLICERINA 1000ML;;;;;;;;;;;;;;0.011;SIMPRO_VIG;2010-07-29;19;
+SIMPRO;2026-04-12;reagente;0003555028;12;;ICAR;GLICERINA 100ML;;;;;;;;;;;;;;0.024;SIMPRO_VIG;2010-07-29;19;
+SIMPRO;2026-04-12;reagente;0000138076;12;;ICAR;GLICERINA 100ML ALMOTOLIA;;;;;;;;;;;;;;0.018;SIMPRO_VIG;2010-07-29;19;
+SIMPRO;2026-04-12;reagente;0003555027;12;;ICAR;GLICERINA 60ML;;;;;;;;;;;;;;0.03;SIMPRO_VIG;2010-07-29;19;
+SIMPRO;2026-04-12;reagente;0001905103;12;;D.G.L;GOMA ARABICA 1000GRS;;;;;;;;;;;;;;0.044;SIMPRO_VIG;2003-02-20;19;

@@ -1,0 +1,607 @@
+competencia;codigo_terminologia;terminologia;codigo_termo;termo;inicio_vigencia;fim_vigencia;fim_implantacao;tipo_acao
+Janeiro/2026;19;Terminologia de OPME;104814586;I-MOTION;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;20;Terminologia de Medicamentos;90620852;IMAAVY;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;20;Terminologia de Medicamentos;90620860;IMAAVY;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673303;IMPLANTE LITE;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673567;IMPLANTE LITE - LTCM 3507 - IMP. LITE CM11.5° Ø3.5X7MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673583;IMPLANTE LITE - LTCM 3510 - IMP. LITE CM11.5° Ø3.5X10MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673591;IMPLANTE LITE - LTCM 3511 - IMP. LITE CM11.5° Ø3.5X11.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673575;IMPLANTE LITE - LTCM 3513 - IMP. LITE CM11.5° Ø3.5X13MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673605;IMPLANTE LITE - LTCM 3515 - IMP. LITE CM11.5° Ø3.5X15MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673311;IMPLANTE LITE - LTCM 3518 - IMP. LITE CM11.5° Ø3.5X18MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673613;IMPLANTE LITE - LTCM 3585 - IMP. LITE CM11.5° Ø3.5X8.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673320;IMPLANTE LITE - LTCM 3807 - IMP. LITE CM11.5° Ø3.8X7MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673621;IMPLANTE LITE - LTCM 3810 - IMP. LITE CM11.5° Ø3.8X10MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673630;IMPLANTE LITE - LTCM 3811 - IMP. LITE CM11.5° Ø3.8X11.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673338;IMPLANTE LITE - LTCM 3813 - IMP. LITE CM11.5° Ø3.8X13MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673648;IMPLANTE LITE - LTCM 3815 - IMP. LITE CM11.5° Ø3.8X15MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673346;IMPLANTE LITE - LTCM 3818 - IMP. LITE CM11.5° Ø3.8X18MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673656;IMPLANTE LITE - LTCM 3885 - IMP. LITE CM11.5° Ø3.8X8.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673354;IMPLANTE LITE - LTCM 4007 - IMP. LITE CM11.5° Ø4.0X7MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673664;IMPLANTE LITE - LTCM 4010 - IMP. LITE CM11.5° Ø4.0X10MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673672;IMPLANTE LITE - LTCM 4011 - IMP. LITE CM11.5° Ø4.0X11.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673362;IMPLANTE LITE - LTCM 4013 - IMP. LITE CM11.5° Ø4.0X13MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673680;IMPLANTE LITE - LTCM 4015 - IMP. LITE CM11.5° Ø4.0X15MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673370;IMPLANTE LITE - LTCM 4018 - IMP. LITE CM11.5° Ø4.0X18MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673699;IMPLANTE LITE - LTCM 4085 - IMP. LITE CM11.5° Ø4.0X8.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673702;IMPLANTE LITE - LTCM 4507 - IMP. LITE CM11.5° Ø4.5X7MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673710;IMPLANTE LITE - LTCM 4510 - IMP. LITE CM11.5° Ø4.5X10MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673729;IMPLANTE LITE - LTCM 4511 - IMP. LITE CM11.5° Ø4.5X11.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673737;IMPLANTE LITE - LTCM 4513 - IMP. LITE CM11.5° Ø4.5X13MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673745;IMPLANTE LITE - LTCM 4515 - IMP. LITE CM11.5° Ø4.5X15MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673753;IMPLANTE LITE - LTCM 4518 - IMP. LITE CM11.5° Ø4.5X18MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673761;IMPLANTE LITE - LTCM 4585 - IMP. LITE CM11.5° Ø4.5X8.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673770;IMPLANTE LITE - LTCM 5007 - IMP. LITE CM11.5° Ø5.0X7MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673397;IMPLANTE LITE - LTCM 5010 - IMP. LITE CM11.5° Ø5.0X10MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673788;IMPLANTE LITE - LTCM 5011 - IMP. LITE CM11.5° Ø5.0X11.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673400;IMPLANTE LITE - LTCM 5013 - IMP. LITE CM11.5° Ø5.0X13MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673796;IMPLANTE LITE - LTCM 5015 - IMP. LITE CM11.5° Ø5.0X15MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673800;IMPLANTE LITE - LTCM 5018 - IMP. LITE CM11.5° Ø5.0X18MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673419;IMPLANTE LITE - LTCM 5085 - IMP. LITE CM11.5° Ø5.0X8.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673818;IMPLANTE LITE - LTHE 3210 - IMP. LITE HE Ø3.25X10MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673427;IMPLANTE LITE - LTHE 3211 - IMP. LITE HE Ø3.25X11.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673826;IMPLANTE LITE - LTHE 3213 - IMP. LITE HE Ø3.25X13MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673435;IMPLANTE LITE - LTHE 3215 - IMP. LITE HE Ø3.25X15MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673834;IMPLANTE LITE - LTHE 3218 - IMP. LITE HE Ø3.25X18MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673842;IMPLANTE LITE - LTHE 3285 - IMP. LITE HE Ø3.25X8.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673443;IMPLANTE LITE - LTHE 3507 - IMP. LITE HE Ø3.5X7MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673850;IMPLANTE LITE - LTHE 3510 - IMP. LITE HE Ø3.5X10MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673451;IMPLANTE LITE - LTHE 3511 - IMP. LITE HE Ø3.5X11.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673869;IMPLANTE LITE - LTHE 3513 - IMP. LITE HE Ø3.5X13MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673877;IMPLANTE LITE - LTHE 3515 - IMP. LITE HE Ø3.5X15MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673460;IMPLANTE LITE - LTHE 3518 - IMP. LITE HE Ø3.5X18MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673885;IMPLANTE LITE - LTHE 3585 - IMP. LITE HE Ø3.5X8.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673478;IMPLANTE LITE - LTHE 3707 - IMP. LITE HE Ø3.75X7MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673893;IMPLANTE LITE - LTHE 3710 - IMP. LITE HE Ø3.75X10MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673907;IMPLANTE LITE - LTHE 3711 - IMP. LITE HE Ø3.75X11.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673486;IMPLANTE LITE - LTHE 3713 - IMP. LITE HE Ø3.75X13MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673915;IMPLANTE LITE - LTHE 3715 - IMP. LITE HE Ø3.75X15MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673494;IMPLANTE LITE - LTHE 3718 - IMP. LITE HE Ø3.75X18MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673923;IMPLANTE LITE - LTHE 3785 - IMP. LITE HE Ø3.75X8.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673508;IMPLANTE LITE - LTHE 4007 - IMP. LITE HE Ø4.0X7MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673931;IMPLANTE LITE - LTHE 4010 - IMP. LITE HE Ø4.0X10MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673940;IMPLANTE LITE - LTHE 4011 - IMP. LITE HE Ø4.0X11.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673516;IMPLANTE LITE - LTHE 4013 - IMP. LITE HE Ø4.0X13MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673958;IMPLANTE LITE - LTHE 4015 - IMP. LITE HE Ø4.0X15MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673524;IMPLANTE LITE - LTHE 4018 - IMP. LITE HE Ø4.0X18MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673966;IMPLANTE LITE - LTHE 4085 - IMP. LITE HE Ø4.0X8.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673974;IMPLANTE LITE - LTHE 4507 - IMP. LITE HE Ø4.5X7MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673532;IMPLANTE LITE - LTHE 4510 - IMP. LITE HE Ø4.5X10MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673982;IMPLANTE LITE - LTHE 4511 - IMP. LITE HE Ø4.5X11.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673540;IMPLANTE LITE - LTHE 4513 - IMP. LITE HE Ø4.5X13MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673990;IMPLANTE LITE - LTHE 4515 - IMP. LITE HE Ø4.5X15MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104674008;IMPLANTE LITE - LTHE 4518 - IMP. LITE HE Ø4.5X18MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673559;IMPLANTE LITE - LTHE 4585 - IMP. LITE HE Ø4.5X8.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104674016;IMPLANTE LITE - LTHE 5007 - IMP. LITE HE Ø5.0X7MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104674024;IMPLANTE LITE - LTHE 5010 - IMP. LITE HE Ø5.0X10MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104674032;IMPLANTE LITE - LTHE 5011 - IMP. LITE HE Ø5.0X11.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104674040;IMPLANTE LITE - LTHE 5013 - IMP. LITE HE Ø5.0X13MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104674059;IMPLANTE LITE - LTHE 5015 - IMP. LITE HE Ø5.0X15MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104674067;IMPLANTE LITE - LTHE 5018 - IMP. LITE HE Ø5.0X18MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104674075;IMPLANTE LITE - LTHE 5085 - IMP. LITE HE Ø5.0X8.5MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104674083;IMPLANTE LITE - TI 3612 - TAPA IMP. HE Ø3.6X2MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104674091;IMPLANTE LITE - TI 4112 - TAPA IMP. HE Ø4.1MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104674105;IMPLANTE LITE - TI 5012 - TAPA IMP. HE Ø5.0MM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104673389;IMPLANTE LITE - TIMU 0212 - TAPA IMP. CM11.5° LONGO;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701463;IMPLANTE PARA ESTABILIZAÇAO DA COLUNA - DIAM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701536;IMPLANTE PARA ESTABILIZAÇAO DA COLUNA - DIAM - Canons extra plissados para Prótese DIAM 6,5mm (9492215) com ligamentos horizontais;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701480;IMPLANTE PARA ESTABILIZAÇAO DA COLUNA - DIAM - Implante para estabilização da coluna DIAM: 10mm (9492210);2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701498;IMPLANTE PARA ESTABILIZAÇAO DA COLUNA - DIAM - Implante para estabilização da coluna DIAM: 12mm (9492212);2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701501;IMPLANTE PARA ESTABILIZAÇAO DA COLUNA - DIAM - Implante para estabilização da coluna DIAM: 14mm (9492214);2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701510;IMPLANTE PARA ESTABILIZAÇAO DA COLUNA - DIAM - Implante para estabilização da coluna DIAM: 16mm (9492216);2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701528;IMPLANTE PARA ESTABILIZAÇAO DA COLUNA - DIAM - Implante para estabilização da coluna DIAM: 18mm (9492218);2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701471;IMPLANTE PARA ESTABILIZAÇAO DA COLUNA - DIAM - Implante para estabilização da coluna DIAM: 8mm (9492208);2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675357;Implante Peitoral Implantech;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675489;Implante Peitoral Implantech - ACPI-1L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675497;Implante Peitoral Implantech - ACPI-1R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675500;Implante Peitoral Implantech - ACPI-2L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675519;Implante Peitoral Implantech - ACPI-2R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675365;Implante Peitoral Implantech - ACPI-3L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675527;Implante Peitoral Implantech - ACPI-3R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675535;Implante Peitoral Implantech - ACPI-4L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675373;Implante Peitoral Implantech - ACPI-4R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675543;Implante Peitoral Implantech - ACPI1-T-1L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675551;Implante Peitoral Implantech - ACPI1-T-1R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675381;Implante Peitoral Implantech - ACPI1-T-2L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675560;Implante Peitoral Implantech - ACPI1-T-2R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675578;Implante Peitoral Implantech - ACPI1-T-3L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675586;Implante Peitoral Implantech - ACPI1-T-3R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675390;Implante Peitoral Implantech - ACPI1-T-4L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675594;Implante Peitoral Implantech - ACPI1-T-4R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675608;Implante Peitoral Implantech - ACPI2-1L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675403;Implante Peitoral Implantech - ACPI2-1R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675616;Implante Peitoral Implantech - ACPI2-2L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675624;Implante Peitoral Implantech - ACPI2-2R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675632;Implante Peitoral Implantech - ACPI2-3L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675411;Implante Peitoral Implantech - ACPI2-3R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675640;Implante Peitoral Implantech - ACPI4-S-1L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675659;Implante Peitoral Implantech - ACPI4-S-1R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675420;Implante Peitoral Implantech - ACPI4-S-2L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675667;Implante Peitoral Implantech - ACPI4-S-2R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675675;Implante Peitoral Implantech - ACPI4-S-3L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675438;Implante Peitoral Implantech - ACPI4-S-3R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675683;Implante Peitoral Implantech - ACPI4-T-1L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675691;Implante Peitoral Implantech - ACPI4-T-1R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675705;Implante Peitoral Implantech - ACPI4-T-2L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675713;Implante Peitoral Implantech - ACPI4-T-2R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675721;Implante Peitoral Implantech - ACPI4-T-3L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675446;Implante Peitoral Implantech - ACPI4-T-3R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675730;Implante Peitoral Implantech - BNPI-1L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675748;Implante Peitoral Implantech - BNPI-1R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675454;Implante Peitoral Implantech - BNPI2-S-1L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675756;Implante Peitoral Implantech - BNPI2-S-1R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675764;Implante Peitoral Implantech - BNPI2-T-1L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675772;Implante Peitoral Implantech - BNPI2-T-1R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675462;Implante Peitoral Implantech - BNPI3-S-1L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675780;Implante Peitoral Implantech - BNPI3-S-1R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675799;Implante Peitoral Implantech - BNPI3-T-1L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675470;Implante Peitoral Implantech - BNPI3-T-1R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675802;Implante Peitoral Implantech - HTPI-2L;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104675810;Implante Peitoral Implantech - HTPI-2R;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104670207;IMPLANTES INTRAMEDULARES LYNC;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104670223;IMPLANTES INTRAMEDULARES LYNC - CM010010 - Lync M0;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104670231;IMPLANTES INTRAMEDULARES LYNC - CM010011 - Lync M10;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104670240;IMPLANTES INTRAMEDULARES LYNC - CM010030 - Lync S0;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104670215;IMPLANTES INTRAMEDULARES LYNC - CM010031 - Lync S10;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104670258;IMPLANTES INTRAMEDULARES LYNC - CM010040 - Lync DIP;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104663294;IMPLANTES STRAUMANN TLX 4mm;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104663308;IMPLANTES STRAUMANN TLX 4mm - 035.3204S - Implante TLX SP, Ø 4.0mm NT, SLActive 4mm, Roxolid;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104663340;IMPLANTES STRAUMANN TLX 4mm - 035.3304S - Implante TLX SP, Ø 4.0mm RT, SLActive 4mm, Roxolid;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104663316;IMPLANTES STRAUMANN TLX 4mm - 035.3404S - Implante TLX SP, Ø 4.5mm NT, SLActive 4mm, Roxolid;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104663359;IMPLANTES STRAUMANN TLX 4mm - 035.3504S - Implante TLX SP, Ø 4.5mm RT, SLActive 4mm, Roxolid;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104663324;IMPLANTES STRAUMANN TLX 4mm - 035.3604S - Implante TLX SP, Ø 5.0mm WT, SLActive 4mm, Roxolid;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104663367;IMPLANTES STRAUMANN TLX 4mm - 035.3704S - Implante TLX SP, Ø 5.5mm WT, SLActive 4mm, Roxolid;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104663332;IMPLANTES STRAUMANN TLX 4mm - 035.3804S - Implante TLX SP, Ø 5.0mm RT, SLActive 4mm, Roxolid;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104663375;IMPLANTES STRAUMANN TLX 4mm - 035.3904S - Implante TLX SP, Ø 5.5mm RT, SLActive 4mm, Roxolid;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104814101;IMPROSCAR PATCH;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104814098;Improscar Stick;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662638;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662646;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662654;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662662;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662670;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662689;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662697;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662700;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662719;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662727;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662735;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662743;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662751;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662760;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662778;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662786;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662794;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662808;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662816;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662824;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662832;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662840;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662859;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662867;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662875;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662883;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662891;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662905;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662913;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662921;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662930;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662948;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662956;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662964;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662972;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662980;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104662999;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663006;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663014;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663022;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663030;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663049;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663057;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663065;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663073;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663081;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663090;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663103;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663111;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663120;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663138;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663146;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663154;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663162;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663170;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663189;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663197;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663200;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663219;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663227;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663235;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663243;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663251;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663260;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663278;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104663286;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104670320;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104670339;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104670347;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104670355;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104670363;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104670371;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687169;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687177;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687185;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687193;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687207;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687215;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687223;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687231;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687240;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687258;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687266;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687274;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687282;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687290;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687304;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687312;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687320;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687339;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687347;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687355;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687363;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687371;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687380;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687398;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687401;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687410;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687428;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687436;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687444;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687452;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687460;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687479;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687487;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687495;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687509;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687517;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687525;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687533;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687541;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687550;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687568;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687576;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687584;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687592;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687606;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687614;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687622;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687630;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687649;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687657;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687665;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687673;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687681;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687690;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687703;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687711;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687720;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687738;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687746;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687754;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687762;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687770;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687789;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687797;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687800;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687819;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687827;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687835;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687843;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687851;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687860;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687878;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687886;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687894;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687908;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687916;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687924;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687932;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687940;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687959;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687967;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687975;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687983;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104687991;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688009;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688017;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688025;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688033;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688041;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688050;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688068;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688076;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688084;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688092;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688106;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688114;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688122;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688130;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688149;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688157;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688165;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688173;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688181;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688190;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688203;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688211;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688220;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688238;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688246;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688254;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688262;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688270;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688289;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688297;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688300;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688319;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688327;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688335;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688343;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688351;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688360;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688378;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688386;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688394;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688408;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688416;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688424;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688432;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688440;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688459;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688467;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688475;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688483;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688491;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688505;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688513;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688521;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688530;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688548;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688556;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688564;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688572;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688580;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688599;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688602;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688610;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688629;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688637;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688645;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688653;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688661;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688670;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688688;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688696;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688700;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688718;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688726;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688734;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688742;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688750;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688769;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688777;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688785;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688793;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688807;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688815;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688823;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688831;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688840;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688858;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688866;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688874;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688882;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688890;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688904;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688912;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688920;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688939;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688947;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688955;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688963;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688971;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688980;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104688998;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689005;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689013;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689021;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689030;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689048;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689056;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689064;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689072;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689080;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689099;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689102;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689110;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689129;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689137;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689145;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689153;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689161;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689170;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689188;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689196;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689200;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689218;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689226;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689234;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689242;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689250;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689269;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689277;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689285;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689293;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689307;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689315;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689323;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689331;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689340;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689358;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689366;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689374;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689382;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689390;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689404;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689412;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689420;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689439;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689447;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689455;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689463;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689471;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689480;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689498;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689501;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689510;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689528;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689536;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689544;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689552;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689560;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689579;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689587;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689595;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689609;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689617;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689625;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689633;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689641;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689650;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689668;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689676;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689684;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689692;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689706;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689714;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689722;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689730;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689749;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689757;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689765;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689773;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689781;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689790;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689803;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;104689811;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618432;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618459;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618467;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618475;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618483;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618491;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618505;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618629;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618637;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618645;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618742;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618750;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618769;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618777;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618785;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618793;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618807;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618815;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618858;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618866;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90618882;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619021;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619030;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619048;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619552;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619560;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619579;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619587;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619595;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619617;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619692;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619706;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619714;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619722;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619730;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619749;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619757;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619811;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619820;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619897;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619900;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619919;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90619935;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90620488;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90620658;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90620666;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90620674;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90620682;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90620690;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90620704;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90620712;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90620755;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90620801;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90620879;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90620887;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90620909;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90620925;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90620941;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90620950;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90621093;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90621107;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90621115;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90621131;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;64;Terminologia de Forma de Envio de Dados para a ANS;90621140;Individualizado;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;20;Terminologia de Medicamentos;90620925;INFOC;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104816902;Infusor Elastomérico NeoPump;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104814934;INSUFLADOR PARA BALÃO;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701587;InterOss;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701668;InterOss - IOLG100 lnterOss Anorganic Cancellous Granules (1000-2000µm);2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701595;InterOss - IOLG200 lnterOss Anorganic Cancellous Granules (1000-2000µm);2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701676;InterOss - IOLG50 lnterOss Anorganic Cancellous Granules (1000-2000µm);2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701609;InterOss - IOLGS050 lnterOss Anorganic Cancellous Granules (1000-2000µm) - 0,5cc syringe;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701684;InterOss - IOLGS100 lnterOss Anorganic Cancellous Granules (1000-2000µm) - 1,0cc syringe;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701617;InterOss - IOLGS150 lnterOss Anorganic Cancellous Granules (1000-2000µm) - 1,5cc syringe;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701692;InterOss - IOSG 500 lnterOss Anorganic Cancellous Granules (250-1 000µm);2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701625;InterOss - IOSG025 lnterOss Anorganic Cancellous Granules (250-1000µm);2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701706;InterOss - IOSG050 lnterOss Anorganic Cancellous Granules (250-1000µm);2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701633;InterOss - IOSG100 lnterOss Anorganic Cancellous Granules (250-1000µm);2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701714;InterOss - IOSG200 lnterOss Anorganic Cancellous Granules (250-1000µm);2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701641;InterOss - IOSGS025 lnterOss Anorganic Cancellous Granules (250-1000µm) - 0,25cc syringe;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701722;InterOss - IOSGS050 lnterOss Anorganic Cancellous Granules (250-1000µm) - 0,5cc syringe;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701650;InterOss - IOSGS100 lnterOss Anorganic Cancellous Granules (250-1000µm) - 1,.0cc syringe;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104668750;InterOss Collagen;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104668768;InterOss Collagen - IOC-100 lnterOss Collagen, 100mg, block type;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104668830;InterOss Collagen - IOC-250 lnterOss Collagen, 250mg, block type;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104668776;InterOss Collagen - IOC-350 lnterOss Collagen, 350mg, block type;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104668784;InterOss Collagen - IOC-50 lnterOss Collagen, 50mg, block type;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104668849;InterOss Collagen - IOC-500 lnterOss Collagen, 500mg, block type;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104668792;InterOss Collagen - IOC-P150 lnterOss Collagen, 150mg, plug type;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104668822;InterOss Collagen - IOC-P250 lnterOss Collagen, 250mg, plug type;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104668806;InterOss Collagen - IOC-P400 lnterOss Collagen, 400mg, plug type;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104668814;InterOss Collagen - IOC-P450 lnterOss Collagen, 450mg, plug type;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104815086;INTRODULOR CANULADO NESFIELD;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104815060;INTRODUTOR CANULADO ALEXANDRE TEIXEIRA;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104816171;Introdutor Canulado para Radiofrequência;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104815108;Introdutor Canulado Spring2 Active;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104815094;Introdutor Canulado Spring2 Rinnovare;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104814950;INTRODUTOR HEMOSTÁTICO BRAIDIN;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701544;Introdutor Orientável Avançado Pathbuilder;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104701552;Introdutor Orientável Avançado Pathbuilder - SIM6512;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104817151;INTRODUTOR THERMO-PRÓ;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;20;Terminologia de Medicamentos;90620003;IQIRVO;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;19;Terminologia de OPME;104813822;Irrigador Nasal MedLevensohn;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;20;Terminologia de Medicamentos;90618653;IXOBAM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;20;Terminologia de Medicamentos;90618661;IXOBAM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;20;Terminologia de Medicamentos;90618670;IXOBAM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;20;Terminologia de Medicamentos;90618688;IXOBAM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;20;Terminologia de Medicamentos;90618696;IXOBAM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;20;Terminologia de Medicamentos;90618700;IXOBAM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;20;Terminologia de Medicamentos;90618718;IXOBAM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;20;Terminologia de Medicamentos;90618726;IXOBAM;2026-02-01;;2026-04-30;Incluído
+Janeiro/2026;20;Terminologia de Medicamentos;90618734;IXOBAM;2026-02-01;;2026-04-30;Incluído

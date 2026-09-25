@@ -112,8 +112,16 @@ def carregar_spec(caminho: str) -> dict:
         return json.load(f)
 
 
+def listar_snapshots(pasta: str = PASTA_SPEC) -> list[str]:
+    """openapi-AAAA-MM-DD.json e openapi-AAAA-MM-DD-N.json, em ordem cronológica."""
+    def chave(c):
+        m = re.search(r"openapi-(\d{4}-\d{2}-\d{2})(?:-(\d+))?\.json$", c)
+        return (m.group(1), int(m.group(2) or 1)) if m else ("", 0)
+    return sorted(glob.glob(os.path.join(pasta, "openapi-*.json")), key=chave)
+
+
 def spec_mais_recente(pasta: str = PASTA_SPEC) -> str:
-    arquivos = sorted(glob.glob(os.path.join(pasta, "openapi-*.json")))
+    arquivos = listar_snapshots(pasta)
     if not arquivos:
         raise FileNotFoundError(f"Nenhum openapi-*.json em {pasta}")
     return arquivos[-1]

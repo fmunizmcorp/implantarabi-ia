@@ -1,0 +1,9 @@
+fonte;edicao;tipo_item;codigo_fonte;tabela_fonte;chave_fonte;laboratorio;produto;apresentacao;principio_ativo;ean;registro_anvisa;codigo_tuss;ggrem;generico;restrito_hospitalar;qtd_embalagem;pf_total;pmc_total;pf_unit;pmc_unit;preco_ref;tipo_preco;vigencia;tabela87_sugerida;precos_extra
+SIMPRO;2026-04-12;reagente;0001905070;12;;D.G.L;CARBONATO CALCIO EXTRA-LEVE 1000GRS;;;;;;;;;;;;;;0.004;SIMPRO_VIG;2008-06-09;19;
+SIMPRO;2026-04-12;reagente;0000001167;12;;D.G.L;CARBONATO CALCIO EXTRA-LEVE 100GRS;;;;;;;;;;;;;;0.026;SIMPRO_VIG;2006-04-19;19;
+SIMPRO;2026-04-12;reagente;0001905072;12;;D.G.L;CERA ABELHA FLOCOS 1000GRS;;;;;;;;;;;;;;0.064;SIMPRO_VIG;2006-04-19;19;
+SIMPRO;2026-04-12;reagente;0000129592;12;;D.G.L;CLORETO CALCIO P.A.2H2 DIHIDRATADO 1KG;;;;;;;;;;;;;;12.4;SIMPRO_VIG;2008-06-09;19;
+SIMPRO;2026-04-12;reagente;0000129607;12;;D.G.L;CLORETO MAGNESIO USP.1KG;;;;;;;;;;;;;;6.2;SIMPRO_VIG;2008-06-09;19;
+SIMPRO;2026-04-12;reagente;0000129608;12;;D.G.L;CLORETO POTASSIO USP.1KG;;;;;;;;;;;;;;6.4;SIMPRO_VIG;2008-06-09;19;
+SIMPRO;2026-04-12;reagente;0000129610;12;;D.G.L;CLORETO SODIO P.A. 1KG;;;;;;;;;;;;;;3.98;SIMPRO_VIG;2008-06-09;19;
+SIMPRO;2026-04-12;reagente;0001905074;12;;D.G.L;CLOROFORMIO P.A.1000ML;;;;;;;;;;;;;;0.029;SIMPRO_VIG;2009-01-21;19;

@@ -1,0 +1,7 @@
+fonte;edicao;tipo_item;codigo_fonte;tabela_fonte;chave_fonte;laboratorio;produto;apresentacao;principio_ativo;ean;registro_anvisa;codigo_tuss;ggrem;generico;restrito_hospitalar;qtd_embalagem;pf_total;pmc_total;pf_unit;pmc_unit;preco_ref;tipo_preco;vigencia;tabela87_sugerida;precos_extra
+BRASINDICE;1094;material;0000089487;05;001-27522-FQOI;UNIAO QUIMICA;XANTINON;20 caps. gel.;;7896006299721;;;;N;;20;13.51;0;0.68;0;;BRAS_PF_PMC;ed. 1091;19;
+BRASINDICE;1094;material;0000089921;05;001-27592-FRAZ;UNIAO QUIMICA;XANTINON AFTER;250 ml citrus;;7896006299615;;;;N;;1;8.99;0;8.99;0;;BRAS_PF_PMC;ed. 1091;19;
+BRASINDICE;1094;material;0000089922;05;001-27592-FRBA;UNIAO QUIMICA;XANTINON AFTER;250 ml frut. verm.;;7896006299622;;;;N;;1;8.99;0;8.99;0;;BRAS_PF_PMC;ed. 1091;19;
+BRASINDICE;1094;material;0000089923;05;001-27592-FRBB;UNIAO QUIMICA;XANTINON AFTER;250 ml tangerina;;7896006299639;;;;N;;1;8.99;0;8.99;0;;BRAS_PF_PMC;ed. 1091;19;
+BRASINDICE;1094;material;0000070601;05;431-23592-ETEB;POLITEC;XTRA - SISTEMA DE AUTOTRANSFUSAO (ATS);425X - Kit Procedure Set Xtra (Kit desc. procedimento ATS) - 1 kit;;;;;;N;;1;7120.39;0;7120.39;0;;BRAS_PF_PMC;ed. 1066;19;
+BRASINDICE;1094;material;0000070602;05;431-23592-ETEC;POLITEC;XTRA - SISTEMA DE AUTOTRANSFUSAO (ATS);4015 - Kit Seguestration - 1 kit;;;;;;N;;1;3286.33;0;3286.33;0;;BRAS_PF_PMC;ed. 1066;19;

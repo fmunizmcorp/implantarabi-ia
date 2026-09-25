@@ -1,0 +1,2741 @@
+{
+ "kit": "0.1.0",
+ "descricao": "Mapa das tabelas de referência normalizadas",
+ "conjuntos": {
+  "brasindice/materiais": {
+   "titulo": "Brasíndice — materiais e insumos",
+   "fonte": "Brasíndice (publicação licenciada)",
+   "fonte_publica": "Brasíndice — arquivo TXT da edição",
+   "edicao": "1094",
+   "data_edicao": "não informada no arquivo",
+   "licenca": "licenciada — incluída só como referência de nomenclatura/códigos",
+   "descricao": "Nomenclatura, apresentação, EAN, código TISS (tabela 05) e TUSS, com PF/PMC indicativos.",
+   "quando_usar": "nome/apresentação padrão, EAN, código TISS 05, TUSS",
+   "colunas": [
+    "fonte",
+    "edicao",
+    "tipo_item",
+    "codigo_fonte",
+    "tabela_fonte",
+    "chave_fonte",
+    "laboratorio",
+    "produto",
+    "apresentacao",
+    "principio_ativo",
+    "ean",
+    "registro_anvisa",
+    "codigo_tuss",
+    "ggrem",
+    "generico",
+    "restrito_hospitalar",
+    "qtd_embalagem",
+    "pf_total",
+    "pmc_total",
+    "pf_unit",
+    "pmc_unit",
+    "preco_ref",
+    "tipo_preco",
+    "vigencia",
+    "tabela87_sugerida",
+    "precos_extra"
+   ],
+   "descricao_colunas": {
+    "fonte": "Tabela de origem (BRASINDICE, SIMPRO ou CMED).",
+    "edicao": "Edição/competência da publicação usada.",
+    "tipo_item": "medicamento, material, saneante ou reagente.",
+    "codigo_fonte": "Código do item na própria tabela (Brasíndice: código TISS de 10 dígitos; SIMPRO: código de 10 dígitos; CMED: código GGREM).",
+    "tabela_fonte": "Código da Tabela 87 (TISS) que acompanha `codigo_fonte` na guia: 05 Brasíndice, 12 SIMPRO; vazio na CMED.",
+    "chave_fonte": "Chave interna da publicação (Brasíndice: laboratório-produto-apresentação).",
+    "laboratorio": "Laboratório/fabricante.",
+    "produto": "Nome comercial ou descrição curta, como publicado.",
+    "apresentacao": "Apresentação (forma, concentração, embalagem), como publicada.",
+    "principio_ativo": "Substância. CMED publica; no Brasíndice vem da CMED pelo EAN (ou registro).",
+    "ean": "Código de barras (EAN-13).",
+    "registro_anvisa": "Registro ANVISA (13 dígitos em medicamento).",
+    "codigo_tuss": "Código TUSS (20 medicamentos, 19 materiais, 18 taxas).",
+    "ggrem": "Código GGREM da CMED.",
+    "generico": "S = genérico; N = não; vazio = não informado.",
+    "restrito_hospitalar": "S = uso restrito a hospital/clínica (PMC costuma ser 0 — normal).",
+    "qtd_embalagem": "Unidades por embalagem (quando a fonte informa).",
+    "pf_total": "Preço Fábrica da embalagem (R$).",
+    "pmc_total": "Preço Máximo ao Consumidor da embalagem (R$).",
+    "pf_unit": "PF por unidade (R$).",
+    "pmc_unit": "PMC por unidade (R$).",
+    "preco_ref": "Preço único publicado quando não há PF/PMC (SIMPRO, em geral por unidade/fração).",
+    "tipo_preco": "Código curto da base do preço: BRAS_PF_PMC = PF/PMC do Brasíndice (ICMS 17%; PMC 0 em restrito hospitalar é normal); CMED_ICMS17 = PF/PMC CMED com ICMS 17% (outras alíquotas em precos_extra); SIMPRO_VIG = valor vigente SIMPRO (em geral por unidade/fração, 3 casas).",
+    "vigencia": "Data (AAAA-MM-DD) ou edição da última alteração de preço do item.",
+    "tabela87_sugerida": "Tabela TUSS sugerida para o item: 20 medicamento, 19 material. Conferir com o contrato do convênio.",
+    "precos_extra": "CMED: preços em outras alíquotas de ICMS (PF0, PF12, PF18…, PMC18…, PMVG17…)."
+   },
+   "origem": [
+    {
+     "arquivo": "Brasindice_1094_Materiais.txt",
+     "bytes": 1772868,
+     "sha256": "7c78793921850998822d8aefff15514bf9db2dc9e1848f08153aabc5276224c1"
+    }
+   ],
+   "observacoes": [
+    "Layout do TXT conferido cruzando EAN/GGREM/registro com a CMED: coluna 17 = código TISS Brasíndice (vai na guia com tabela 05), 18 = genérico, 19 = código TUSS, 20 = GGREM, 21 = registro ANVISA. Restrito hospitalar vem do nome '(Restrito Hosp.)' ou da CMED.",
+    "pf_unit/pmc_unit já vêm unitários da publicação. PMC 0 em item restrito hospitalar é normal.",
+    "A coluna `vigencia` traz a edição em que o preço do item mudou pela última vez."
+   ],
+   "pasta": "brasindice/materiais",
+   "linhas": 7767,
+   "bytes": 1529919,
+   "fatias": [
+    {
+     "prefixo": "0-9",
+     "arquivo": "0-9.csv",
+     "linhas": 11,
+     "bytes": 2263,
+     "sha256": "9f0727f3c8aee25d48ad9a17622f66aa82102891b79b0a399070254dc8ddf98b"
+    },
+    {
+     "prefixo": "A",
+     "arquivo": "A.csv",
+     "linhas": 578,
+     "bytes": 116675,
+     "sha256": "5c677c066ae49046c6dbb19eb24d6e462d88e76bf4f0c7946a6ef46f52151fff"
+    },
+    {
+     "prefixo": "B",
+     "arquivo": "B.csv",
+     "linhas": 390,
+     "bytes": 72770,
+     "sha256": "007ece0cb3f7fc5d9512140b737e9cdeb1eae6d63fd16c2bb0616dfd7f25b918"
+    },
+    {
+     "prefixo": "C",
+     "arquivo": "C.csv",
+     "linhas": 505,
+     "bytes": 98851,
+     "sha256": "10e4195fd9a7d13f451de8a8ff5a6bc9365776260cd9f7c418d7e7c06a795171"
+    },
+    {
+     "prefixo": "D",
+     "arquivo": "D.csv",
+     "linhas": 302,
+     "bytes": 56184,
+     "sha256": "53fd6b4c97e0c3413eeaf507dd2f6b1a77a55fdde170b07b9f16490c6301bbaf"
+    },
+    {
+     "prefixo": "E",
+     "arquivo": "E.csv",
+     "linhas": 341,
+     "bytes": 67563,
+     "sha256": "012427ed32b11c3de62af874d4b5159f784bf208651b34bf6918e0d8f75342f1"
+    },
+    {
+     "prefixo": "F",
+     "arquivo": "F.csv",
+     "linhas": 279,
+     "bytes": 52122,
+     "sha256": "de1dcbeb063190db6e54bfc6c76d919b594c795c865a633f3888728c4af7365e"
+    },
+    {
+     "prefixo": "G",
+     "arquivo": "G.csv",
+     "linhas": 70,
+     "bytes": 12443,
+     "sha256": "a274a1d804717f75af143834d79c41e7db83d0b2b6b01da3b0263916ececd585"
+    },
+    {
+     "prefixo": "H",
+     "arquivo": "H.csv",
+     "linhas": 338,
+     "bytes": 66430,
+     "sha256": "0f1e1761950c95043e3b04662674bc5d0834a6a7d339ae08a635c01c996cb3e7"
+    },
+    {
+     "prefixo": "I",
+     "arquivo": "I.csv",
+     "linhas": 267,
+     "bytes": 49014,
+     "sha256": "4963a122b26414571ae9d1e025e24f2cf13c3ea79d73d01763a3ca2e5700daa9"
+    },
+    {
+     "prefixo": "J",
+     "arquivo": "J.csv",
+     "linhas": 17,
+     "bytes": 3120,
+     "sha256": "ccda9bcbcc218a592052755d585c13288b2fb14869110adf79ff9e837fb12556"
+    },
+    {
+     "prefixo": "K",
+     "arquivo": "K.csv",
+     "linhas": 198,
+     "bytes": 40872,
+     "sha256": "0f6ab2ee014362b56ed25d47462ebefa7cca90cd60d6d34e1f6493f343006bd0"
+    },
+    {
+     "prefixo": "L",
+     "arquivo": "L.csv",
+     "linhas": 530,
+     "bytes": 107833,
+     "sha256": "010dc8f9f0b664d267f9b0ba29c1a467752f796b69ae264d72ddc26c8b24b448"
+    },
+    {
+     "prefixo": "M",
+     "arquivo": "M.csv",
+     "linhas": 450,
+     "bytes": 81149,
+     "sha256": "f43a0d2aac22053a0a46ce4b03037a79c1477f0e2e2fa86aa2275aaf11628d16"
+    },
+    {
+     "prefixo": "N",
+     "arquivo": "N.csv",
+     "linhas": 853,
+     "bytes": 165924,
+     "sha256": "339a7a0b6d27468a83e410d1b61c748e647322f85de158466cc17c6a6fd63dfd"
+    },
+    {
+     "prefixo": "O",
+     "arquivo": "O.csv",
+     "linhas": 303,
+     "bytes": 67107,
+     "sha256": "1a99af37e0094f335395cfd78ee510f1a64af5dcc2870528b701a76c871b4b3d"
+    },
+    {
+     "prefixo": "P",
+     "arquivo": "P.csv",
+     "linhas": 774,
+     "bytes": 165401,
+     "sha256": "f75ff799ea451368f0550012a63200b2033ab0cdc1958f0a62f26ed0c7538541"
+    },
+    {
+     "prefixo": "Q",
+     "arquivo": "Q.csv",
+     "linhas": 14,
+     "bytes": 2429,
+     "sha256": "028813c8d0b7fe61436c86719cf0bbc6f54f58bfd334886fd5345bc2aca33a64"
+    },
+    {
+     "prefixo": "R",
+     "arquivo": "R.csv",
+     "linhas": 150,
+     "bytes": 28833,
+     "sha256": "38c8506414c5ecabc008ef6cf7d3ce6f3e1a8bc26192f5f797e2d9cd38efcca1"
+    },
+    {
+     "prefixo": "S",
+     "arquivo": "S.csv",
+     "linhas": 718,
+     "bytes": 142220,
+     "sha256": "5785e6cb8d1931cdcbc84285c57c46f6e9a8e83202d8571b4fa7536576459e7b"
+    },
+    {
+     "prefixo": "T",
+     "arquivo": "T.csv",
+     "linhas": 361,
+     "bytes": 71087,
+     "sha256": "e0ac2275d697c42267cb03f0e596587abba7ccc5077fa3358b93511e483aedf3"
+    },
+    {
+     "prefixo": "U",
+     "arquivo": "U.csv",
+     "linhas": 43,
+     "bytes": 8941,
+     "sha256": "67eb04110e8411f1838eec3b2efe64486f1bb0174dcad52b6c9fe64a6661023f"
+    },
+    {
+     "prefixo": "V",
+     "arquivo": "V.csv",
+     "linhas": 214,
+     "bytes": 38595,
+     "sha256": "faf800d0e7a48703263312de3493367942a130cb511865c5c6e5bbcb365dddd0"
+    },
+    {
+     "prefixo": "W",
+     "arquivo": "W.csv",
+     "linhas": 1,
+     "bytes": 465,
+     "sha256": "ac97d055ab39780a02f05754aeb1b8552febe617c53be1d21db3741d8ee6617a"
+    },
+    {
+     "prefixo": "X",
+     "arquivo": "X.csv",
+     "linhas": 6,
+     "bytes": 1346,
+     "sha256": "f2caa1ab067fcd0eb0f4c26b4d2138e15b4072f0647950a7af0e3e9550f073aa"
+    },
+    {
+     "prefixo": "Y",
+     "arquivo": "Y.csv",
+     "linhas": 6,
+     "bytes": 1290,
+     "sha256": "2ce886cc4cbec9ee0bc038201785c782acdc0dd4bd73632d35e4209e434f00da"
+    },
+    {
+     "prefixo": "Z",
+     "arquivo": "Z.csv",
+     "linhas": 48,
+     "bytes": 8992,
+     "sha256": "f9a48031cfc80f8c6ffda91378bccf5d4786479679800e8476d303628d712fff"
+    }
+   ],
+   "normalizado_em": "2026-09-25"
+  },
+  "brasindice/medicamentos": {
+   "titulo": "Brasíndice — medicamentos",
+   "fonte": "Brasíndice (publicação licenciada)",
+   "fonte_publica": "Brasíndice — arquivo TXT da edição",
+   "edicao": "1100 (+1094 complementar)",
+   "data_edicao": "não informada no arquivo",
+   "licenca": "licenciada — incluída só como referência de nomenclatura/códigos",
+   "descricao": "Nomenclatura, apresentação, EAN, código TISS (tabela 05) e TUSS, com PF/PMC indicativos.",
+   "quando_usar": "nome/apresentação padrão, EAN, código TISS 05, TUSS",
+   "colunas": [
+    "fonte",
+    "edicao",
+    "tipo_item",
+    "codigo_fonte",
+    "tabela_fonte",
+    "chave_fonte",
+    "laboratorio",
+    "produto",
+    "apresentacao",
+    "principio_ativo",
+    "ean",
+    "registro_anvisa",
+    "codigo_tuss",
+    "ggrem",
+    "generico",
+    "restrito_hospitalar",
+    "qtd_embalagem",
+    "pf_total",
+    "pmc_total",
+    "pf_unit",
+    "pmc_unit",
+    "preco_ref",
+    "tipo_preco",
+    "vigencia",
+    "tabela87_sugerida",
+    "precos_extra"
+   ],
+   "descricao_colunas": {
+    "fonte": "Tabela de origem (BRASINDICE, SIMPRO ou CMED).",
+    "edicao": "Edição/competência da publicação usada.",
+    "tipo_item": "medicamento, material, saneante ou reagente.",
+    "codigo_fonte": "Código do item na própria tabela (Brasíndice: código TISS de 10 dígitos; SIMPRO: código de 10 dígitos; CMED: código GGREM).",
+    "tabela_fonte": "Código da Tabela 87 (TISS) que acompanha `codigo_fonte` na guia: 05 Brasíndice, 12 SIMPRO; vazio na CMED.",
+    "chave_fonte": "Chave interna da publicação (Brasíndice: laboratório-produto-apresentação).",
+    "laboratorio": "Laboratório/fabricante.",
+    "produto": "Nome comercial ou descrição curta, como publicado.",
+    "apresentacao": "Apresentação (forma, concentração, embalagem), como publicada.",
+    "principio_ativo": "Substância. CMED publica; no Brasíndice vem da CMED pelo EAN (ou registro).",
+    "ean": "Código de barras (EAN-13).",
+    "registro_anvisa": "Registro ANVISA (13 dígitos em medicamento).",
+    "codigo_tuss": "Código TUSS (20 medicamentos, 19 materiais, 18 taxas).",
+    "ggrem": "Código GGREM da CMED.",
+    "generico": "S = genérico; N = não; vazio = não informado.",
+    "restrito_hospitalar": "S = uso restrito a hospital/clínica (PMC costuma ser 0 — normal).",
+    "qtd_embalagem": "Unidades por embalagem (quando a fonte informa).",
+    "pf_total": "Preço Fábrica da embalagem (R$).",
+    "pmc_total": "Preço Máximo ao Consumidor da embalagem (R$).",
+    "pf_unit": "PF por unidade (R$).",
+    "pmc_unit": "PMC por unidade (R$).",
+    "preco_ref": "Preço único publicado quando não há PF/PMC (SIMPRO, em geral por unidade/fração).",
+    "tipo_preco": "Código curto da base do preço: BRAS_PF_PMC = PF/PMC do Brasíndice (ICMS 17%; PMC 0 em restrito hospitalar é normal); CMED_ICMS17 = PF/PMC CMED com ICMS 17% (outras alíquotas em precos_extra); SIMPRO_VIG = valor vigente SIMPRO (em geral por unidade/fração, 3 casas).",
+    "vigencia": "Data (AAAA-MM-DD) ou edição da última alteração de preço do item.",
+    "tabela87_sugerida": "Tabela TUSS sugerida para o item: 20 medicamento, 19 material. Conferir com o contrato do convênio.",
+    "precos_extra": "CMED: preços em outras alíquotas de ICMS (PF0, PF12, PF18…, PMC18…, PMVG17…)."
+   },
+   "origem": [
+    {
+     "arquivo": "Brasindice_1100_Medicamentos.txt",
+     "bytes": 3094267,
+     "sha256": "4d83d4835a711f6993ccc0c43d7156e213e0c9113a5ca06fe7e77740d799f8b4"
+    },
+    {
+     "arquivo": "Brasindice_1094_Medicamentos.txt",
+     "bytes": 3713301,
+     "sha256": "e63424edb737e948a1aaa249b603684c7a7371e1a9ecbf1517209fe1b7294f73"
+    },
+    {
+     "arquivo": "Brasindice_1094_MedicamentosFarmacos.txt",
+     "bytes": 3993751,
+     "sha256": "52521c42b5a3c6699902498f15198e45367c33f144f09b3ab4610052569cb11f"
+    }
+   ],
+   "observacoes": [
+    "Base = edição 1100 (15474 itens). Da edição 1094 entraram 1472 itens que não estão na 1100 (arquivo 'Outros Fármacos', que a 1100 recebida não traz); 177 itens que saíram da 1100 ficaram fora (tratados como descontinuados). A edição de cada linha está na coluna `edicao`.",
+    "A edição 1100 recebida tem layout reduzido (19 colunas, sem genérico/GGREM/registro): esses campos vieram da edição anterior (mesma chave) ou da CMED (mesmo EAN).",
+    "Layout do TXT conferido cruzando EAN/GGREM/registro com a CMED: coluna 17 = código TISS Brasíndice (vai na guia com tabela 05), 18 = genérico, 19 = código TUSS, 20 = GGREM, 21 = registro ANVISA. Restrito hospitalar vem do nome '(Restrito Hosp.)' ou da CMED.",
+    "pf_unit/pmc_unit já vêm unitários da publicação. PMC 0 em item restrito hospitalar é normal.",
+    "A coluna `vigencia` traz a edição em que o preço do item mudou pela última vez.",
+    "principio_ativo vem da CMED (junção por EAN; se não achar, por registro). Vazio = não achado."
+   ],
+   "pasta": "brasindice/medicamentos",
+   "linhas": 16946,
+   "bytes": 4206780,
+   "fatias": [
+    {
+     "prefixo": "0-9",
+     "arquivo": "0-9.csv",
+     "linhas": 5,
+     "bytes": 1107,
+     "sha256": "43931a7ed28610ae610af02ee026eede4350fcc62e7f24b0ec4d853991d7424b"
+    },
+    {
+     "prefixo": "A",
+     "arquivo": "A.csv",
+     "linhas": 1671,
+     "bytes": 411037,
+     "sha256": "c428313dcb61eaa45564b230dfae92f3c2042b79a25bda0902f94561634efd4e"
+    },
+    {
+     "prefixo": "B",
+     "arquivo": "B.csv",
+     "linhas": 861,
+     "bytes": 212166,
+     "sha256": "f280604f43ebc99ccd553d7f9ede862904b4d00e258482dac0729cc99e631d8f"
+    },
+    {
+     "prefixo": "C",
+     "arquivo": "C.csv",
+     "linhas": 2204,
+     "bytes": 570163,
+     "sha256": "2ea607d97cf4dbf84a4206fcd14fd5ab19a89f41f989acf0342be3e6a1bd8316"
+    },
+    {
+     "prefixo": "D",
+     "arquivo": "D.csv",
+     "linhas": 1286,
+     "bytes": 319269,
+     "sha256": "c3f21903e785b5daabf427521a2ef1313ee13f48a3117a4985b644bce1e66b41"
+    },
+    {
+     "prefixo": "E",
+     "arquivo": "E.csv",
+     "linhas": 772,
+     "bytes": 189793,
+     "sha256": "0c2c3300f8c0e3b798da810e55fab65bc273d82f52a91a583a0808af68027059"
+    },
+    {
+     "prefixo": "F",
+     "arquivo": "F.csv",
+     "linhas": 734,
+     "bytes": 180204,
+     "sha256": "cd5b4c8f6aa9d6cffbb934d9f364d5f1c7e6bb7fb7f3f95e10f23af8365abd81"
+    },
+    {
+     "prefixo": "G",
+     "arquivo": "G.csv",
+     "linhas": 396,
+     "bytes": 97670,
+     "sha256": "222091222bddd0b62d0c03ee8a1f639e160019d0d0b830d20b9d82ec9658be95"
+    },
+    {
+     "prefixo": "H",
+     "arquivo": "H.csv",
+     "linhas": 467,
+     "bytes": 119180,
+     "sha256": "ab90e90b59d25b7f4917e8651dbef026adeb5f7dd161ce4eccbfe47badb767d2"
+    },
+    {
+     "prefixo": "I",
+     "arquivo": "I.csv",
+     "linhas": 414,
+     "bytes": 98291,
+     "sha256": "485b4e8ebb95c45f6224f7d6d273db99eb213c57fa55fb77c2c1e7ef46bfe409"
+    },
+    {
+     "prefixo": "J",
+     "arquivo": "J.csv",
+     "linhas": 60,
+     "bytes": 14983,
+     "sha256": "2f3dd662eae624d7df0c6eee34cb9e6160f7ad6e2c7a6718716066090731fcc5"
+    },
+    {
+     "prefixo": "K",
+     "arquivo": "K.csv",
+     "linhas": 191,
+     "bytes": 47896,
+     "sha256": "7379a932181b5c0bc65a0384f59c9eacfda5423591eff8063f1db1507f2e23df"
+    },
+    {
+     "prefixo": "L",
+     "arquivo": "L.csv",
+     "linhas": 841,
+     "bytes": 204676,
+     "sha256": "6e94ff43048d9f173ca6a1da45d958051a0af398e8ef4d7608d60a1fc8a0266d"
+    },
+    {
+     "prefixo": "M",
+     "arquivo": "M.csv",
+     "linhas": 874,
+     "bytes": 217465,
+     "sha256": "1f47b148128bd92cf3ff7e6992f7a454b7c2efbe2d2d9be7786f1ff7fef87a0b"
+    },
+    {
+     "prefixo": "N",
+     "arquivo": "N.csv",
+     "linhas": 720,
+     "bytes": 175304,
+     "sha256": "ed99a1ccd19369d9c145be80e24b493a2c6206dc3c0e765ff98745718f297ea7"
+    },
+    {
+     "prefixo": "O",
+     "arquivo": "O.csv",
+     "linhas": 601,
+     "bytes": 151280,
+     "sha256": "2c58760fc8b49c7b3ce12e493021b74b88cfc8493d390e05a5a91e8e703b5398"
+    },
+    {
+     "prefixo": "P",
+     "arquivo": "P.csv",
+     "linhas": 1068,
+     "bytes": 261849,
+     "sha256": "9470d8c0dd8afa0771290255031e03935af6a0463c3338e2d9ec1cb2ca85081e"
+    },
+    {
+     "prefixo": "Q",
+     "arquivo": "Q.csv",
+     "linhas": 68,
+     "bytes": 16365,
+     "sha256": "3b85f02dd02598bc6a5e7ad281ad317364c36fdfb9c81666172a48ae883f0b30"
+    },
+    {
+     "prefixo": "R",
+     "arquivo": "R.csv",
+     "linhas": 704,
+     "bytes": 170179,
+     "sha256": "845fb49172f0d7070870d63008d307c05f77e58510179cb50af7de6a6a746b2d"
+    },
+    {
+     "prefixo": "S",
+     "arquivo": "S.csv",
+     "linhas": 969,
+     "bytes": 244445,
+     "sha256": "1b22947a524ab69007417330e75f120eda6f28ea3a7d6b90103722cb10886252"
+    },
+    {
+     "prefixo": "T",
+     "arquivo": "T.csv",
+     "linhas": 795,
+     "bytes": 198705,
+     "sha256": "d6aa45b5a3efeb740aa3f54c753bae6dfcb2381f47de16d7af31a99b5f6b8edb"
+    },
+    {
+     "prefixo": "U",
+     "arquivo": "U.csv",
+     "linhas": 119,
+     "bytes": 28904,
+     "sha256": "4203262e2de0889562cf406b2d1517f82e28cba68b2b7653f1c1303299f2c50e"
+    },
+    {
+     "prefixo": "V",
+     "arquivo": "V.csv",
+     "linhas": 716,
+     "bytes": 173209,
+     "sha256": "55c005b5ca691b02448cac7dd35764b885d09ab1ad40b03a21bbc736e4776b66"
+    },
+    {
+     "prefixo": "W",
+     "arquivo": "W.csv",
+     "linhas": 32,
+     "bytes": 9179,
+     "sha256": "5125c8b3b162900cc867d84f15f6b8c0e4456b3e9383d93d390cd2cb88654c35"
+    },
+    {
+     "prefixo": "X",
+     "arquivo": "X.csv",
+     "linhas": 123,
+     "bytes": 31273,
+     "sha256": "ca3a01db9d2dec2728f2b6e9433271260cf6b435965b272e03d352c6172f45cb"
+    },
+    {
+     "prefixo": "Y",
+     "arquivo": "Y.csv",
+     "linhas": 14,
+     "bytes": 3872,
+     "sha256": "9a9046252273744f461dfb396a480800bf8fa547b7fe7b580d148000e0a36a7e"
+    },
+    {
+     "prefixo": "Z",
+     "arquivo": "Z.csv",
+     "linhas": 241,
+     "bytes": 58316,
+     "sha256": "3cac055d094f8058593c0a0cf9119891405ec929fae1e84d9144f3c9eff7e8cc"
+    }
+   ],
+   "normalizado_em": "2026-09-25"
+  },
+  "cbhpm/portes": {
+   "titulo": "CBHPM 5ª edição (2008) — portes por código TUSS",
+   "fonte": "CBHPM 5ª edição (publicação licenciada da AMB)",
+   "fonte_publica": "CBHPM 5ª edição (2008)",
+   "edicao": "5ª (2008)",
+   "data_edicao": "2008",
+   "licenca": "licenciada — incluída só como referência de nomenclatura/códigos",
+   "descricao": "Procedimento (código TUSS e CBHPM, descrição) com porte e custo operacional (UCO).",
+   "quando_usar": "nome e código de procedimento/serviço; porte quando o contrato for CBHPM",
+   "colunas": [
+    "codigo_tuss",
+    "codigo_cbhpm",
+    "descricao",
+    "porte",
+    "custo_operacional_uco",
+    "pagina_publicacao"
+   ],
+   "descricao_colunas": {
+    "codigo_tuss": "Código TUSS (terminologia 22).",
+    "codigo_cbhpm": "Código na CBHPM.",
+    "descricao": "Descrição extraída do PDF (pode ter cortes/ruído de extração).",
+    "porte": "Porte CBHPM (ex.: 2B).",
+    "custo_operacional_uco": "Unidades de custo operacional.",
+    "pagina_publicacao": "Página no livro."
+   },
+   "origem": [
+    {
+     "arquivo": "CBHPM_5a_2008_PORTES_por_codigo_TUSS.csv",
+     "bytes": 217663,
+     "sha256": "f5e166da38a261f1b5e062692d0b31912fbfc13754b8b95ed6947c489d3d9596"
+    }
+   ],
+   "observacoes": [
+    "Edição antiga (2008): o VALOR do porte depende do contrato (edição da CBHPM, deflator/inflator). Use o porte/código como referência, nunca como preço.",
+    "Descrições vieram de extração de PDF; algumas linhas trazem texto de cabeçalho junto."
+   ],
+   "pasta": "cbhpm/portes",
+   "linhas": 2652,
+   "bytes": 215688,
+   "fatias": [
+    {
+     "prefixo": "",
+     "arquivo": "dados.csv",
+     "linhas": 2652,
+     "bytes": 215688,
+     "sha256": "979f70213d8c6940be72ed07e27d648216f041dacf5d449748b19d22311819c2"
+    }
+   ],
+   "normalizado_em": "2026-09-25"
+  },
+  "cmed/medicamentos": {
+   "titulo": "CMED — lista de preços de medicamentos (PF/PMC/PMVG)",
+   "fonte": "CMED/ANVISA — Lista de preços de medicamentos",
+   "fonte_publica": "https://www.gov.br/anvisa/pt-br/assuntos/medicamentos/cmed/precos",
+   "edicao": "20260508",
+   "data_edicao": "2026-05-09",
+   "licenca": "pública (ANVISA/CMED)",
+   "descricao": "Preços regulados (teto) de medicamentos com substância, registro ANVISA, EAN e GGREM. Serve para achar o princípio ativo, o registro e o teto legal de preço.",
+   "quando_usar": "princípio ativo, registro ANVISA, EAN, teto PF/PMC",
+   "colunas": [
+    "fonte",
+    "edicao",
+    "tipo_item",
+    "codigo_fonte",
+    "tabela_fonte",
+    "chave_fonte",
+    "laboratorio",
+    "produto",
+    "apresentacao",
+    "principio_ativo",
+    "ean",
+    "registro_anvisa",
+    "codigo_tuss",
+    "ggrem",
+    "generico",
+    "restrito_hospitalar",
+    "qtd_embalagem",
+    "pf_total",
+    "pmc_total",
+    "pf_unit",
+    "pmc_unit",
+    "preco_ref",
+    "tipo_preco",
+    "vigencia",
+    "tabela87_sugerida",
+    "precos_extra"
+   ],
+   "descricao_colunas": {
+    "fonte": "Tabela de origem (BRASINDICE, SIMPRO ou CMED).",
+    "edicao": "Edição/competência da publicação usada.",
+    "tipo_item": "medicamento, material, saneante ou reagente.",
+    "codigo_fonte": "Código do item na própria tabela (Brasíndice: código TISS de 10 dígitos; SIMPRO: código de 10 dígitos; CMED: código GGREM).",
+    "tabela_fonte": "Código da Tabela 87 (TISS) que acompanha `codigo_fonte` na guia: 05 Brasíndice, 12 SIMPRO; vazio na CMED.",
+    "chave_fonte": "Chave interna da publicação (Brasíndice: laboratório-produto-apresentação).",
+    "laboratorio": "Laboratório/fabricante.",
+    "produto": "Nome comercial ou descrição curta, como publicado.",
+    "apresentacao": "Apresentação (forma, concentração, embalagem), como publicada.",
+    "principio_ativo": "Substância. CMED publica; no Brasíndice vem da CMED pelo EAN (ou registro).",
+    "ean": "Código de barras (EAN-13).",
+    "registro_anvisa": "Registro ANVISA (13 dígitos em medicamento).",
+    "codigo_tuss": "Código TUSS (20 medicamentos, 19 materiais, 18 taxas).",
+    "ggrem": "Código GGREM da CMED.",
+    "generico": "S = genérico; N = não; vazio = não informado.",
+    "restrito_hospitalar": "S = uso restrito a hospital/clínica (PMC costuma ser 0 — normal).",
+    "qtd_embalagem": "Unidades por embalagem (quando a fonte informa).",
+    "pf_total": "Preço Fábrica da embalagem (R$).",
+    "pmc_total": "Preço Máximo ao Consumidor da embalagem (R$).",
+    "pf_unit": "PF por unidade (R$).",
+    "pmc_unit": "PMC por unidade (R$).",
+    "preco_ref": "Preço único publicado quando não há PF/PMC (SIMPRO, em geral por unidade/fração).",
+    "tipo_preco": "Código curto da base do preço: BRAS_PF_PMC = PF/PMC do Brasíndice (ICMS 17%; PMC 0 em restrito hospitalar é normal); CMED_ICMS17 = PF/PMC CMED com ICMS 17% (outras alíquotas em precos_extra); SIMPRO_VIG = valor vigente SIMPRO (em geral por unidade/fração, 3 casas).",
+    "vigencia": "Data (AAAA-MM-DD) ou edição da última alteração de preço do item.",
+    "tabela87_sugerida": "Tabela TUSS sugerida para o item: 20 medicamento, 19 material. Conferir com o contrato do convênio.",
+    "precos_extra": "CMED: preços em outras alíquotas de ICMS (PF0, PF12, PF18…, PMC18…, PMVG17…)."
+   },
+   "origem": [
+    {
+     "arquivo": "CMED_PMC_20260508.xlsx",
+     "bytes": 12201070,
+     "sha256": "1b0845ff704af163f9f5b017e3d5d9e903a87e99bdf6144c4a9c19cb52633394"
+    },
+    {
+     "arquivo": "CMED_PMVG_PF_20260508.xlsx",
+     "bytes": 12901684,
+     "sha256": "cbd02c251f80373011096b2977cbb9cde4e5b25b3dc159833fdde05d8fe52832"
+    },
+    {
+     "arquivo": "REGISTROS ANVISA NA TUSS DE MEDICAMENTOS VERS╟O 202601.xlsx",
+     "bytes": 1030047,
+     "sha256": "569960541cfa0393a51649ca82c27710552a66bb3404125aab7a9a2424e8e46a"
+    }
+   ],
+   "observacoes": [
+    "pf_total/pmc_total = alíquota de ICMS 17% (a mesma base que o Brasíndice usa). Outras alíquotas em `precos_extra`; use a do estado da clínica.",
+    "codigo_tuss preenchido pelo arquivo oficial 'Registros ANVISA na TUSS de medicamentos' (junção por registro).",
+    "Quantidade por embalagem não é publicada de forma estruturada: pf_unit/pmc_unit ficam vazios."
+   ],
+   "pasta": "cmed/medicamentos",
+   "linhas": 25276,
+   "bytes": 11147069,
+   "fatias": [
+    {
+     "prefixo": "A",
+     "arquivo": "A.csv",
+     "linhas": 2387,
+     "bytes": 1058022,
+     "sha256": "16b4c072af86eeebb625c4ce847ba17022187adb97e851e7bd2e34263c72f01f"
+    },
+    {
+     "prefixo": "B",
+     "arquivo": "B.csv",
+     "linhas": 1189,
+     "bytes": 523134,
+     "sha256": "90ae79c2e5164cc930f6068930eb8c243f340e984a5a49e4eb60650f0646fa11"
+    },
+    {
+     "prefixo": "C",
+     "arquivo": "C.csv",
+     "linhas": 3638,
+     "bytes": 1603795,
+     "sha256": "e7b867468ccc9f7eaacb7d1650ceae08a2749a507128f04e7ce142ff1b22f38e"
+    },
+    {
+     "prefixo": "D",
+     "arquivo": "D.csv",
+     "linhas": 1788,
+     "bytes": 793398,
+     "sha256": "6e3525d90028c782ce1473d11d9ad9db1a5918d9f1c0d0ca90dc85931773ff4d"
+    },
+    {
+     "prefixo": "E",
+     "arquivo": "E.csv",
+     "linhas": 1190,
+     "bytes": 523654,
+     "sha256": "f1444cfe2caa8bcdb3dddde7b51182b9eba343acb2c1081c8f98b450a423712e"
+    },
+    {
+     "prefixo": "F",
+     "arquivo": "F.csv",
+     "linhas": 1076,
+     "bytes": 448676,
+     "sha256": "6c1b63409db69a44522ba4dde1a6475e74c707d248c33e463891ddc00a29a110"
+    },
+    {
+     "prefixo": "G",
+     "arquivo": "G.csv",
+     "linhas": 613,
+     "bytes": 263279,
+     "sha256": "98fae612179a89aeef185448abe604703c8ba56fa09122c6b90bd0b6b4f73628"
+    },
+    {
+     "prefixo": "H",
+     "arquivo": "H.csv",
+     "linhas": 833,
+     "bytes": 369707,
+     "sha256": "b841cce98471a65ba3d4a0e346e8ab75902b8b6b3246d702469a7861bdc64e79"
+    },
+    {
+     "prefixo": "I",
+     "arquivo": "I.csv",
+     "linhas": 622,
+     "bytes": 271864,
+     "sha256": "ec818d4827b92a49f94a618b9834ad7cfe0783ae5c0010efd87fdd29e185f56d"
+    },
+    {
+     "prefixo": "J",
+     "arquivo": "J.csv",
+     "linhas": 78,
+     "bytes": 34790,
+     "sha256": "5e8ee2ffc0cf7de75b78c8e9749133f3362751a6c987cacaa25d72d405b63279"
+    },
+    {
+     "prefixo": "K",
+     "arquivo": "K.csv",
+     "linhas": 245,
+     "bytes": 110189,
+     "sha256": "b64e7809c226046888662ed4292ffc1e0eeca7991747ac1b2ea5e3521598f9c5"
+    },
+    {
+     "prefixo": "L",
+     "arquivo": "L.csv",
+     "linhas": 1364,
+     "bytes": 596169,
+     "sha256": "64866da49edda1f21b05436445cac54ef99fb7056e4e54ffbcdd8c83211a84e1"
+    },
+    {
+     "prefixo": "M",
+     "arquivo": "M.csv",
+     "linhas": 1351,
+     "bytes": 582211,
+     "sha256": "c62060fc5edb96c24cb9cb007cb05bbabe6fd120f657816af3717be7487ce5ca"
+    },
+    {
+     "prefixo": "N",
+     "arquivo": "N.csv",
+     "linhas": 933,
+     "bytes": 427245,
+     "sha256": "93d1d70252bfcaadd7e2a69e693596841b2a6b5171f1c8f0dd4b9e0aa74ed13d"
+    },
+    {
+     "prefixo": "O",
+     "arquivo": "O.csv",
+     "linhas": 936,
+     "bytes": 411158,
+     "sha256": "8a2d0bc33283d1293ecaea1b2961df4fb387aa09e0b59e6e9df15eb4055e3497"
+    },
+    {
+     "prefixo": "P",
+     "arquivo": "P.csv",
+     "linhas": 1427,
+     "bytes": 637635,
+     "sha256": "50070253422d21464a9b97c00167141ca9f8f33da1ffa1d0754477e5fad04586"
+    },
+    {
+     "prefixo": "Q",
+     "arquivo": "Q.csv",
+     "linhas": 101,
+     "bytes": 47313,
+     "sha256": "a818c4a7db2e99428716173fc6d90131d2ea609b57c6d1cf14864e1c85e03cc8"
+    },
+    {
+     "prefixo": "R",
+     "arquivo": "R.csv",
+     "linhas": 1060,
+     "bytes": 467438,
+     "sha256": "44268a80b1626b8a483f7bdf73edeeab485842ef24cd3b15fc45ba24f4af193c"
+    },
+    {
+     "prefixo": "S",
+     "arquivo": "S.csv",
+     "linhas": 1396,
+     "bytes": 621274,
+     "sha256": "3c9caed380bef5e171da9d63736d03f449cb44d4ba5e99dd82d2a82e71ee8daf"
+    },
+    {
+     "prefixo": "T",
+     "arquivo": "T.csv",
+     "linhas": 1319,
+     "bytes": 578383,
+     "sha256": "f448bd6756d92bd5b8f8a5f4cdde2eae153b5840194fde08ef195c6b0cae8acc"
+    },
+    {
+     "prefixo": "U",
+     "arquivo": "U.csv",
+     "linhas": 131,
+     "bytes": 57253,
+     "sha256": "cc9581521243be1029ca6443d304933e96f2c41821c1189bd9b6f1cc8b201920"
+    },
+    {
+     "prefixo": "V",
+     "arquivo": "V.csv",
+     "linhas": 1042,
+     "bytes": 475353,
+     "sha256": "2be5923299c3f9acb7cc34519d5c458902ed10e08346958ab60e941474850e3a"
+    },
+    {
+     "prefixo": "W",
+     "arquivo": "W.csv",
+     "linhas": 45,
+     "bytes": 21018,
+     "sha256": "eca3cf3b3933124518d3ef89eb7cae5e971ea3382f52e04ba48b3cc0929d5c6e"
+    },
+    {
+     "prefixo": "X",
+     "arquivo": "X.csv",
+     "linhas": 165,
+     "bytes": 72868,
+     "sha256": "3c3f1856594e45f08159adbd7633fb3a25ec98718499f9090a080dfadb470694"
+    },
+    {
+     "prefixo": "Y",
+     "arquivo": "Y.csv",
+     "linhas": 20,
+     "bytes": 9859,
+     "sha256": "1c3ef4269a105424535f039484f21ec412b6131c8cd3694c374eeed9d9195516"
+    },
+    {
+     "prefixo": "Z",
+     "arquivo": "Z.csv",
+     "linhas": 327,
+     "bytes": 141384,
+     "sha256": "3d27cc010cc7d9d396e16abab75029bfa0a7e9b2da8ed0f4b6c268d8c1070797"
+    }
+   ],
+   "normalizado_em": "2026-09-25"
+  },
+  "simpro/material": {
+   "titulo": "SIMPRO — material",
+   "fonte": "SIMPRO (publicação licenciada), via coleta de portal de operadora que publica a tabela SIMPRO",
+   "fonte_publica": "coleta de portal de operadora que publica a tabela SIMPRO",
+   "edicao": "2026-04-12",
+   "data_edicao": "2026-04-12 (coleta)",
+   "licenca": "licenciada — incluída só como referência de nomenclatura/códigos",
+   "descricao": "Descrição, fabricante, código SIMPRO (tabela 12) e valor vigente com data.",
+   "quando_usar": "material sem Brasíndice, código SIMPRO (tabela 12)",
+   "colunas": [
+    "fonte",
+    "edicao",
+    "tipo_item",
+    "codigo_fonte",
+    "tabela_fonte",
+    "chave_fonte",
+    "laboratorio",
+    "produto",
+    "apresentacao",
+    "principio_ativo",
+    "ean",
+    "registro_anvisa",
+    "codigo_tuss",
+    "ggrem",
+    "generico",
+    "restrito_hospitalar",
+    "qtd_embalagem",
+    "pf_total",
+    "pmc_total",
+    "pf_unit",
+    "pmc_unit",
+    "preco_ref",
+    "tipo_preco",
+    "vigencia",
+    "tabela87_sugerida",
+    "precos_extra"
+   ],
+   "descricao_colunas": {
+    "fonte": "Tabela de origem (BRASINDICE, SIMPRO ou CMED).",
+    "edicao": "Edição/competência da publicação usada.",
+    "tipo_item": "medicamento, material, saneante ou reagente.",
+    "codigo_fonte": "Código do item na própria tabela (Brasíndice: código TISS de 10 dígitos; SIMPRO: código de 10 dígitos; CMED: código GGREM).",
+    "tabela_fonte": "Código da Tabela 87 (TISS) que acompanha `codigo_fonte` na guia: 05 Brasíndice, 12 SIMPRO; vazio na CMED.",
+    "chave_fonte": "Chave interna da publicação (Brasíndice: laboratório-produto-apresentação).",
+    "laboratorio": "Laboratório/fabricante.",
+    "produto": "Nome comercial ou descrição curta, como publicado.",
+    "apresentacao": "Apresentação (forma, concentração, embalagem), como publicada.",
+    "principio_ativo": "Substância. CMED publica; no Brasíndice vem da CMED pelo EAN (ou registro).",
+    "ean": "Código de barras (EAN-13).",
+    "registro_anvisa": "Registro ANVISA (13 dígitos em medicamento).",
+    "codigo_tuss": "Código TUSS (20 medicamentos, 19 materiais, 18 taxas).",
+    "ggrem": "Código GGREM da CMED.",
+    "generico": "S = genérico; N = não; vazio = não informado.",
+    "restrito_hospitalar": "S = uso restrito a hospital/clínica (PMC costuma ser 0 — normal).",
+    "qtd_embalagem": "Unidades por embalagem (quando a fonte informa).",
+    "pf_total": "Preço Fábrica da embalagem (R$).",
+    "pmc_total": "Preço Máximo ao Consumidor da embalagem (R$).",
+    "pf_unit": "PF por unidade (R$).",
+    "pmc_unit": "PMC por unidade (R$).",
+    "preco_ref": "Preço único publicado quando não há PF/PMC (SIMPRO, em geral por unidade/fração).",
+    "tipo_preco": "Código curto da base do preço: BRAS_PF_PMC = PF/PMC do Brasíndice (ICMS 17%; PMC 0 em restrito hospitalar é normal); CMED_ICMS17 = PF/PMC CMED com ICMS 17% (outras alíquotas em precos_extra); SIMPRO_VIG = valor vigente SIMPRO (em geral por unidade/fração, 3 casas).",
+    "vigencia": "Data (AAAA-MM-DD) ou edição da última alteração de preço do item.",
+    "tabela87_sugerida": "Tabela TUSS sugerida para o item: 20 medicamento, 19 material. Conferir com o contrato do convênio.",
+    "precos_extra": "CMED: preços em outras alíquotas de ICMS (PF0, PF12, PF18…, PMC18…, PMVG17…)."
+   },
+   "origem": [
+    {
+     "arquivo": "TST_SIMPRO_MATERIAL.csv",
+     "bytes": 27287638,
+     "sha256": "75ba78df3cd7669f91ffaf6634d958328171a6a7f387704720006008ac94e019"
+    }
+   ],
+   "observacoes": [
+    "`produto` e `laboratorio` foram separados no último '. ' da descrição publicada (ex.: 'SERINGA 10ML. FABRICANTE.').",
+    "Campo bruto 'Desde dd/mm/aaaa R$ x,xxx' separado em `vigencia` (AAAA-MM-DD) e `preco_ref`.",
+    "Código repetido: ficou a vigência mais recente. Linhas inválidas ignoradas: 1175.",
+    "Colunas sempre vazias ou constantes na coleta (capítulo, grupo, especialidade 'Todas'…) foram descartadas."
+   ],
+   "pasta": "simpro/material",
+   "linhas": 202484,
+   "bytes": 29785253,
+   "fatias": [
+    {
+     "prefixo": "0-9",
+     "arquivo": "0-9.csv",
+     "linhas": 3,
+     "bytes": 672,
+     "sha256": "c536c3cb8d03e9d90b050268f0ee91cead7729a4437ee001d66416571f8e6ac1"
+    },
+    {
+     "prefixo": "A",
+     "arquivo": "A.csv",
+     "linhas": 10853,
+     "bytes": 1555477,
+     "sha256": "64dda27aa84a7f17e176b9981f26b9fbb32dc96d4766452f09ae06fe54248910"
+    },
+    {
+     "prefixo": "B",
+     "arquivo": "B.csv",
+     "linhas": 10624,
+     "bytes": 1530067,
+     "sha256": "2b9e0c9d3cd4d9e1c227e01feed90df1721867217b48a68afff4e19af6f9701b"
+    },
+    {
+     "prefixo": "CA",
+     "arquivo": "CA-001.csv",
+     "linhas": 26505,
+     "bytes": 4006747,
+     "sha256": "0e3c745c353f651ea13d5965a78281415ac45c6e4997586ecbed1b8f2ccd2133"
+    },
+    {
+     "prefixo": "CA",
+     "arquivo": "CA-002.csv",
+     "linhas": 14967,
+     "bytes": 2242248,
+     "sha256": "fe2b97c3f5410ffea401ec0d91fc34ddcfc2ea4aab0ec65862f43d5507df42f0"
+    },
+    {
+     "prefixo": "CE",
+     "arquivo": "CE.csv",
+     "linhas": 688,
+     "bytes": 107500,
+     "sha256": "394e396dbf26ee2e931407cbe68af8d4e02a2e61652b34a81751879f011bd60e"
+    },
+    {
+     "prefixo": "CG",
+     "arquivo": "CG.csv",
+     "linhas": 8,
+     "bytes": 1399,
+     "sha256": "2d0cfc5ae19bc481666cb7cfe49caccb6a91bfc729db963b09f72c4af9d60bd3"
+    },
+    {
+     "prefixo": "CH",
+     "arquivo": "CH.csv",
+     "linhas": 79,
+     "bytes": 10904,
+     "sha256": "6d48aadd517062a7b685deb49d192739dada1879304aea927bafeccfc6d3eed9"
+    },
+    {
+     "prefixo": "CI",
+     "arquivo": "CI.csv",
+     "linhas": 1099,
+     "bytes": 157851,
+     "sha256": "87961f5610f1256779e9a4f151527f92903ca1cc91b1c3260ad7ede641606d46"
+    },
+    {
+     "prefixo": "CK",
+     "arquivo": "CK.csv",
+     "linhas": 7,
+     "bytes": 1215,
+     "sha256": "f620f8c70cd4d11070b1f1997ccbfee619f48c341fd9f34202e0f4b394e7f572"
+    },
+    {
+     "prefixo": "CL",
+     "arquivo": "CL.csv",
+     "linhas": 578,
+     "bytes": 81456,
+     "sha256": "046074a107343421b34543e1a88ed61be733d61d79d6891adbe50e6c550f9ce9"
+    },
+    {
+     "prefixo": "CO",
+     "arquivo": "CO.csv",
+     "linhas": 5425,
+     "bytes": 782510,
+     "sha256": "2c0c446bb2aa44da1f09490d692d221aad7e29fe31fc0db2d1bc795bf954a451"
+    },
+    {
+     "prefixo": "CP",
+     "arquivo": "CP.csv",
+     "linhas": 37,
+     "bytes": 4799,
+     "sha256": "f108f83e0208723b31e289f0ba3d7c9e5c679539e72cde7f875d659f5d112c86"
+    },
+    {
+     "prefixo": "CR",
+     "arquivo": "CR.csv",
+     "linhas": 152,
+     "bytes": 21153,
+     "sha256": "25a9c07a6dcf90e63dc439fadd4084caedeaeea8a25cf3d91fe3e812829419cc"
+    },
+    {
+     "prefixo": "CS",
+     "arquivo": "CS.csv",
+     "linhas": 1,
+     "bytes": 398,
+     "sha256": "f37bd719516278e2172b4961304c31a0250a325c2649d56c460b0e2d5c3efc8c"
+    },
+    {
+     "prefixo": "CU",
+     "arquivo": "CU.csv",
+     "linhas": 3622,
+     "bytes": 556101,
+     "sha256": "d663789f7b97b70450de7454002b543da98d2a00bb5e3cfaef9840a1c9f0eb3c"
+    },
+    {
+     "prefixo": "CY",
+     "arquivo": "CY.csv",
+     "linhas": 3,
+     "bytes": 683,
+     "sha256": "117774301446b2a4a29899c47b9605a7b1c15479e0817361a2bc076ece2e5f7b"
+    },
+    {
+     "prefixo": "C_",
+     "arquivo": "C_.csv",
+     "linhas": 2,
+     "bytes": 548,
+     "sha256": "2107b47ccff839730554411fa3592bbc9c02070e72d8eccf3367096d1cf31626"
+    },
+    {
+     "prefixo": "D",
+     "arquivo": "D.csv",
+     "linhas": 3761,
+     "bytes": 540320,
+     "sha256": "c01ec58cc276919d907ddab3f7fb2a2396d7b7114dd25092be52c4028a92da11"
+    },
+    {
+     "prefixo": "E",
+     "arquivo": "E.csv",
+     "linhas": 13152,
+     "bytes": 1973651,
+     "sha256": "d0514a8402051f9b938e81c2aafafe6c9ae5c3449a620ebb2d3abd9c6a2ba00e"
+    },
+    {
+     "prefixo": "F",
+     "arquivo": "F.csv",
+     "linhas": 17747,
+     "bytes": 2660695,
+     "sha256": "d6a7d67451aab403f6bb730313dacf4ea5703a8d0d58e9ba87136092ded0a480"
+    },
+    {
+     "prefixo": "G",
+     "arquivo": "G.csv",
+     "linhas": 2222,
+     "bytes": 312276,
+     "sha256": "9aa14c0eace8e8144a757c03b30cf04ae456241b316e95bd9cffe8775afc9028"
+    },
+    {
+     "prefixo": "H",
+     "arquivo": "H.csv",
+     "linhas": 2836,
+     "bytes": 392063,
+     "sha256": "c27afbd87584a17033245eb8c8da62f5c77e4af0b0d1c88fa1c78b832f587725"
+    },
+    {
+     "prefixo": "I",
+     "arquivo": "I.csv",
+     "linhas": 4773,
+     "bytes": 714505,
+     "sha256": "0229da799174e032196392e733ef34a628c4323f40f2f7dfd8346e47a6cd1426"
+    },
+    {
+     "prefixo": "J",
+     "arquivo": "J.csv",
+     "linhas": 292,
+     "bytes": 39501,
+     "sha256": "fc964e163560abbfe09a6dd5c28c0851f3b2059e8bb7d4093773fc0634ebb738"
+    },
+    {
+     "prefixo": "K",
+     "arquivo": "K.csv",
+     "linhas": 9015,
+     "bytes": 1373200,
+     "sha256": "f3463842a5144864edda18401a948aeb1b636d7f9bee0a70063d178295cfc05c"
+    },
+    {
+     "prefixo": "L",
+     "arquivo": "L.csv",
+     "linhas": 5813,
+     "bytes": 837574,
+     "sha256": "2c77504936d2d75e9ddd204447a3b478da5f63898bbdbab144391c3c1a6d8fb9"
+    },
+    {
+     "prefixo": "M",
+     "arquivo": "M.csv",
+     "linhas": 9007,
+     "bytes": 1301736,
+     "sha256": "3bc0788cf8fe53eb56b8c5546d99f13fa980a3f4b9644fa7c984912c8fbb64b1"
+    },
+    {
+     "prefixo": "N",
+     "arquivo": "N.csv",
+     "linhas": 196,
+     "bytes": 26399,
+     "sha256": "36de07b4e26234b96f785cbee6045636ea56c908f7127aa85a7803cdb204324a"
+    },
+    {
+     "prefixo": "O",
+     "arquivo": "O.csv",
+     "linhas": 1311,
+     "bytes": 180538,
+     "sha256": "d50fef75d4b751a07b8cc7d048dfaf61c713ca70060634d010801931703de183"
+    },
+    {
+     "prefixo": "P",
+     "arquivo": "P.csv",
+     "linhas": 22768,
+     "bytes": 3254600,
+     "sha256": "82e543d9334d1b8b682faaa6014ed44fd07f75ffb890a82d707a64c7dbb7fdf6"
+    },
+    {
+     "prefixo": "Q",
+     "arquivo": "Q.csv",
+     "linhas": 16,
+     "bytes": 2498,
+     "sha256": "43fa563b99b302c7172097ae29b747706c267e83d2fb1541ad2a239e606e88c1"
+    },
+    {
+     "prefixo": "R",
+     "arquivo": "R.csv",
+     "linhas": 1519,
+     "bytes": 216526,
+     "sha256": "1e954e7c1a11a09fb04cac624ca4ca6ce49ba7ffa4696bec2b20befd83e09f93"
+    },
+    {
+     "prefixo": "S",
+     "arquivo": "S.csv",
+     "linhas": 24051,
+     "bytes": 3561540,
+     "sha256": "f454c3cc65f64b7d508d0f3a57e63f613d825d77ae4add46c5c2a1d3d5aeb575"
+    },
+    {
+     "prefixo": "T",
+     "arquivo": "T.csv",
+     "linhas": 7963,
+     "bytes": 1132471,
+     "sha256": "61a554db1493d77d307c60fb56d0c2dd8efa5eed68371d5e9d6e4221b424d49f"
+    },
+    {
+     "prefixo": "U",
+     "arquivo": "U.csv",
+     "linhas": 277,
+     "bytes": 41378,
+     "sha256": "3ba87862f0e1c03580ee5664a13f946cd10e9682ccf792eb65af6aaff5eeaf3a"
+    },
+    {
+     "prefixo": "V",
+     "arquivo": "V.csv",
+     "linhas": 984,
+     "bytes": 142532,
+     "sha256": "674a775f353c3455a502bce563130e294ec2444f493e6abcb60063001efc0275"
+    },
+    {
+     "prefixo": "W",
+     "arquivo": "W.csv",
+     "linhas": 123,
+     "bytes": 17987,
+     "sha256": "dbaa07fcd8b2753a4c996900b75d50acc1235523b4067a08325b6db0f209a1ea"
+    },
+    {
+     "prefixo": "X",
+     "arquivo": "X.csv",
+     "linhas": 1,
+     "bytes": 399,
+     "sha256": "a52a7bee861750678ed2ae8dd36ce6f5c4e0cec172cc69077ccc8bff02ff5209"
+    },
+    {
+     "prefixo": "Y",
+     "arquivo": "Y.csv",
+     "linhas": 1,
+     "bytes": 423,
+     "sha256": "374714345c14abcf9ac5e3452fd82d2e25501ad23c05b88812c9d06c10227163"
+    },
+    {
+     "prefixo": "Z",
+     "arquivo": "Z.csv",
+     "linhas": 3,
+     "bytes": 713,
+     "sha256": "7a9df5a82db8f97e067b8a3538a7fcc40be32e977ded28da6b0776122766b44f"
+    }
+   ],
+   "normalizado_em": "2026-09-25"
+  },
+  "simpro/medicamento": {
+   "titulo": "SIMPRO — medicamento",
+   "fonte": "SIMPRO (publicação licenciada), via coleta de portal de operadora que publica a tabela SIMPRO",
+   "fonte_publica": "coleta de portal de operadora que publica a tabela SIMPRO",
+   "edicao": "2026-04-12",
+   "data_edicao": "2026-04-12 (coleta)",
+   "licenca": "licenciada — incluída só como referência de nomenclatura/códigos",
+   "descricao": "Descrição, fabricante, código SIMPRO (tabela 12) e valor vigente com data.",
+   "quando_usar": "material sem Brasíndice, código SIMPRO (tabela 12)",
+   "colunas": [
+    "fonte",
+    "edicao",
+    "tipo_item",
+    "codigo_fonte",
+    "tabela_fonte",
+    "chave_fonte",
+    "laboratorio",
+    "produto",
+    "apresentacao",
+    "principio_ativo",
+    "ean",
+    "registro_anvisa",
+    "codigo_tuss",
+    "ggrem",
+    "generico",
+    "restrito_hospitalar",
+    "qtd_embalagem",
+    "pf_total",
+    "pmc_total",
+    "pf_unit",
+    "pmc_unit",
+    "preco_ref",
+    "tipo_preco",
+    "vigencia",
+    "tabela87_sugerida",
+    "precos_extra"
+   ],
+   "descricao_colunas": {
+    "fonte": "Tabela de origem (BRASINDICE, SIMPRO ou CMED).",
+    "edicao": "Edição/competência da publicação usada.",
+    "tipo_item": "medicamento, material, saneante ou reagente.",
+    "codigo_fonte": "Código do item na própria tabela (Brasíndice: código TISS de 10 dígitos; SIMPRO: código de 10 dígitos; CMED: código GGREM).",
+    "tabela_fonte": "Código da Tabela 87 (TISS) que acompanha `codigo_fonte` na guia: 05 Brasíndice, 12 SIMPRO; vazio na CMED.",
+    "chave_fonte": "Chave interna da publicação (Brasíndice: laboratório-produto-apresentação).",
+    "laboratorio": "Laboratório/fabricante.",
+    "produto": "Nome comercial ou descrição curta, como publicado.",
+    "apresentacao": "Apresentação (forma, concentração, embalagem), como publicada.",
+    "principio_ativo": "Substância. CMED publica; no Brasíndice vem da CMED pelo EAN (ou registro).",
+    "ean": "Código de barras (EAN-13).",
+    "registro_anvisa": "Registro ANVISA (13 dígitos em medicamento).",
+    "codigo_tuss": "Código TUSS (20 medicamentos, 19 materiais, 18 taxas).",
+    "ggrem": "Código GGREM da CMED.",
+    "generico": "S = genérico; N = não; vazio = não informado.",
+    "restrito_hospitalar": "S = uso restrito a hospital/clínica (PMC costuma ser 0 — normal).",
+    "qtd_embalagem": "Unidades por embalagem (quando a fonte informa).",
+    "pf_total": "Preço Fábrica da embalagem (R$).",
+    "pmc_total": "Preço Máximo ao Consumidor da embalagem (R$).",
+    "pf_unit": "PF por unidade (R$).",
+    "pmc_unit": "PMC por unidade (R$).",
+    "preco_ref": "Preço único publicado quando não há PF/PMC (SIMPRO, em geral por unidade/fração).",
+    "tipo_preco": "Código curto da base do preço: BRAS_PF_PMC = PF/PMC do Brasíndice (ICMS 17%; PMC 0 em restrito hospitalar é normal); CMED_ICMS17 = PF/PMC CMED com ICMS 17% (outras alíquotas em precos_extra); SIMPRO_VIG = valor vigente SIMPRO (em geral por unidade/fração, 3 casas).",
+    "vigencia": "Data (AAAA-MM-DD) ou edição da última alteração de preço do item.",
+    "tabela87_sugerida": "Tabela TUSS sugerida para o item: 20 medicamento, 19 material. Conferir com o contrato do convênio.",
+    "precos_extra": "CMED: preços em outras alíquotas de ICMS (PF0, PF12, PF18…, PMC18…, PMVG17…)."
+   },
+   "origem": [
+    {
+     "arquivo": "TST_SIMPRO_MEDICAMENTO.csv",
+     "bytes": 3540455,
+     "sha256": "83454ff5e7029cbc14d45ee17116c2971e7dad5281491315a1d52b1624b1fd74"
+    }
+   ],
+   "observacoes": [
+    "`produto` e `laboratorio` foram separados no último '. ' da descrição publicada (ex.: 'SERINGA 10ML. FABRICANTE.').",
+    "Campo bruto 'Desde dd/mm/aaaa R$ x,xxx' separado em `vigencia` (AAAA-MM-DD) e `preco_ref`.",
+    "Código repetido: ficou a vigência mais recente. Linhas inválidas ignoradas: 0.",
+    "Colunas sempre vazias ou constantes na coleta (capítulo, grupo, especialidade 'Todas'…) foram descartadas."
+   ],
+   "pasta": "simpro/medicamento",
+   "linhas": 28770,
+   "bytes": 3837899,
+   "fatias": [
+    {
+     "prefixo": "0-9",
+     "arquivo": "0-9.csv",
+     "linhas": 2,
+     "bytes": 542,
+     "sha256": "d981871f16455273671edd24efef4f335797bae4db1a7cf1c88f9a132aa93f2d"
+    },
+    {
+     "prefixo": "A",
+     "arquivo": "A.csv",
+     "linhas": 3000,
+     "bytes": 398227,
+     "sha256": "57a65cca346a47e64af96b9ddf136c809992bf755ba77d930f1447acfb10cb27"
+    },
+    {
+     "prefixo": "B",
+     "arquivo": "B.csv",
+     "linhas": 1378,
+     "bytes": 183876,
+     "sha256": "2a35da14c2fd936a708df152165fb7723d737d708247dc3140799ea95ba7acb8"
+    },
+    {
+     "prefixo": "C",
+     "arquivo": "C.csv",
+     "linhas": 4431,
+     "bytes": 601990,
+     "sha256": "a233d1d34854d6b73a0d1c4b91fd50df57bb9277e2d7419b8aabc3560f97c42f"
+    },
+    {
+     "prefixo": "D",
+     "arquivo": "D.csv",
+     "linhas": 1983,
+     "bytes": 262286,
+     "sha256": "f7879af03f41e4c865b0607a6d939a115cacf408aa34f56fea3eecc078ac1688"
+    },
+    {
+     "prefixo": "E",
+     "arquivo": "E.csv",
+     "linhas": 1020,
+     "bytes": 134319,
+     "sha256": "1b7e5256531d0baa8b3bb706d275e617b2031bbcf6cc2d5ac6cfc1065736f7eb"
+    },
+    {
+     "prefixo": "F",
+     "arquivo": "F.csv",
+     "linhas": 1344,
+     "bytes": 178432,
+     "sha256": "7d2e80ea88fa9ee895f52e69abed4344bf1392b1bd2732dfd0b0dc954522d6f9"
+    },
+    {
+     "prefixo": "G",
+     "arquivo": "G.csv",
+     "linhas": 743,
+     "bytes": 96694,
+     "sha256": "22f46fa1679f24ba66574a4a55ea27a4c7a03a6be0e25f4e46d09aab188bbe9f"
+    },
+    {
+     "prefixo": "H",
+     "arquivo": "H.csv",
+     "linhas": 674,
+     "bytes": 92004,
+     "sha256": "e3b4d385902d4531847e9e431eb770598ee61d216c8166c759c149dd32f02be6"
+    },
+    {
+     "prefixo": "I",
+     "arquivo": "I.csv",
+     "linhas": 621,
+     "bytes": 82851,
+     "sha256": "ca1019a31736bd4f891c36dcb6fddf7f4b7881438630018572b780d78ffb218e"
+    },
+    {
+     "prefixo": "J",
+     "arquivo": "J.csv",
+     "linhas": 96,
+     "bytes": 12718,
+     "sha256": "69bdd6c3c4d43b3a8bfd10b32535e45d4ce71d1f0496b1d161f8e382df87bc4d"
+    },
+    {
+     "prefixo": "K",
+     "arquivo": "K.csv",
+     "linhas": 263,
+     "bytes": 34618,
+     "sha256": "2eb97cad3239538c41f9b8b715ea01fc398efced230cfa723ab1488901a85dfd"
+    },
+    {
+     "prefixo": "L",
+     "arquivo": "L.csv",
+     "linhas": 1183,
+     "bytes": 154441,
+     "sha256": "b799d3801af08aa0e39c0cd995affcd39933dd11cd815ded90694050552b4a4d"
+    },
+    {
+     "prefixo": "M",
+     "arquivo": "M.csv",
+     "linhas": 1523,
+     "bytes": 201465,
+     "sha256": "fc40eff51d3e83afc872a5272570e36100f268a806901c9dd6d47117484f69a0"
+    },
+    {
+     "prefixo": "N",
+     "arquivo": "N.csv",
+     "linhas": 1446,
+     "bytes": 192159,
+     "sha256": "6b6967b3059f33b94c252b33ef8bf49258302f54fd5839532cc306ba294fc374"
+    },
+    {
+     "prefixo": "O",
+     "arquivo": "O.csv",
+     "linhas": 775,
+     "bytes": 101961,
+     "sha256": "53e4b45f196f7ffc521c8e7db9884ec272cea002696bcb3ea1fb8a1da3fcf81a"
+    },
+    {
+     "prefixo": "P",
+     "arquivo": "P.csv",
+     "linhas": 1916,
+     "bytes": 253736,
+     "sha256": "b0e6d1a61f7dd535e2031f0b2d7f6bb9f1dd4d39f3c8d644c7cdd1bfe5d6dfac"
+    },
+    {
+     "prefixo": "Q",
+     "arquivo": "Q.csv",
+     "linhas": 109,
+     "bytes": 14589,
+     "sha256": "2ff665bb4940b7b16401561b485dc73c9d26c80c2db6ffb76b0f2e1088211ca7"
+    },
+    {
+     "prefixo": "R",
+     "arquivo": "R.csv",
+     "linhas": 973,
+     "bytes": 127134,
+     "sha256": "f3ccb198a1d4a1eb6e6fd2fa183afb6889ae5e080813d5984bf6bc9acf2bd08e"
+    },
+    {
+     "prefixo": "S",
+     "arquivo": "S.csv",
+     "linhas": 2222,
+     "bytes": 311108,
+     "sha256": "66de572e100cadcb86517c401b5b64d5dcb860562df1f797d39bc29620895f4d"
+    },
+    {
+     "prefixo": "T",
+     "arquivo": "T.csv",
+     "linhas": 1315,
+     "bytes": 170953,
+     "sha256": "0d6e85124edcdbecf564a9fbec98222454f86d098e3acdb579ed03fff4eeaf12"
+    },
+    {
+     "prefixo": "U",
+     "arquivo": "U.csv",
+     "linhas": 187,
+     "bytes": 24465,
+     "sha256": "8aa414828be786b18d493a75d033d32c3823ec5ab115fcda2b4a5471d8d06023"
+    },
+    {
+     "prefixo": "V",
+     "arquivo": "V.csv",
+     "linhas": 1072,
+     "bytes": 143361,
+     "sha256": "7da2ba6cf46dfc3c91ee22f4de90b73f8fd9060b1be3be026f470e4712be7543"
+    },
+    {
+     "prefixo": "W",
+     "arquivo": "W.csv",
+     "linhas": 35,
+     "bytes": 4874,
+     "sha256": "8b7cb85d5df1e6dd434e3bc1a2b9dcd6c20a0c604bc537c5ae3a4ed7d02994ec"
+    },
+    {
+     "prefixo": "X",
+     "arquivo": "X.csv",
+     "linhas": 89,
+     "bytes": 11931,
+     "sha256": "b9ff75b9795c2a5efc181e4185aab8cc122cd773549041ed1dc42823772b812d"
+    },
+    {
+     "prefixo": "Y",
+     "arquivo": "Y.csv",
+     "linhas": 14,
+     "bytes": 2062,
+     "sha256": "27edbec0dd2efd1b16297530ddf1fd901389333a62e2ce5fefca3a175caa1f44"
+    },
+    {
+     "prefixo": "Z",
+     "arquivo": "Z.csv",
+     "linhas": 356,
+     "bytes": 45103,
+     "sha256": "f76001b57d5dd2799bac1f425b7be782746b07988844eec2208559255d37f89e"
+    }
+   ],
+   "normalizado_em": "2026-09-25"
+  },
+  "simpro/reagente": {
+   "titulo": "SIMPRO — reagente",
+   "fonte": "SIMPRO (publicação licenciada), via coleta de portal de operadora que publica a tabela SIMPRO",
+   "fonte_publica": "coleta de portal de operadora que publica a tabela SIMPRO",
+   "edicao": "2026-04-12",
+   "data_edicao": "2026-04-12 (coleta)",
+   "licenca": "licenciada — incluída só como referência de nomenclatura/códigos",
+   "descricao": "Descrição, fabricante, código SIMPRO (tabela 12) e valor vigente com data.",
+   "quando_usar": "material sem Brasíndice, código SIMPRO (tabela 12)",
+   "colunas": [
+    "fonte",
+    "edicao",
+    "tipo_item",
+    "codigo_fonte",
+    "tabela_fonte",
+    "chave_fonte",
+    "laboratorio",
+    "produto",
+    "apresentacao",
+    "principio_ativo",
+    "ean",
+    "registro_anvisa",
+    "codigo_tuss",
+    "ggrem",
+    "generico",
+    "restrito_hospitalar",
+    "qtd_embalagem",
+    "pf_total",
+    "pmc_total",
+    "pf_unit",
+    "pmc_unit",
+    "preco_ref",
+    "tipo_preco",
+    "vigencia",
+    "tabela87_sugerida",
+    "precos_extra"
+   ],
+   "descricao_colunas": {
+    "fonte": "Tabela de origem (BRASINDICE, SIMPRO ou CMED).",
+    "edicao": "Edição/competência da publicação usada.",
+    "tipo_item": "medicamento, material, saneante ou reagente.",
+    "codigo_fonte": "Código do item na própria tabela (Brasíndice: código TISS de 10 dígitos; SIMPRO: código de 10 dígitos; CMED: código GGREM).",
+    "tabela_fonte": "Código da Tabela 87 (TISS) que acompanha `codigo_fonte` na guia: 05 Brasíndice, 12 SIMPRO; vazio na CMED.",
+    "chave_fonte": "Chave interna da publicação (Brasíndice: laboratório-produto-apresentação).",
+    "laboratorio": "Laboratório/fabricante.",
+    "produto": "Nome comercial ou descrição curta, como publicado.",
+    "apresentacao": "Apresentação (forma, concentração, embalagem), como publicada.",
+    "principio_ativo": "Substância. CMED publica; no Brasíndice vem da CMED pelo EAN (ou registro).",
+    "ean": "Código de barras (EAN-13).",
+    "registro_anvisa": "Registro ANVISA (13 dígitos em medicamento).",
+    "codigo_tuss": "Código TUSS (20 medicamentos, 19 materiais, 18 taxas).",
+    "ggrem": "Código GGREM da CMED.",
+    "generico": "S = genérico; N = não; vazio = não informado.",
+    "restrito_hospitalar": "S = uso restrito a hospital/clínica (PMC costuma ser 0 — normal).",
+    "qtd_embalagem": "Unidades por embalagem (quando a fonte informa).",
+    "pf_total": "Preço Fábrica da embalagem (R$).",
+    "pmc_total": "Preço Máximo ao Consumidor da embalagem (R$).",
+    "pf_unit": "PF por unidade (R$).",
+    "pmc_unit": "PMC por unidade (R$).",
+    "preco_ref": "Preço único publicado quando não há PF/PMC (SIMPRO, em geral por unidade/fração).",
+    "tipo_preco": "Código curto da base do preço: BRAS_PF_PMC = PF/PMC do Brasíndice (ICMS 17%; PMC 0 em restrito hospitalar é normal); CMED_ICMS17 = PF/PMC CMED com ICMS 17% (outras alíquotas em precos_extra); SIMPRO_VIG = valor vigente SIMPRO (em geral por unidade/fração, 3 casas).",
+    "vigencia": "Data (AAAA-MM-DD) ou edição da última alteração de preço do item.",
+    "tabela87_sugerida": "Tabela TUSS sugerida para o item: 20 medicamento, 19 material. Conferir com o contrato do convênio.",
+    "precos_extra": "CMED: preços em outras alíquotas de ICMS (PF0, PF12, PF18…, PMC18…, PMVG17…)."
+   },
+   "origem": [
+    {
+     "arquivo": "TST_SIMPRO_REAGENTE.csv",
+     "bytes": 5912,
+     "sha256": "8dc44be6aecea1c953dba0d015abf2c8e4e2e823eb0718313b8ed283af5b7e38"
+    }
+   ],
+   "observacoes": [
+    "`produto` e `laboratorio` foram separados no último '. ' da descrição publicada (ex.: 'SERINGA 10ML. FABRICANTE.').",
+    "Campo bruto 'Desde dd/mm/aaaa R$ x,xxx' separado em `vigencia` (AAAA-MM-DD) e `preco_ref`.",
+    "Código repetido: ficou a vigência mais recente. Linhas inválidas ignoradas: 0.",
+    "Colunas sempre vazias ou constantes na coleta (capítulo, grupo, especialidade 'Todas'…) foram descartadas."
+   ],
+   "pasta": "simpro/reagente",
+   "linhas": 57,
+   "bytes": 10409,
+   "fatias": [
+    {
+     "prefixo": "A",
+     "arquivo": "A.csv",
+     "linhas": 23,
+     "bytes": 3000,
+     "sha256": "294f2a675c8dd261b14b1adbf202c75a1e8907bbce6813c9838703498d89769b"
+    },
+    {
+     "prefixo": "B",
+     "arquivo": "B.csv",
+     "linhas": 2,
+     "bytes": 519,
+     "sha256": "9c43787a290a63626befade47328dffe714b007dbf9e69c3797fed53b27f1602"
+    },
+    {
+     "prefixo": "C",
+     "arquivo": "C.csv",
+     "linhas": 8,
+     "bytes": 1259,
+     "sha256": "3640286b53aed1fcff00b911ce2e82524536ecc50be0761888b90c75316dcc8c"
+    },
+    {
+     "prefixo": "E",
+     "arquivo": "E.csv",
+     "linhas": 3,
+     "bytes": 632,
+     "sha256": "c945e859ac2df1b97248d453226bd0abc36dc946d4eed8df1776c255b344724d"
+    },
+    {
+     "prefixo": "F",
+     "arquivo": "F.csv",
+     "linhas": 3,
+     "bytes": 609,
+     "sha256": "42b6a0e90a3195aa9cc18bbe574454dbf98d632acae37232ce45168d91246dd7"
+    },
+    {
+     "prefixo": "G",
+     "arquivo": "G.csv",
+     "linhas": 5,
+     "bytes": 843,
+     "sha256": "57212fe9c86b5a10f04399c85c43c91f635c011fb07d57298bdfd95262b39d04"
+    },
+    {
+     "prefixo": "H",
+     "arquivo": "H.csv",
+     "linhas": 2,
+     "bytes": 533,
+     "sha256": "6545f87e0d2fd4826affe60baf94b0a60fb1ea3eaa7f55f8ab6b0d66799372d4"
+    },
+    {
+     "prefixo": "I",
+     "arquivo": "I.csv",
+     "linhas": 2,
+     "bytes": 524,
+     "sha256": "c02635eedbc1b67c4ccdba5c9e2e0bcfe759ebf0f780d1240569f569dcad4d5b"
+    },
+    {
+     "prefixo": "M",
+     "arquivo": "M.csv",
+     "linhas": 3,
+     "bytes": 638,
+     "sha256": "424cefe5c7f8efc01a9d7c5ab1d5b93e4ca36a9cc93cd2eda4206ae0dbc0000d"
+    },
+    {
+     "prefixo": "O",
+     "arquivo": "O.csv",
+     "linhas": 2,
+     "bytes": 512,
+     "sha256": "6056332ec9842d65662955c440df7ef9fc0661334c9b7b5d15418a2265bb1d7b"
+    },
+    {
+     "prefixo": "P",
+     "arquivo": "P.csv",
+     "linhas": 1,
+     "bytes": 415,
+     "sha256": "5b45b5b916892cf26231a712180b9a7f52cfb791ea869d4e628a5d1ea2357c9e"
+    },
+    {
+     "prefixo": "S",
+     "arquivo": "S.csv",
+     "linhas": 2,
+     "bytes": 531,
+     "sha256": "160650aa02600b809f99bd53930f06a143289acfe0c7383c4546f37a24cbe129"
+    },
+    {
+     "prefixo": "X",
+     "arquivo": "X.csv",
+     "linhas": 1,
+     "bytes": 394,
+     "sha256": "f2ad03ccdc4298f2c8e28c41032bb88c93239ebe43e0925dcea581936f0a5e23"
+    }
+   ],
+   "normalizado_em": "2026-09-25"
+  },
+  "simpro/saneante": {
+   "titulo": "SIMPRO — saneante",
+   "fonte": "SIMPRO (publicação licenciada), via coleta de portal de operadora que publica a tabela SIMPRO",
+   "fonte_publica": "coleta de portal de operadora que publica a tabela SIMPRO",
+   "edicao": "2026-04-12",
+   "data_edicao": "2026-04-12 (coleta)",
+   "licenca": "licenciada — incluída só como referência de nomenclatura/códigos",
+   "descricao": "Descrição, fabricante, código SIMPRO (tabela 12) e valor vigente com data.",
+   "quando_usar": "material sem Brasíndice, código SIMPRO (tabela 12)",
+   "colunas": [
+    "fonte",
+    "edicao",
+    "tipo_item",
+    "codigo_fonte",
+    "tabela_fonte",
+    "chave_fonte",
+    "laboratorio",
+    "produto",
+    "apresentacao",
+    "principio_ativo",
+    "ean",
+    "registro_anvisa",
+    "codigo_tuss",
+    "ggrem",
+    "generico",
+    "restrito_hospitalar",
+    "qtd_embalagem",
+    "pf_total",
+    "pmc_total",
+    "pf_unit",
+    "pmc_unit",
+    "preco_ref",
+    "tipo_preco",
+    "vigencia",
+    "tabela87_sugerida",
+    "precos_extra"
+   ],
+   "descricao_colunas": {
+    "fonte": "Tabela de origem (BRASINDICE, SIMPRO ou CMED).",
+    "edicao": "Edição/competência da publicação usada.",
+    "tipo_item": "medicamento, material, saneante ou reagente.",
+    "codigo_fonte": "Código do item na própria tabela (Brasíndice: código TISS de 10 dígitos; SIMPRO: código de 10 dígitos; CMED: código GGREM).",
+    "tabela_fonte": "Código da Tabela 87 (TISS) que acompanha `codigo_fonte` na guia: 05 Brasíndice, 12 SIMPRO; vazio na CMED.",
+    "chave_fonte": "Chave interna da publicação (Brasíndice: laboratório-produto-apresentação).",
+    "laboratorio": "Laboratório/fabricante.",
+    "produto": "Nome comercial ou descrição curta, como publicado.",
+    "apresentacao": "Apresentação (forma, concentração, embalagem), como publicada.",
+    "principio_ativo": "Substância. CMED publica; no Brasíndice vem da CMED pelo EAN (ou registro).",
+    "ean": "Código de barras (EAN-13).",
+    "registro_anvisa": "Registro ANVISA (13 dígitos em medicamento).",
+    "codigo_tuss": "Código TUSS (20 medicamentos, 19 materiais, 18 taxas).",
+    "ggrem": "Código GGREM da CMED.",
+    "generico": "S = genérico; N = não; vazio = não informado.",
+    "restrito_hospitalar": "S = uso restrito a hospital/clínica (PMC costuma ser 0 — normal).",
+    "qtd_embalagem": "Unidades por embalagem (quando a fonte informa).",
+    "pf_total": "Preço Fábrica da embalagem (R$).",
+    "pmc_total": "Preço Máximo ao Consumidor da embalagem (R$).",
+    "pf_unit": "PF por unidade (R$).",
+    "pmc_unit": "PMC por unidade (R$).",
+    "preco_ref": "Preço único publicado quando não há PF/PMC (SIMPRO, em geral por unidade/fração).",
+    "tipo_preco": "Código curto da base do preço: BRAS_PF_PMC = PF/PMC do Brasíndice (ICMS 17%; PMC 0 em restrito hospitalar é normal); CMED_ICMS17 = PF/PMC CMED com ICMS 17% (outras alíquotas em precos_extra); SIMPRO_VIG = valor vigente SIMPRO (em geral por unidade/fração, 3 casas).",
+    "vigencia": "Data (AAAA-MM-DD) ou edição da última alteração de preço do item.",
+    "tabela87_sugerida": "Tabela TUSS sugerida para o item: 20 medicamento, 19 material. Conferir com o contrato do convênio.",
+    "precos_extra": "CMED: preços em outras alíquotas de ICMS (PF0, PF12, PF18…, PMC18…, PMVG17…)."
+   },
+   "origem": [
+    {
+     "arquivo": "TST_SIMPRO_SANEANTE.csv",
+     "bytes": 85995,
+     "sha256": "11854b3be8b8a1fba85c5aa649df8252d1681bc93a0521305d93ae4e9d5b45ba"
+    }
+   ],
+   "observacoes": [
+    "`produto` e `laboratorio` foram separados no último '. ' da descrição publicada (ex.: 'SERINGA 10ML. FABRICANTE.').",
+    "Campo bruto 'Desde dd/mm/aaaa R$ x,xxx' separado em `vigencia` (AAAA-MM-DD) e `preco_ref`.",
+    "Código repetido: ficou a vigência mais recente. Linhas inválidas ignoradas: 14.",
+    "Colunas sempre vazias ou constantes na coleta (capítulo, grupo, especialidade 'Todas'…) foram descartadas."
+   ],
+   "pasta": "simpro/saneante",
+   "linhas": 711,
+   "bytes": 101791,
+   "fatias": [
+    {
+     "prefixo": "A",
+     "arquivo": "A.csv",
+     "linhas": 173,
+     "bytes": 23095,
+     "sha256": "0952c4baded564a253a7bf28d205ce9555eb0ef87bbd67ac93f9c2e676c030f3"
+    },
+    {
+     "prefixo": "B",
+     "arquivo": "B.csv",
+     "linhas": 18,
+     "bytes": 2696,
+     "sha256": "3113de313553f982f50fbf73dbb20af61c5bea40a46f53d8d928a7d40724a8f9"
+    },
+    {
+     "prefixo": "C",
+     "arquivo": "C.csv",
+     "linhas": 43,
+     "bytes": 5765,
+     "sha256": "1da15f2a3ef18610fb728c355c969b1f64b1068f59589edf99d85f5742dc5630"
+    },
+    {
+     "prefixo": "D",
+     "arquivo": "D.csv",
+     "linhas": 190,
+     "bytes": 28199,
+     "sha256": "0ab16f1d5fd10383e212732d44ff9a8573cc576c2335812b15cb15427d5378e7"
+    },
+    {
+     "prefixo": "E",
+     "arquivo": "E.csv",
+     "linhas": 11,
+     "bytes": 1664,
+     "sha256": "9492d4ffbc3b99c161f75f2444649a353e8f31e91aae0c2053beaa0817f4e606"
+    },
+    {
+     "prefixo": "F",
+     "arquivo": "F.csv",
+     "linhas": 19,
+     "bytes": 2643,
+     "sha256": "2b943ff79b4b67f19020d420592e0df92e4f697f3f9eea4e7c9d67faba90ecf1"
+    },
+    {
+     "prefixo": "G",
+     "arquivo": "G.csv",
+     "linhas": 21,
+     "bytes": 2972,
+     "sha256": "4d8391b16f7ab2aa5d0d2f998c20caba3688d881c981423ce3b3f2e0b0eb9cdc"
+    },
+    {
+     "prefixo": "H",
+     "arquivo": "H.csv",
+     "linhas": 46,
+     "bytes": 5940,
+     "sha256": "601f0cb76a3ccbfc7cfefe21450bbfe1229de5ee431b1461cc0df10f1e641650"
+    },
+    {
+     "prefixo": "I",
+     "arquivo": "I.csv",
+     "linhas": 29,
+     "bytes": 4513,
+     "sha256": "b1a69a516cfa6237072af3365118dfa411b87112ccaf784a472aed833ba82a36"
+    },
+    {
+     "prefixo": "K",
+     "arquivo": "K.csv",
+     "linhas": 5,
+     "bytes": 903,
+     "sha256": "9ef4a0e7e4adb251d60810c2a56f730e027c7f2ae5adc99430df0022e614dc5c"
+    },
+    {
+     "prefixo": "L",
+     "arquivo": "L.csv",
+     "linhas": 27,
+     "bytes": 4078,
+     "sha256": "26089747f8b6574afad12fb95b8e2531f68aaf03e0efd21d6271b2925fab44da"
+    },
+    {
+     "prefixo": "M",
+     "arquivo": "M.csv",
+     "linhas": 12,
+     "bytes": 1753,
+     "sha256": "6a5c6f20f526072b6beb4f7f3a8724dff6b043719355f2dfd3a2e8b7a2eea493"
+    },
+    {
+     "prefixo": "N",
+     "arquivo": "N.csv",
+     "linhas": 11,
+     "bytes": 1839,
+     "sha256": "6fd8826a200ba1738f2865c9e7b8ff364466b1257d2cc1305609e89589b0bddb"
+    },
+    {
+     "prefixo": "O",
+     "arquivo": "O.csv",
+     "linhas": 11,
+     "bytes": 1788,
+     "sha256": "010f3b631f8de8a60cfa42cc11632dc885dbc20f9f060a7b391aebe2ef4c0595"
+    },
+    {
+     "prefixo": "P",
+     "arquivo": "P.csv",
+     "linhas": 24,
+     "bytes": 3393,
+     "sha256": "8d77f943cbb602e7963a0b65e26c9770c864382bf37a748f66668fdf7b1f4fae"
+    },
+    {
+     "prefixo": "R",
+     "arquivo": "R.csv",
+     "linhas": 29,
+     "bytes": 4087,
+     "sha256": "80f4a349293de7d6c310be49ceb7c825767eae288306865cf5939a4a5045fd94"
+    },
+    {
+     "prefixo": "S",
+     "arquivo": "S.csv",
+     "linhas": 35,
+     "bytes": 5077,
+     "sha256": "e52743dcc9015fc2ef54bb22bca618630986482eec83cc0dc5de89b4939c913c"
+    },
+    {
+     "prefixo": "V",
+     "arquivo": "V.csv",
+     "linhas": 6,
+     "bytes": 991,
+     "sha256": "ae07ee0e84e5e959ee4d0790003d9f8e655e29539eafab0094a905e6bf14df78"
+    },
+    {
+     "prefixo": "X",
+     "arquivo": "X.csv",
+     "linhas": 1,
+     "bytes": 395,
+     "sha256": "1a3977fcfa4f4d22bfc528d9061206c4213b68906a4473699fdb5d8ccac7b7fe"
+    }
+   ],
+   "normalizado_em": "2026-09-25"
+  },
+  "tiss/dominios": {
+   "titulo": "TISS 4.03.00 — domínios (enumerações dm_*) do XSD",
+   "fonte": "ANS — Padrão TISS, componente de comunicação 4.03.00 (tissSimpleTypes)",
+   "fonte_publica": "https://www.gov.br/ans/pt-br/assuntos/prestadores/padrao-para-troca-de-informacao-de-saude-suplementar-2013-tiss",
+   "edicao": "4.03.00",
+   "data_edicao": "",
+   "licenca": "pública (ANS)",
+   "descricao": "Lista de todos os domínios aceitos no XML TISS com seus códigos; descrição só quando o XSD traz comentário.",
+   "quando_usar": "validar um código de domínio do XML (tabela, tipo de atendimento…)",
+   "colunas": [
+    "dominio",
+    "codigo",
+    "descricao"
+   ],
+   "descricao_colunas": {
+    "dominio": "Nome do tipo no XSD (dm_…).",
+    "codigo": "Valor aceito.",
+    "descricao": "Comentário do próprio XSD (vazio quando o XSD não descreve)."
+   },
+   "origem": [
+    {
+     "arquivo": "tissSimpleTypesV4_03_00.xsd",
+     "bytes": 168962,
+     "sha256": "08aa9dfbafea81a968793eca821575de5114ec7f910da5e148a4ad308c2beb65"
+    }
+   ],
+   "pasta": "tiss/dominios",
+   "linhas": 2083,
+   "bytes": 168281,
+   "fatias": [
+    {
+     "prefixo": "",
+     "arquivo": "dados.csv",
+     "linhas": 2083,
+     "bytes": 168281,
+     "sha256": "5de940519c9688265409a8b75f1431abd7ecc63569b11b643f26e3f260fbf360"
+    }
+   ],
+   "normalizado_em": "2026-09-25"
+  },
+  "tiss/tabela-87": {
+   "titulo": "Tabela 87 — tabela de tabelas (referência do código do item)",
+   "fonte": "ANS (XSD TISS dm_tabela/dm_tabelaGeral) + manual do Sistema Rabi (domínio do convênio)",
+   "fonte_publica": "https://www.rabisistemas.com.br/manual/modulos/configuracoes.html",
+   "edicao": "4.03.00",
+   "data_edicao": "",
+   "licenca": "pública (ANS)",
+   "descricao": "Diz de qual tabela é o código do item na guia: 20 medicamento TUSS, 19 material TUSS, 05 Brasíndice, 12 SIMPRO…",
+   "quando_usar": "escolher a tabela 87 de produto/serviço/taxa no convênio",
+   "colunas": [
+    "codigo",
+    "descricao",
+    "base"
+   ],
+   "descricao_colunas": {
+    "codigo": "Código da tabela.",
+    "descricao": "Descrição.",
+    "base": "De onde veio a descrição."
+   },
+   "origem": [],
+   "observacoes": [
+    "Não confundir: Tabela 36 = indicador de acidente; Tabela 87 = tabela de tabelas.",
+    "Qual tabela usar no convênio (TUSS 20/19 ou 05/12) é definido pelo contrato do convênio."
+   ],
+   "pasta": "tiss/tabela-87",
+   "linhas": 10,
+   "bytes": 862,
+   "fatias": [
+    {
+     "prefixo": "",
+     "arquivo": "dados.csv",
+     "linhas": 10,
+     "bytes": 862,
+     "sha256": "67b2d7601be4591007538902d16262221ebf4417d9ab6d7dcad09c2fcc93efe0"
+    }
+   ],
+   "normalizado_em": "2026-09-25"
+  },
+  "tuss/historico": {
+   "titulo": "TUSS — histórico de alterações (inclusões, alterações, inativações)",
+   "fonte": "ANS — Padrão TISS, Histórico da TUSS",
+   "fonte_publica": "https://www.gov.br/ans/pt-br/assuntos/prestadores/padrao-para-troca-de-informacao-de-saude-suplementar-2013-tiss",
+   "edicao": "202601",
+   "data_edicao": "202601",
+   "licenca": "pública (ANS)",
+   "descricao": "Registro das mudanças da TUSS na competência (não é a tabela TUSS completa). Útil para saber se um código foi incluído, alterado ou inativado.",
+   "quando_usar": "conferir se um código TUSS mudou/foi inativado",
+   "colunas": [
+    "competencia",
+    "codigo_terminologia",
+    "terminologia",
+    "codigo_termo",
+    "termo",
+    "inicio_vigencia",
+    "fim_vigencia",
+    "fim_implantacao",
+    "tipo_acao"
+   ],
+   "descricao_colunas": {
+    "competencia": "Mês/ano da publicação.",
+    "codigo_terminologia": "Número da terminologia (19 materiais/OPME, 20 medicamentos, 64 forma de envio à ANS, 38 mensagens).",
+    "terminologia": "Nome da terminologia.",
+    "codigo_termo": "Código TUSS do termo.",
+    "termo": "Descrição do termo.",
+    "inicio_vigencia": "AAAA-MM-DD.",
+    "fim_vigencia": "AAAA-MM-DD (vazio = vigente).",
+    "fim_implantacao": "Prazo para operadoras/prestadores implantarem.",
+    "tipo_acao": "Incluído, Alterado, Inativado…"
+   },
+   "origem": [
+    {
+     "arquivo": "Padr╞o TISS - Histórico da TUSS - 202601.txt",
+     "bytes": 4342858,
+     "sha256": "d721e95b55e0ab7f2303130c07cdc687c7bf3fe2c5c33f288ba9a9626ce6d94d"
+    }
+   ],
+   "observacoes": [
+    "O kit não traz a TUSS completa de procedimentos (terminologia 22); para procedimentos use `cbhpm/portes` (código TUSS + descrição) e o contrato do convênio."
+   ],
+   "pasta": "tuss/historico",
+   "linhas": 31838,
+   "bytes": 4400614,
+   "fatias": [
+    {
+     "prefixo": "0-9",
+     "arquivo": "0-9.csv",
+     "linhas": 1,
+     "bytes": 261,
+     "sha256": "1cdabf282cecf6d452ae874f77054f62fb8d023eddbd45a7e5e27adcac8c6af2"
+    },
+    {
+     "prefixo": "A",
+     "arquivo": "A.csv",
+     "linhas": 147,
+     "bytes": 17888,
+     "sha256": "9ee7c1bc2f35c6516dae2e3ac8856c5149ebb7f3daeba27fafea113b30de8bea"
+    },
+    {
+     "prefixo": "B",
+     "arquivo": "B.csv",
+     "linhas": 34,
+     "bytes": 3869,
+     "sha256": "95b28b6994de3ef673fbc17e31d51ef2f9fc17ad7fc8fa9c5a73c67045ab551a"
+    },
+    {
+     "prefixo": "C",
+     "arquivo": "C.csv",
+     "linhas": 19169,
+     "bytes": 2417970,
+     "sha256": "1483fe2618175a65d5aecd81848c5f3703fad894f0391148f843bc8b6cfa32bc"
+    },
+    {
+     "prefixo": "D",
+     "arquivo": "D.csv",
+     "linhas": 60,
+     "bytes": 7214,
+     "sha256": "3064061664b8d73f8e845d1a4364317432a19339e961960003ff181c5c5d8a22"
+    },
+    {
+     "prefixo": "E",
+     "arquivo": "E.csv",
+     "linhas": 90,
+     "bytes": 11191,
+     "sha256": "d5eae9b46eb8a089d7517896b969dfaa30db259536d34c00ce937641a84ec4d7"
+    },
+    {
+     "prefixo": "F",
+     "arquivo": "F.csv",
+     "linhas": 114,
+     "bytes": 20027,
+     "sha256": "2224a79609217459778175a8c201a3c17051f394e7dd90a3e16f7a5fb7fd8136"
+    },
+    {
+     "prefixo": "G",
+     "arquivo": "G.csv",
+     "linhas": 133,
+     "bytes": 20305,
+     "sha256": "a19b7b839d51387aba9b77504d8d5107c7342ad8b5b7dcc785121a25db59b702"
+    },
+    {
+     "prefixo": "H",
+     "arquivo": "H.csv",
+     "linhas": 150,
+     "bytes": 16817,
+     "sha256": "9060ffd196ee7512bab219038805fa566074a7418ab4baea84d2318168bbda57"
+    },
+    {
+     "prefixo": "I",
+     "arquivo": "I.csv",
+     "linhas": 606,
+     "bytes": 77619,
+     "sha256": "0b1e779ee08ba20cf17b319bb7e61d47b2e64a6de3dd08ca12d010b4b68bc616"
+    },
+    {
+     "prefixo": "J",
+     "arquivo": "J.csv",
+     "linhas": 6,
+     "bytes": 729,
+     "sha256": "5130b96fcefe607c37d96f7c81366235fa2aa6057d2076bf3bad45fcf49cf1ef"
+    },
+    {
+     "prefixo": "K",
+     "arquivo": "K.csv",
+     "linhas": 75,
+     "bytes": 8703,
+     "sha256": "7fd1f8d89aed548dfb30036009ffc827afc42843bf6d1eecfa023dcbc4da3f66"
+    },
+    {
+     "prefixo": "L",
+     "arquivo": "L.csv",
+     "linhas": 112,
+     "bytes": 15207,
+     "sha256": "9423fad8153237623ce08f837a1ae6114e3c00645ab8bf125defb57ccc2e0fd1"
+    },
+    {
+     "prefixo": "M",
+     "arquivo": "M.csv",
+     "linhas": 187,
+     "bytes": 21874,
+     "sha256": "f2887684395d5b4c0ccd9b36c72948cd3eb52d2cf6be1886c10cf668142dfcbb"
+    },
+    {
+     "prefixo": "N",
+     "arquivo": "N.csv",
+     "linhas": 369,
+     "bytes": 83885,
+     "sha256": "d4ef94bacb99720ccf46ca54950b4131aed315413d37c8b4cc010a2b69b88bfb"
+    },
+    {
+     "prefixo": "O",
+     "arquivo": "O.csv",
+     "linhas": 12,
+     "bytes": 1419,
+     "sha256": "34f9921159576254bac30cb4ed1ef98f695d1307f410a144f47c4bad2848f537"
+    },
+    {
+     "prefixo": "P",
+     "arquivo": "P.csv",
+     "linhas": 1014,
+     "bytes": 166999,
+     "sha256": "c940272e83aeb1c8b98f7361f7439e609c59972b0c2157753a6d59e0f884dcfe"
+    },
+    {
+     "prefixo": "Q",
+     "arquivo": "Q.csv",
+     "linhas": 10,
+     "bytes": 2040,
+     "sha256": "4f5251ffd407daf8e25d4b07e3a105c77abacfdf955dfe1d75fc37ad38ffa071"
+    },
+    {
+     "prefixo": "R",
+     "arquivo": "R.csv",
+     "linhas": 28,
+     "bytes": 3417,
+     "sha256": "0ebaac8c5d4711ff7a145e5e19a40fa62eeb2b161167408d754d7dec963454b4"
+    },
+    {
+     "prefixo": "S",
+     "arquivo": "S.csv",
+     "linhas": 9256,
+     "bytes": 1469688,
+     "sha256": "07888f604dfa0d7b385ba7b1d9bf0a1b4c502a427a89f45f94a32748f3c3a371"
+    },
+    {
+     "prefixo": "T",
+     "arquivo": "T.csv",
+     "linhas": 42,
+     "bytes": 4804,
+     "sha256": "284e8c4164cd77e26d2f983859e5c9b2f6790715ac3c9483fef2208f3d333c37"
+    },
+    {
+     "prefixo": "U",
+     "arquivo": "U.csv",
+     "linhas": 3,
+     "bytes": 436,
+     "sha256": "ef6a50c4f997a30a15418bcded837a1c0bafa6ef11ae9ebb67dc4c383a4b062d"
+    },
+    {
+     "prefixo": "V",
+     "arquivo": "V.csv",
+     "linhas": 172,
+     "bytes": 20852,
+     "sha256": "468328676ea4a9834f30a9e8ead179ab6f3978cfb0b4686884ca6546a8665af1"
+    },
+    {
+     "prefixo": "W",
+     "arquivo": "W.csv",
+     "linhas": 3,
+     "bytes": 403,
+     "sha256": "f680c9cf15c2446a35ee81b5e5676d71c5755da604242876e0dfdad9ccf87a9a"
+    },
+    {
+     "prefixo": "X",
+     "arquivo": "X.csv",
+     "linhas": 1,
+     "bytes": 213,
+     "sha256": "3cb42c8d41c4c3cbdc5202222c8624129503af64959462a183bd81a600276ce1"
+    },
+    {
+     "prefixo": "Y",
+     "arquivo": "Y.csv",
+     "linhas": 5,
+     "bytes": 594,
+     "sha256": "c3936b2cf3697deb3f6f4e5eeb357596849b0843eac269d9ce726d101d3f129c"
+    },
+    {
+     "prefixo": "Z",
+     "arquivo": "Z.csv",
+     "linhas": 39,
+     "bytes": 6190,
+     "sha256": "a31c4db2b63b3ad3aedf75ada5603dd42ed06e0391789cb22742309717e06f8c"
+    }
+   ],
+   "normalizado_em": "2026-09-25"
+  },
+  "tuss/opme-envio-individualizado": {
+   "titulo": "TUSS — OPME com envio individualizado à ANS (Tabela 64)",
+   "fonte": "ANS — tabela auxiliar",
+   "fonte_publica": "https://www.gov.br/ans/pt-br/assuntos/prestadores/padrao-para-troca-de-informacao-de-saude-suplementar-2013-tiss",
+   "edicao": "202601",
+   "data_edicao": "202601",
+   "licenca": "pública (ANS)",
+   "descricao": "Nomes técnicos de OPME que precisam ser enviados de forma individualizada.",
+   "quando_usar": "raramente (OPME)",
+   "colunas": [
+    "nome_tecnico",
+    "codigo_tuss"
+   ],
+   "descricao_colunas": {
+    "nome_tecnico": "",
+    "codigo_tuss": ""
+   },
+   "origem": [
+    {
+     "arquivo": "NOMES TECNICOS ENVIO INDIVIDUALIZADO NA TUSS DE OPME 202601.xlsx",
+     "bytes": 25094,
+     "sha256": "3c28d64fe9bb63fbcf5e021951fb9f15d29333360eeb5ff8cdf61d090d0987dd"
+    }
+   ],
+   "pasta": "tuss/opme-envio-individualizado",
+   "linhas": 15,
+   "bytes": 736,
+   "fatias": [
+    {
+     "prefixo": "",
+     "arquivo": "dados.csv",
+     "linhas": 15,
+     "bytes": 736,
+     "sha256": "68215c72305a827c400c116c57d7ec27e12918e7328dcfe1ef0686666de633db"
+    }
+   ],
+   "normalizado_em": "2026-09-25"
+  },
+  "tuss/opme-fabricantes": {
+   "titulo": "TUSS — fabricantes dos materiais e OPME (por registro ANVISA)",
+   "fonte": "ANS — tabela auxiliar de fabricantes",
+   "fonte_publica": "https://www.gov.br/ans/pt-br/assuntos/prestadores/padrao-para-troca-de-informacao-de-saude-suplementar-2013-tiss",
+   "edicao": "202601",
+   "data_edicao": "202601",
+   "licenca": "pública (ANS)",
+   "descricao": "Registro ANVISA → fabricante nacional/internacional e classe de risco. Fatiado pela letra do fabricante nacional.",
+   "quando_usar": "descobrir o fabricante de um material pelo registro",
+   "colunas": [
+    "registro_anvisa",
+    "classe_risco",
+    "fabricante_nacional",
+    "fabricante_internacional",
+    "pais"
+   ],
+   "descricao_colunas": {
+    "registro_anvisa": "",
+    "classe_risco": "",
+    "fabricante_nacional": "",
+    "fabricante_internacional": "",
+    "pais": ""
+   },
+   "origem": [
+    {
+     "arquivo": "MATERIAIS FABRICANTES NA TUSS DE OPME 202601.xlsx",
+     "bytes": 2216738,
+     "sha256": "cd6b84158a41575779e00bc43f9d86581cac453ac53deaade1641d6d7f42177a"
+    }
+   ],
+   "pasta": "tuss/opme-fabricantes",
+   "linhas": 59578,
+   "bytes": 6332548,
+   "fatias": [
+    {
+     "prefixo": "0-9",
+     "arquivo": "0-9.csv",
+     "linhas": 553,
+     "bytes": 41373,
+     "sha256": "893bb2665782108178670d5129f5ce3808309d7795fd624d783b051a829696d4"
+    },
+    {
+     "prefixo": "A",
+     "arquivo": "A.csv",
+     "linhas": 4685,
+     "bytes": 449007,
+     "sha256": "ca09361acfb8f6f1b233ba5539d70352b0fead007a7a3c1b67624b023a075c25"
+    },
+    {
+     "prefixo": "B",
+     "arquivo": "B.csv",
+     "linhas": 5291,
+     "bytes": 548643,
+     "sha256": "8c6fc430828b5865ff0fed728a63d90c03ead2efc18105e71b6db7ca99cea648"
+    },
+    {
+     "prefixo": "C",
+     "arquivo": "C.csv",
+     "linhas": 4864,
+     "bytes": 535289,
+     "sha256": "46298c6346daa4728087c9aee3ef730a96ef0db15af25cd28e528e0171259450"
+    },
+    {
+     "prefixo": "D",
+     "arquivo": "D.csv",
+     "linhas": 2405,
+     "bytes": 242693,
+     "sha256": "d75ba398db2b21bff12c1646671ce6823fad907f294fd1044a0106eaeff33bbe"
+    },
+    {
+     "prefixo": "E",
+     "arquivo": "E.csv",
+     "linhas": 2940,
+     "bytes": 329675,
+     "sha256": "b5e199717b26cceac0be559aa8d5cf0abf16fafb595ba9e36f3709d168aeac5c"
+    },
+    {
+     "prefixo": "F",
+     "arquivo": "F.csv",
+     "linhas": 1291,
+     "bytes": 138627,
+     "sha256": "46f7dd2a0710e2e10f84fdb64089a0936e43314343e86648c8d61c09a5663d5c"
+    },
+    {
+     "prefixo": "G",
+     "arquivo": "G.csv",
+     "linhas": 1749,
+     "bytes": 181872,
+     "sha256": "e1c731ea9ecbe40482090566ef853d9c19c5d2a631888cca477a624a8791f678"
+    },
+    {
+     "prefixo": "H",
+     "arquivo": "H.csv",
+     "linhas": 2151,
+     "bytes": 234644,
+     "sha256": "1ef57cea3a6e7ca4300482c7db61bdfd3373a154346b7ed8f429f7d06b2587a1"
+    },
+    {
+     "prefixo": "I",
+     "arquivo": "I.csv",
+     "linhas": 2387,
+     "bytes": 256185,
+     "sha256": "f0a46d13c40daeb2c95c68807b9e405994049116c380c653d14da59f67c91461"
+    },
+    {
+     "prefixo": "J",
+     "arquivo": "J.csv",
+     "linhas": 2021,
+     "bytes": 237215,
+     "sha256": "361f3a20b2e91b24c1181d2eb1e869b98292f834daf964720fd37ef3dee94117"
+    },
+    {
+     "prefixo": "K",
+     "arquivo": "K.csv",
+     "linhas": 715,
+     "bytes": 67916,
+     "sha256": "0e21b16fd64bffb33f0feddca8bfb130bd8aab240ba03416891cdd31637c922a"
+    },
+    {
+     "prefixo": "L",
+     "arquivo": "L.csv",
+     "linhas": 2510,
+     "bytes": 251886,
+     "sha256": "8f82e4578abf78737e8b01959dc47832bde073d0e7b2aff2d17446f3a40b1301"
+    },
+    {
+     "prefixo": "M",
+     "arquivo": "M.csv",
+     "linhas": 6019,
+     "bytes": 654853,
+     "sha256": "52dd856fbc1b907fa689dbb0463b1074e88afdb1ddb89bab7511055db3b19ccd"
+    },
+    {
+     "prefixo": "N",
+     "arquivo": "N.csv",
+     "linhas": 1397,
+     "bytes": 156688,
+     "sha256": "d84668a345e75a02a665e49f89bf56c03567ebbc3214c8bc2f3384a62d6f6fb6"
+    },
+    {
+     "prefixo": "O",
+     "arquivo": "O.csv",
+     "linhas": 2048,
+     "bytes": 200546,
+     "sha256": "134c8bfd77f683c8ef2b574c1d74f7feeb93c1ee601f6d2433c87211ffcdf655"
+    },
+    {
+     "prefixo": "P",
+     "arquivo": "P.csv",
+     "linhas": 2822,
+     "bytes": 325446,
+     "sha256": "3cc6d90ea5ffa661d329158e376869863a18443aa3a2491a497ee6c2188770a0"
+    },
+    {
+     "prefixo": "Q",
+     "arquivo": "Q.csv",
+     "linhas": 342,
+     "bytes": 41407,
+     "sha256": "fcf4791f25b5f6e01c73e188223021c289aa2381862b43e83c1958bfebd5150c"
+    },
+    {
+     "prefixo": "R",
+     "arquivo": "R.csv",
+     "linhas": 1463,
+     "bytes": 173766,
+     "sha256": "44b84712d14c5762fca50ca65202a86dc89276d7cf47a968155f80dadfd5b975"
+    },
+    {
+     "prefixo": "S",
+     "arquivo": "S.csv",
+     "linhas": 5118,
+     "bytes": 527543,
+     "sha256": "4f7fb7c3f97d7c5a1bfedd3ce00f14ccd903c81222c8651ac7f44568044b53a6"
+    },
+    {
+     "prefixo": "T",
+     "arquivo": "T.csv",
+     "linhas": 1979,
+     "bytes": 222193,
+     "sha256": "f66e224f5f217ed081219b7e2b74c02db57c38504c3b4302ce01b41ca4352d7a"
+    },
+    {
+     "prefixo": "U",
+     "arquivo": "U.csv",
+     "linhas": 461,
+     "bytes": 55946,
+     "sha256": "3b8fc25c6eafef5604b2fe33838834115385ae08aadac0d3ca09fae47beafed6"
+    },
+    {
+     "prefixo": "V",
+     "arquivo": "V.csv",
+     "linhas": 3107,
+     "bytes": 346436,
+     "sha256": "3e1736bf461d316c3cbfacd165b5c4b1f3d489f03ec13b7cc1901787ff3f56ff"
+    },
+    {
+     "prefixo": "W",
+     "arquivo": "W.csv",
+     "linhas": 769,
+     "bytes": 76395,
+     "sha256": "4572b46f077450780c046b0c0f0cba0c0cd1bacfc9dc8aeecabf9f5e4da5c0f3"
+    },
+    {
+     "prefixo": "X",
+     "arquivo": "X.csv",
+     "linhas": 35,
+     "bytes": 3488,
+     "sha256": "37ada7824060faeb4b1c7ea2111f774be0fef10d77245351974c5408e5e9c399"
+    },
+    {
+     "prefixo": "Y",
+     "arquivo": "Y.csv",
+     "linhas": 34,
+     "bytes": 2541,
+     "sha256": "31fd1793e1b81bf82fb656016a1e044fe42f1978bb666c1c4239be7648d6f5e3"
+    },
+    {
+     "prefixo": "Z",
+     "arquivo": "Z.csv",
+     "linhas": 422,
+     "bytes": 30275,
+     "sha256": "406e0d99e293233f1f342f33ed410fe7fdcd5988ef75c9b4b0d8bd1f7eddf378"
+    }
+   ],
+   "normalizado_em": "2026-09-25"
+  },
+  "tuss/opme-nomes-tecnicos": {
+   "titulo": "TUSS — nomes técnicos ANVISA de OPME codificados",
+   "fonte": "ANS — tabela auxiliar OPME",
+   "fonte_publica": "https://www.gov.br/ans/pt-br/assuntos/prestadores/padrao-para-troca-de-informacao-de-saude-suplementar-2013-tiss",
+   "edicao": "202601",
+   "data_edicao": "202601",
+   "licenca": "pública (ANS)",
+   "descricao": "Nomes técnicos de órteses, próteses e materiais especiais (OPME) com código TUSS.",
+   "quando_usar": "código TUSS de OPME pelo nome técnico",
+   "colunas": [
+    "codigo_tuss",
+    "termo",
+    "modelo",
+    "fabricante",
+    "inicio_vigencia",
+    "fim_vigencia",
+    "fim_implantacao",
+    "registro_anvisa",
+    "classe_risco"
+   ],
+   "descricao_colunas": {
+    "codigo_tuss": "",
+    "termo": "",
+    "modelo": "",
+    "fabricante": "",
+    "inicio_vigencia": "",
+    "fim_vigencia": "",
+    "fim_implantacao": "",
+    "registro_anvisa": "",
+    "classe_risco": ""
+   },
+   "origem": [
+    {
+     "arquivo": "NOMES TÉCNICOS NA TUSS DE OPME 202601.xlsx",
+     "bytes": 343163,
+     "sha256": "0206b281ee2df609978da5e793a3abcef7b9b7f2f74285d2a12229855b7ac481"
+    }
+   ],
+   "pasta": "tuss/opme-nomes-tecnicos",
+   "linhas": 899,
+   "bytes": 113184,
+   "fatias": [
+    {
+     "prefixo": "A",
+     "arquivo": "A.csv",
+     "linhas": 62,
+     "bytes": 7596,
+     "sha256": "0404ede8fee7d0e0164873b928de3b1089988f1e3e1af81cc7c6c1de4ec0b34a"
+    },
+    {
+     "prefixo": "B",
+     "arquivo": "B.csv",
+     "linhas": 38,
+     "bytes": 4604,
+     "sha256": "995b87e638eca6814e007b3b09c9d050b5c6af86affc2bfd914d34d9d054bd46"
+    },
+    {
+     "prefixo": "C",
+     "arquivo": "C.csv",
+     "linhas": 134,
+     "bytes": 17028,
+     "sha256": "e6e53bb3ea512a10b9ff9906d33f2fb7acfdb91692068ea7b51a93c39471393f"
+    },
+    {
+     "prefixo": "D",
+     "arquivo": "D.csv",
+     "linhas": 59,
+     "bytes": 7542,
+     "sha256": "1750f02c17f4f5e8d80a4dc4a909efce8c2182ba4a68d03ccf2d36dccd27dcb7"
+    },
+    {
+     "prefixo": "E",
+     "arquivo": "E.csv",
+     "linhas": 63,
+     "bytes": 7688,
+     "sha256": "c0b3eeda49fe8dee6ee3d3d31b77048807529f6dbc6d6516bc13bfd847935016"
+    },
+    {
+     "prefixo": "F",
+     "arquivo": "F.csv",
+     "linhas": 40,
+     "bytes": 4860,
+     "sha256": "9f22fd5685a1730db3c645a2925385fbe05d135fa592fcf5c156c70e6b77a926"
+    },
+    {
+     "prefixo": "G",
+     "arquivo": "G.csv",
+     "linhas": 28,
+     "bytes": 3372,
+     "sha256": "b9537543e47f911bc2f828b80ac134ccaa368085712497e540ef45d344465b4a"
+    },
+    {
+     "prefixo": "H",
+     "arquivo": "H.csv",
+     "linhas": 13,
+     "bytes": 1759,
+     "sha256": "fcbc568f2e5ff1e314d0999480da2104beb68a18ebaf5053d35520a76c90a49f"
+    },
+    {
+     "prefixo": "I",
+     "arquivo": "I.csv",
+     "linhas": 41,
+     "bytes": 5059,
+     "sha256": "22ea4918305240c6caa5da3e03fff2f6015a22f5a6560ac584e6b5127c9018ca"
+    },
+    {
+     "prefixo": "J",
+     "arquivo": "J.csv",
+     "linhas": 1,
+     "bytes": 212,
+     "sha256": "e25a6e098aecfaae937454c87f91816839d43a78107c3a94d9721633c6113984"
+    },
+    {
+     "prefixo": "K",
+     "arquivo": "K.csv",
+     "linhas": 43,
+     "bytes": 5407,
+     "sha256": "11df1fb06e612ca78186b3e9d564b6e0e7f3b9ba71b29fe1931a246abb167b4b"
+    },
+    {
+     "prefixo": "L",
+     "arquivo": "L.csv",
+     "linhas": 20,
+     "bytes": 2443,
+     "sha256": "9fa0d77e158b7bf54d0bb34e511f21e4ab83f8d5495120d8cc79e4e6640ced1a"
+    },
+    {
+     "prefixo": "M",
+     "arquivo": "M.csv",
+     "linhas": 56,
+     "bytes": 7165,
+     "sha256": "f657c9be52c41132dde9337015d7e6afcc44c4a86a41db49e98d47d3c003a5aa"
+    },
+    {
+     "prefixo": "N",
+     "arquivo": "N.csv",
+     "linhas": 6,
+     "bytes": 926,
+     "sha256": "dc22be9d9a55c28abb2060bc5fdfc90dd43af774d6a81c0a845b11e3219fa206"
+    },
+    {
+     "prefixo": "O",
+     "arquivo": "O.csv",
+     "linhas": 10,
+     "bytes": 1265,
+     "sha256": "149115ef7dc12517ce35f65c232c8814bb6cd4ec9759bf582f7858c5e4da3609"
+    },
+    {
+     "prefixo": "P",
+     "arquivo": "P.csv",
+     "linhas": 122,
+     "bytes": 15128,
+     "sha256": "e2538526202affb63144acad0362a95b615b1946c012ba6e5a99dc8b254e5e35"
+    },
+    {
+     "prefixo": "R",
+     "arquivo": "R.csv",
+     "linhas": 14,
+     "bytes": 1934,
+     "sha256": "e6bcc5f530b68b50797e92d2cc9ed1a37ba06ee9d2270fa793d0fbbdc9781390"
+    },
+    {
+     "prefixo": "S",
+     "arquivo": "S.csv",
+     "linhas": 105,
+     "bytes": 13869,
+     "sha256": "164ea57f5746303f7dae4c8cd16f20803b1dcd708a8a807cb2559267424643f3"
+    },
+    {
+     "prefixo": "T",
+     "arquivo": "T.csv",
+     "linhas": 32,
+     "bytes": 3739,
+     "sha256": "c99dc1287e0f2e9e12026b5e13105f550c4c0ae9120ec9ad41cecbd33c1b9edc"
+    },
+    {
+     "prefixo": "U",
+     "arquivo": "U.csv",
+     "linhas": 1,
+     "bytes": 220,
+     "sha256": "8d7f0a220c8374fc727bfd8ab539c2111bbacdda4fc58429a56d5804c0f7c165"
+    },
+    {
+     "prefixo": "V",
+     "arquivo": "V.csv",
+     "linhas": 11,
+     "bytes": 1368,
+     "sha256": "0e216b8e2d3d1751139b059d93465cae5de1256d91315cc3ef13dd557564d140"
+    }
+   ],
+   "normalizado_em": "2026-09-25"
+  },
+  "tuss/registros-anvisa-medicamentos": {
+   "titulo": "TUSS — registros ANVISA dos medicamentos (terminologia 20)",
+   "fonte": "ANS — arquivo auxiliar 'Registros ANVISA na TUSS de medicamentos'",
+   "fonte_publica": "https://www.gov.br/ans/pt-br/assuntos/prestadores/padrao-para-troca-de-informacao-de-saude-suplementar-2013-tiss",
+   "edicao": "202601",
+   "data_edicao": "202601",
+   "licenca": "pública (ANS)",
+   "descricao": "Liga o registro ANVISA (13 dígitos) ao código TUSS do medicamento.",
+   "quando_usar": "achar o código TUSS a partir do registro ANVISA",
+   "colunas": [
+    "codigo_tuss",
+    "registro_anvisa"
+   ],
+   "descricao_colunas": {
+    "codigo_tuss": "Código do termo na terminologia 20.",
+    "registro_anvisa": "Registro ANVISA (só dígitos)."
+   },
+   "origem": [
+    {
+     "arquivo": "REGISTROS ANVISA NA TUSS DE MEDICAMENTOS VERS╟O 202601.xlsx",
+     "bytes": 1030047,
+     "sha256": "569960541cfa0393a51649ca82c27710552a66bb3404125aab7a9a2424e8e46a"
+    }
+   ],
+   "pasta": "tuss/registros-anvisa-medicamentos",
+   "linhas": 42936,
+   "bytes": 987538,
+   "fatias": [
+    {
+     "prefixo": "",
+     "arquivo": "dados.csv",
+     "linhas": 42936,
+     "bytes": 987538,
+     "sha256": "d4739077593e54e8180876036c356f7c8d1794a050f2cf74ca3100eef131b092"
+    }
+   ],
+   "normalizado_em": "2026-09-25"
+  }
+ },
+ "atualizado_em": "2026-09-25"
+}

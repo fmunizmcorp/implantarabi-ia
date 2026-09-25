@@ -1,0 +1,4 @@
+fonte;edicao;tipo_item;codigo_fonte;tabela_fonte;chave_fonte;laboratorio;produto;apresentacao;principio_ativo;ean;registro_anvisa;codigo_tuss;ggrem;generico;restrito_hospitalar;qtd_embalagem;pf_total;pmc_total;pf_unit;pmc_unit;preco_ref;tipo_preco;vigencia;tabela87_sugerida;precos_extra
+SIMPRO;2026-04-12;reagente;0003555026;12;;ICAR;FORMOL 1000ML;;;;;;;;;;;;;;0.016;SIMPRO_VIG;2006-11-30;19;
+SIMPRO;2026-04-12;reagente;0003555025;12;;ICAR;FORMOL 30ML;;;;;;;;;;;;;;0.068;SIMPRO_VIG;2006-11-30;19;
+SIMPRO;2026-04-12;reagente;0001905079;12;;D.G.L;FORMOL 40% 1000ML;;;;;;;;;;;;;;0.005;SIMPRO_VIG;2008-06-09;19;
