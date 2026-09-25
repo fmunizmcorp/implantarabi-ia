@@ -96,7 +96,7 @@ def carregar(cenario_path: str, csv_path: str = None, fontes_path: str = None):
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="Prevê 🔒/🔁/✅/Σ, custo e Farol por serviço")
     ap.add_argument("cenario", help="JSON {catalogo, convenio}")
-    ap.add_argument("--csv", help="precos-<convenio>.csv a sobrepor à configuração do cenário")
+    ap.add_argument("--csv", help="precos-<slug>.csv a sobrepor à configuração do cenário")
     ap.add_argument("--fontes", help="JSON {nome da fonte: id} (para fonte_preco numérica no CSV)")
     ap.add_argument("--servico", type=int, action="append", help="só estes serviços")
     ap.add_argument("--so-ativos", action="store_true", help="ignora serviços inativos no catálogo")

@@ -37,9 +37,16 @@ servicos = c.ler_tudo("/servicos", {"ativo": True})
 print(c.ultima_leitura)                            # lidos, total, páginas, formato do envelope
 um = c.get("/servicos/46")                         # falha se status≠2xx ou corpo vazio
 
-# PUT: GET antes, altera só o que muda, reenvia o objeto COMPLETO
-obj = c.get("/servicos/46"); obj["valor"] = 40.0
-c.put("/servicos/46", obj)
+# PUT = sobrescrita, e a LEITURA tem outros nomes/formatos que a ESCRITA
+# (somarItens × somarItems, objetos aninhados × IDs). Nunca reenvie o GET cru:
+from ferramentas.rabi_api.corpo_escrita import corpo_put_servico, CampoDeEscritaAusente
+atual = c.get("/servicos/46")
+try:
+    corpo = corpo_put_servico(atual, complementos={"valor": 40.0})  # mudança + campos que faltarem
+except CampoDeEscritaAusente as e:
+    print(e.faltam)   # a leitura não trouxe estes campos: pegue-os no cadastro do repo
+    raise
+c.put("/servicos/46", corpo)                       # depois: GET e diff de TODOS os campos
 
 # lote: fatia no limite, lê 207 por indice, devolve o que reenviar
 rel = c.enviar_lote("/produtos/bulk", "produtos", lista_de_produtos, tamanho=50)
@@ -56,6 +63,13 @@ diz a permissão), `LeituraIncompleta` (lidos ≠ total), `FormatoInesperado`, e
 para o resto (tem `.status`, `.corpo`, `.mensagem_servidor()`). 429: espera 5/10/20 s e
 tenta de novo (máx. 3). Rotas em que 401 é defeito conhecido (não chave) viram `ErroRabi`
 com explicação.
+
+Conversor leitura → escrita: `corpo_escrita.py` (`corpo_put_servico`, `corpo_put_produto`).
+Todo campo do schema de escrita precisa ser resolvido pela leitura ou por `complementos`
+(`None` explícito = limpar); senão levanta `CampoDeEscritaAusente` com a lista. Não há
+conversor de colaborador (o GET não traz conselho, repasse etc.): monte o corpo do repo.
+Convênio (`PUT /convenios/{id}`): o GET também não serve de base — ver
+`conhecimento/api-externa/convencoes.md` §4.2.
 
 ## 4. Foto e diff (ritual de toda gravação)
 

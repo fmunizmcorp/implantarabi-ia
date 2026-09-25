@@ -9,7 +9,7 @@ model: inherit
 
 ## Entrada
 - Convênio (slug + ID) ou "todos".
-- A última foto aprovada: `provas/S10/<slug>/<data>/depois.json` (ou a mais recente).
+- A última foto aprovada: `provas/S10/<slug>/<aba>-passe-N/AAAAMMDD-HHMM/depois.json` (ou a mais recente).
 
 ## As 6 contagens (por convênio)
 1. Serviços com **Utiliza = sim**.

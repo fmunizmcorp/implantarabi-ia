@@ -73,7 +73,7 @@ Cobre: CV-2, CV-3 · Sprint: S10b · Extraído em: 2026-10-02 · Método: OCR 30
 ## Passo 4 — Mapear documento → dados → sprint
 
 Depois da ficha, os dados vão para os arquivos normalizados do repo da clínica
-(`dados/<área>/...`, ex.: `dados/convenios/convenio-a/precos.csv` com a coluna
+(`dados/<área>/...`, ex.: `dados/convenios/convenio-a/precos-convenio-a.csv` com a coluna
 `ORIGEM` = "ficha 007, p. 2, L14"). O checklist da sprint muda o item de
 `pendente` para `coletado`.
 

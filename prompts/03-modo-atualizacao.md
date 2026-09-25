@@ -23,8 +23,13 @@ novo profissional, preço, taxa, parâmetro, permissão, reajuste de convênio
 4. **Prévia** em tabela (item · campo · de → para · por quê · quem é afetado).
 5. **Aprovação** → **grava** pelo ritual de 5 passos (skill `ritual-de-carga`).
    PUT é **sobrescrita**: GET antes e reenviar o objeto completo, salvo as
-   rotas que declaram upsert (abas do convênio, `/parametros/desconto`,
-   `/parametros/financeiro`). Campo omitido pode ser **apagado**.
+   rotas que declaram upsert (abas do convênio e `/parametros/desconto`).
+   `/parametros/financeiro` é **misto**: sempre reenvie `categoriaPagamentoId`
+   e `centroDeCustoId` (omitidos viram null). Campo omitido pode ser **apagado**.
+   Serviço/produto: o GET **não** é o corpo do PUT (nomes e formatos diferentes) —
+   use `corpo_put_servico` / `corpo_put_produto` de `ferramentas/rabi_api/corpo_escrita.py`.
+   Dados do convênio: o GET nem traz o que o PUT exige — monte o objeto da régua
+   contratual + dicionário de IDs (ver `sprints/S10a`).
 6. **Foto depois + diff**, Farol relido nos convênios afetados, contagens de
    regressão de novo (devem mudar **só** o que foi aprovado).
 7. **Registro:** linha em `decisoes/DECISOES.md`, entrada no
@@ -33,7 +38,7 @@ novo profissional, preço, taxa, parâmetro, permissão, reajuste de convênio
 
 ## Cuidados que já custaram caro
 - `PUT /servicos/{id}` sem o objeto completo apagou composição de serviço (a
-  aplicação perdeu itens). Sempre GET antes.
+  aplicação perdeu itens). Sempre GET antes e converter com `corpo_escrita.py`.
 - Alteração em massa feita fora da sessão (cópia de convênio, importação)
   aparece como muitas linhas do mesmo item com o mesmo `updatedAt`: investigue
   antes de "corrigir".

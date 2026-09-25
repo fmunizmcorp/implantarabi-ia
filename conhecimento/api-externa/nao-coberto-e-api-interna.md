@@ -40,7 +40,11 @@ de documentos).
 | Modelos de XML do convênio (`xmlConsultaId`, `xmlSpSadtId`) | convênio | Configurações › Convênios |
 | Tipos de contrato, tipos de anexo | colaborador, anexo de paciente | Configurações |
 | **Perfis de permissão** (`perfilPermissaoId`) | `GET/PUT /parametros/dashboard-*` | Configurações › permissões |
-| Fontes de preço de compra (`fontePrecoCompraOptionsId`) | aba Produtos do convênio | Configurações › Convênios |
+
+**Fonte de preço de compra (`fontePrecoCompraOptionsId`, aba Produtos do convênio):** não
+é um "id só na tela". O provável é que seja o `fontePrecoId` de
+`GET /tabelas-preco/precificacao` — **confirmar gravando 1 item em homologação** antes de
+usar em lote.
 
 Exceção útil: o **motivo de cancelamento** tem leitura em
 `GET /agendamentos/motivo-cancelamento`.

@@ -67,7 +67,7 @@ CV-2 (tabela de preços), CV-3 (materiais e medicamentos), CV-6
 
 ## Índice de dados a coletar
 
-Toda linha vai para `dados/convenios/<slug>/precos.csv` (formato de 21 colunas
+Toda linha vai para `dados/convenios/<slug>/precos-<slug>.csv` (formato de 21 colunas
 em [10-do-contrato-a-configuracao](../conhecimento/precos-e-conversao/10-do-contrato-a-configuracao.md),
 com **ORIGEM obrigatória**). Campos por aba:
 
@@ -102,7 +102,7 @@ não está no anexo assinado é bandeira para confirmar.
 |---|---|---|---|---|---|
 | Cobre? | `utiliza` | explícito sempre | CV-3 | — | "O <convênio> paga o <produto> à parte?" |
 | Valor unitário do convênio | `valorUnitarioConversao` (`null` = herda) | não | tabela própria do contrato | vazio (usa a política) | — |
-| Fator K da linha | `fatorK` (percentual; `null` = herda) | não | CV-3 | vazio | — |
+| Fator K da linha | `fatorK` (percentual; `null` = herda **só** quando `valorUnitarioConversao` está vazio; com valor unitário convertido na linha, vazio = sem ajuste (0%), **não** herda) | não | CV-3 | vazio | — |
 | Fonte e tipo de preço | `fontePrecoCompraOptionsId`, `tipoPrecificacao` (`PRECO_1..3`) | não | CV-3 | herdar da política (S10a) | — |
 | Incluso em pacote? | `zerarValor` | não | contrato | não | — |
 | Textos e códigos | `nomeConversao`, `descricaoConversao`, `codigo`, `codigoTuss`, `codigoTiss`, `codigoConversao`, `tipoCodigoId`, `tabela87ANSId`, `parcelasMaximas` | não | CV-3 | — | — |
@@ -127,13 +127,13 @@ não está no anexo assinado é bandeira para confirmar.
 | Credenciado | `credenciado` | não | CV-6 | — | "<nome> é credenciado no <convênio>? Se não for, os atendimentos dele glosam." |
 | Atende | `atende` (só `true` se credenciado ou com conversão) | não | CV-6 | — | — |
 | Colaborador convertido | `colaboradorConvertidoId` | não | contrato (atende em nome de outro) | — | — |
-| Especialidades | `especialidadesIds`, `especialidadesConvertidasIds` (aditivo, até 50) | não | CV-6 | — | — |
+| Especialidades | `especialidadesIds`, `especialidadesConvertidasIds` (aditivo, até 50) — IDs das especialidades **do colaborador** (vínculo colaborador × especialidade da S09), **não** os do catálogo de especialidades | não | CV-6 | — | — |
 
 ## Fila de perguntas
 
 1. Confirmar as respostas das 4 perguntas (vindas da S10a) **por serviço**:
    pacote fechado / conta aberta / preço fixo, e o que está dentro de cada pacote.
-2. Confirmar em bloco as linhas A (incontroversas, com origem) do `precos.csv`.
+2. Confirmar em bloco as linhas A (incontroversas, com origem) do `precos-<slug>.csv`.
 3. Perguntar uma a uma as linhas B (precisam de decisão).
 4. Listar as linhas C (sem documento) como lacunas — nada de chute.
 5. Credenciamento, profissional por profissional.
@@ -146,7 +146,7 @@ não está no anexo assinado é bandeira para confirmar.
 - **Simulação antes de gravar:** `ferramentas/conversao/simulador.py` prevê a
   linha ✅, a Σ e o Farol de cada serviço com as regras vigentes.
 - **Montagem dos corpos:** `ferramentas/conversao/montar_convenio.py` lê o
-  `precos.csv`, valida (origem, 0,01, invariantes) e gera os corpos das abas na
+  `precos-<slug>.csv`, valida (origem, 0,01, invariantes) e gera os corpos das abas na
   ordem certa.
 
 ## Leitura do que já existe no Rabi e regra de não perder nada
@@ -197,7 +197,7 @@ Conta aberta (o mesmo serviço, cobrando cada item): `pacote` falso, nenhum
 
 ## Prova
 
-- `provas/S10b/<slug>/<aba>-passe-N/` (antes, resposta, depois, diff) para cada
+- `provas/S10/<slug>/<aba>-passe-N/AAAAMMDD-HHMM/` (antes, resposta, depois, diff) para cada
   passe de cada aba; **segunda leitura fria** ao fim de cada aba.
 - **Conferência obrigatória de pelo menos 3 serviços por convênio:** um
   **simples**, um **com medicamento**, um **com pacote** (se houver) —
@@ -207,7 +207,7 @@ Conta aberta (o mesmo serviço, cobrando cada item): `pacote` falso, nenhum
   `receita_total` de `/farol/servicos` (a Σ da tela; `efetivo.totalConvenio` não
   existe na API externa).
 - Validação cruzada: subagente `conferente-precos` (contexto limpo) confere a
-  régua × `precos.csv` × Farol relido. Quem gravou não valida sozinho.
+  régua × `precos-<slug>.csv` × Farol relido. Quem gravou não valida sozinho.
 - Contagens R1–R6 **depois**, gravadas em `dados/convenios/<slug>/contagens.md`.
 
 ## As 4 linhas da coluna Valor do serviço (tela, em produção desde 24/09)
@@ -239,7 +239,7 @@ Detalhe: [07-quatro-linhas](../conhecimento/precos-e-conversao/07-quatro-linhas-
 
 ## Definition of Ready / Definition of Done
 
-**DoR:** S10a concluída; respostas das 4 perguntas por serviço; `precos.csv`
+**DoR:** S10a concluída; respostas das 4 perguntas por serviço; `precos-<slug>.csv`
 com origem em todas as linhas; simulação feita e mostrada.
 
 **DoD:**
@@ -254,8 +254,8 @@ com origem em todas as linhas; simulação feita e mostrada.
 
 | # | item | status | origem | prova | observação |
 |---|---|---|---|---|---|
-| S10b-01 | Foto antes do convênio inteiro (abas + Farol) | pendente | | provas/S10b/ | |
-| S10b-02 | precos.csv montado com ORIGEM em todas as linhas | pendente | | | |
+| S10b-01 | Foto antes do convênio inteiro (abas + Farol) | pendente | | provas/S10/<slug>/ | |
+| S10b-02 | precos-<slug>.csv montado com ORIGEM em todas as linhas | pendente | | | |
 | S10b-03 | Linhas A confirmadas; B decididas; C como lacunas | pendente | | | |
 | S10b-04 | Simulação mostrada ao usuário | pendente | | | |
 | S10b-05 | Aba Planos | pendente | | | |
@@ -271,7 +271,7 @@ com origem em todas as linhas; simulação feita e mostrada.
 
 ## O que registrar
 
-- `dados/convenios/<slug>/precos.csv`, `contagens.md`, `decisoes.md`.
+- `dados/convenios/<slug>/precos-<slug>.csv`, `contagens.md`, `decisoes.md`.
 - `decisoes/DECISOES.md`: cada decisão B com quem decidiu.
 - `pendencias/LACUNAS.md`: linhas C.
 - `ESTADO.md`: estado do convênio (FECHADO quando o DoD estiver completo) e

@@ -58,7 +58,7 @@ Referência completa: `conhecimento/api-externa/00-INDICE.md`.
 - Base: `https://api.rabisistemas.com.br/api/v1/integrations`.
 - Cabeçalho: `Authorization: Bearer rbk_…`. A chave carrega a clínica e as permissões.
 - A chave é lida da variável de ambiente `RABI_API_KEY`; se não houver, de `credenciais/rabi-api-externa.md`.
-- Chave inválida ou vencida: o Swagger diz **401**, mas em 25/09 uma chave inexistente ainda respondeu **503**. Trate os dois como problema de chave e não repita em loop.
+- Chave inválida ou vencida: o Swagger diz **401**, mas em 25/09 uma chave inexistente ainda respondeu **503** (medição única em 25/09, reconfirmar). Trate os dois como problema de chave e não repita em loop.
 - Validade: cabeçalho `X-ApiKey-Expires-At`. Avise quando faltarem 15 dias.
 
 **Leitura**
@@ -66,11 +66,11 @@ Referência completa: `conhecimento/api-externa/00-INDICE.md`.
 - Leia até `totalPages` e confira que o total lido bate com `total`.
 
 **Escrita**
-- **PUT sobrescreve** o registro inteiro. Exceções: as abas do convênio e `/parametros/desconto|financeiro`. Regra prática: GET antes e reenvie o objeto completo.
+- **PUT sobrescreve** o registro inteiro. Exceções: as abas do convênio e `/parametros/desconto`. `/parametros/financeiro` é misto: sempre reenvie `categoriaPagamentoId` e `centroDeCustoId`. Regra prática: GET antes e reenvie o objeto completo — em serviço/produto convertido por `ferramentas/rabi_api/corpo_escrita.py` (a leitura tem outros nomes); nos dados do convênio montado da régua + dicionário de IDs (o GET não traz tudo).
 - `DELETE` é inativação lógica.
 
 **Lotes**
-- Limites: 50 por `/bulk`; 200 nas abas do convênio e em `/tabelas-preco/produtos/bulk`; 100 em tomadores NFS-e.
+- Limites: 50 por `/bulk`; 200 nas abas do convênio (Colaboradores: 100) e em `/tabelas-preco/produtos/bulk`; 100 em tomadores NFS-e.
 - Resposta **207**: reenvie só os itens com `ERRO` ou `NAO_PROCESSADO`.
 - **429**: só um lote por vez.
 
@@ -92,15 +92,15 @@ Lista completa: `conhecimento/api-externa/proibidas-sem-ordem-escrita.md`.
 **Regras de ouro**
 - **Vazio ≠ zero.** Campo vazio sobe para o próximo nível (convênio → política → cadastro). `0,00` é zero de verdade. **Nunca use 0,01** como marcador.
 - **Utiliza** vem desmarcado por padrão. Item sem Utiliza sai da conta. É a causa nº 1 de "o valor veio menor".
-- **Valor combinado não é pacote.** Preço fechado exige três coisas: valor combinado + **Pacote** no serviço + **Zerar** em cada item incluso.
-- Serviço com **somarItens** tem valor próprio 0 (itens cobrados à parte). No XML, isso **não é erro**.
+- **Valor combinado não é pacote.** Preço fechado exige três coisas: valor combinado (ou preço fixo do catálogo, em serviço que não soma itens) + **Pacote** no serviço + **Zerar** em cada item incluso.
+- Serviço com **somarItens** tem valor próprio 0 (itens cobrados à parte) quando não há valor combinado. No XML, isso **não é erro**.
 - Produto: preço vem do valor convertido × Fator K da linha. Se não houver, vem da política por tipo de produto e depois do cadastro. **Fator K é percentual**, não multiplicador.
 - **Tabela interna** é preço de **produto**. O preço particular vem do convênio "Particular".
 
 **Como trabalhar**
 - Um convênio por vez.
-- Monte `precos-<convenio>.csv` com a coluna **origem** preenchida.
-- Rode `ferramentas/conversao/simulador.py` e mostre a prévia.
+- Monte `precos-<slug>.csv` com a coluna **origem** preenchida.
+- Monte o cenário com `ferramentas/conversao/montar_cenario.py` (fotos da API + políticas da régua; resolva as lacunas que ele listar) e rode `python3 ferramentas/conversao/simulador.py <cenario.json> --csv precos-<slug>.csv`. Mostre a prévia.
 - Grave as abas nesta ordem: Utiliza → valores → textos e códigos → tipo de atendimento → Pacote/Zerar.
 - Confira com `ferramentas/conversao/conferir_farol.py`: pelo menos 3 serviços por convênio (um simples, um com medicamento, um com pacote).
 

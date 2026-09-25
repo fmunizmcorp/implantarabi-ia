@@ -8,6 +8,7 @@
 | [README.md](README.md) | Fluxo completo, formato do CSV, mapa coluna → API, interpretações e limitações | Antes de configurar um convênio |
 | `modelo.py` | Classes de dados e leitura do cenário JSON | Ao montar o cenário |
 | `motor.py` | Árvores do manual: valor, custo, Farol, orçamento, 4 linhas, invariantes | Ao investigar um número |
+| `montar_cenario.py` | CLI: fotos da API + políticas da régua → `cenario.json` do simulador, com a lista de lacunas | Antes de simular um convênio real |
 | `simulador.py` | CLI de previsão por serviço (🔒 🔁 ✅ Σ, custo, Farol, itens) | Antes de gravar |
 | `montar_convenio.py` | CLI: CSV com origem → lotes dos PUT + `previa.md` | Para a prévia e a gravação |
 | `conferir_farol.py` | CLI: previsão × GET `/farol/servicos`, `/itens`, `/produtos` | Depois de gravar |

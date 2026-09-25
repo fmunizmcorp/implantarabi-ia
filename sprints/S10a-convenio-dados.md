@@ -47,7 +47,7 @@ CV-1 (contrato e aditivos), CV-3 (regra de materiais e medicamentos), CV-4
 | Prazo de entrega de guias (dias) | `prazoLimiteEntregaGuias` | não | cláusula de faturamento | — | — |
 | Prazo de recurso de glosa / pagamento do recurso | `prazoRecursoGlosa`, `prazoPagamentoRecursoGlosa` | não | cláusula de glosa | — | "Quantos dias a clínica tem para recorrer de uma glosa?" |
 | Prazo de autorização (dias) | `prazoAutorizacao` | não | cláusula de autorização | — | — |
-| Fator K geral | `fatorK` | não | anexo de materiais | — | "O contrato fala em fator K, inflator ou deflator? Qual o percentual?" |
+| Fator K geral | `fatorK` (unidade e efeito **não confirmados**; o que vale no cálculo é o Fator K da política ou da linha) | não | anexo de materiais | — | "O contrato fala em fator K, inflator ou deflator? Qual o percentual?" |
 | Exige token/senha do beneficiário | `exigirToken` | não | cláusula de elegibilidade | não | — |
 | Faturado/pagamento | `faturadoPagamento` | não | — | — | sentido não confirmado: marcar pela tela e conferir |
 | Parcelas máximas (particular) | `limiteParcelasConvenioParticular` | não | regra da clínica | — | "No particular, parcela em até quantas vezes?" |
@@ -92,14 +92,16 @@ Detalhe do método: [../conhecimento/negocio-clinica/analise-de-contratos.md](..
 
 - `GET /convenios` e `GET /convenios/{id}` — casar por CNPJ e descrição.
 - Existe → diagnóstico NOVO / EM ANDAMENTO / FECHADO (modo Convênio). Corrigir =
-  GET completo + PUT completo (ver armadilhas).
+  montar o objeto **completo** a partir de `dados/convenios/<slug>/regua-contratual.md`
+  + `dados/dicionario-de-ids.md` e enviar o PUT (ver armadilhas). O `GET` **não**
+  serve de base: ele devolve só o resumo do convênio.
 
 ## Gravação
 
 | Ordem | Rota | Permissão | Lote |
 |---|---|---|---|
 | 1 | `POST /convenios` | `convenio:create` | um por vez (o `/bulk`, até 50, só com ordem escrita e depois do 1º provado) |
-| Correção | `GET /convenios/{id}` → `PUT /convenios/{id}` **completo** | `convenio:update` | — |
+| Correção | objeto completo montado da régua + dicionário → `PUT /convenios/{id}` | `convenio:update` | — |
 
 Exemplo fictício: `{"descricao":"Operadora Exemplo — Empresarial","dataInicio":"2026-10-01T00:00:00.000Z","empresaId":"<id>","unidadesIds":[<id>],"operadoraId":"<id>","prazoPagamento":30,"prazoRetorno":30}`
 
@@ -108,18 +110,31 @@ Exemplo fictício: `{"descricao":"Operadora Exemplo — Empresarial","dataInicio
 
 ## Prova
 
-- `provas/S10a/<slug>/` com `depois.json` = `GET /convenios/{id}`.
+- `provas/S10/<slug>/dados/AAAAMMDD-HHMM/` com `depois.json` = `GET /convenios/{id}`
+  e o print da tela de cadastro antes e depois (o GET não mostra tudo).
+  Padrão de todo o convênio: `provas/S10/<slug>/{dados|<aba>-passe-N}/AAAAMMDD-HHMM/`.
 - Review: tabela com cada campo gravado × cláusula de origem.
 
 ## Armadilhas desta sprint
 
 - **`PUT /convenios/{id}` substitui o cadastro:** unidades fora da lista são
   **desativadas** no convênio; omitir `operadoraId` remove a operadora; omitir
-  datas as limpa; omitir `exigirToken` grava `false`; `politicasPorTipoProduto`,
-  quando enviado, é a lista **completa**. Sempre GET → alterar → reenviar tudo.
+  datas (`dataFim`, `dataReajuste`, `dataRenovacao`) as limpa; omitir `exigirToken`
+  grava `false`; `politicasPorTipoProduto`, quando enviado, é a lista **completa**.
+- **O `GET /convenios/{id}` não devolve o que o PUT exige.** O schema `Convenio`
+  traz só `id`, `nomeFantasia`, `razaoSocial`, `cnpj`, `descricao`, `codigoANS`,
+  `codigo`, `dataInicio`, `empresaPrincipalId`, `operadoraId`, `ativo`,
+  `createdAt`, `updatedAt` — sem `unidadesIds`, prazos, datas de fim/reajuste/renovação,
+  `exigirToken` nem políticas. Por isso "GET → alterar → reenviar" **apaga dados**.
+  Monte o objeto completo a partir de `dados/convenios/<slug>/regua-contratual.md` +
+  `dados/dicionario-de-ids.md` (`unidadesIds`, `operadoraId`, datas, prazos,
+  `exigirToken`, `politicasPorTipoProduto`) e **confira na tela antes e depois**
+  (print da tela de cadastro do convênio na prova).
 - Registro ANS: `registroANS` na criação, `codigoANS` na atualização.
 - `empresaId` e `operadoraId` são **texto** no schema; `unidadesIds` é lista de números.
-- `fatorK` é **percentual** ("10" = +10%), não multiplicador.
+- `fatorK` do cadastro do convênio: unidade e efeito **não confirmados** (o spec
+  só traz o exemplo `1.1`). O Fator K que vale no cálculo é o da política por
+  tipo de produto ou o da linha, que é **percentual** ("10" = +10%).
 - Política salva vazia apaga a política — nunca envie a lista incompleta.
 - Datas com hora em UTC (`…T00:00:00.000Z`): confira o dia gravado.
 
@@ -143,7 +158,7 @@ Exemplo fictício: `{"descricao":"Operadora Exemplo — Empresarial","dataInicio
 | S10a-03 | Dados obrigatórios confirmados | pendente | | | |
 | S10a-04 | Prazos confirmados | pendente | | | |
 | S10a-05 | Política por tipo de produto definida (todos os tipos) | pendente | | | |
-| S10a-06 | Convênio gravado e conferido | pendente | | provas/S10a/ | |
+| S10a-06 | Convênio gravado e conferido | pendente | | provas/S10/<slug>/dados/ | |
 | S10a-07 | Análise do contrato escrita | pendente | | | |
 
 ## O que registrar

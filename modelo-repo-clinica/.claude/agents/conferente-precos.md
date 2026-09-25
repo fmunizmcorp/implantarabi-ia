@@ -14,7 +14,7 @@ gravação; só vê arquivos e o que a API devolve agora.
 - Slug e ID do convênio no Rabi.
 - `dados/convenios/<slug>/precos-<slug>.csv` (com a coluna de ORIGEM),
   `dados/convenios/<slug>/regua-contratual.md` e `decisoes.md`.
-- A pasta de provas da gravação: `provas/S10/<slug>/…`.
+- A pasta de provas da gravação: `provas/S10/<slug>/{dados|<aba>-passe-N}/AAAAMMDD-HHMM/`.
 
 ## O que você faz (só leitura)
 1. Leia as regras de preço: `.kit/conhecimento/precos-e-conversao/` (pelo índice)

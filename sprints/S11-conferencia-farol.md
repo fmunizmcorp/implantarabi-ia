@@ -38,7 +38,7 @@ DI-6 (margem mínima que a clínica aceita). CV-2/CV-3 para investigar vermelhos
 | Desligar bloqueio do Farol | `desabilitarBloqueioFarol` | não | — | **não** (só com decisão escrita) | — |
 | Causa de cada vermelho/roxo | — | sim | análise da IA | — | pergunta só quando a causa depende de decisão |
 
-Margem do Rabi = receita ÷ custo × 100, comparada aos limites. 🟢 verde ≥
+Margem do Rabi = receita ÷ custo × 100, comparada aos limites. 🟢 verde >
 limite amarelo; 🟡 amarelo entre os limites; 🔴 vermelho ≤ limite vermelho
 (bloqueia); 🟣 roxo = item sem custo ou sem preço (sempre bloqueia; é
 **cadastro incompleto**, não margem ruim).

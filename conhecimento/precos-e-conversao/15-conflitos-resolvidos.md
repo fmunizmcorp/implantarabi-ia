@@ -39,8 +39,9 @@ marca **não confirmado** e diz como verificar.
 - **Decisão:** tratar **todo PUT como sobrescrita** (GET antes, reenviar o
   objeto completo com os nomes de escrita), **exceto** as rotas que declaram
   upsert/merge: abas do convênio `PUT /convenios/{id}/servicos|taxas|produtos|colaboradores|especialidades`
-  (campo omitido mantém; `null` limpa os valores) e `/parametros/desconto`,
-  `/parametros/financeiro`.
+  (campo omitido mantém; `null` limpa os valores) e `/parametros/desconto`.
+  `/parametros/financeiro` é **misto**: omitir `categoriaPagamentoId`/`centroDeCustoId`
+  grava null — reenvie sempre os dois.
 - **Prevalece:** Swagger 25/09 (descrição de cada rota).
 
 ### C4. 0,00 × vazio

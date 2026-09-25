@@ -97,7 +97,7 @@ NÍVEL 1  cadastro do próprio item        serviço: Valor · produto: aba Estoq
 | Campo | Vazio significa | Zero / marcado significa |
 |---|---|---|
 | Valor do serviço, valor unitário do produto, valor da taxa (linha 🔁) | sem regra → desce | 0,00 = gratuito neste convênio (não desce) |
-| Fator K (produto) | desce: linha do convênio → política → cadastro | 0 = 0% de ajuste (multiplica por 1) e **não desce** |
+| Fator K (produto) | desce (linha do convênio → política → cadastro) **só** quando a linha não tem valor unitário convertido; com valor unitário convertido na linha, vazio = sem ajuste (0%), **não herda** ([árvore 3.2](https://www.rabisistemas.com.br/manual/precos/arvore-de-decisao.html#arvore-produto)) | 0 = 0% de ajuste (multiplica por 1) e **não desce** |
 | Nome, descrição, código, tabela 87, tipo de código, tipo de atendimento | em branco = vazio → usa o do cadastro | — |
 | Utiliza | desmarcado (padrão de vínculo novo) = o convênio **não cobre** o item | marcado = cobre; preço pela cadeia do convênio |
 | Pacote (só serviço, só no convênio) | desmarcado (padrão) = não é pacote | marcado = pacote; só é "de preço fechado" com preço fixo ou valor combinado (inclusive 0) |

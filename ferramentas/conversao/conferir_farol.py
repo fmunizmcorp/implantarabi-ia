@@ -2,7 +2,7 @@
 
 Uso:
   python3 -m ferramentas.conversao.conferir_farol cenario.json \\
-      [--csv precos.csv] --servicos farol-servicos.json --itens farol-itens.json \\
+      [--csv precos-<slug>.csv] --servicos farol-servicos.json --itens farol-itens.json \\
       [--produtos farol-produtos.json] [--ignorar-inativos] [--tolerancia 0.01] [--saida conferencia.md]
 
 Arquivos lidos (GET da API externa, envelope ``{"dados": [...]}`` ou lista;

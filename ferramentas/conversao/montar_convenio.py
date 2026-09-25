@@ -1,4 +1,4 @@
-"""Monta os corpos dos PUT das abas do convênio a partir de ``precos-<convenio>.csv``.
+"""Monta os corpos dos PUT das abas do convênio a partir de ``precos-<slug>.csv``.
 
 Uso:
   python3 -m ferramentas.conversao.montar_convenio precos-convenio-a.csv \\

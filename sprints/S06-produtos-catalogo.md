@@ -83,9 +83,13 @@ codificar), SA-3 (cadastro do sistema anterior).
 |---|---|---|---|
 | 1 | `POST /produtos` (o primeiro, sozinho) | `produto:create` | — |
 | 2 | `POST /produtos/bulk` (chave `produtos`) | `produto:create` | até 50, depois do 1º provado |
-| Correção | `GET /produtos/{id}` → `PUT /produtos/{id}` completo | `produto:update` | — |
+| Correção | `GET /produtos/{id}` → `corpo_put_produto()` (`ferramentas/rabi_api/corpo_escrita.py`) → `PUT /produtos/{id}` completo | `produto:update` | — |
 
 - Exemplo mínimo (fictício): `{"nome":"Soro fisiológico 0,9% 500 ml","codigoProduto":"PRD-0001","apresentacao":"Frasco 500 ml","contendo":1,"depositoId":<id>,"tipoProdutoId":<id>,"fabricanteId":<id>,"unidadeDeMedidaId":<id>,"prazoDeReposicao":15}`
+- A leitura traz `TipoProduto`, `Fabricante`, `deposito`, `UnidadeDeMedida` como objetos e
+  `permitirEstoqueNegativo`; a escrita quer `tipoProdutoId`, `fabricanteId`, `depositoId`,
+  `unidadeDeMedidaId`, `estoquePodeNegativar`. O conversor faz isso e **recusa** (com a
+  lista) quando o GET não traz algum campo de escrita — complete com o cadastro do repo.
 - 422 = referência inválida (depósito, tipo, fabricante ou unidade inexistente).
 - Guardar `produtoId` no dicionário: composição de serviços (S08), tabela interna
   (S08), aba Produtos dos convênios (S10b), estoque (S12).

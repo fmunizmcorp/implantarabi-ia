@@ -64,7 +64,7 @@ com a prova. Não grave nada antes da aprovação.
 
 ## Para não brigar pelo mesmo arquivo
 - Cada sessão de convênio escreve só em `dados/convenios/<slug>/`,
-  `provas/S10/<slug>/`, `provas/S11/<slug>/`.
+  `provas/S10/<slug>/` (padrão `provas/S10/<slug>/{dados|<aba>-passe-N}/AAAAMMDD-HHMM/`), `provas/S11/<slug>/`.
 - `ESTADO.md`, `decisoes/DECISOES.md` e `pendencias/` são atualizados **pela
   coordenadora** (as sessões de convênio relatam; ela registra).
 - Antes de todo push: `git pull --rebase`. Conflito → pare e avise a coordenadora.

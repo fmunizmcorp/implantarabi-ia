@@ -9,7 +9,7 @@ Origem das lições: [origem.md](origem.md).
 ## L01 — Chave inválida já respondeu 503, não 401
 
 **O que aconteceu:** a chave foi trocada três vezes num mesmo dia; as revogadas
-passaram a responder 503 ("serviço indisponível"). Uma sessão que tratasse 503
+passaram a responder 503 ("serviço indisponível"; medição única em 25/09, reconfirmar). Uma sessão que tratasse 503
 como instabilidade ficaria em laço de nova tentativa, sem nunca avisar que a
 chave morreu.
 **Regra que ficou:** 401 **e** 503 no primeiro teste = problema de chave. Pare,
@@ -30,7 +30,9 @@ funcionou; só pela tela.
 **Regra que ficou:** PUT é **sobrescrita**, exceto as rotas que declaram
 upsert (abas do convênio e dois parâmetros). Sempre: GET antes → montar o
 objeto **completo** com os nomes do **schema de escrita** do Swagger → prévia →
-gravar → GET depois e comparar **todos** os campos, não só o alterado.
+gravar → GET depois e comparar **todos** os campos, não só o alterado. Para
+`/servicos` e `/produtos`, converta a leitura com `ferramentas/rabi_api/corpo_escrita.py`
+(ele recusa quando falta campo obrigatório de escrita).
 **Como detectar:** diff depois × antes mostra campos que você não pretendia
 mudar (zerados, vazios, listas encolhidas).
 
@@ -41,8 +43,13 @@ omitir a operadora remove a operadora; omitir datas de fim/reajuste/renovação
 limpa as datas; omitir `exigirToken` grava `false`; a lista de políticas por
 tipo de produto, quando enviada, é a lista completa (as que faltarem são
 inativadas).
-**Regra que ficou:** no PUT dos **dados** do convênio, reenvie tudo o que leu.
-Nunca mande só "o que mudou".
+**Regra que ficou:** no PUT dos **dados** do convênio, mande o objeto
+**completo** — e ele **não** vem do GET: `GET /convenios/{id}` devolve só o
+resumo (sem unidades, prazos, datas de fim/reajuste/renovação, `exigirToken`
+nem políticas). Monte o corpo a partir da régua contratual
+(`dados/convenios/<slug>/regua-contratual.md`) e do dicionário de IDs
+(`dados/dicionario-de-ids.md`) e confira na tela antes e depois. Nunca mande
+só "o que mudou", nem "o que o GET devolveu".
 **Como detectar:** depois do PUT, operadora vazia, datas nulas, políticas
 inativadas.
 

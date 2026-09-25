@@ -22,7 +22,7 @@ A única coisa que você faz sem aprovação é **ler**.
 
 ## Passo −1 · Em que pé está este convênio?
 Leia: linha do convênio no `ESTADO.md`, `dados/convenios/<slug>/` (régua,
-CSV, decisões), provas anteriores em `provas/S10/<slug>/`, pendências, e o
+CSV, decisões), provas anteriores em `provas/S10/<slug>/{dados|<aba>-passe-N}/AAAAMMDD-HHMM/`, pendências, e o
 `updatedAt` das linhas no Rabi. Classifique e **diga ao usuário com a prova**:
 
 | Estado | Como reconhecer | O que fazer |
@@ -48,8 +48,11 @@ GET de `/convenios/{id}` e das abas `servicos`, `produtos`, `taxas`,
 
 ## Passo 3 · CSV com ORIGEM e comparação
 Monte `dados/convenios/<slug>/precos-<slug>.csv` (toda linha com documento e
-página). Rode `python3 .kit/ferramentas/conversao/simulador.py` para prever o
-total de cada serviço, a linha do valor próprio e o Farol. Classifique cada diferença:
+página). Monte o cenário com `python3 .kit/ferramentas/conversao/montar_cenario.py`
+(fotos de `/servicos`, `/produtos`, `/taxas`, `/convenios/{id}/servicos|produtos|taxas` +
+políticas da régua, que a API não devolve; resolva as lacunas que ele listar) e rode
+`python3 .kit/ferramentas/conversao/simulador.py <cenario.json> --csv dados/convenios/<slug>/precos-<slug>.csv`
+para prever o total de cada serviço, a linha do valor próprio e o Farol. Classifique cada diferença:
 
 | Grupo | O que é | O que você faz |
 |---|---|---|
@@ -83,7 +86,7 @@ inteiro: simples, com medicamento, com pacote. Explique cada vermelho do Farol.
 - **Vazio** = sem regra neste nível (o sistema sobe de nível). **0,00** = zero de verdade. **0,01 como marcador: proibido.**
 - **Valor combinado não é pacote.** Preço fechado = valor combinado + **Pacote** + **Zerar** nos itens inclusos. Sem Pacote, o Zerar nem é consultado.
 - Item incluso em serviço com Pacote fechado recebe Zerar; a aplicação/serviço raiz **não** é zerado. Conta aberta = sem Pacote e sem Zerar.
-- **Nunca** Zerar medicamento fora de pacote fechado (sairia sem cobrança). Orçamento de medicamento saindo R$ 0,00 é sintoma de Zerar no lugar errado.
+- Zerar só age dentro de pacote de preço fechado (fora dele nem é lido) e vale para o item em TODO o convênio: zerar um item incluso num pacote o zera em todos os pacotes fechados do convênio que o contêm (A11 em `conhecimento/precos-e-conversao/14-armadilhas-vividas.md`). Orçamento R$ 0,00 → conferir primeiro Utiliza, depois Zerar dentro de pacote.
 - Nunca desligar serviço que a clínica presta; nunca desligar o serviço e deixar o produto ligado.
 - Preço particular vem do convênio **Particular**; tabela interna é preço de **produto**.
 

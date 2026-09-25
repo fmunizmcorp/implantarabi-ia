@@ -9,4 +9,5 @@ Rodar: `python3 -m pytest ferramentas/conversao -q` (na raiz do kit).
 |---|---|
 | `test_casos_manual.py` | T1–T26 (um teste por caso, ids "T1".."T26"), exemplos 4.1/4.2/subserviço 540, herança de produto e Fator K, invariantes I1–I13, Zerar sem pacote, circularidade |
 | `test_cli.py` | simulador, montar_convenio (fases, vazio × zero, erros, lotes ≤ 200, **todo campo gerado existe no schema do spec**), conferir_farol |
+| `test_montar_cenario.py` | fotos no formato do spec → cenário: mesmos números do exemplo no motor (round-trip), lacunas quando a API não traz, CLI + simulador |
 | `conftest.py` | Põe a raiz do kit no caminho de importação |

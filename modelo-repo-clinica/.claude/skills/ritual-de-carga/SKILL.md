@@ -20,7 +20,7 @@ Detalhe completo: `.kit/metodologia/ritual-de-carga.md`. Aqui está o essencial.
 | 1 | **Foto antes** | `python3 .kit/ferramentas/rabi_api/foto.py antes …` (GET, confere status 200 e bytes > 0) | `provas/Sxx/<cadastro>/AAAAMMDD-HHMM/antes.json` |
 | 2 | **Prévia** | tabela em português: item · campo · de → para · por quê · origem. Sem JSON. | na conversa + `previa.md` |
 | 3 | **Aprovação** | "pode gravar" do usuário. Item a item no que é novo; em bloco só depois que o 1º item do bloco saiu certo | frase registrada no log da sprint |
-| 4 | **Grava** | PUT = sobrescrita: **GET antes e reenviar o objeto completo**, salvo rotas que declaram upsert (abas do convênio, `/parametros/desconto`, `/parametros/financeiro`). `207` = falha parcial: reenviar só `ERRO`/`NAO_PROCESSADO`. `429`: esperar. `401`/`503`: chave — parar, sem laço de retry | `resposta.json` (status + corpo cru) |
+| 4 | **Grava** | PUT = sobrescrita: **GET antes e reenviar o objeto completo**, salvo rotas que declaram upsert (abas do convênio e `/parametros/desconto`); `/parametros/financeiro` é misto (sempre reenvie `categoriaPagamentoId` e `centroDeCustoId`). Serviço/produto: converter o GET com `.kit/ferramentas/rabi_api/corpo_escrita.py`; dados do convênio: montar da régua + dicionário (o GET não traz tudo). `207` = falha parcial: reenviar só `ERRO`/`NAO_PROCESSADO`. `429`: esperar. `401`/`503`: chave — parar, sem laço de retry | `resposta.json` (status + corpo cru) |
 | 5 | **Foto depois + diff** | `python3 .kit/ferramentas/rabi_api/foto.py depois …` e diff campo a campo. Não relido = **NÃO CONFIRMADO** | `depois.json`, `diff.txt` |
 
 ## Depois dos 5 passos

@@ -84,7 +84,7 @@ O repo da clínica **é** o dossiê. Na S17 a IA confere que ele está completo:
 | `PAPEIS.md` | dono, implantador, contatos de suporte |
 | `credenciais/` | todos os acessos em texto claro, por serviço e ambiente, com data e estado (repo privado) |
 | `ANALISE-CONTRATOS.md` | o que cada contrato permite, o que foi cadastrado e as sugestões |
-| `dados/` | dados normalizados com origem: empresa, estrutura, catálogo, convênios (`regua-contratual.md`, `precos.csv`, `contagens.md`, `farol.md`), pessoas, parâmetros, permissões |
+| `dados/` | dados normalizados com origem: empresa, estrutura, catálogo, convênios (`regua-contratual.md`, `precos-<slug>.csv`, `contagens.md`, `farol.md`), pessoas, parâmetros, permissões |
 | `dados/dicionario-de-ids.md` | nome ↔ ID de tudo que foi criado ou reaproveitado |
 | `documentos-do-cliente/` | originais + `inventario.md` + fichas de extração |
 | `provas/` | antes, resposta, depois e diff de cada carga |

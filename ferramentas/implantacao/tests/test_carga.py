@@ -60,3 +60,36 @@ def test_pacientes_exige_lgpd(tmp_path):
     p = tmp_path / "plano.json"
     p.write_text(json.dumps({"recurso": "pacientes", "pasta": str(tmp_path), "criar": [], "alterar": []}), encoding="utf-8")
     assert carga.gravar(ClienteFalso([]), p, "x", False, False, False) == 2
+
+
+def _plano_alterar(tmp_path, recurso, id_, item):
+    (tmp_path / "antes.json").write_text(json.dumps({"dados": []}), encoding="utf-8")
+    p = tmp_path / "plano.json"
+    p.write_text(json.dumps({"recurso": recurso, "pasta": str(tmp_path), "criar": [],
+                             "alterar": [{"id": id_, "item": item, "difs": []}]}), encoding="utf-8")
+    return p
+
+
+def test_alterar_servico_usa_conversor(tmp_path):
+    from ferramentas.rabi_api.corpo_escrita import CAMPOS_SERVICO
+    leitura = {"id": 46, "nome": "Aplicação", "descricao": "Aplicação", "valor": 600.0, "somarItens": False,
+               "ServicoEspecialidade": [{"id": 1, "servicoId": 46, "especialidadeId": 12}], "ativo": True}
+    leitura.update({c: None for c in CAMPOS_SERVICO if c not in leitura and c not in
+                    ("somarItems", "especialidadesId")})
+    for c in ("produtoIds", "equipamentoIds", "servicosRelacionados"):
+        leitura[c] = []
+    cli = ClienteFalso([leitura])
+    p = _plano_alterar(tmp_path, "servicos", 46, {"valor": 40.0, "origem": "tabela p.1"})
+    assert carga.gravar(cli, p, "teste", False, True, False) == 0
+    put = [c for c in cli.chamadas if c[0] == "put"][0][2]
+    assert put["valor"] == 40.0 and put["somarItems"] is False and put["especialidadesId"] == [12]
+    assert "somarItens" not in put and "ServicoEspecialidade" not in put and "origem" not in put
+
+
+def test_alterar_servico_sem_campos_nao_grava(tmp_path):
+    cli = ClienteFalso([{"id": 46, "nome": "Consulta", "descricao": "Consulta", "valor": 250, "ativo": True}])
+    p = _plano_alterar(tmp_path, "servicos", 46, {"valor": 40.0, "origem": "tabela p.1"})
+    assert carga.gravar(cli, p, "teste", False, True, False) == 2
+    assert not [c for c in cli.chamadas if c[0] == "put"]
+    resp = json.loads((tmp_path / "resposta.json").read_text(encoding="utf-8"))
+    assert "especialidadesId" in resp["alteracoes"][0]["faltam"]

@@ -163,6 +163,6 @@ convênio da vez recebidos (ou lacuna registrada e aceita).
 ## O que registrar
 
 - `ESTADO.md`: fila de convênios com o estado de cada um (NOVO / EM ANDAMENTO / FECHADO).
-- `dados/convenios/<slug>/` por convênio (régua, precos.csv, decisões, contagens).
+- `dados/convenios/<slug>/` por convênio (régua, precos-<slug>.csv, decisões, contagens).
 - `dados/agenda/grades.md`.
 - `decisoes/DECISOES.md`: ordem, modelo de cobrança de cada convênio.

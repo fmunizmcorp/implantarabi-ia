@@ -20,7 +20,7 @@ contrato é um contrato.
       │
  [3] FOTO ANTES ─────── GET convênio, abas, farol (paginando até o total) → provas/antes
       │
- [4] precos-<convenio>.csv ─ uma linha por item, com ORIGEM (documento + página/linha)
+ [4] precos-<slug>.csv ─ uma linha por item, com ORIGEM (documento + página/linha)
       │
  [5] SIMULADOR ──────── prevê ✅, Σ e Farol de cada serviço; valida invariantes I1–I13
       │
@@ -174,10 +174,9 @@ receita; valores mudam o preço; Pacote/Zerar mudam o que entra). Um passe
 pode ser **uma** chamada por aba (até 200 itens), respeitando **uma chamada
 por vez por convênio**.
 
-## 6. O arquivo `precos-<convenio>.csv`
+## 6. O arquivo `precos-<slug>.csv`
 
-Fica no repo da clínica em `dados/convenios/<slug>/precos.csv` (nome lógico
-`precos-<convenio>.csv`). **Uma linha por item** (serviço, subserviço,
+Fica no repo da clínica em `dados/convenios/<slug>/precos-<slug>.csv`. **Uma linha por item** (serviço, subserviço,
 produto ou taxa) que precisa de alguma configuração neste convênio. É a fonte
 da verdade que a ferramenta `ferramentas/conversao/montar_convenio.py` lê.
 
@@ -209,7 +208,7 @@ da verdade que a ferramenta `ferramentas/conversao/montar_convenio.py` lê.
 | 13 | `zerar` | sim* | todos | `S`/`N` (*obrigatório em vínculo novo) | não envia |
 | 14 | `autorizacao_previa` | não | servico | `S`/`N` | não envia |
 | 15 | `retorno` | não | servico | `S`/`N` | não envia |
-| 16 | `fator_k` | não | produto | percentual (`10`, `-15`, `38,24`); `0` = sem ajuste | **envia `null`** = herda. `=` ou `manter` = não envia |
+| 16 | `fator_k` | não | produto | percentual (`10`, `-15`, `38,24`); `0` = sem ajuste | **envia `null`** = herda **só** quando o valor unitário convertido está vazio; com valor convertido na linha, `null` = sem ajuste (0%), **não** herda. `=` ou `manter` = não envia |
 | 17 | `fonte_preco` | não | produto | id da fonte (`fontePrecoId` de `GET /tabelas-preco/precificacao`) | não envia (herda) |
 | 18 | `tipo_precificacao` | não | produto | `PRECO_1` · `PRECO_2` · `PRECO_3` | não envia |
 | 19 | `parcelas` | não | servico | inteiro | não envia |

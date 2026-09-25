@@ -45,8 +45,8 @@ entra aqui; senão S12), SA-3.
 | Conselho (CRM, CRO, CRP…) | `conselho[]`: `uf` (ID), `descricao`, `registroConselho` | não, mas obrigatório para profissional de saúde na prática | carimbo, receituário, site do conselho | — | "Qual o número do conselho de <nome>, e de qual estado?" |
 | Especialidade | `especialidades[]`: `especialidadeId` (ID do catálogo, texto), `conselhoProfissionalId`, `numeroConselho`, `uf` (ID) | sim, se enviar especialidade | carimbo, RQE, lista de RH | — | "Qual a especialidade de <nome>?" |
 | RQE | `especialidades[].rqe` | não | carimbo, site do conselho | — | — |
-| Faixa etária atendida | `idadeMinimaAtendimento`, `idadeMaximaAtendimento` | não | regra da clínica | em branco | só se a clínica restringir |
-| Anamnese/evolução padrão | `anamnesePadrao`, `evolucaoPadrao` | não | modelos do profissional | em branco | — |
+| Faixa etária atendida | `especialidades[].idadeMinimaAtendimento`, `especialidades[].idadeMaximaAtendimento` (por especialidade) | não | regra da clínica | em branco | só se a clínica restringir |
+| Anamnese/evolução padrão | `especialidades[].anamnesePadrao`, `especialidades[].evolucaoPadrao` (por especialidade) | não | modelos do profissional | em branco | — |
 | Cor na agenda | `corNaAgenda` | não | — | automática | — |
 | Repasse | `vinculoRepasse` (`tipoVinculo`, `servicos[]`/`produtos[]`/`taxas[]` com `valorPercentual`, `valorMonetario`, `tipoCalculo`) | não | PE-4 | — | ver S12 |
 | **Login: e-mail** | `POST /colaboradores/{id}/usuario` → `email` | sim, para quem usa o sistema | PE-3 | o e-mail do cadastro | — |

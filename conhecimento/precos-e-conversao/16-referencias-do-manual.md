@@ -26,7 +26,7 @@ divergirem, **vale o manual** (fonte primária) — registre a divergência.
 ### Árvore de decisão — `precos/arvore-de-decisao.html`
 - #visao-geral · #tabela-mestra · #vazio-zero-por-atributo · #arvores
 - #arvore-servico · #arvore-produto · #arvore-taxa · #arvore-subservico · #arvore-entra · #arvore-farol · #arvore-xml
-- #exemplos · #exemplo-simples · #exemplo-composto · #exemplo-noripurum (caso real antes × depois)
+- #exemplos · #exemplo-simples · #exemplo-composto · [exemplo real antes × depois](https://www.rabisistemas.com.br/manual/precos/arvore-de-decisao.html#exemplo-noripurum)
 - #checklist (conferência do implantador) · #continue
 - Ex.: https://www.rabisistemas.com.br/manual/precos/arvore-de-decisao.html#tabela-mestra
 

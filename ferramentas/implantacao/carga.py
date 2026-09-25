@@ -3,7 +3,9 @@
   1) previa  — foto ANTES + casamento com o que já existe + prévia legível (nada é gravado)
   2) (humano aprova na conversa — a sessão registra a aprovação em historico/requisitos/raw/)
   3) gravar  — grava SÓ o plano aprovado (novos via /bulk em fatias; alterações via GET→merge→PUT
-               com o objeto completo), guarda resposta crua, foto DEPOIS e diff.
+               com o objeto completo; em servicos/produtos o GET passa pelo conversor
+               rabi_api/corpo_escrita.py e, se faltar campo de escrita, o item NÃO é gravado),
+               guarda resposta crua, foto DEPOIS e diff.
 
 Exemplos (a partir da raiz do repo da clínica):
   python3 .kit/ferramentas/implantacao/carga.py previa --recurso taxas --sprint S05 \
@@ -31,6 +33,7 @@ if str(RAIZ_KIT) not in sys.path:
 
 from ferramentas.rabi_api.cliente import ClienteRabi, ErroRabi, resumo_lote  # noqa: E402
 from ferramentas.rabi_api import foto as _foto  # noqa: E402
+from ferramentas.rabi_api.corpo_escrita import CONVERSORES, CampoDeEscritaAusente  # noqa: E402
 
 # recurso → (listagem, bulk, chave do corpo, limite, campo id)
 RECURSOS = {
@@ -174,10 +177,23 @@ def gravar(cli: ClienteRabi, plano_arq: Path, aprovado_por: str, apenas_primeiro
                 codigo = 1 if rel["reenviar"] else 0
             else:
                 respostas["criacao"] = [cli.post(listar, i) for i in criar]
-        for alt in alterar:  # PUT = sobrescrita: GET → merge → PUT objeto completo
+        for alt in alterar:  # PUT = sobrescrita: GET → (conversor) → aplicar mudanças → PUT objeto completo
             atual = cli.get(f"{listar}/{alt['id']}")
             atual = atual.get("dados", atual) if isinstance(atual, dict) else atual
-            novo = {**atual, **{k: v for k, v in alt["item"].items() if k != "origem"}}
+            mudancas = {k: v for k, v in alt["item"].items() if k != "origem"}
+            if recurso in CONVERSORES:
+                # /servicos e /produtos: a leitura tem outros nomes/formatos que a escrita
+                # (somarItens × somarItems, objetos × IDs); reenviar o GET cru apagaria campos.
+                try:
+                    novo = CONVERSORES[recurso](atual, complementos=mudancas)
+                except CampoDeEscritaAusente as e:
+                    respostas["alteracoes"].append({"id": alt["id"], "nao_gravado": str(e),
+                                                    "faltam": e.faltam})
+                    print(f"NÃO GRAVADO id {alt['id']}: {e}")
+                    codigo = 2
+                    continue
+            else:
+                novo = {**atual, **mudancas}
             respostas["alteracoes"].append({"id": alt["id"], "resposta": cli.put(f"{listar}/{alt['id']}", novo)})
     except ErroRabi as e:
         respostas["erro"] = str(e)

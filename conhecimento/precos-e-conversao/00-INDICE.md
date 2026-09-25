@@ -31,7 +31,7 @@ como verificar.
 
 | # | Arquivo | O que tem | Quando ler |
 |---|---|---|---|
-| 10 | [10-do-contrato-a-configuracao.md](10-do-contrato-a-configuracao.md) | **o método**: régua contratual, 4 perguntas, árvore de decisão, ordem de gravação, **CSV `precos-<convenio>.csv` (21 colunas)**, mapeamento coluna → API, pacote pela API | antes de cada convênio |
+| 10 | [10-do-contrato-a-configuracao.md](10-do-contrato-a-configuracao.md) | **o método**: régua contratual, 4 perguntas, árvore de decisão, ordem de gravação, **CSV `precos-<slug>.csv` (21 colunas)**, mapeamento coluna → API, pacote pela API | antes de cada convênio |
 | 11 | [11-receitas.md](11-receitas.md) | receitas A–I do manual + J–L da experiência, com configuração e resultado | ao traduzir cada caso do contrato |
 | 12 | [12-casos-de-teste.md](12-casos-de-teste.md) | **especificação do motor**: T1–T26, K1–K12, invariantes I1–I13 | ao simular/validar e ao programar `ferramentas/conversao` |
 | 13 | [13-conferencia-e-diagnostico.md](13-conferencia-e-diagnostico.md) | conferência pós-gravação, 3 serviços mínimos, 15 sintomas + 12 erros comuns, contagens de regressão R1–R6 | depois de gravar e antes de mexer em convênio já configurado |

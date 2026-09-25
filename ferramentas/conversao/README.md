@@ -18,20 +18,21 @@ O motor é uma **previsão**. Quem manda é o Rabi. Toda gravação termina com
 |---|---|
 | `modelo.py` | Dados: `Servico`, `Produto`, `Taxa`, `Vinculo`, `ConfigItem` (item no convênio, nível 3), `PoliticaTipoProduto` (nível 2), `Convenio`, `Catalogo`. Lê o cenário JSON. `None` = vazio; `0.0` = zero. |
 | `motor.py` | As árvores do manual: valor do produto (2.1), da taxa (2.2), base do serviço (2.3), serviço composto recursivo (2.4), orçamento (2.5), Farol e Farol consolidado (2.6/2.7), tipo de atendimento (2.8), textos (2.9), Farol › Itens (2.10), 4 linhas (2.11), ciclos e invariantes I1–I13. |
+| `montar_cenario.py` | CLI. Monta o `cenario.json` do simulador a partir das fotos da API + políticas da régua, e lista as **lacunas** (o que a API não devolve). |
 | `simulador.py` | CLI. Imprime, por serviço: 🔒 casa · 🔁 combinado · ✅ próprio · Σ total, custo, Farol (% e cor) e a árvore de itens com "conta" ou "FORA (motivo)". |
-| `montar_convenio.py` | CLI. Lê `precos-<convenio>.csv`, valida e gera os corpos dos `PUT /convenios/{id}/produtos, /taxas, /servicos` (lotes de até 200), o `manifesto.json` e a `previa.md` (de → para). |
+| `montar_convenio.py` | CLI. Lê `precos-<slug>.csv`, valida e gera os corpos dos `PUT /convenios/{id}/produtos, /taxas, /servicos` (lotes de até 200), o `manifesto.json` e a `previa.md` (de → para). |
 | `conferir_farol.py` | CLI. Compara a previsão com os GET de `/convenios/{id}/farol/servicos, /itens, /produtos` e lista as divergências. |
 | `tests/` | T1–T26 do manual, exemplos numéricos, invariantes, ciclos, CLIs e campos × spec. |
 | `exemplos/` | Cenário fictício "Convênio A" em JSON e CSV, fotos de GET simuladas. |
 
 ## Como a sessão de IA usa (modo Convênio)
 
-1. **Monte o CSV** `precos-<convenio>.csv` a partir do contrato. Toda linha tem
+1. **Monte o CSV** `precos-<slug>.csv` a partir do contrato. Toda linha tem
    **origem** (contrato, anexo, e-mail). Linha sem origem é rejeitada.
 2. **Foto antes:** leia o catálogo e o convênio com o cliente
-   (`ClienteRabi.ler_tudo("/convenios/12/servicos")` etc.). Monte o cenário JSON
-   (formato de `exemplos/cenario-convenio-a.json`) e o `atual.json`
-   (`{"servicos": …, "produtos": …, "taxas": …}`).
+   (`ClienteRabi.ler_tudo("/convenios/12/servicos")` etc.), salve cada leitura em JSON e
+   monte o cenário com `montar_cenario.py` (seção abaixo). Monte também o `atual.json`
+   (`{"servicos": …, "produtos": …, "taxas": …}`) para a prévia de → para.
 3. **Simule:**
    `python3 -m ferramentas.conversao.simulador cenario.json --csv precos-convenio-a.csv --invariantes`.
    Mostre ao usuário o Σ de 3 serviços (um simples, um com medicamento, um pacote).
@@ -52,15 +53,15 @@ O motor é uma **previsão**. Quem manda é o Rabi. Toda gravação termina com
 Estudo das regras: [casos de teste](../../conhecimento/precos-e-conversao/12-casos-de-teste.md) ·
 [árvore do serviço](../../conhecimento/precos-e-conversao/03-arvore-servico.md).
 
-## O CSV `precos-<convenio>.csv`
+## O CSV `precos-<slug>.csv`
 
-Separador `;` (ou `,`), UTF-8. Colunas:
-`tipo; id_rabi; nome_rabi; nome_convenio; codigo; tipo_codigo_id; tabela87_id; tipo_atendimento_id; utiliza; valor_combinado; pacote; zerar; autorizacao_previa; retorno; fator_k; fonte_preco; tipo_precificacao; parcelas; origem; observacao`.
+Separador `;` (ou `,`), UTF-8. As 21 colunas (`montar_convenio.COLUNAS`):
+`tipo; id_rabi; nome_rabi; nome_convenio; descricao_convenio; codigo; tipo_codigo_id; tabela87_id; tipo_atendimento_id; utiliza; valor_combinado; pacote; zerar; autorizacao_previa; retorno; fator_k; fonte_preco; tipo_precificacao; parcelas; origem; observacao`.
 Obrigatórias: `tipo`, `id_rabi`, `origem`.
 
 | Célula | Vazia significa | Observação |
 |---|---|---|
-| `valor_combinado`, `fator_k` | **sem regra** → envia `null` (a API **limpa** o campo) | `manter` = não envia. `0` / `0,00` = zero de verdade. Aceita `1.234,56`. **`0,01` = ERRO.** |
+| `valor_combinado`, `fator_k` | **sem regra** → envia `null` (a API **limpa** o campo) | `=` ou `manter` = não envia (mantém). `0` / `0,00` = zero de verdade. Aceita `1.234,56`. **`0,01` = ERRO.** |
 | `utiliza`, `pacote`, `zerar`, `autorizacao_previa`, `retorno` | não envia (mantém) | `sim`/`não` (ou s/n, 1/0, x) |
 | textos e ids | não envia (mantém) | `limpar` em `tipo_atendimento_id` envia `null` |
 | `fonte_preco` | não envia | número da opção; nome só com `--fontes fontes.json` (`{"nome": id}`) |
@@ -74,6 +75,7 @@ Obrigatórias: `tipo`, `id_rabi`, `origem`.
 | utiliza · zerar | utiliza · zerarValor | utiliza · zerarValor | utiliza · zerarValor |
 | valor_combinado | valorInternoConvenio | valorUnitarioConversao | valorConvertido |
 | nome_convenio | nomeConversao | nomeConversao | nomeConvertido |
+| descricao_convenio | descricaoConvenio | descricaoConversao | descricaoConvertida |
 | codigo | codigo | codigoConversao | codigo |
 | tipo_codigo_id · tabela87_id | tipoCodigoId · tabela87ANSId | idem | idem |
 | pacote | pacote | — (erro) | — (erro) |
@@ -91,6 +93,39 @@ Coluna que não existe na aba do item = **ERRO** (ex.: `pacote` em produto, `fat
 - **AVISO** (mostrar ao humano): valor combinado sem Pacote em serviço com composição
   ("valor combinado não é pacote"), Zerar sem pacote fechado acima, Utiliza = não com valor,
   I1, I2, I3, I5, I7, I8, I9, I10, I12 (com `--catalogo`), `nome_rabi` diferente do catálogo.
+
+## Montar o cenário a partir da API (`montar_cenario.py`)
+
+```bash
+python3 -m ferramentas.conversao.montar_cenario --convenio-id 12 --nome "Convênio A" \
+  --servicos fotos/servicos.json --produtos fotos/produtos.json --taxas fotos/taxas.json \
+  --conv-servicos fotos/conv-servicos.json --conv-produtos fotos/conv-produtos.json \
+  --conv-taxas fotos/conv-taxas.json --politicas dados/convenios/convenio-a/politicas.json \
+  [--farol-produtos …] [--ultima-compra …] [--tabelas-preco …] [--precificacao …] \
+  [--parametros …] [--composicao …] [--complemento-produtos …] \
+  --saida dados/convenios/convenio-a/cenario.json
+python3 -m ferramentas.conversao.simulador dados/convenios/convenio-a/cenario.json \
+  --csv dados/convenios/convenio-a/precos-convenio-a.csv --invariantes
+```
+
+| Campo do cenário | Rota de origem (ou arquivo do repo) |
+|---|---|
+| `catalogo.servicos[]`: `nome`, `valor_cadastro`, `somar_itens`, `ativo`, `codigo_tuss`, `tipo_atendimento` | `GET /servicos/{id}` (`valor`, `somarItens`, `codigoTUSS`, `tipoAtendimento`) |
+| `catalogo.servicos[].itens` | `GET /servicos/{id}` quando traz a composição (`produtos`/`ServicoProduto`, `servicosRelacionados`, `taxaServico`, `equipamentos`); **senão** `--composicao` (árvore da S08). O schema do spec não documenta a composição: confira |
+| `catalogo.produtos[]`: `nome`, `tipo_produto`, `codigo` | `GET /produtos` (`TipoProduto.nome`, `codigoProduto`) |
+| `catalogo.produtos[].custo` | `--complemento-produtos` ou `GET /convenios/{id}/farol/produtos` (`custo`) |
+| `catalogo.produtos[].preco_venda_tabela`, `fonte_preco`, `tipo_precificacao`, `fator_k`, `ultima_pesquisa`, `preco_medio` | **só** `--complemento-produtos` (aba Estoque; a API não devolve) |
+| `catalogo.produtos[].ultima_compra` | `GET /estoque/ultima-compra/{id}` (`ultimaCompraUnitaria`; `0` = sem dado) |
+| `catalogo.produtos[].precos_tabela` | `GET /tabelas-preco/produtos?id=<tabela>` (`tabelaPrecoInterna.precificacao1..3`) |
+| `catalogo.taxas[]` | `GET /taxas` (`taxas` = nome, `codigoTaxa`, `valor`) |
+| `convenio.servicos[]` | `GET /convenios/{id}/servicos` (`valorInternoConvenio`, `pacote`, `zerarValor`, `nomeConversao`, `tipoAtendimentoId`…) |
+| `convenio.produtos[]` | `GET /convenios/{id}/produtos` (`valorUnitarioConversao`, `fatorK`, `fontePrecoCompraOptionsId` → nome por `GET /tabelas-preco/precificacao` — id **não confirmado**) |
+| `convenio.taxas[]` | `GET /convenios/{id}/taxas` (`valorConvertido`, `zerarValor`, `nomeConvertido`) |
+| `convenio.politicas[]` | **régua contratual** (`--politicas`): a API **não** devolve `politicasPorTipoProduto` |
+| `convenio.parametro_vermelho/amarelo` | `GET /parametros/orcamento` (`parametroVermelho`, `parametroAmarelo`); sem ele, 100/120 |
+
+Tudo que falta vira uma linha em `_lacunas` (no JSON e na tela). **Previsão com lacuna
+aberta não é prova**: resolva ou diga ao usuário qual número pode estar errado.
 
 ## Formato do cenário JSON
 
@@ -126,7 +161,7 @@ produto tem `custo`, `preco_venda_tabela`, `fonte_preco`, `tipo_precificacao`,
    anota em vez de afirmar erro (o manual não diz se a API devolve receita efetiva).
 10. **Código do serviço no convênio:** a coluna `codigo` vai para `codigo` (nível 3).
     O spec também tem `codigoConvenio` e `codigoTuss`; o kit não os preenche.
-11. **Vazio no CSV limpa** valor e Fator K (envia `null`). Use `manter` para não mexer.
+11. **Vazio no CSV limpa** valor e Fator K (envia `null`). Use `=` ou `manter` para não mexer.
 
 ## Limitações
 

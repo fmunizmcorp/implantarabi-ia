@@ -3,9 +3,9 @@
 Toda gravação no Rabi segue o ritual: foto antes → prévia → aprovação → grava → foto depois + diff.
 
 CLI (a partir da raiz do repo):
-    python3 -m ferramentas.rabi_api.foto antes  --caminho /convenios/12/servicos --destino provas/S10/conv-a/2026-10-01
-    python3 -m ferramentas.rabi_api.foto depois --caminho /convenios/12/servicos --destino provas/S10/conv-a/2026-10-01
-    python3 -m ferramentas.rabi_api.foto diff   --destino provas/S10/conv-a/2026-10-01
+    python3 -m ferramentas.rabi_api.foto antes  --caminho /convenios/12/servicos --destino provas/S10/conv-a/servicos-passe-1/20261001-1030
+    python3 -m ferramentas.rabi_api.foto depois --caminho /convenios/12/servicos --destino provas/S10/conv-a/servicos-passe-1/20261001-1030
+    python3 -m ferramentas.rabi_api.foto diff   --destino provas/S10/conv-a/servicos-passe-1/20261001-1030
     python3 -m ferramentas.rabi_api.foto diff   --antes a.json --depois b.json [--saida diff.txt]
 
 Opções de foto: --param chave=valor (repetível), --unico (GET simples, sem paginar),

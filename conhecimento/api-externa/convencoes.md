@@ -130,10 +130,13 @@ Para ver todas: `grep -rn -i "centavos" conhecimento/api-externa/rotas/`.
 Regra do Swagger (25/09/2026): "o comportamento só está confirmado nos recursos cuja
 descrição diz isso explicitamente; para qualquer outro PUT, trate como se sobrescrevesse
 tudo". Regra do kit: **GET antes → altere só o que muda → reenvie o objeto COMPLETO**,
-salvo nas rotas marcadas como upsert abaixo. São 53 rotas PUT/PATCH (classificação feita
+salvo nas rotas marcadas como upsert abaixo. Atenção: a **leitura nem sempre traz o que
+a escrita exige** (nomes diferentes, objetos aninhados em vez de IDs, campos ausentes).
+Para `/servicos` e `/produtos` use o conversor `ferramentas/rabi_api/corpo_escrita.py`;
+para `/convenios/{id}` veja a linha da tabela 4.2. São 53 rotas PUT/PATCH (classificação feita
 lendo a descrição de cada uma no spec atual).
 
-**4.1 Declaram upsert / "omitido mantém" (8)**
+**4.1 Declaram upsert / "omitido mantém" (7)**
 
 | Rota | Comportamento |
 |---|---|
@@ -142,9 +145,12 @@ lendo a descrição de cada uma no spec atual).
 | `PUT /convenios/{id}/produtos` | upsert por `produtoId`; omitido mantém; `valorUnitarioConversao`/`fatorK: null` limpam |
 | `PUT /convenios/{id}/colaboradores` | upsert; omitido mantém; listas de especialidades **aditivas** (nunca remove — remover só pela tela) |
 | `PUT /convenios/{id}/especialidades` | upsert por `especialidadeId`; omitido mantém |
-| `PUT /convenios/{id}/planos` | upsert por `planoId`, idempotente (a descrição não fala de campo omitido — mande `utiliza` sempre) |
 | `PUT /parametros/desconto` | campo omitido não altera |
 | `PATCH /parametros/servicos-online/textos-informativos` | omitido fica inalterado |
+
+`PUT /convenios/{id}/planos` fica **fora** deste grupo: o spec só diz "upsert por
+`planoId`, idempotente" e não fala de campo omitido. Mande o item completo, com
+`utiliza` sempre.
 
 `PUT /parametros/financeiro` é **misto**: os 3 campos numéricos omitidos ficam como estão,
 mas omitir (ou mandar `0`, `""`, `false`) em `categoriaPagamentoId`/`centroDeCustoId`
@@ -156,7 +162,7 @@ mas omitir (ou mandar `0`, `""`, `false`) em `categoriaPagamentoId`/`centroDeCus
 |---|---|
 | `PUT /servicos/{id}` | sobrescreve — omitido **não é preservado** (inclusive composição, especialidades, valor) |
 | `PUT /pacientes/{id}` | sobrescreve os dados cadastrais |
-| `PUT /convenios/{id}` | substitui: `empresaId` e `unidadesIds` obrigatórios (unidade fora da lista é desativada); omitir `operadoraId` **remove** a operadora; omitir `dataFim`/`dataReajuste`/`dataRenovacao` **limpa**; omitir `exigirToken` grava `false`; `politicasPorTipoProduto`, se enviado, é a lista completa |
+| `PUT /convenios/{id}` | substitui: `empresaId` e `unidadesIds` obrigatórios (unidade fora da lista é desativada); omitir `operadoraId` **remove** a operadora; omitir `dataFim`/`dataReajuste`/`dataRenovacao` **limpa**; omitir `exigirToken` grava `false`; `politicasPorTipoProduto`, se enviado, é a lista completa. **O `GET /convenios/{id}` não devolve esses campos** (só `id`, nomes, `cnpj`, `descricao`, `codigoANS`, `codigo`, `dataInicio`, `empresaPrincipalId`, `operadoraId`, `ativo`, datas de registro): monte o objeto completo a partir da régua contratual e do dicionário de IDs do repo da clínica e confira na tela antes e depois |
 | `PUT /empresas/{id}` | substitui o cadastro inteiro |
 | `PUT /operadoras/{id}` | as listas `plano` e `contato` são sincronizadas: o que não vier é **removido** |
 | `POST /atendimentos/prontuario` | sobrescreve o texto sem guardar versão anterior |
@@ -241,7 +247,7 @@ especialidade de um serviço. Por isso o ritual sempre tem foto antes e depois.
 | 422 | referência inválida/inativa (quase sempre ordem de implantação) | não | criar/ativar o pré-requisito — [ordem-de-carga-via-api.md](ordem-de-carga-via-api.md) |
 | 429 | lote em andamento | sim, depois de esperar | um lote por vez |
 | 500 | erro do servidor | às vezes | reler para ver se gravou (há rotas que gravam e devolvem 500) |
-| 503 | falha ao validar a chave — e, medido em 25/09/2026, **ainda a resposta para chave inexistente** | uma vez | depois parar e tratar como problema de chave |
+| 503 | falha ao validar a chave — e, medido em 25/09/2026, **ainda a resposta para chave inexistente** (medição única em 25/09, reconfirmar) | uma vez | depois parar e tratar como problema de chave |
 
 Corpo de erro: `{ "error": "mensagem" }`.
 

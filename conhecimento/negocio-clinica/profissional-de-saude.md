@@ -30,8 +30,8 @@ erro de cadastro a corrigir (a guia exige número e UF).
 | **Conselho** (sigla, Tabela 26) | Vai na guia | `conselhoProfissionalId` |
 | **Número do conselho** + **UF** | Vai na guia | `numeroConselho`, `uf` |
 | **RQE** (registro de qualificação de especialista) | Exigido por algumas operadoras para especialista | `rqe` |
-| Idade mínima/máxima atendida | Evita agendar criança com quem não atende | `idadeMinimaAtendimento`, `idadeMaximaAtendimento` |
-| Anamnese/evolução padrão | Agiliza o prontuário | `anamnesePadrao`, `evolucaoPadrao` |
+| Idade mínima/máxima atendida | Evita agendar criança com quem não atende | `especialidades[].idadeMinimaAtendimento`, `especialidades[].idadeMaximaAtendimento` |
+| Anamnese/evolução padrão | Agiliza o prontuário | `especialidades[].anamnesePadrao`, `especialidades[].evolucaoPadrao` |
 | Percentual de repasse | Relatório de Repasses | colaborador |
 | **Grade horária** | Define horários agendáveis | grade de colaborador |
 | Login | Acesso ao sistema | `POST /colaboradores/{id}/usuario` (409 = já tem) |

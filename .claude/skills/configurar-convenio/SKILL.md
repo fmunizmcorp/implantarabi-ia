@@ -19,8 +19,10 @@ Prompt completo do modo: `prompts/04-modo-convenio.md`. Regras de preço:
    serviços são pacote? Sem resposta → pendência, não configura preço.
 4. **CSV com ORIGEM:** `dados/convenios/<slug>/precos-<slug>.csv` (cabeçalho
    do modelo; confira as colunas aceitas em `ferramentas/conversao/montar_convenio.py`).
-5. **Prever:** `python3 ferramentas/conversao/simulador.py` → Σ do serviço, linha
-   "valor próprio" e Farol previstos. Mostre a prévia em tabela.
+5. **Prever:** monte o cenário com `python3 ferramentas/conversao/montar_cenario.py`
+   (fotos da API + políticas da régua; resolva as lacunas listadas) e rode
+   `python3 ferramentas/conversao/simulador.py <cenario.json> --csv precos-<slug>.csv` → Σ do
+   serviço, linha "valor próprio" e Farol previstos. Mostre a prévia em tabela.
 6. **Montar os corpos:** `python3 ferramentas/conversao/montar_convenio.py`
    (ordem: Utiliza → valores → textos/códigos → tipo de atendimento → Pacote/Zerar).
 7. **Gravar** pela skill `ritual-de-carga`, **um convênio por vez**, lote ≤ 200
@@ -36,6 +38,6 @@ Prompt completo do modo: `prompts/04-modo-convenio.md`. Regras de preço:
 - **Valor combinado NÃO é pacote.** Preço fechado = valor combinado + **Pacote** + **Zerar** nos itens inclusos.
 - Item incluso em serviço com Pacote fechado recebe Zerar; a aplicação/serviço raiz **não** é zerada.
 - **Conta aberta** = sem Pacote e sem Zerar.
-- Nunca Zerar um **medicamento** fora de pacote fechado (a clínica entregaria sem cobrar).
+- Zerar só age dentro de pacote de preço fechado (fora dele nem é lido) e vale para o item em TODO o convênio: zerar um item incluso num pacote o zera em todos os pacotes fechados do convênio que o contêm (A11 em `conhecimento/precos-e-conversao/14-armadilhas-vividas.md`). Orçamento R$ 0,00 → conferir primeiro Utiliza, depois Zerar dentro de pacote.
 - Nunca desligar serviço que a clínica presta; nunca desligar o serviço e deixar o produto ligado.
 - Tabela interna = preço de **produto**; o preço particular vem do convênio "Particular".

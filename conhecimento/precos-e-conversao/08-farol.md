@@ -12,7 +12,7 @@ convênio, o Farol mostra onde a clínica perde dinheiro.
 
 | Cor | Significado | Efeito |
 |---|---|---|
-| 🟢 Verde | margem saudável (índice ≥ limite Amarelo) | passa |
+| 🟢 Verde | margem saudável (índice > limite Amarelo) | passa |
 | 🟡 Amarelo | atenção (entre os limites) | pode exigir aprovação **nível 2** |
 | 🔴 Vermelho | crítica (índice ≤ limite Vermelho) | **bloqueia**; pode ser liberado por **nível 3**, se a clínica permitir |
 | 🟣 Roxo | **erro de cadastro**: produto sem custo, ou receita/custo ausente com produto envolvido | **sempre bloqueia**; corrigir o cadastro |
@@ -27,8 +27,8 @@ convênio, o Farol mostra onde a clínica perde dinheiro.
 > **Fronteiras exatas (não confirmado).** O manual diz "≤ Vermelho →
 > bloqueado" (e o caso T14 trata índice = 100 como bloqueado); a página da
 > API diz "amarelo ≥ limite vermelho". Para o motor do kit: `índice ≤
-> Vermelho → VERMELHO`; `Vermelho < índice < Amarelo → AMARELO`; `índice ≥
-> Amarelo → VERDE`. Confira um caso exatamente no limite em homologação.
+> Vermelho → VERMELHO`; `Vermelho < índice ≤ Amarelo → AMARELO`; `índice >
+> Amarelo → VERDE` (é o que `ferramentas/conversao/motor.py` faz). Confira um caso exatamente no limite em homologação.
 
 ### 1.1 Parâmetros pela API
 
