@@ -48,3 +48,9 @@ Status: `a fazer` · `em andamento` · `aguardando cliente` · `em conferência`
 
 ## Registro das sessões (mais recente em cima; 1 linha cada)
 - <DATA_CRIACAO> · criação do repo · kit <VERSAO_DO_KIT>
+
+## Painel de progresso (automático)
+
+<!-- PAINEL:INICIO -->
+_Rode `python3 .kit/ferramentas/implantacao/painel.py --repo .` para gerar._
+<!-- PAINEL:FIM -->

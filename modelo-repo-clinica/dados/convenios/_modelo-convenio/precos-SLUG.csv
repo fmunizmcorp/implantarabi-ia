@@ -1,1 +1,1 @@
-tipo_item;item_id;item_nome;ativo;utiliza;valor;codigo;tipo_codigo;tabela87;nome_conversao;tipo_atendimento;pacote;zerar;fator_k;autorizacao_previa;origem_documento;origem_pagina_linha;observacao
+tipo;id_rabi;nome_rabi;nome_convenio;descricao_convenio;codigo;tipo_codigo_id;tabela87_id;tipo_atendimento_id;utiliza;valor_combinado;pacote;zerar;autorizacao_previa;retorno;fator_k;fonte_preco;tipo_precificacao;parcelas;origem;observacao

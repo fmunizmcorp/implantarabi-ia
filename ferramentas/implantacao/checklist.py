@@ -102,6 +102,7 @@ def ler_sprint(arquivo: Path) -> Sprint:
             idx = cab.get(n)
             return cels[idx] if idx is not None and idx < len(cels) else ""
         status = _normaliza(col("status")) or "pendente"
+        status = {"nao se aplica": "n/a", "na": "n/a", "a fazer": "pendente"}.get(status, status)
         if status not in STATUS_VALIDOS:
             sp.avisos.append(f"status desconhecido '{col('status')}' no item '{col('item')}' — tratado como pendente")
             status = "pendente"

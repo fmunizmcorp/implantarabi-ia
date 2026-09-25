@@ -45,27 +45,31 @@ if __package__ in (None, ""):
 from .modelo import ConfigItem, Convenio, cenario_from_dict, TIPOS_PRECIFICACAO  # noqa: E402
 from . import motor  # noqa: E402
 
-COLUNAS = ["tipo", "id_rabi", "nome_rabi", "nome_convenio", "codigo", "tipo_codigo_id", "tabela87_id",
+COLUNAS = ["tipo", "id_rabi", "nome_rabi", "nome_convenio", "descricao_convenio", "codigo", "tipo_codigo_id", "tabela87_id",
            "tipo_atendimento_id", "utiliza", "valor_combinado", "pacote", "zerar", "autorizacao_previa",
            "retorno", "fator_k", "fonte_preco", "tipo_precificacao", "parcelas", "origem", "observacao"]
 OBRIGATORIAS = ["tipo", "id_rabi", "origem"]
 LOTE_MAX = 200
 MANTER, LIMPAR = "manter", "limpar"
+MANTER_SINAIS = {"manter", "="}  # "=" (convenção do documento 10) e "manter" são equivalentes
 
 ABA = {"servico": "servicos", "produto": "produtos", "taxa": "taxas"}
 CHAVE_ID = {"servico": "servicoId", "produto": "produtoId", "taxa": "taxaId"}
 # coluna do CSV -> campo da API, por tipo (conferido no spec 2026-09-25)
 MAPA = {
     "servico": {"utiliza": "utiliza", "valor_combinado": "valorInternoConvenio", "parcelas": "parcelasMaximas",
-                "nome_convenio": "nomeConversao", "codigo": "codigo", "tipo_codigo_id": "tipoCodigoId",
+                "nome_convenio": "nomeConversao", "descricao_convenio": "descricaoConvenio",
+                "codigo": "codigo", "tipo_codigo_id": "tipoCodigoId",
                 "tabela87_id": "tabela87ANSId", "autorizacao_previa": "autorizacaoPrevia",
                 "retorno": "retornoServico", "tipo_atendimento_id": "tipoAtendimentoId",
                 "pacote": "pacote", "zerar": "zerarValor"},
     "produto": {"utiliza": "utiliza", "valor_combinado": "valorUnitarioConversao", "fator_k": "fatorK",
                 "fonte_preco": "fontePrecoCompraOptionsId", "tipo_precificacao": "tipoPrecificacao",
-                "parcelas": "parcelasMaximas", "nome_convenio": "nomeConversao", "codigo": "codigoConversao",
+                "parcelas": "parcelasMaximas", "nome_convenio": "nomeConversao",
+                "descricao_convenio": "descricaoConversao", "codigo": "codigoConversao",
                 "tipo_codigo_id": "tipoCodigoId", "tabela87_id": "tabela87ANSId", "zerar": "zerarValor"},
     "taxa": {"utiliza": "utiliza", "valor_combinado": "valorConvertido", "nome_convenio": "nomeConvertido",
+             "descricao_convenio": "descricaoConvertida",
              "codigo": "codigo", "tipo_codigo_id": "tipoCodigoId", "tabela87_id": "tabela87ANSId",
              "zerar": "zerarValor"},
 }
@@ -205,7 +209,7 @@ def ler_csv(caminho: str, fontes: Optional[Dict[str, int]] = None) -> Tuple[List
                     lp.campos[campo] = b
                     lp.cfg[{"autorizacao_previa": "autorizacao_previa", "retorno": "retorno"}.get(col, col)] = b
                 elif col in ("valor_combinado", "fator_k"):
-                    if txt.lower() == MANTER:
+                    if txt.lower() in MANTER_SINAIS:
                         continue
                     if txt == "":
                         lp.campos[campo] = None  # vazio: limpa (sem regra, desce de nível)

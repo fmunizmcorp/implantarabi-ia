@@ -161,16 +161,38 @@ def _campos(conjunto: str) -> List[str]:
     return ["produto", "apresentacao", "laboratorio"]
 
 
-def _ler_clinica(dir_clinica: Path) -> Iterable[tuple]:
-    """(conjunto, registro) de cada CSV da clínica (prevalece sobre o kit)."""
-    for arq in sorted(Path(dir_clinica).rglob("*.csv")):
-        for r in comum.ler_csv_generico(arq):
-            r = {(k or "").strip().lower(): (v or "").strip() for k, v in r.items()}
-            if "produto" not in r:
-                r["produto"] = r.get("nome", "") or r.get("descricao", "")
-            r.setdefault("fonte", f"CLINICA:{arq.name}")
-            r.setdefault("edicao", r.get("edicao", ""))
-            yield f"clinica/{arq.stem}", r
+def _ler_csv_clinica(arq: Path) -> Iterable[tuple]:
+    for r in comum.ler_csv_generico(arq):
+        r = {(k or "").strip().lower(): (v or "").strip() for k, v in r.items()}
+        if not r.get("produto"):
+            r["produto"] = r.get("nome", "") or r.get("descricao", "") or r.get("descrição", "")
+        if not r.get("fonte"):
+            r["fonte"] = f"CLINICA:{arq.name}"
+        r.setdefault("edicao", "")
+        yield f"clinica/{arq.stem}", r
+
+
+def origens_da_clinica(ref: Path) -> List[Path]:
+    """Caminhos das tabelas próprias da clínica.
+
+    ``ref`` pode ser: uma pasta, um CSV, ou o ``config/referencias-da-clinica.md``
+    do repo da clínica (lê a coluna "Onde está" da tabela; caminhos relativos à
+    raiz do repo da clínica). URLs são ignoradas (baixe e aponte o arquivo).
+    """
+    ref = Path(ref)
+    if ref.suffix.lower() != ".md":
+        return [ref] if ref.exists() else []
+    base = ref.resolve().parent.parent  # config/ -> raiz do repo da clínica
+    achados: List[Path] = []
+    for linha in ref.read_text(encoding="utf-8").splitlines():
+        cols = [c.strip().strip("`") for c in linha.strip().strip("|").split("|")]
+        if len(cols) < 2 or not cols[1] or cols[1].startswith(("http", "---", "Onde")):
+            continue
+        for cand in (Path(cols[1]), base / cols[1], ref.parent / cols[1]):
+            if cand.exists():
+                achados.append(cand)
+                break
+    return achados
 
 
 def buscar(termo: str, fontes: Optional[Sequence[str]] = None, limite: int = 10,
@@ -180,22 +202,24 @@ def buscar(termo: str, fontes: Optional[Sequence[str]] = None, limite: int = 10,
 
     ``fontes``: lista de conjuntos (ex.: ["brasindice/medicamentos"]) ou prefixos
     (ex.: ["simpro"]). Padrão: todos os conjuntos de produto.
-    ``referencias_clinica``: pasta com CSVs próprios da clínica; entram primeiro
-    e ganham +5 pontos de preferência.
+    ``referencias_clinica``: tabelas próprias da clínica — pasta com CSVs, um CSV,
+    uma pasta normalizada por ``normalizar.py`` (com manifest.json) ou o
+    ``config/referencias-da-clinica.md``. Elas PREVALECEM: +5 pontos e vêm
+    primeiro no empate.
     """
     raiz = Path(raiz or comum.REFERENCIAS_PADRAO)
-    man = comum.carregar_manifest(raiz)
-    todos = list(man.get("conjuntos", {}))
-    if fontes:
-        conjuntos = [c for c in todos if any(c == f or c.startswith(f.rstrip("/") + "/") for f in fontes)]
-    else:
-        conjuntos = [c for c in FONTES_PRODUTO if c in todos]
     q = normalizar_texto(termo)
     codigo = so_digitos(q) if _eh_codigo(q) else ""
     q_tokens = tokens_nome(q)
     q_doses = extrair_doses(q)
     filtro = [t for t in q_tokens if len(t) >= 3] or q_tokens
     resultados: List[Dict[str, str]] = []
+
+    def escolher_conjuntos(man: Dict) -> List[str]:
+        todos = list(man.get("conjuntos", {}))
+        if fontes:
+            return [c for c in todos if any(c == f or c.startswith(f.rstrip("/") + "/") for f in fontes)]
+        return [c for c in FONTES_PRODUTO if c in todos]
 
     def avaliar(conjunto: str, reg: Dict[str, str], bonus: float = 0.0) -> None:
         if codigo:
@@ -206,22 +230,16 @@ def buscar(termo: str, fontes: Optional[Sequence[str]] = None, limite: int = 10,
                     resultados.append(r)
                     return
             return
-        p = _pontuar(q_tokens, q_doses, reg, _campos(conjunto)) + bonus
+        p = _pontuar(q_tokens, q_doses, reg, _campos(conjunto.replace("clinica/", "", 1))) + bonus
         if p >= minimo:
             r = dict(reg); r["pontos"] = min(100.0, round(p, 1)); r["conjunto"] = conjunto; r["casou_por"] = "nome"
             resultados.append(r)
 
-    if referencias_clinica:
-        for conj, reg in _ler_clinica(Path(referencias_clinica)):
-            avaliar(conj, reg, bonus=5.0)
-
-    def varrer(fatias_por_conj: Dict[str, List[Dict]]) -> None:
+    def varrer(base: Path, fatias_por_conj: Dict[str, List[Dict]], rotulo: str, bonus: float) -> None:
         for conj, fatias in fatias_por_conj.items():
             for f in fatias:
-                caminho = raiz / conj / f["arquivo"]
-                with open(caminho, encoding="utf-8", newline="") as fh:
-                    cab = fh.readline()
-                    nomes = next(_csv.reader([cab], delimiter=";"))
+                with open(base / conj / f["arquivo"], encoding="utf-8", newline="") as fh:
+                    nomes = next(_csv.reader([fh.readline()], delimiter=";"))
                     for linha in fh:
                         up = linha.translate(comum._TRADUZ).upper()
                         if codigo:
@@ -230,23 +248,39 @@ def buscar(termo: str, fontes: Optional[Sequence[str]] = None, limite: int = 10,
                         elif filtro and not any(t in up for t in filtro):
                             continue
                         vals = next(_csv.reader([linha.rstrip("\n")], delimiter=";"))
-                        avaliar(conj, dict(zip(nomes, vals)))
+                        avaliar(rotulo + conj, dict(zip(nomes, vals)), bonus)
 
-    lidas: Dict[str, set] = {}
-    primeira: Dict[str, List[Dict]] = {}
-    for conj in conjuntos:
-        fatias = _fatias_de(raiz, conj, man)
-        if codigo or amplo or not q_tokens:
-            escolhidas = fatias
-        else:
-            escolhidas = [f for f in fatias if _prefixo_casa(f["prefixo"], q_tokens)]
-        primeira[conj] = escolhidas
-        lidas[conj] = {f["arquivo"] for f in escolhidas}
-    varrer(primeira)
-    bons = [r for r in resultados if r["pontos"] >= 60]
-    if not codigo and not amplo and len(bons) < limite:
-        resto = {c: [f for f in _fatias_de(raiz, c, man) if f["arquivo"] not in lidas[c]] for c in conjuntos}
-        varrer(resto)
+    def buscar_raiz(base: Path, rotulo: str = "", bonus: float = 0.0) -> None:
+        man = comum.carregar_manifest(base)
+        conjuntos = escolher_conjuntos(man)
+        antes = len(resultados)
+        primeira: Dict[str, List[Dict]] = {}
+        resto: Dict[str, List[Dict]] = {}
+        for conj in conjuntos:
+            fatias = _fatias_de(base, conj, man)
+            if codigo or amplo or not q_tokens:
+                primeira[conj], resto[conj] = fatias, []
+            else:
+                primeira[conj] = [f for f in fatias if _prefixo_casa(f["prefixo"], q_tokens)]
+                resto[conj] = [f for f in fatias if f not in primeira[conj]]
+        varrer(base, primeira, rotulo, bonus)
+        bons = [r for r in resultados[antes:] if r["pontos"] >= 60]
+        if not codigo and len(bons) < limite:
+            varrer(base, resto, rotulo, bonus)
+
+    if referencias_clinica:
+        for origem in origens_da_clinica(Path(referencias_clinica)):
+            if origem.is_dir() and (origem / "manifest.json").exists():
+                buscar_raiz(origem, rotulo="clinica/", bonus=5.0)
+            elif origem.is_dir():
+                for arq in sorted(origem.rglob("*.csv")):
+                    for conj, reg in _ler_csv_clinica(arq):
+                        avaliar(conj, reg, bonus=5.0)
+            elif origem.suffix.lower() == ".csv":
+                for conj, reg in _ler_csv_clinica(origem):
+                    avaliar(conj, reg, bonus=5.0)
+
+    buscar_raiz(raiz)
     resultados.sort(key=lambda r: (-r["pontos"], not r["conjunto"].startswith("clinica/"),
                                    r.get("produto", r.get("termo", r.get("descricao", "")))))
     return resultados[:limite]
@@ -280,7 +314,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     p.add_argument("--fontes", help="conjuntos separados por vírgula (ex.: brasindice,cmed/medicamentos,tuss/historico)")
     p.add_argument("--limite", type=int, default=10)
     p.add_argument("--raiz", help="pasta referencias/ (padrão: a do kit)")
-    p.add_argument("--referencias-clinica", help="pasta com CSVs próprios da clínica (prevalecem)")
+    p.add_argument("--referencias-clinica", help="tabelas próprias da clínica (pasta, CSV ou config/referencias-da-clinica.md) — prevalecem")
     p.add_argument("--amplo", action="store_true", help="ler todas as fatias (mais lento)")
     a = p.parse_args(argv)
     fontes = [f.strip() for f in a.fontes.split(",")] if a.fontes else None

@@ -118,7 +118,7 @@ def test_todo_campo_gerado_existe_no_schema(tmp_path):
     # e cada valor gerado respeita o tipo do schema
     csv = tmp_path / "todas.csv"
     csv.write_text(
-        ";".join(mc.COLUNAS) + "\n"
+        ";".join(c for c in mc.COLUNAS if c != "descricao_convenio") + "\n"
         "servico;1;S;NOME;C1;3;22;5;sim;10,50;sim;não;sim;não;;;;4;contrato;\n"
         "servico;2;S2;;;;;limpar;sim;;;;;;;;;;contrato;\n"
         "produto;2;P;NOMEP;C2;3;20;;sim;5,00;;sim;;;10,5;7;Preço 2;2;contrato;\n"

@@ -73,6 +73,6 @@ que há lá e o que fazer (em geral: nada, é registro).
 **O que aconteceu:** materiais de treinamento chegaram a vender como
 disponível algo que era roadmap, e a negar uma função que já estava no ar.
 **Regra que ficou:** toda função citada ao usuário vem com o status real e a
-data (ver `../sistema-rabi/producao-x-roadmap.md`). "Concluído no
+data (ver [../sistema-rabi/producao-x-roadmap.md](../sistema-rabi/producao-x-roadmap.md)). "Concluído no
 desenvolvimento" ≠ "no seu ambiente".
 **Como detectar:** promessa sem data; função que a tela não mostra.

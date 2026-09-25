@@ -204,12 +204,12 @@ da verdade que a ferramenta `ferramentas/conversao/montar_convenio.py` lê.
 | 8 | `tabela87_id` | não | todos | **id** do registro em `GET /auxiliares/tabelas-ans87` (não o código "20") | não envia |
 | 9 | `tipo_atendimento_id` | não | servico | id de `GET /auxiliares/tipos-atendimento`; `LIMPAR` = `null` | não envia |
 | 10 | `utiliza` | sim | todos | `S`/`N` — **sempre explícito** | (proibido vazio) |
-| 11 | `valor_combinado` | não | todos | número (inclusive `0`): valor 🔁 do item | **envia `null`** = sem regra, desce de nível. `=` (sinal de igual) = não envia (mantém) |
+| 11 | `valor_combinado` | não | todos | número (inclusive `0`): valor 🔁 do item | **envia `null`** = sem regra, desce de nível. `=` (sinal de igual) ou `manter` = não envia (mantém) |
 | 12 | `pacote` | não | servico | `S`/`N` | não envia |
 | 13 | `zerar` | sim* | todos | `S`/`N` (*obrigatório em vínculo novo) | não envia |
 | 14 | `autorizacao_previa` | não | servico | `S`/`N` | não envia |
 | 15 | `retorno` | não | servico | `S`/`N` | não envia |
-| 16 | `fator_k` | não | produto | percentual (`10`, `-15`, `38,24`); `0` = sem ajuste | **envia `null`** = herda. `=` = não envia |
+| 16 | `fator_k` | não | produto | percentual (`10`, `-15`, `38,24`); `0` = sem ajuste | **envia `null`** = herda. `=` ou `manter` = não envia |
 | 17 | `fonte_preco` | não | produto | id da fonte (`fontePrecoId` de `GET /tabelas-preco/precificacao`) | não envia (herda) |
 | 18 | `tipo_precificacao` | não | produto | `PRECO_1` · `PRECO_2` · `PRECO_3` | não envia |
 | 19 | `parcelas` | não | servico | inteiro | não envia |
