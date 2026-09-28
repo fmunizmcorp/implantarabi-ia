@@ -16,8 +16,8 @@ Não achou? Resolva como der, e registre o caso como aprendizado tipo `api`
 
 | Entrada | Sintoma (rota · status · mensagem) | Status |
 |---|---|---|
-| [F001](F001-servicos-500-filter.md) | POST/PUT /servicos · 500 · `reading 'filter'` | aberto no Rabi — contorno: mandar as 4 listas |
-| [F002](F002-400-generico-area-inteira.md) | leitura **e** gravação da mesma área · 400 · "Erro ao processar a operação" | aguardando suporte do Rabi |
+| [F001](F001-servicos-500-filter.md) | POST/PUT /servicos · 500 · `reading 'filter'` | aberto no Rabi (conferido 28/09 19:28) — contorno: mandar as 4 listas |
+| [F002](F002-400-generico-area-inteira.md) | leitura **e** gravação da mesma área · 400 · "Erro ao processar a operação" | resolvido pelo Rabi em 28/09 — se voltar, mesma mensagem ao suporte |
 | [F003](F003-chave-recusada.md) | qualquer · 503/401 · "Não foi possível validar a chave" | esperado — renovar a chave |
 | [F004](F004-put-apagou-campos.md) | PUT · 200 · campos sumiram | documentado — PUT completo |
 | [F005](F005-leitura-incompleta.md) | listagens · contagem não bate | documentado — `ler_tudo()` |

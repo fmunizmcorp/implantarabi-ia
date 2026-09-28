@@ -20,3 +20,6 @@
 - Validação cruzada (25 achados) corrigida antes do commit (filtro, atualizador, hook, workflow, textos).
 - FAQ das IAs (`conhecimento/faq-ias/`, `buscar_faq.py`, dica no erro do `cliente.py`) a partir do 1º caso real: POST /servicos 500 `reading 'filter'` (confirmado no código do Rabi) e 400 genérico na área inteira desde o deploy do Rabi de 28/09 14:08 (hipótese: migração não aplicada no banco da clínica — aguardando suporte).
 - Próximo passo: resposta do suporte do Rabi ao caso F002; atualizar o status da F002.
+
+## 2026-09-28 — v0.3.1 — F002 resolvida pelo Rabi
+- Suporte do Rabi corrigiu o ambiente da 1ª clínica (sem mudança de código; conferido no deploy de 28/09 19:28 UTC). F001 segue aberta (contorno: 4 listas). Próximo passo: a clínica retoma a S08 com 1 serviço primeiro.

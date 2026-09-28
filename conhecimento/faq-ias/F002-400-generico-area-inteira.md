@@ -9,7 +9,8 @@
   28/09/2026 14:08 (colunas novas em `servico` — pagamento parcial) e, a partir dessa
   tarde, `GET /servicos/1` e `POST /servicos` com 400 numa clínica, enquanto em outra
   clínica as mesmas rotas respondiam 200.
-- **Status:** aguardando suporte do Rabi (registrar a data da resposta aqui)
+- **Status:** **resolvido pelo suporte do Rabi em 28/09/2026** (correção de ambiente, informada pelo mantenedor; nenhuma mudança de código no rabi-api). A clínica confirma com `GET /<área>/{id}` = 200 antes de retomar.
+- **Causa confirmada?** a correção foi de ambiente, o que confirma a hipótese na prática; o Rabi não publicou a causa exata
 - **Origem:** implantação real (clínica anônima), 28/09/2026
 
 ## Como reconhecer (faça só leituras)
@@ -32,6 +33,12 @@ Se os 4 batem, **não é o seu corpo**: é o ambiente da clínica no Rabi.
 > e `POST /<área>` respondem 400 "Erro ao processar a operação". Leituras de outras áreas funcionam.
 > Coincide com a atualização de <data/hora>. Podem conferir se a migração foi aplicada no banco
 > desta clínica (migrate deploy)? As requisições e respostas exatas estão anexas.
+
+## Se voltar a acontecer
+Cada atualização do Rabi pode trazer mudanças no banco (a de 28/09 19:28 UTC trouxe duas, em
+financeiro/DRE). Se, depois de uma atualização, **outra área** passar a responder o mesmo 400
+genérico na leitura e na gravação, é o mesmo caso: pare, prove que nada mudou e mande a mensagem
+pronta acima trocando a área e o horário.
 
 ## O que NÃO fazer
 - Não trocar campos às cegas nem repetir várias vezes (não é o corpo).

@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v0.3.1 — 2026-09-28
+- FAQ F002 resolvida pelo suporte do Rabi (correção de ambiente em 28/09) + seção "Se voltar a acontecer";
+  F001 reconferida no código de 28/09 19:28 (continua aberta) + corpo mínimo que funciona; defeito nº 17 resolvido.
+- Ação nas clínicas: se a S08 (serviços) parou pelo 400 genérico, confirme `GET /servicos/{id}` = 200 e retome — 1 serviço primeiro com o ritual completo e as 4 listas (FAQ F001); só então o resto.
+
 ## v0.3.0 — 2026-09-25
 - Canal de aprendizados clínica → kit: fila `contribuicoes-kit/` no repo da clínica,
   `ferramentas/kit/filtrar_aprendizado.py` (filtro de privacidade + link pré-preenchido),
