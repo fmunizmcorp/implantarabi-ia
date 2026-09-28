@@ -112,7 +112,9 @@ def test_links_publicos_permitidos():
 def test_novo_filtrar_enviado_e_indice(tmp_path, capsys):
     repo = _clinica(tmp_path)
     assert fa.main(["--repo", str(repo), "novo", "--titulo", "Fator K negativo", "--tipo", "calculo"]) == 0
-    arq = next((repo / "contribuicoes-kit").glob("[0-9]*.md"))
+    arqs = sorted((repo / "contribuicoes-kit").glob(fa.PADRAO_ARQ))
+    assert len(arqs) == 1 and arqs[0].name != "00-INDICE.md"
+    arq = arqs[0]
     # incompleto → bloqueia
     assert fa.main(["--repo", str(repo), "filtrar", str(arq)]) == 1
     arq.write_text(LIMPO.replace("Fator K negativo reduz o preço do produto", "Fator K negativo"), encoding="utf-8")
@@ -132,6 +134,7 @@ def test_novo_filtrar_enviado_e_indice(tmp_path, capsys):
     assert d["status"].startswith("enviado #7") and d["issue"].endswith("/issues/7")
     assert fa.pendentes(repo) == 0
     assert "enviado #7" in (repo / "contribuicoes-kit" / "00-INDICE.md").read_text(encoding="utf-8")
+    assert "[00-INDICE.md]" not in (repo / "contribuicoes-kit" / "00-INDICE.md").read_text(encoding="utf-8")
 
 
 def test_filtrar_bloqueia_dado_no_arquivo(tmp_path):

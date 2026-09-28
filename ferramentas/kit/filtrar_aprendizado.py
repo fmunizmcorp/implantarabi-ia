@@ -45,6 +45,8 @@ TIPOS = {
     "ferramenta": "Ferramenta (script do kit)",
 }
 STATUS_ABERTOS = ("rascunho", "filtrado")
+# Só os aprendizados datados (AAAA-MM-DD-NN-tema.md); nunca o 00-INDICE.md.
+PADRAO_ARQ = "[12][0-9][0-9][0-9]-[01][0-9]-[0-3][0-9]-*.md"
 
 # Seções do arquivo ↔ campos do formulário de issue (ids em .github/ISSUE_TEMPLATE/).
 SECOES = [
@@ -291,7 +293,7 @@ def refazer_indice(repo: Path) -> Path:
     pasta = repo / PASTA
     pasta.mkdir(exist_ok=True)
     linhas = []
-    for arq in sorted(pasta.glob("[0-9]*.md")):
+    for arq in sorted(pasta.glob(PADRAO_ARQ)):
         d = ler_aprendizado(arq)
         titulo = d["titulo"].replace("|", "/")
         linhas.append(f"| [{arq.name}]({arq.name}) | {titulo} | {d.get('tipo', '')} | {d.get('status', '')} |")
@@ -305,7 +307,7 @@ def pendentes(repo: Path) -> int:
     pasta = repo / PASTA
     if not pasta.is_dir():
         return 0
-    return sum(1 for a in pasta.glob("[0-9]*.md")
+    return sum(1 for a in pasta.glob(PADRAO_ARQ)
                if ler_aprendizado(a).get("status", "").split(" ")[0] in STATUS_ABERTOS)
 
 
