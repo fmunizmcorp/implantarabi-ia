@@ -27,6 +27,10 @@ primária acima de aviso.
 
 Se a sua implantação ensinar algo que sirva a todas as clínicas:
 1. registre em `historico/APRENDIZADOS.md` do repo da clínica;
-2. sugira ao mantenedor do kit por issue **sem nenhum dado da clínica**, no
-   formato: título · o que aconteceu (genérico) · regra que ficou · como
-   detectar.
+2. envie ao kit pela fila `contribuicoes-kit/` e pelo filtro
+   `ferramentas/kit/filtrar_aprendizado.py` (passo a passo:
+   [../../prompts/08-contribuir-com-o-kit.md](../../prompts/08-contribuir-com-o-kit.md)).
+   A issue é **pública**: nenhum dado da clínica. O mantenedor consolida
+   ([../../prompts/09-consolidar-aprendizados.md](../../prompts/09-consolidar-aprendizados.md))
+   e os aceitos viram lições **L62+** (registro em
+   [../aprendizados-das-clinicas/consolidados.md](../aprendizados-das-clinicas/consolidados.md)).

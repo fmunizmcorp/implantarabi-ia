@@ -1,0 +1,65 @@
+name: Aprendizado de uma clínica
+description: Método aprendido numa implantação (cálculo, regra, API, processo). NUNCA dado da clínica.
+title: "[aprendizado] "
+labels: ["aprendizado-clinica"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Esta issue é PÚBLICA.** Só o método: nada de nome da clínica, CNPJ, CPF, pessoa,
+        ID do Rabi, valor contratado, link do repositório da clínica, print ou documento.
+        Normalmente este formulário já vem preenchido pela IA da clínica (filtrado por
+        `ferramentas/kit/filtrar_aprendizado.py`). Confira e clique em **Submit new issue**.
+  - type: input
+    id: tipo
+    attributes:
+      label: Tipo
+      description: "Cálculo / conversão de valores · Correção de regra do kit · Comportamento real da API · Processo · Ferramenta"
+    validations:
+      required: true
+  - type: input
+    id: arquivo_kit
+    attributes:
+      label: Arquivo do kit afetado
+      description: "ex.: conhecimento/precos-e-conversao/… ou ferramentas/conversao/motor.py"
+  - type: input
+    id: versao_kit
+    attributes:
+      label: Versão do kit
+  - type: textarea
+    id: kit_diz
+    attributes:
+      label: O que o kit diz
+    validations:
+      required: true
+  - type: textarea
+    id: realidade
+    attributes:
+      label: O que acontece de verdade
+      description: "Genérico. Valores só de exemplo."
+    validations:
+      required: true
+  - type: textarea
+    id: regra
+    attributes:
+      label: Regra proposta
+    validations:
+      required: true
+  - type: textarea
+    id: detectar
+    attributes:
+      label: Como detectar
+    validations:
+      required: true
+  - type: textarea
+    id: evidencia
+    attributes:
+      label: Evidência (só o tipo, nunca o conteúdo)
+      description: "ex.: \"foto antes/depois relida em 03/10\", \"Farol conferido em 3 serviços\""
+  - type: checkboxes
+    id: privacidade
+    attributes:
+      label: Privacidade
+      options:
+        - label: Confirmo que este texto não tem nenhum dado da clínica, de pessoa ou de paciente.
+          required: true

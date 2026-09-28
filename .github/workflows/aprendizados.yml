@@ -1,0 +1,70 @@
+name: Aprendizados das clínicas
+
+# Mantém conhecimento/aprendizados-das-clinicas/caixa-de-entrada.md em dia com as
+# issues "aprendizado-clinica" e sinaliza texto com suspeita de dado sensível.
+on:
+  issues:
+    types: [opened, edited, reopened, closed, labeled]
+  schedule:
+    - cron: "52 10 * * 1"   # segunda, ~07:52 em Brasília
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: aprendizados
+  cancel-in-progress: false
+
+jobs:
+  caixa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Garantir as labels
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh label create aprendizado-clinica --color 0E8A16 --description "Aprendizado enviado por uma clínica (sem dado da clínica)" 2>/dev/null || true
+          gh label create revisar-privacidade --color B60205 --description "Suspeita de dado da clínica/pessoa no texto" 2>/dev/null || true
+      - name: Coletar issues e montar a caixa de entrada
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python ferramentas/kit/coletar_aprendizados.py --sinalizar sinal.txt
+      - name: Sinalizar suspeita de dado sensível
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          while read -r n; do
+            [ -z "$n" ] && continue
+            if ! gh issue view "$n" --json labels -q '.labels[].name' | grep -qx revisar-privacidade; then
+              gh issue edit "$n" --add-label revisar-privacidade
+              gh issue comment "$n" --body "⚠️ O filtro automático do kit achou algo parecido com dado da clínica, de pessoa ou de paciente neste texto (esta issue é pública). Por favor edite e generalize (sem nome, CNPJ, CPF, ID do Rabi, valor contratado ou link do repositório da clínica). O mantenedor revisa antes de consolidar.
+
+          ---
+          _Gerado pelo workflow Aprendizados das clínicas_"
+            fi
+          done < sinal.txt
+      - name: Commit da caixa de entrada
+        run: |
+          rm -f sinal.txt
+          if ! git diff --quiet -- conhecimento/aprendizados-das-clinicas/; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add conhecimento/aprendizados-das-clinicas/caixa-de-entrada.md
+            git commit -m "aprendizados: caixa de entrada atualizada"
+            for i in 1 2 3; do
+              git pull --rebase origin main && git push origin HEAD:main && exit 0
+              sleep $((i * 5))
+            done
+            echo "Não consegui enviar a caixa de entrada depois de 3 tentativas." >&2
+            exit 1
+          else
+            echo "Sem mudança."
+          fi

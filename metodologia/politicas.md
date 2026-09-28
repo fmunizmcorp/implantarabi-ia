@@ -79,9 +79,15 @@ em `referencias/LICENCAS.md`.
 - Direcionamento da equipe para a IA → `diretrizes-da-equipe.md`.
 - Documento recebido → `documentos-do-cliente/` (original intocado) +
   linha no `inventario.md`.
-- Lição → `historico/APRENDIZADOS.md`. Se servir a todas as clínicas, a
-  clínica sugere ao mantenedor do kit (issue no repo do kit **sem dado da
-  clínica**).
+- Lição → `historico/APRENDIZADOS.md`. Se servir a todas as clínicas, a IA da
+  clínica a envia ao kit pela fila `contribuicoes-kit/`: filtro
+  `ferramentas/kit/filtrar_aprendizado.py` (tem de sair LIMPO) + sim do
+  usuário + issue pública no kit (`prompts/08-contribuir-com-o-kit.md`). O
+  mantenedor consolida (`prompts/09-consolidar-aprendizados.md`).
+- Novidade do kit → a clínica trata na abertura: resumo, estrutura do repo
+  atualizada por `ferramentas/kit/atualizar_repo_clinica.py`, impacto no que já
+  foi gravado vira pendência + Diagnóstico. Toda versão do kit que exige ação
+  das clínicas traz no `CHANGELOG.md` a linha `Ação nas clínicas: …`.
 
 ## 7. Papéis (separados)
 

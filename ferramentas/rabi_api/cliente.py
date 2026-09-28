@@ -42,6 +42,20 @@ ROTAS_401_SEM_SER_CHAVE = re.compile(
 PADRAO_LINHA_CHAVE = re.compile(r"^\s*[-*>]?\s*`?\s*api_key\s*:\s*`?\s*(rbk_[^\s`'\"]+)", re.I | re.M)
 
 
+def _dica_faq(mensagem: str, status: int | None, rota: str) -> str:
+    """ "Possível FAQ: Fxxx" a partir de conhecimento/faq-ias/ (nunca quebra o erro original)."""
+    try:
+        import sys as _sys
+        from pathlib import Path as _Path
+        pasta_kit = str(_Path(__file__).resolve().parents[1] / "kit")
+        if pasta_kit not in _sys.path:
+            _sys.path.insert(0, pasta_kit)
+        from buscar_faq import sugerir
+        return sugerir(mensagem, status, rota)
+    except Exception:  # FAQ ausente ou com defeito não pode esconder o erro real
+        return ""
+
+
 # --------------------------------------------------------------------------- exceções
 
 class ErroRabi(Exception):
@@ -328,7 +342,8 @@ class ClienteRabi:
                 "inexistente, revogada ou ainda não ativada (o 401 do Swagger ainda não vale). Não vou repetir em "
                 "loop: confira a chave e, se ela estiver certa, peça ao time Rabi para ativá-la ou renová-la.",
                 resp.status, resp.texto, metodo, caminho)
-        raise ErroRabi(f"{resp.status} em {onde}: {msg_srv}", resp.status, resp.texto, metodo, caminho)
+        raise ErroRabi(f"{resp.status} em {onde}: {msg_srv}.{_dica_faq(msg_srv or resp.texto, resp.status, onde)}",
+                       resp.status, resp.texto, metodo, caminho)
 
     # ------------------------------------------------------------------ verbos
     def get(self, caminho: str, params: dict | None = None):

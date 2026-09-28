@@ -62,7 +62,18 @@ secret.
   o workflow publica sozinho. Sem ele, repita o Jeito A.
 - Clínicas que **já** criaram o repositório não recebem as mudanças do modelo
   automaticamente (o "Use this template" copia uma vez só). O que muda para
-  elas vem pelo kit em `.kit/` a cada sessão; agentes, skills e comandos novos
-  são avisados pelo hook e trazidos com
-  `python3 .kit/ferramentas/kit/novo_repo_clinica.py --destino . --atualizar-claude`.
+  elas vem pelo kit em `.kit/` a cada sessão; a **estrutura** (CLAUDE.md,
+  scripts, `.claude/`, workflows, pastas novas) é atualizada pela própria IA da
+  clínica na abertura (`atualizar_repo_clinica.py --aplicar`, bloco NOVIDADES DO
+  KIT do hook). Escreva no `CHANGELOG.md` a linha `Ação nas clínicas: …` sempre
+  que as clínicas precisarem conferir algo.
+
+## H4 — Consolidar os aprendizados das clínicas
+
+- As IAs das clínicas mandam aprendizados (sem dado da clínica) como issues
+  `aprendizado-clinica` no kit. O workflow `aprendizados.yml` mantém
+  `conhecimento/aprendizados-das-clinicas/caixa-de-entrada.md` e sinaliza texto
+  suspeito com `revisar-privacidade`.
+- De tempos em tempos (rotina quinzenal ou a frase `consolidar aprendizados`):
+  siga `prompts/09-consolidar-aprendizados.md`.
 - Nunca coloque dado de clínica real no modelo: ele é público.

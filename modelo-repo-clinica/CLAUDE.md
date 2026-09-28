@@ -14,6 +14,7 @@ O usuário não cola prompt: ele escreve **uma frase**. Reconheça e siga:
 | "atualizar configuração …" (ex.: reajuste, serviço novo) | **Atualização** | `.kit/prompts/03-modo-atualizacao.md` |
 | "convênio …" (ex.: "convênio: configurar Convênio B") | **Convênio** | `.kit/prompts/04-modo-convenio.md` |
 | "diagnóstico …" (ex.: "diagnóstico: por que o orçamento saiu zerado?") | **Diagnóstico** (só leitura) | `.kit/prompts/05-modo-diagnostico.md` |
+| "enviar aprendizados" | **Aprendizados para o kit** (sem dado da clínica) | `.kit/prompts/08-contribuir-com-o-kit.md` |
 
 Frase ambígua ou só "oi": faça a abertura (`.kit/prompts/01-abertura-sessao.md`)
 e pergunte o modo. **Uma pergunta por mensagem.**
@@ -53,6 +54,28 @@ não grave nada. Diga que **este repositório é da clínica** registrada no
 `ESTADO.md`, que cada clínica tem o seu repositório (criado pelo modelo:
 `.kit/manual/01-preparacao.md`, passo A3) e pergunte se ele abriu o repositório
 errado. (O `personalizar_clinica.py` recusa com código 3.)
+
+## NOVIDADES DO KIT (toda abertura, depois do resumo)
+O hook mostra o bloco **NOVIDADES DO KIT** (o `.kit/` é atualizado sozinho a cada sessão).
+Se houver novidade:
+1. Resuma ao usuário em até 3 linhas (o que muda para esta clínica).
+2. "Estrutura do repo: DEFASADA" → rode `python3 .kit/ferramentas/kit/atualizar_repo_clinica.py --aplicar`
+   (só mexe em CLAUDE.md, INDICE.md, README.md, scripts/, .claude/, .github/, .gitignore e cria pastas
+   novas; **nunca** em dados, provas, credenciais, ESTADO, histórico) e faça commit + push. Não precisa pedir licença.
+   Depois de atualizar o CLAUDE.md, releia-o.
+3. Linha **"→ Ação nas clínicas"** ou mudança de regra de preço/Farol/API que afete algo **já gravado** no Rabi:
+   abra item em `pendencias/PENDENCIAS.md` e proponha um **Diagnóstico** (só leitura) antes de qualquer
+   gravação — nunca corrija o Rabi sem o ritual de 5 passos.
+4. Tratado: `python3 .kit/ferramentas/kit/atualizar_repo_clinica.py --marcar-visto` + commit.
+
+## APRENDIZADOS PARA O KIT (sem dado da clínica)
+Descobriu algo que serve a **todas** as clínicas (cálculo, regra que o kit não tinha, comportamento
+real da API, ferramenta que errou, jeito melhor de conduzir)? Registre e ofereça o envio ao kit
+seguindo `.kit/prompts/08-contribuir-com-o-kit.md`: rascunho em `contribuicoes-kit/` →
+`filtrar_aprendizado.py filtrar` (tem de sair LIMPO) → **uma** pergunta ao usuário com o texto final
+e o link, **só no fim da sessão ou da review** e nunca junto de outra pergunta → registrar o
+número da issue. Na abertura, novidades e fila de aprendizados são **informação**, não pergunta.
+A issue é **pública**: nunca nome, CNPJ, CPF, pessoa, paciente, ID do Rabi, valor contratado, link do repo.
 
 ## PRIMEIRA AÇÃO de toda sessão (sem exceção)
 Ler **`.kit/BOOTSTRAP.md`** e **`.kit/conhecimento/00-ESSENCIAL.md`** com a
@@ -113,6 +136,22 @@ Vale `diretrizes-da-equipe.md` desta clínica; registre a divergência em
 ## Ao compactar contexto
 Preserve: arquivos modificados, sprint atual, próximo passo de `ESTADO.md`,
 último caminho de prova e o que está aguardando aprovação.
+
+## ERRO NO RABI → FAQ DO KIT PRIMEIRO
+Qualquer erro da API (4xx/5xx, resposta estranha): **antes** de tentar de novo ou perguntar ao
+usuário, rode `python3 .kit/ferramentas/kit/buscar_faq.py "<mensagem>" --status <código> --rota "<MÉTODO /rota>"`
+e siga a entrada (`.kit/conhecimento/faq-ias/`). Para ter o FAQ mais novo no meio da sessão:
+`git -C .kit pull`. Sem entrada no FAQ: no máximo **uma** nova tentativa com o corpo corrigido,
+depois pare, prove que nada mudou, registre em `pendencias/` e ofereça o caso ao kit (tipo `api`).
+
+## Regras locais desta clínica
+O que está entre os marcadores abaixo é desta clínica e é **preservado** quando o
+kit atualiza este arquivo (`atualizar_repo_clinica.py`). Direcionamentos longos
+continuam em `diretrizes-da-equipe.md`.
+
+<!-- REGRAS-LOCAIS:INICIO -->
+(nenhuma regra local por enquanto)
+<!-- REGRAS-LOCAIS:FIM -->
 
 ## Referência do manual em cada etapa
 Em cada sprint, prévia e pergunta, termine com **"📖 Para saber mais: <link>"** — o link da etapa no manual oficial (seção "Link do manual" de `.kit/sprints/Sxx-*.md`; tabela completa em `.kit/manual/07-onde-ler-mais-no-manual.md`). O painel do `ESTADO.md` também mostra esse link por sprint.

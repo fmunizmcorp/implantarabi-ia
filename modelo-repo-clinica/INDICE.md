@@ -18,10 +18,12 @@
 | [decisoes/](decisoes/00-INDICE.md) | decisões de negócio registradas | antes de decidir de novo |
 | [pendencias/](pendencias/00-INDICE.md) | lacunas de dados e pendências | toda abertura |
 | [historico/](historico/00-INDICE.md) | histórico, aprendizados, dailies, reviews, mensagens verbatim | ao fechar a sessão |
+| [contribuicoes-kit/](contribuicoes-kit/00-INDICE.md) | fila de aprendizados para o kit (sem dado da clínica) e o status de cada envio | ao descobrir algo útil a todas as clínicas; frase `enviar aprendizados` |
 | [ANALISE-CONTRATOS.md](ANALISE-CONTRATOS.md) | análise dos contratos em 6 dimensões | S10 |
 | [scripts/](scripts/00-INDICE.md) | hooks de sessão | se algo no início falhar |
 | [.github/](.github/00-INDICE.md) | workflow `automerge` (leva a branch `claude/...` da sessão para a `main`) | se a `main` não estiver atualizada |
 | `.kit/` | kit de implantação (baixado; só leitura; fora do git) | sempre, pelo índice do kit |
+| `.modelo-kit.json` | versão do kit da estrutura do repo e última versão cujas novidades foram tratadas | gerido por `.kit/ferramentas/kit/atualizar_repo_clinica.py` |
 
 > **Ferramentas só do kit:** `.kit/ferramentas/kit/verificar_tamanhos.py`,
 > `verificar_links.py` e `verificar_vazamento.py` são do **mantenedor do kit**.

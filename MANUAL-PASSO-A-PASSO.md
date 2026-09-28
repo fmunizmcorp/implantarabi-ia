@@ -1,7 +1,7 @@
 # Manual passo a passo — implantar o Sistema Rabi com a IA
 
 > **Fonte:** este kit + guia oficial https://www.rabisistemas.com.br/manual/implantacao/guia-implantacao.html + documentação do Claude Code na web https://code.claude.com/docs/en/claude-code-on-the-web · **Conferido em:** 2026-09-25
-> **Vale para:** produção em 25/09/2026 (repositório-modelo por "Use this template") · **Kit:** v0.2.1
+> **Vale para:** produção em 25/09/2026 (repositório-modelo por "Use this template") · **Kit:** v0.3.0
 >
 > 🌐 **Versão web (pública, no manual oficial do Rabi):** https://www.rabisistemas.com.br/manual/implantacao/implantacao-com-ia.html
 
@@ -20,7 +20,8 @@ de cada dia é abrir uma conversa e responder às perguntas da IA.
 | [C e D — Dia a dia e outros modos](manual/03-dia-a-dia-e-modos.md) | como retomar, ver o progresso, quanto tempo leva; atualização, convênio, diagnóstico | todos os dias |
 | [E e F — Problemas e segurança](manual/04-problemas-e-seguranca.md) | sintoma → o que fazer; LGPD e cuidados com a chave | quando algo não sair como esperado |
 | [G — Checklist para imprimir](manual/05-checklist-imprimir.md) | 1 página: preparação + cada sessão | deixe ao lado do computador |
-| [H — Para o mantenedor (Rabi)](manual/06-mantenedor.md) | publicar e atualizar o repositório-modelo | só a equipe Rabi |
+| [H — Para o mantenedor (Rabi)](manual/06-mantenedor.md) | publicar e atualizar o repositório-modelo; consolidar aprendizados | só a equipe Rabi |
+| [I — Aprendizados e atualizações](manual/08-aprendizados-e-atualizacoes.md) | a IA manda ao kit o que aprendeu (sem dado da clínica, com o seu clique) e se atualiza sozinha | quando a IA pedir para enviar um aprendizado |
 
 Índice da pasta: [manual/00-INDICE.md](manual/00-INDICE.md).
 

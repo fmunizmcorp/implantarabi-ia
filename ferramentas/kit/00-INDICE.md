@@ -10,12 +10,17 @@ Python 3 só com biblioteca padrão. Todos devolvem código 0 (pass) ou 1 (fail)
 > `gerar_sprints_modelo.py` são do **mantenedor do kit**. **Não rode no repo da
 > clínica**: lá há credenciais e dados de propósito, e as regras de
 > tamanho/índice são as do kit. Na clínica só se usam `personalizar_clinica.py`
-> (primeira sessão) e `novo_repo_clinica.py --atualizar-claude`.
+> (primeira sessão), `atualizar_repo_clinica.py` (novidades do kit → estrutura do repo)
+> e `filtrar_aprendizado.py` (aprendizados para o kit, sem dado da clínica).
 
 | Arquivo | O que faz | Quando usar |
 |---|---|---|
-| `novo_repo_clinica.py` | (caminho antigo / plano B) gera o repo de uma clínica a partir de `modelo-repo-clinica/` (placeholders, versão do kit no `ESTADO.md`; não sobrescreve sem `--forcar`; `--atualizar-claude` traz agentes novos) | ao começar uma clínica; quando o hook avisar que os agentes mudaram |
+| `novo_repo_clinica.py` | (caminho antigo / plano B) gera o repo de uma clínica a partir de `modelo-repo-clinica/` (placeholders, versão do kit no `ESTADO.md`; não sobrescreve sem `--forcar`; `--atualizar-claude` só traz agentes — prefira `atualizar_repo_clinica.py`) | ao começar uma clínica sem o repositório-modelo |
 | `personalizar_clinica.py` | roda **dentro do repo da clínica** criado pelo repositório-modelo: troca os marcadores (nome, porte, slug, versão do kit de `.kit/VERSION`, data em America/Sao_Paulo) em todos os `.md/.json/.yml/.sh` (fora `.kit/` e `.git/`) e troca o README do modelo pelo da clínica; idempotente; recusa com código 3 se o repo já é de **outra** clínica | primeira sessão ("Vamos implantar <clínica>"); ver `modelo-repo-clinica/CLAUDE.md` |
+| `atualizar_repo_clinica.py` | roda **dentro do repo da clínica**: `--novidades` (entradas do CHANGELOG do kit desde a última vista, com as linhas "Ação nas clínicas"), `--checar` (estrutura defasada?), `--aplicar` (sobrescreve só CLAUDE.md, INDICE.md, README.md, scripts/, .claude/, .github/, .gitignore com o nome da clínica reaplicado e cria pastas novas; **nunca** toca dados, provas, credenciais, ESTADO, histórico), `--marcar-visto`; estado em `.modelo-kit.json` | toda abertura (o hook chama `--novidades`/`--checar`) |
+| `filtrar_aprendizado.py` | roda **dentro do repo da clínica**: `novo` (rascunho em `contribuicoes-kit/`), `filtrar` (bloqueia chave, CPF, CNPJ, e-mail, telefone, CEP, ID do Rabi, nome da clínica e de pessoas de `dados/`, valor em R$ sem "exemplo", link fora do Rabi/ANS/gov; limpo → texto final + link pré-preenchido da issue do kit), `enviado --issue N`, `indice` | ao descobrir algo útil a todas as clínicas; frase `enviar aprendizados` |
+| `buscar_faq.py` | busca no FAQ das IAs (`conhecimento/faq-ias/`) pelo sintoma: mensagem, status e rota; também usado pelo `cliente.py` para dizer "Possível FAQ: Fxxx" no próprio erro | toda vez que a API der erro (clínica e mantenedor) |
+| `coletar_aprendizados.py` | **no kit**: lê as issues `aprendizado-clinica`, refaz o filtro (2ª trava), gera `conhecimento/aprendizados-das-clinicas/caixa-de-entrada.md` e lista as suspeitas (`--sinalizar`); `--entrada` JSON para teste | workflow `aprendizados.yml`; frase `consolidar aprendizados` |
 | `exportar_modelo.py` | `--destino DIR` copia `modelo-repo-clinica/` **com os marcadores** (inclui `.github/`, `.claude/`, `scripts/`, `.gitignore`), grava o README do repositório-modelo e `.modelo-kit.json`, remove o que saiu do modelo (nunca `.git/`); `--checar DIR` sai 1 se defasado | publicar o repositório-modelo (manual ou pelo workflow `publicar-modelo.yml`) |
 | `sincronizar_claude_modelo.py` | copia `.claude/{agents,skills,commands}` do kit para o modelo, reescrevendo caminhos para `.kit/` (`--checar` para a CI) | depois de alterar agente, skill ou comando do kit |
 | `verificar_tamanhos.py` | `.md` ≤ 40 KB, demais ≤ 5 MB, toda pasta com `.md`/dados tem `00-INDICE.md` ou `README.md` | antes de todo commit do kit (CI) |

@@ -1,5 +1,24 @@
 # CHANGELOG
 
+## v0.3.0 — 2026-09-25
+- Canal de aprendizados clínica → kit: fila `contribuicoes-kit/` no repo da clínica,
+  `ferramentas/kit/filtrar_aprendizado.py` (filtro de privacidade + link pré-preenchido),
+  formulário de issue `aprendizado-clinica`, `coletar_aprendizados.py` + workflow `aprendizados.yml`
+  (caixa de entrada + 2ª trava `revisar-privacidade`), área `conhecimento/aprendizados-das-clinicas/`,
+  `prompts/08-contribuir-com-o-kit.md` e `prompts/09-consolidar-aprendizados.md`, manual Parte I.
+- Novidades kit → clínica: `ferramentas/kit/atualizar_repo_clinica.py` (--novidades/--checar/--aplicar/
+  --marcar-visto) e bloco NOVIDADES DO KIT no hook; convenção `Ação nas clínicas:` neste CHANGELOG.
+- FAQ das IAs `conhecimento/faq-ias/` (F001 500 `reading 'filter'` em /servicos; F002 400 genérico na área
+  inteira — ambiente do Rabi; F003–F005) + `ferramentas/kit/buscar_faq.py`; o erro do `cliente.py` sugere a entrada;
+  regra "erro → FAQ primeiro" no ESSENCIAL e no CLAUDE.md do modelo; defeitos 16 e 17.
+- Validação cruzada (25 achados) corrigida: filtro de privacidade (CSV com `;`, nomes de PAPEIS/dados e nome
+  parcial, IDs camelCase, valores sem R$ e percentuais só com `(exemplo)`, sites sem http, tokens do GitHub; sem
+  falso positivo em especialidades/"idade"); atualizador preserva `.gitignore`/`settings.json`/bloco REGRAS-LOCAIS,
+  guarda cópia em `historico/estrutura-anterior/`, não ressuscita arquivo apagado e não perde novidades;
+  hook avisa quando não consegue verificar; workflow com rebase antes do push; pergunta de envio só no fim.
+- Ação nas clínicas: se a API der erro, consulte o FAQ (`buscar_faq.py`) antes de tentar de novo.
+- Ação nas clínicas: aplicar a estrutura nova (`atualizar_repo_clinica.py --aplicar`) — traz a fila `contribuicoes-kit/`, as regras NOVIDADES DO KIT e APRENDIZADOS PARA O KIT no CLAUDE.md e o hook novo; depois `--marcar-visto`.
+
 ## v0.2.1 — 2026-09-25
 - Passo a passo do implantador publicado como página pública no manual oficial do Rabi:
   https://www.rabisistemas.com.br/manual/implantacao/implantacao-com-ia.html (links em README, MANUAL-PASSO-A-PASSO, manual/07, README do modelo e do repo-modelo).

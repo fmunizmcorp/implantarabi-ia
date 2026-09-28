@@ -17,6 +17,7 @@ Modos: [metodologia/modos-de-sessao.md](../metodologia/modos-de-sessao.md).
 | `Vamos implantar <clínica>` e o hook diz **"primeira vez"** | rotina PRIMEIRA VEZ do `CLAUDE.md`: `personalizar_clinica.py` com o nome dito (perguntar **só** o porte, se não souber) → privado + chave (`testar_chave.py`) → foto inicial → pedido único de documentos → commit + push → plano + 1ª pergunta. **Não pergunte o modo** (é Implantação). |
 | `Vamos implantar <clínica>` / `continuar` / `continuar implantação` num repo já personalizado | RETOMADA em até 8 linhas (onde parou · o que mudou · próxima pergunta). Modo Implantação. |
 | `Vamos implantar <outra clínica>` | NOME DIVERGENTE: "este repositório é da clínica X"; não personalize, não grave, não misture. |
+| `enviar aprendizados` | [08-contribuir-com-o-kit.md](08-contribuir-com-o-kit.md): filtro + link de cada item da fila `contribuicoes-kit/`. |
 | `atualizar configuração …` · `convênio …` · `diagnóstico …` | modo correspondente ([03](03-modo-atualizacao.md) · [04](04-modo-convenio.md) · [05](05-modo-diagnostico.md)), depois do "antes de falar". |
 | outra coisa ("oi") | apresentação abaixo e pergunta do modo. |
 
@@ -27,6 +28,11 @@ Modos: [metodologia/modos-de-sessao.md](../metodologia/modos-de-sessao.md).
 1b. Confira que o `ESTADO.md` é o mais recente: `git fetch origin main && git log origin/main -1`
    (o trabalho vai por commit + push na branch da sessão `claude/...`; o workflow
    `automerge` leva à `main` em ~1 min). Se a `main` estiver atrás, avise antes de seguir.
+1c. Bloco **NOVIDADES DO KIT** do hook: se houver novidade ou "Estrutura do repo: DEFASADA", siga a
+   seção NOVIDADES DO KIT do `CLAUDE.md` (resumo de 3 linhas, `atualizar_repo_clinica.py --aplicar`,
+   impacto no que já foi gravado vira pendência + Diagnóstico, `--marcar-visto`). Na RETOMADA, a novidade
+   entra no "o que mudou". Aprendizados na fila sem envio: só informe em 1 linha (não pergunte agora;
+   a pergunta de envio fica para o fim da sessão). A única pergunta da abertura continua sendo a próxima da implantação.
 2. Leia `ESTADO.md`, `PAPEIS.md`, `diretrizes-da-equipe.md`, a sprint atual
    (`sprints/Sxx.md`) e as pendências abertas.
 3. Se `RABI_API_KEY` existe: rode `python3 .kit/ferramentas/rabi_api/testar_chave.py`

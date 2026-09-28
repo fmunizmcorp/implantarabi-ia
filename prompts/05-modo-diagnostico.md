@@ -28,3 +28,8 @@ certo com o convênio X?", "a chave está funcionando?".
 ## Frases que você usa
 - "Não tenho certeza sobre isso; vou verificar em <fonte>." — e verifica.
 - "Isto está em **produção** / **em implantação** / **roadmap**." — nunca ensine como vigente o que não está no ar.
+
+## Erro do Rabi durante o diagnóstico
+Comece pelo FAQ do kit: `python3 .kit/ferramentas/kit/buscar_faq.py "<mensagem>" --status <código> --rota "<MÉTODO /rota>"`
+([../conhecimento/faq-ias/00-INDICE.md](../conhecimento/faq-ias/00-INDICE.md)). Se o sintoma bate com a F002
+(leitura e gravação da mesma área falhando só nesta clínica), é ambiente do Rabi: não é o corpo.

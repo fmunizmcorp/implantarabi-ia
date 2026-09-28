@@ -13,3 +13,10 @@
 - Kit aponta para ela (README, MANUAL-PASSO-A-PASSO, manual/07, README do modelo, README do repo-modelo).
 - Repo-modelo `fmunizmcorp/implantarabi-modelo-clinica` populado por `exportar_modelo.py` (92 arquivos; `--checar` PASS).
 - Próximo passo: piloto com a primeira clínica real ("Vamos implantar <Nome da Clínica>").
+
+## 2026-09-28 — v0.3.0 — canal de aprendizados + novidades do kit + FAQ das IAs
+- Canal clínica → kit (fila `contribuicoes-kit/`, filtro de privacidade, formulário de issue pública, caixa de entrada + workflow `aprendizados.yml`, consolidação `prompts/09`).
+- Novidades kit → clínica (`atualizar_repo_clinica.py` + bloco NOVIDADES DO KIT no hook + "Ação nas clínicas" no CHANGELOG).
+- Validação cruzada (25 achados) corrigida antes do commit (filtro, atualizador, hook, workflow, textos).
+- FAQ das IAs (`conhecimento/faq-ias/`, `buscar_faq.py`, dica no erro do `cliente.py`) a partir do 1º caso real: POST /servicos 500 `reading 'filter'` (confirmado no código do Rabi) e 400 genérico na área inteira desde o deploy do Rabi de 28/09 14:08 (hipótese: migração não aplicada no banco da clínica — aguardando suporte).
+- Próximo passo: resposta do suporte do Rabi ao caso F002; atualizar o status da F002.

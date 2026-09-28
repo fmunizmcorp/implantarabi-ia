@@ -90,6 +90,23 @@ else
 fi
 if [ -f .kit/VERSION ]; then echo "Versão do kit: $(cat .kit/VERSION)"; fi
 
+# 1b) NOVIDADES DO KIT + estrutura do repo + fila de aprendizados (nunca falha)
+if [ -f .kit/ferramentas/kit/atualizar_repo_clinica.py ] && command -v python3 >/dev/null 2>&1; then
+  echo "== NOVIDADES DO KIT =="
+  for MODO in --novidades --checar; do
+    SAIDA="$(python3 .kit/ferramentas/kit/atualizar_repo_clinica.py "$MODO" --curto 2>/dev/null)"
+    if [ -n "$SAIDA" ]; then echo "$SAIDA"
+    else echo "AVISO: não consegui rodar o $MODO agora — rode: python3 .kit/ferramentas/kit/atualizar_repo_clinica.py $MODO"; fi
+  done
+  N_APR="$(python3 -c 'import sys,pathlib
+sys.path.insert(0, ".kit/ferramentas/kit")
+import filtrar_aprendizado as f
+print(f.pendentes(pathlib.Path(".")))' 2>/dev/null || echo "?")"
+  echo "Aprendizados para o kit ainda não enviados: ${N_APR} (contribuicoes-kit/; frase: enviar aprendizados)"
+  echo ">>> Se houver novidade: resuma ao usuário, rode --aplicar se a estrutura estiver defasada, avalie impacto no que já foi gravado e depois --marcar-visto (CLAUDE.md, NOVIDADES DO KIT)."
+  echo "== fim das novidades =="
+fi
+
 # 2) Repo privado? Lê o campo "private" da API do GitHub (no Claude Code na web
 #    o proxy devolve 200 também para o repo privado ligado à sessão; o código
 #    HTTP sozinho NÃO prova nada).
@@ -142,17 +159,6 @@ elif grep -qE '^api_key: *rbk_' credenciais/rabi-api-externa.md 2>/dev/null; the
   echo "Chave RABI_API_KEY: não está no ambiente; há chave registrada em credenciais/rabi-api-externa.md."
 else
   echo "Chave RABI_API_KEY: NÃO definida. Peça ao dono (modelo em .kit/prompts/01-abertura-sessao.md)."
-fi
-
-# 6) Agentes/skills/comandos do kit mudaram?
-if [ -d .kit/modelo-repo-clinica/.claude ]; then
-  MUDOU=""
-  for pasta in agents skills commands; do
-    if ! diff -rq ".kit/modelo-repo-clinica/.claude/$pasta" ".claude/$pasta" >/dev/null 2>&1; then MUDOU="$MUDOU $pasta"; fi
-  done
-  if [ -n "$MUDOU" ]; then
-    echo "Aviso: o kit mudou em .claude/{${MUDOU# }}. Para atualizar: python3 .kit/ferramentas/kit/novo_repo_clinica.py --destino . --atualizar-claude"
-  fi
 fi
 
 echo ">>> Siga as FRASES DE DISPARO do CLAUDE.md (primeira vez × retomada). Abertura: .kit/prompts/01-abertura-sessao.md. Uma pergunta por vez."

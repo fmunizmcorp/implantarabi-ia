@@ -6,4 +6,5 @@ description: Prepara a review de fechamento da sprint atual (demonstração com 
 3. Monte a review no modelo de `.kit/prompts/06-mensagens-padrao.md`: o que foi cadastrado (contagens), **foto depois** de 1–3 itens como demonstração, DoD item a item (ok/não ok), o que ficou pendente e por quê, riscos, próxima sprint.
 4. Salve em `historico/reviews/Sxx-AAAA-MM-DD.md`, registre a versão do kit usada na tabela de `ESTADO.md`.
 5. Peça **uma** decisão: "Posso dar a Sxx como concluída?" — só marque 100% depois do sim.
+5b. **Algo para o kit?** Se a sprint ensinou algo útil a todas as clínicas (cálculo, regra, API, ferramenta, processo), registre em `contribuicoes-kit/` e ofereça o envio (sem dado da clínica) seguindo `.kit/prompts/08-contribuir-com-o-kit.md`.
 6. Commit + push.

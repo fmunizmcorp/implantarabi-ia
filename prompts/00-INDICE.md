@@ -17,3 +17,5 @@ precisa do [MANUAL-PASSO-A-PASSO.md](../MANUAL-PASSO-A-PASSO.md) (resumo em
 | [05-modo-diagnostico.md](05-modo-diagnostico.md) | sessão de IA | só leitura: fotografar, explicar, apontar riscos | modo Diagnóstico |
 | [06-mensagens-padrao.md](06-mensagens-padrao.md) | sessão de IA | textos prontos: pedido de documentos, daily, review, confirmação, lacuna, avisos | sempre que for falar com o usuário |
 | [07-coordenacao-multi-sessao.md](07-coordenacao-multi-sessao.md) | dono + sessões | implantação grande: 1 coordenadora + sessões de convênio; matriz de permissões | clínica grande/rede ou muitos convênios |
+| [08-contribuir-com-o-kit.md](08-contribuir-com-o-kit.md) | sessão de IA da clínica | mandar aprendizados ao kit **sem dado da clínica**: rascunho, filtro, pergunta única, link da issue | quando descobrir algo que serve a todas as clínicas; toda review; frase `enviar aprendizados` |
+| [09-consolidar-aprendizados.md](09-consolidar-aprendizados.md) | sessão do mantenedor | consolidar as issues de aprendizado no kit (reproduzir, decidir, lição/teste, responder, versão) | frase `consolidar aprendizados`; rotina quinzenal |

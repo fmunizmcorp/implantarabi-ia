@@ -14,10 +14,10 @@
 ## Pastas
 | Pasta | Conteúdo |
 |---|---|
-| [conhecimento/](conhecimento/00-INDICE.md) | preços e conversão (o coração) · API externa (268 operações) · Sistema Rabi · negócio de clínica/TISS · lições aprendidas |
+| [conhecimento/](conhecimento/00-INDICE.md) | preços e conversão (o coração) · API externa (268 operações) · Sistema Rabi · negócio de clínica/TISS · lições aprendidas · aprendizados das clínicas (caixa de entrada + consolidados) |
 | [metodologia/](metodologia/00-INDICE.md) | políticas · Scrum da implantação · ritual de carga · conversa com o usuário · ingestão de documentos · modos de sessão · agentes e produtividade · lista única de documentos |
 | [sprints/](sprints/00-INDICE.md) | S00 preparação · S01–S16 = etapas 1–16 do guia oficial · S17 estabilização (S10a/S10b: convênio) |
-| [prompts/](prompts/00-INDICE.md) | abertura de sessão · modos implantação / atualização / convênio / diagnóstico · mensagens-padrão · coordenação multi-sessão |
+| [prompts/](prompts/00-INDICE.md) | abertura de sessão · modos implantação / atualização / convênio / diagnóstico · mensagens-padrão · coordenação multi-sessão · contribuir com o kit · consolidar aprendizados |
 | [ferramentas/](ferramentas/00-INDICE.md) | Python: cliente da API, motor de conversão, carga com ritual, fila de perguntas, painel, importador, referências, ingestão, kit |
 | [referencias/](referencias/00-INDICE.md) | TUSS, CMED, Brasíndice, SIMPRO, CBHPM, domínios TISS — normalizados e fatiados · [LICENCAS.md](referencias/LICENCAS.md) |
 | [manual/](manual/00-INDICE.md) | partes A–H do manual do implantador (preparação, primeira sessão, dia a dia e modos, problemas e segurança, checklist, mantenedor) |
@@ -33,5 +33,8 @@
 | Recebi uma pilha de documentos | `metodologia/ingestao-de-documentos.md` → agente `extrator-documentos` |
 | Preciso cadastrar produtos/medicamentos | `sprints/S06-produtos-catalogo.md` → skill `enriquecer-produtos` |
 | A clínica pediu uma mudança depois do go-live | `prompts/03-modo-atualizacao.md` → agente `auditor-regressao` |
-| A API respondeu algo estranho | `conhecimento/api-externa/convencoes.md` → `defeitos-conhecidos.md` |
+| A API respondeu algo estranho / deu erro | **`ferramentas/kit/buscar_faq.py`** → `conhecimento/faq-ias/` → `conhecimento/api-externa/convencoes.md` → `defeitos-conhecidos.md` |
+| Descobri algo que serve a todas as clínicas (sessão de clínica) | `prompts/08-contribuir-com-o-kit.md` → `ferramentas/kit/filtrar_aprendizado.py` |
+| Consolidar os aprendizados das clínicas (mantenedor) | `prompts/09-consolidar-aprendizados.md` → `conhecimento/aprendizados-das-clinicas/` |
+| O kit mudou; a clínica precisa se atualizar | hook (NOVIDADES DO KIT) → `ferramentas/kit/atualizar_repo_clinica.py` |
 | Valor saiu errado no orçamento/Farol | `conhecimento/precos-e-conversao/13-conferencia-e-diagnostico.md` |

@@ -10,3 +10,5 @@
 | [sistema-rabi/](sistema-rabi/00-INDICE.md) | visão geral, mapa de telas, glossário, produção × roadmap, perfis e permissões, rotinas da clínica, links do manual | para entender o sistema e falar com o usuário |
 | [negocio-clinica/](negocio-clinica/00-INDICE.md) | funcionamento de clínica, faturamento médico, TISS/TUSS/ANS, glosas, autorização prévia, análise de contratos, fontes de preço, profissional de saúde, LGPD | ao ler contratos e documentos do cliente |
 | [licoes-aprendidas/](licoes-aprendidas/00-INDICE.md) | L01–L61 de uma implantação real anterior, generalizadas | antes de cada sprint (as do tema) |
+| [faq-ias/](faq-ias/00-INDICE.md) | **FAQ das IAs**: erro do Rabi → causa → o que fazer (busca por sintoma com `ferramentas/kit/buscar_faq.py`) | sempre que a API der erro, antes de tentar de novo |
+| [aprendizados-das-clinicas/](aprendizados-das-clinicas/00-INDICE.md) | o que as clínicas enviam (issues filtradas): caixa de entrada e consolidados; os aceitos viram lições L62+ | ao consolidar; antes de enviar algo parecido |

@@ -1,7 +1,7 @@
 # 00-ESSENCIAL — o mínimo que toda sessão sabe de cor
 
 > **Fonte:** manual oficial https://www.rabisistemas.com.br/manual/ (v2.3, 25/09/2026) + Swagger https://api.rabisistemas.com.br/external-docs/ + experiência de implantação real · **Conferido em:** 2026-09-25
-> **Vale para:** produção em 25/09/2026 · **Kit:** v0.2.1
+> **Vale para:** produção em 25/09/2026 · **Kit:** v0.3.0
 >
 > Este arquivo é importado no boot. Todo o resto é lido **sob demanda pelo índice** (`INDICE.md`).
 
@@ -28,6 +28,13 @@ privado + chave + foto inicial + pedido de documentos); `atualizar configuraçã
 clínica no mesmo repo → recuse ("este repositório é da clínica X"). Detalhe:
 `CLAUDE.md` do repo da clínica (FRASES DE DISPARO). Guia do humano:
 `MANUAL-PASSO-A-PASSO.md`.
+
+**Novidades e aprendizados:** a cada abertura, trate o bloco NOVIDADES DO KIT do
+hook; se o hook não mostrou esse bloco (repo antigo), rode você mesma
+`python3 .kit/ferramentas/kit/atualizar_repo_clinica.py --novidades` e `--checar`
+(e `--aplicar` se defasado). Descobriu algo útil a todas
+as clínicas? Envie ao kit **sem dado da clínica** (`prompts/08-contribuir-com-o-kit.md`,
+frase `enviar aprendizados`).
 
 ## 3. Ordem oficial (guia corrigido em 24/09)
 Empresa → **Depósito mínimo** → Locais e tipos → Operadoras/Fornecedores/Fabricantes → **Taxas** → **Produtos (catálogo)** → Equipamentos → Serviços (subserviços antes) + tabela interna → Colaboradores (+ login) → **Convênios** (dados, depois abas) → Conferência pelo **Farol** → Financeiro/Fiscal/Estoque → Pacientes → Parâmetros, documentos e permissões → Testes (10 cenários) → Go-live.
@@ -85,6 +92,13 @@ Referência completa: `conhecimento/api-externa/00-INDICE.md`.
 - **429**: só um lote por vez.
 
 **Leitura errada é leitura falha:** status diferente de 2xx ou corpo vazio.
+
+**Deu erro? FAQ primeiro.** Antes de tentar de novo ou perguntar ao usuário, rode
+`python3 .kit/ferramentas/kit/buscar_faq.py "<mensagem>" --status <código> --rota "<MÉTODO /rota>"`
+(o erro do `cliente.py` já sugere "Possível FAQ: Fxxx"). No meio da sessão, `git -C .kit pull`
+traz o FAQ mais novo. Sem entrada: no máximo **uma** nova tentativa com o corpo corrigido; depois
+pare, registre as provas e ofereça o caso ao kit (`prompts/08-contribuir-com-o-kit.md`).
+FAQ: `conhecimento/faq-ias/00-INDICE.md`.
 
 Use sempre `ferramentas/rabi_api/cliente.py`, que já faz tudo isso.
 
