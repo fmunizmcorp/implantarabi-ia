@@ -1,7 +1,7 @@
-# Rotas — Convênios (21 operações) — parte 1 de 2
+# Rotas — Convênios (22 operações) — parte 1 de 2
 
-> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-09-25.json`) · **Conferido em:** 2026-09-25
-> **Vale para:** produção (Swagger publicado em 2026-09-25) · **Kit:** v0.1.0
+> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-09-28.json`) · **Conferido em:** 2026-09-28
+> **Vale para:** produção (Swagger publicado em 2026-09-28) · **Kit:** v0.3.1
 
 > Arquivo **gerado** por `ferramentas/rabi_api/gerar_rotas.py` — não edite à mão; rode `python3 ferramentas/rabi_api/atualizar_spec.py` para atualizar. Toda rota pode responder também `401` (chave rejeitada), `403` (chave sem a permissão) e `503` (falha ao validar a chave) — ver [convenções](../convencoes.md) e [chave e token](../chave-e-token.md).
 
@@ -27,6 +27,7 @@ Outras partes: [parte 2](convenios-parte-2.md).
 - `GET /convenios/{id}/farol/produtos`
 - `GET /convenios/{id}/farol/servicos`
 - `GET /convenios/{id}/farol/itens`
+- `GET /convenios/{id}/farol/itens/{servicoRaizId}`
 - `GET /convenios/{id}`
 - `PUT /convenios/{id}`
 - `DELETE /convenios/{id}`
@@ -43,7 +44,7 @@ Outras partes: [parte 2](convenios-parte-2.md).
 | `ativo` | query | boolean | não | Sem informar, lista ativos e inativos. |
 
 **Respostas:**
-- `200` Lista paginada — campos: `page`, `pageSize`, `total`, `totalPages`, `dados`; item de `dados`: `id`, `nomeFantasia`, `razaoSocial`, `cnpj`, `descricao`, `codigoANS`, `codigo`, `dataInicio`, `empresaPrincipalId`, `operadoraId`, `ativo`, `createdAt`, `updatedAt`
+- `200` Lista paginada — campos: `page`, `pageSize`, `total`, `totalPages`, `dados`; item de `dados`: `id`, `nomeFantasia`, `razaoSocial`, `cnpj`, `descricao`, `codigoANS`, `codigo`, `email`, `telefone`, `pessoaDeContato`, `dataInicio`, `dataFim`, `dataRenovacao`, `dataReajuste`, `prazoReajuste`, `prazoRecursoGlosa`, `prazoPagamento`, `prazoRetorno`, `prazoAutorizacao`, `prazoPagamentoRecursoGlosa`, `prazoLimiteEntregaGuias`, `limiteParcelasConvenios`, `markup`, `faturadoPagamento`, `exigirToken` …
 
 ### `POST /convenios`
 
@@ -92,7 +93,7 @@ Outras partes: [parte 2](convenios-parte-2.md).
 | `registroANS` | string | não | Registro ANS do convênio. **Na criação, é este campo que é gravado como código ANS** — `codigoANS` é ignorado. |
 
 **Respostas:**
-- `201` Convênio criado — campos: `id`, `nomeFantasia`, `razaoSocial`, `cnpj`, `descricao`, `codigoANS`, `codigo`, `dataInicio`, `empresaPrincipalId`, `operadoraId`, `ativo`, `createdAt`, `updatedAt`
+- `201` Convênio criado — campos: `id`, `nomeFantasia`, `razaoSocial`, `cnpj`, `descricao`, `codigoANS`, `codigo`, `email`, `telefone`, `pessoaDeContato`, `dataInicio`, `dataFim`, `dataRenovacao`, `dataReajuste`, `prazoReajuste`, `prazoRecursoGlosa`, `prazoPagamento`, `prazoRetorno`, `prazoAutorizacao`, `prazoPagamentoRecursoGlosa` …
 - `409` CNPJ já existe no sistema
 - `422` Referência inválida (empresa, operadora ou kit não encontrado)
 
@@ -261,3 +262,44 @@ Outras partes: [parte 2](convenios-parte-2.md).
 - `200` Lista paginada — campos: `page`, `pageSize`, `total`, `totalPages`, `dados`; item de `dados`: `servicoId`, `utiliza`, `zerarValor`, `pacote`, `autorizacaoPrevia`, `retornoServico`, `ativo`, `nomeConversao`, `descricaoConvenio`, `valorInternoConvenio`, `parcelasMaximas`, `tipoCodigoId`, `tipoAtendimentoId`, `tabela87ANSId`, `kitDocumentoId`, `codigo`, `codigoTuss`, `codigoConvenio`, `id`
 - `400` `id` inválido
 - `404` Convênio não encontrado
+
+### `PUT /convenios/{id}/servicos`
+
+- **Permissão:** `convenio:update` · **Manual:** [op-put-convenios-id-servicos](https://www.rabisistemas.com.br/manual/api-externa/referencia-cadastros.html#op-put-convenios-id-servicos)
+- **Resumo:** Definir serviços do convênio (em lote)
+- **Descrição:** Equivale à aba **Serviços** do cadastro de convênio. Aceita até **200 serviços por requisição**, todos do mesmo convênio. **Comportamento (upsert)** - A chave é `servicoId`: cria o vínculo se ainda não existir, atualiza se já existir. - Campos omitidos **mantêm o valor atual**, exceto `valorInternoConvenio`: omitido mantém, `null` limpa. - Idempotente: reenviar o mesmo item não duplica. **Como interpretar a resposta** - `200`: todos os serviços foram processados. - `207`: ao menos um falhou. Confira `resultados` pelo `indice`. **Limites** - Máximo de 200 serviços por requisição (`400` acima disso). - Só uma atualização por vez por convênio: uma segunda, enquanto a primeira roda, recebe `429`. - Interrompida após 45 segundos; o restante volta como `NAO_PROCESSADO`.
+
+| Parâmetro | Onde | Tipo | Obrig. | Observação |
+|---|---|---|---|---|
+| `id` | path | integer | **sim** | mín. 1; ID do convênio |
+
+**Corpo** (`application/json`, obrigatório):
+
+| Campo | Tipo | Obrig. | Observação |
+|---|---|---|---|
+| `servicos` | lista de objeto | **sim** | máx. itens 200 |
+| `servicos[].servicoId` | integer | **sim** | ID do serviço cadastrado no sistema (coluna **Serviço** da tela) |
+| `servicos[].utiliza` | boolean | não | Coluna **Utiliza**. Omitido: mantém o valor atual (ou `false` se o vínculo for novo). |
+| `servicos[].zerarValor` | boolean | não |  |
+| `servicos[].pacote` | boolean | não |  |
+| `servicos[].autorizacaoPrevia` | boolean | não |  |
+| `servicos[].retornoServico` | boolean | não |  |
+| `servicos[].ativo` | boolean | não |  |
+| `servicos[].nomeConversao` | string | não |  |
+| `servicos[].descricaoConvenio` | string | não |  |
+| `servicos[].valorInternoConvenio` | number | não | aceita null; Em reais. `null` limpa o valor. Omitido: mantém o valor atual. |
+| `servicos[].parcelasMaximas` | integer | não |  |
+| `servicos[].tipoCodigoId` | integer | não |  |
+| `servicos[].tipoAtendimentoId` | integer | não | aceita null |
+| `servicos[].tabela87ANSId` | integer | não |  |
+| `servicos[].kitDocumentoId` | integer | não |  |
+| `servicos[].codigo` | string | não |  |
+| `servicos[].codigoTuss` | string | não |  |
+| `servicos[].codigoConvenio` | string | não |  |
+
+**Respostas:**
+- `200` Todos os serviços foram processados — campos: `total`, `criados`, `atualizados`, `falhas`, `resultados`; item de `resultados`: `indice`, `servicoId`, `status`, `id`, `erro`
+- `207` Processado com falhas parciais. Veja `resultados`. — campos: `total`, `criados`, `atualizados`, `falhas`, `resultados`; item de `resultados`: `indice`, `servicoId`, `status`, `id`, `erro`
+- `400` `id` inválido, lista vazia, sem a chave `servicos` ou acima de 200 itens
+- `404` Convênio não encontrado
+- `429` Já existe uma atualização em andamento para este convênio

@@ -49,7 +49,7 @@ S10), CV-2 (códigos TUSS usados pelos convênios), SA-3.
 | Especialidades | `especialidadesId` (IDs) | não | lista de profissionais | — | — |
 | Subserviços | `servicosRelacionados` (IDs já criados) | não | FA-6 | — | "O que acontece dentro do <serviço>? (ex.: aplicação + medicamento)" |
 | Produtos | `produtoIds` | não | FA-6 | — | — |
-| Taxa do serviço | `taxaServicoId` + `valorTaxaServico` | não | FA-6 | — | — |
+| Taxa do serviço | `servicoTaxa: [{taxaId, quantidade}]` (desde 28/09; antes `taxaServicoId` + `valorTaxaServico`) | não | FA-6 | — | — |
 | Equipamentos | `equipamentoIds` | não | FA-5 | — | — |
 | Agendamento online | `habilitarAgendamentoOnline`, `apenasComColaboradorDesignado` | não | — | desligado | — |
 | Preparo | `preparo`, `preparamentos`, `linkAuxiliar` | não | orientações ao paciente | — | — |
@@ -95,9 +95,9 @@ venda tabela".
   `tipoCodigoId`, `tipoGuiaId`, `tipoAtendimentoId`, `regimeDeAtendimentoId`,
   `tabelaANS87ID`, `perfilFiscalId`, `linkAuxiliar`, `preparamentos`,
   `informacoesProAtendente`, `habilitarAgendamentoOnline`,
-  `apenasComColaboradorDesignado`, `ativo`. **Composição** (`produtoIds`,
-  `taxaServicoId`, `valorTaxaServico`, `servicosRelacionados`, `equipamentoIds`)
-  e **especialidades** (`especialidadesId`) têm de vir do
+  `apenasComColaboradorDesignado`, `ativo` — e, **desde 28/09**, `especialidadesId` e os
+  subserviços (`servicosRelacionados`). **Produtos, taxas e equipamentos** (`produtoIds`,
+  `servicoTaxa`, `equipamentoIds`) ainda têm de vir do
   `dados/dicionario-de-ids.md` / `dados/catalogo/composicao.md` e da **foto da
   prova da criação** (`provas/S08/servico-<codigo>/` — guarde sempre o corpo
   enviado no POST). Sem isso, não há como corrigir o serviço sem apagar a
@@ -112,7 +112,7 @@ venda tabela".
 |---|---|---|---|
 | 1 | Subserviços (ex.: "Aplicação endovenosa"): `POST /servicos` | `servico:create` | um por um até o 1º provado; depois `/servicos/bulk` (50) |
 | 2 | Serviços simples (consultas, exames) | idem | idem |
-| 3 | Serviços pais/compostos, com `servicosRelacionados`, `produtoIds`, `taxaServicoId` | idem | um por um no começo |
+| 3 | Serviços pais/compostos, com `servicosRelacionados`, `produtoIds`, `servicoTaxa` | idem | um por um no começo |
 | 4 | `POST /tabelas-preco` (`name`, `priceType1`) | `tabelaPreco:create` | — |
 | 5 | `POST /tabelas-preco/produtos/bulk` (chave `precos`) | `tabelaPreco:update` | até 200; é upsert |
 | Correção | `GET /servicos/{id}` → `corpo_put_servico()` (`ferramentas/rabi_api/corpo_escrita.py`) → alterar → `PUT /servicos/{id}` **objeto completo** | `servico:update` | — |
@@ -149,13 +149,11 @@ em https://www.rabisistemas.com.br/manual/precos/guia-implantador.html#regra-uni
   outra estrutura). Nome errado apaga o campo em silêncio. **Nunca reenvie o GET
   cru:** passe-o por `corpo_put_servico(leitura, complementos={...mudanças})`
   (`ferramentas/rabi_api/corpo_escrita.py`), que troca os nomes, converte objetos
-  aninhados em IDs (`especialidadesId`, `produtoIds`, `servicosRelacionados`,
-  `taxaServicoId`…) e **recusa** com a lista do que falta quando o GET não traz
+  aninhados em IDs (`especialidadesId`, `produtoIds`…), preserva a `quantidade` de
+  `servicosRelacionados`/`servicoTaxa` e **recusa** com a lista do que falta quando o GET não traz
   um campo de escrita — aí complete com o cadastro do repo (`dados/`). Com o GET
-  real isso **sempre** acontece para `produtoIds`, `taxaServicoId`,
-  `valorTaxaServico`, `servicosRelacionados`, `equipamentoIds`,
-  `especialidadesId` e `preparo`: passe-os em `complementos` a partir do
-  dicionário de IDs / da prova da criação.
+  real de 28/09 isso acontece para `produtoIds`, `servicoTaxa`, `equipamentoIds` e `preparo`:
+  passe-os em `complementos` a partir do dicionário de IDs / da prova da criação.
 - **Pacote não existe no cadastro do serviço:** é marcado por convênio (S10b).
 - **Serviço de aplicação × serviço de medicamento:** a aplicação costuma ter
   valor fixo (sem somar itens); o serviço "medicamento X aplicado" soma a

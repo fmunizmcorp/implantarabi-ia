@@ -23,3 +23,6 @@
 
 ## 2026-09-28 — v0.3.1 — F002 resolvida pelo Rabi
 - Suporte do Rabi corrigiu o ambiente da 1ª clínica (sem mudança de código; conferido no deploy de 28/09 19:28 UTC). F001 segue aberta (contorno: 4 listas). Próximo passo: a clínica retoma a S08 com 1 serviço primeiro.
+
+## 2026-09-28 — v0.3.2 — correção geral da API externa pelo Rabi
+- Commit `c73e84de` (produção 17:43 BRT) corrigiu o 500 do cadastro de serviço (F001) e ~20 outros defeitos de campo omitido/gravação errada. Kit: F001 corrigida, F006 (conferência retroativa), defeitos e convenções atualizados, Swagger 28/09, `corpo_escrita.py` com `servicoTaxa` e quantidades.

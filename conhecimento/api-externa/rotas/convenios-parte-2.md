@@ -1,52 +1,11 @@
-# Rotas — Convênios (21 operações) — parte 2 de 2
+# Rotas — Convênios (22 operações) — parte 2 de 2
 
-> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-09-25.json`) · **Conferido em:** 2026-09-25
-> **Vale para:** produção (Swagger publicado em 2026-09-25) · **Kit:** v0.1.0
+> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-09-28.json`) · **Conferido em:** 2026-09-28
+> **Vale para:** produção (Swagger publicado em 2026-09-28) · **Kit:** v0.3.1
 
 > Arquivo **gerado** por `ferramentas/rabi_api/gerar_rotas.py` — não edite à mão; rode `python3 ferramentas/rabi_api/atualizar_spec.py` para atualizar. Toda rota pode responder também `401` (chave rejeitada), `403` (chave sem a permissão) e `503` (falha ao validar a chave) — ver [convenções](../convencoes.md) e [chave e token](../chave-e-token.md).
 
 Outras partes: [parte 1](convenios-parte-1.md).
-
-### `PUT /convenios/{id}/servicos`
-
-- **Permissão:** `convenio:update` · **Manual:** [op-put-convenios-id-servicos](https://www.rabisistemas.com.br/manual/api-externa/referencia-cadastros.html#op-put-convenios-id-servicos)
-- **Resumo:** Definir serviços do convênio (em lote)
-- **Descrição:** Equivale à aba **Serviços** do cadastro de convênio. Aceita até **200 serviços por requisição**, todos do mesmo convênio. **Comportamento (upsert)** - A chave é `servicoId`: cria o vínculo se ainda não existir, atualiza se já existir. - Campos omitidos **mantêm o valor atual**, exceto `valorInternoConvenio`: omitido mantém, `null` limpa. - Idempotente: reenviar o mesmo item não duplica. **Como interpretar a resposta** - `200`: todos os serviços foram processados. - `207`: ao menos um falhou. Confira `resultados` pelo `indice`. **Limites** - Máximo de 200 serviços por requisição (`400` acima disso). - Só uma atualização por vez por convênio: uma segunda, enquanto a primeira roda, recebe `429`. - Interrompida após 45 segundos; o restante volta como `NAO_PROCESSADO`.
-
-| Parâmetro | Onde | Tipo | Obrig. | Observação |
-|---|---|---|---|---|
-| `id` | path | integer | **sim** | mín. 1; ID do convênio |
-
-**Corpo** (`application/json`, obrigatório):
-
-| Campo | Tipo | Obrig. | Observação |
-|---|---|---|---|
-| `servicos` | lista de objeto | **sim** | máx. itens 200 |
-| `servicos[].servicoId` | integer | **sim** | ID do serviço cadastrado no sistema (coluna **Serviço** da tela) |
-| `servicos[].utiliza` | boolean | não | Coluna **Utiliza**. Omitido: mantém o valor atual (ou `false` se o vínculo for novo). |
-| `servicos[].zerarValor` | boolean | não |  |
-| `servicos[].pacote` | boolean | não |  |
-| `servicos[].autorizacaoPrevia` | boolean | não |  |
-| `servicos[].retornoServico` | boolean | não |  |
-| `servicos[].ativo` | boolean | não |  |
-| `servicos[].nomeConversao` | string | não |  |
-| `servicos[].descricaoConvenio` | string | não |  |
-| `servicos[].valorInternoConvenio` | number | não | aceita null; Em reais. `null` limpa o valor. Omitido: mantém o valor atual. |
-| `servicos[].parcelasMaximas` | integer | não |  |
-| `servicos[].tipoCodigoId` | integer | não |  |
-| `servicos[].tipoAtendimentoId` | integer | não | aceita null |
-| `servicos[].tabela87ANSId` | integer | não |  |
-| `servicos[].kitDocumentoId` | integer | não |  |
-| `servicos[].codigo` | string | não |  |
-| `servicos[].codigoTuss` | string | não |  |
-| `servicos[].codigoConvenio` | string | não |  |
-
-**Respostas:**
-- `200` Todos os serviços foram processados — campos: `total`, `criados`, `atualizados`, `falhas`, `resultados`; item de `resultados`: `indice`, `servicoId`, `status`, `id`, `erro`
-- `207` Processado com falhas parciais. Veja `resultados`. — campos: `total`, `criados`, `atualizados`, `falhas`, `resultados`; item de `resultados`: `indice`, `servicoId`, `status`, `id`, `erro`
-- `400` `id` inválido, lista vazia, sem a chave `servicos` ou acima de 200 itens
-- `404` Convênio não encontrado
-- `429` Já existe uma atualização em andamento para este convênio
 
 ### `GET /convenios/{id}/produtos`
 
@@ -208,7 +167,7 @@ Outras partes: [parte 1](convenios-parte-1.md).
 | `sortOrder` | query | string | não | valores: `asc`, `desc` |
 
 **Respostas:**
-- `200` Lista paginada — campos: `page`, `pageSize`, `total`, `totalPages`, `dados`; item de `dados`: `produto_id`, `produto`, `codigo`, `custo`, `receita`, `margem_resultado_pct`, `farol`, `ativo_no_convenio`, `produto_ativo`
+- `200` Lista paginada — campos: `page`, `pageSize`, `total`, `totalPages`, `dados`; item de `dados`: `convenio_id`, `convenio`, `produto_id`, `produto`, `codigo_produto`, `codigo_ean`, `apresentacao`, `contendo`, `unidade_medida`, `tipo_produto`, `fabricante`, `produto_ativo`, `ativo_no_convenio`, `data_inicio_vigencia`, `data_fim_vigencia`, `fonte_id`, `fonte_nome`, `tipo_precificacao`, `fator_k`, `custo`, `custo_status`, `receita`, `margem_resultado_pct`, `farol`, `codigo` …
 - `400` `id` inválido
 - `404` Convênio não encontrado
 
@@ -233,7 +192,7 @@ Outras partes: [parte 1](convenios-parte-1.md).
 | `sortOrder` | query | string | não | valores: `asc`, `desc` |
 
 **Respostas:**
-- `200` Lista paginada — campos: `page`, `pageSize`, `total`, `totalPages`, `dados`; item de `dados`: `servico_id`, `servico`, `codigo`, `custo_total`, `receita_total`, `receita_propria_servico`, `margem_resultado_pct`, `farol`, `ativo_no_convenio`, `servico_ativo`
+- `200` Lista paginada — campos: `page`, `pageSize`, `total`, `totalPages`, `dados`; item de `dados`: `servico_id`, `servico`, `codigo_tuss`, `servico_ativo`, `convenio_id`, `convenio`, `servico_convenio_id`, `ativo_no_convenio`, `receita_propria_servico`, `custo_total`, `receita_total`, `margem_resultado_pct`, `farol`, `codigo`, `tipo_codigo`, `tabela_ans_87`, `zerar_valor`, `somar_itens`, `receita_servicos`, `receita_produtos`, `receita_taxas`, `custo_produtos`, `qtd_subservicos`, `qtd_produtos`, `qtd_taxas` …
 - `400` `id` inválido
 - `404` Convênio não encontrado
 
@@ -241,7 +200,7 @@ Outras partes: [parte 1](convenios-parte-1.md).
 
 - **Permissão:** `convenio:read` · **Manual:** [op-get-convenios-id-farol-itens](https://www.rabisistemas.com.br/manual/api-externa/referencia-cadastros.html#op-get-convenios-id-farol-itens)
 - **Resumo:** Árvore de composição do convênio (produtos, taxas e sub-serviços)
-- **Descrição:** Espelha a tela interna Farol do Convênio, aba Itens.
+- **Descrição:** Espelha a tela interna Farol do Convênio, aba Itens. Consulta filtrada no banco por `fn_servico_convenio_itens(convenio_id, servico_raiz_id)` — filtra convênio (e, opcionalmente, o serviço raiz) antes de montar a árvore de composição, em vez de calcular pra todos os convênios e filtrar depois.
 
 | Parâmetro | Onde | Tipo | Obrig. | Observação |
 |---|---|---|---|---|
@@ -256,9 +215,25 @@ Outras partes: [parte 1](convenios-parte-1.md).
 | `servicoAtivo` | query | boolean | não | Filtra pelo cadastro do serviço raiz estar ativo/inativo (`servico.ativo`), igual a `produtoAtivo` em `/farol/produtos` e `servicoAtivo` em `/farol/servicos`. |
 
 **Respostas:**
-- `200` Lista paginada — campos: `page`, `pageSize`, `total`, `totalPages`, `dados`; item de `dados`: `servico_raiz_id`, `item_tipo`, `item_id`, `item_nome`, `custo`, `receita`, `farol`, `utiliza`
+- `200` Lista paginada — campos: `page`, `pageSize`, `total`, `totalPages`, `dados`; item de `dados`: `servico_raiz_id`, `servico_raiz`, `convenio_id`, `convenio`, `item_tipo`, `nivel`, `caminho`, `servico_pai_id`, `servico_pai`, `item_id`, `item_nome`, `codigo`, `tipo_codigo`, `tabela_ans_87`, `zerar_valor`, `somar_itens`, `conta_no_total`, `unidade_medida`, `quantidade`, `quantidade_efetiva`, `custo_unitario`, `receita_unitaria`, `custo_item_total`, `receita_item_total`, `custo_total_servico` …
 - `400` `id` inválido
 - `404` Convênio não encontrado
+
+### `GET /convenios/{id}/farol/itens/{servicoRaizId}`
+
+- **Permissão:** `convenio:read` · **Manual:** [op-get-convenios-id-farol-itens-servicoraizid](https://www.rabisistemas.com.br/manual/api-externa/referencia-cadastros.html#op-get-convenios-id-farol-itens-servicoraizid)
+- **Resumo:** Árvore de composição de um único serviço raiz (versão enxuta)
+- **Descrição:** Chama `fn_servico_convenio_itens(convenio_id, servico_raiz_id)` direto, sem paginação nem pós-processamento — `farol_servico`/`margem_servico_pct`/os totais por subárvore já vêm calculados pela própria função em SQL, por linha (cada `SUBSERVICO` mostra o total da SUA subárvore, não do serviço raiz inteiro). Preferível a `/farol/itens` quando já se sabe qual serviço raiz consultar: resultado sem envelope de paginação, tipicamente poucas dezenas de linhas.
+
+| Parâmetro | Onde | Tipo | Obrig. | Observação |
+|---|---|---|---|---|
+| `id` | path | integer | **sim** | mín. 1; ID do convênio |
+| `servicoRaizId` | path | integer | **sim** |  |
+
+**Respostas:**
+- `200` Array com a árvore de composição inteira do serviço raiz (mesmo shape de item de /farol/itens). — campos: `dados`; item de `dados`: `servico_raiz_id`, `servico_raiz`, `convenio_id`, `convenio`, `item_tipo`, `nivel`, `caminho`, `servico_pai_id`, `servico_pai`, `item_id`, `item_nome`, `codigo`, `tipo_codigo`, `tabela_ans_87`, `zerar_valor`, `somar_itens`, `conta_no_total`, `unidade_medida`, `quantidade`, `quantidade_efetiva`, `custo_unitario`, `receita_unitaria`, `custo_item_total`, `receita_item_total`, `custo_total_servico` …
+- `400` `id` ou `servicoRaizId` inválido
+- `404` Convênio não encontrado, ou serviço raiz não encontrado/não utilizado neste convênio
 
 ### `GET /convenios/{id}`
 
@@ -270,7 +245,7 @@ Outras partes: [parte 1](convenios-parte-1.md).
 | `id` | path | integer | **sim** | mín. 1; ID do convênio |
 
 **Respostas:**
-- `200` Convênio — campos: `id`, `nomeFantasia`, `razaoSocial`, `cnpj`, `descricao`, `codigoANS`, `codigo`, `dataInicio`, `empresaPrincipalId`, `operadoraId`, `ativo`, `createdAt`, `updatedAt`
+- `200` Convênio — campos: `id`, `nomeFantasia`, `razaoSocial`, `cnpj`, `descricao`, `codigoANS`, `codigo`, `email`, `telefone`, `pessoaDeContato`, `dataInicio`, `dataFim`, `dataRenovacao`, `dataReajuste`, `prazoReajuste`, `prazoRecursoGlosa`, `prazoPagamento`, `prazoRetorno`, `prazoAutorizacao`, `prazoPagamentoRecursoGlosa` …
 - `400` `id` inválido
 - `404` Convênio não encontrado
 
@@ -326,7 +301,7 @@ Outras partes: [parte 1](convenios-parte-1.md).
 | `codigoANS` | string | não | Código/registro ANS. **Na atualização, o nome do campo é `codigoANS`.** |
 
 **Respostas:**
-- `200` Convênio atualizado — campos: `id`, `nomeFantasia`, `razaoSocial`, `cnpj`, `descricao`, `codigoANS`, `codigo`, `dataInicio`, `empresaPrincipalId`, `operadoraId`, `ativo`, `createdAt`, `updatedAt`
+- `200` Convênio atualizado — campos: `id`, `nomeFantasia`, `razaoSocial`, `cnpj`, `descricao`, `codigoANS`, `codigo`, `email`, `telefone`, `pessoaDeContato`, `dataInicio`, `dataFim`, `dataRenovacao`, `dataReajuste`, `prazoReajuste`, `prazoRecursoGlosa`, `prazoPagamento`, `prazoRetorno`, `prazoAutorizacao`, `prazoPagamentoRecursoGlosa` …
 - `400` `id` inválido
 - `404` Convênio não encontrado
 - `409` CNPJ já existe no sistema

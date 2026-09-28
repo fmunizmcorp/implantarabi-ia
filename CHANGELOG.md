@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v0.3.2 — 2026-09-28
+- Correção geral da API externa pelo Rabi (commit `c73e84de`, produção 28/09 17:43 BRT) absorvida: FAQ F001
+  **corrigida** (com a explicação técnica), nova **FAQ F006** (conferir gravações feitas antes dessa hora),
+  defeitos 13–16 e 18 atualizados, `convencoes.md` §7b, S08/S05.
+- Swagger de 28/09 (269 operações; rota nova `GET /convenios/{id}/farol/itens/{servicoRaizId}`) e rotas regeneradas.
+- `corpo_escrita.py`: `servicoTaxa` no lugar de `taxaServicoId`/`valorTaxaServico`; `servicosRelacionados`/`servicoTaxa`
+  preservam `quantidade`; lê `especialidadesId` e subserviços do GET novo. `montar_cenario.py` não trata como completa
+  a composição que só traz subserviços.
+- Ação nas clínicas: se alguma gravação pela API foi feita antes de 28/09 17:43 (lotes de pacientes/colaboradores/preços, PUT de movimentação ou fornecedor, estoque, UF), faça uma vez a conferência da FAQ F006 (só leitura) e registre o resultado.
+- Ação nas clínicas: taxa de serviço agora vai em `servicoTaxa: [{taxaId, quantidade}]`; saída/transferência de estoque exigem `lote` (`null` se o produto não tem lote).
+
 ## v0.3.1 — 2026-09-28
 - FAQ F002 resolvida pelo suporte do Rabi (correção de ambiente em 28/09) + seção "Se voltar a acontecer";
   F001 reconferida no código de 28/09 19:28 (continua aberta) + corpo mínimo que funciona; defeito nº 17 resolvido.

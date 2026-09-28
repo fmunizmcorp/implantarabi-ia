@@ -9,7 +9,7 @@ from ..corpo_escrita import (CAMPOS_PRODUTO, CAMPOS_SERVICO, OBRIGATORIOS_PRODUT
                              OBRIGATORIOS_SERVICO, CampoDeEscritaAusente,
                              corpo_put_produto, corpo_put_servico)
 
-SPEC = os.path.join(gerar_rotas.PASTA_SPEC, "openapi-2026-09-25.json")
+SPEC = sorted(__import__("glob").glob(os.path.join(gerar_rotas.PASTA_SPEC, "openapi-*.json")))[-1]  # o mais novo
 
 
 def _schema(nome):
@@ -50,11 +50,11 @@ def test_servico_mapeia_nomes_e_aninhados():
     assert "somarItens" not in corpo and corpo["somarItems"] is False
     assert corpo["valor"] == 40.0  # mudança aplicada
     assert corpo["tipoServicoId"] == 3 and corpo["tipoCodigoId"] == 22 and corpo["tabelaANS87ID"] is None
-    assert corpo["regimeDeAtendimentoId"] == 1 and corpo["taxaServicoId"] == 9
+    assert corpo["regimeDeAtendimentoId"] == 1 and corpo["servicoTaxa"] == [{"taxaId": 9, "quantidade": 1}]
     assert corpo["especialidadesId"] == [12]
     assert corpo["produtoIds"] == [501]
     assert corpo["equipamentoIds"] == [31]
-    assert corpo["servicosRelacionados"] == [47]
+    assert corpo["servicosRelacionados"] == [{"servicoId": 47, "quantidade": 1}]
     for k in ("id", "ativo", "createdAt", "updatedAt"):
         assert k not in corpo
 
@@ -66,7 +66,7 @@ def test_servico_forma_minima_do_spec_levanta_erro_listando_faltantes():
                "ativo": True}
     with pytest.raises(CampoDeEscritaAusente) as e:
         corpo_put_servico(leitura)
-    for campo in ("especialidadesId", "produtoIds", "servicosRelacionados", "taxaServicoId", "tipoServicoId"):
+    for campo in ("especialidadesId", "produtoIds", "servicosRelacionados", "servicoTaxa", "tipoServicoId"):
         assert campo in e.value.faltam and campo in str(e.value)
     assert "somarItems" not in e.value.faltam and "valor" not in e.value.faltam
 
@@ -151,7 +151,7 @@ def _leitura_servico_real():
     }
 
 
-COMPOSICAO_E_ESPECIALIDADES = {"taxaServicoId", "valorTaxaServico", "especialidadesId", "produtoIds",
+COMPOSICAO_E_ESPECIALIDADES = {"servicoTaxa", "especialidadesId", "produtoIds",
                                "equipamentoIds", "servicosRelacionados"}
 
 
@@ -162,7 +162,7 @@ def test_servico_forma_real_exige_composicao_e_especialidades_por_complemento():
 
 
 def test_servico_forma_real_com_complementos_da_s08():
-    comp = {"preparo": None, "taxaServicoId": 9, "valorTaxaServico": None, "especialidadesId": [12],
+    comp = {"preparo": None, "servicoTaxa": [{"taxaId": 9, "quantidade": 1}], "especialidadesId": [12],
             "produtoIds": [501, 502], "equipamentoIds": [], "servicosRelacionados": [47], "valor": 90.0}
     corpo = corpo_put_servico(_leitura_servico_real(), complementos=comp)
     assert set(corpo) == set(CAMPOS_SERVICO)
@@ -171,6 +171,20 @@ def test_servico_forma_real_com_complementos_da_s08():
     assert corpo["tipoServicoId"] == 4 and corpo["regimeDeAtendimentoId"] == 1 and corpo["valor"] == 90.0
     for k in ("informacoesProAtendente", "perfilFiscalId", "agendamentoId", "convenioId", "id", "ativo"):
         assert k not in corpo
+
+
+def test_servico_forma_real_de_28_09_traz_especialidades_e_subservicos_com_quantidade():
+    """GET real medido em 28/09/2026: vêm especialidadesId, servicosRelacionados e composicao."""
+    leitura = dict(_leitura_servico_real(), especialidadesId=[12], especialidades=[],
+                   servicosRelacionados=[{"servicoId": 687, "quantidade": 2}],
+                   composicao=[{"servicoId": 687, "nome": "Aplicação", "quantidade": 2}])
+    with pytest.raises(CampoDeEscritaAusente) as e:
+        corpo_put_servico(leitura)
+    assert set(e.value.faltam) == {"produtoIds", "servicoTaxa", "equipamentoIds", "preparo"}
+    comp = {"produtoIds": [501], "servicoTaxa": [], "equipamentoIds": [], "preparo": None}
+    corpo = corpo_put_servico(leitura, complementos=comp)
+    assert corpo["especialidadesId"] == [12]
+    assert corpo["servicosRelacionados"] == [{"servicoId": 687, "quantidade": 2}]  # quantidade preservada
 
 
 def _leitura_produto_real():

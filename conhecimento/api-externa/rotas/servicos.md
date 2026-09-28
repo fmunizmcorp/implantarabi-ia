@@ -1,7 +1,7 @@
 # Rotas — Serviços (6 operações)
 
-> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-09-25.json`) · **Conferido em:** 2026-09-25
-> **Vale para:** produção (Swagger publicado em 2026-09-25) · **Kit:** v0.1.0
+> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-09-28.json`) · **Conferido em:** 2026-09-28
+> **Vale para:** produção (Swagger publicado em 2026-09-28) · **Kit:** v0.3.1
 
 > Arquivo **gerado** por `ferramentas/rabi_api/gerar_rotas.py` — não edite à mão; rode `python3 ferramentas/rabi_api/atualizar_spec.py` para atualizar. Toda rota pode responder também `401` (chave rejeitada), `403` (chave sem a permissão) e `503` (falha ao validar a chave) — ver [convenções](../convencoes.md) e [chave e token](../chave-e-token.md).
 
@@ -54,12 +54,25 @@
 | `tabelaANS87ID` | integer | não | aceita null |
 | `regimeDeAtendimentoId` | integer | não | aceita null |
 | `tipoAtendimento` | integer | não | aceita null; ID do tipo de atendimento |
-| `taxaServicoId` | integer | não | aceita null |
-| `valorTaxaServico` | number | não | aceita null |
 | `especialidadesId` | lista de integer | não |  |
-| `produtoIds` | lista de integer | não |  |
-| `equipamentoIds` | lista de integer | não |  |
-| `servicosRelacionados` | lista de integer | não | IDs de serviços que compõem este serviço |
+| `produtoIds` | lista de integer ou objeto | não | ID do produto (quantidade 1) ou objeto com quantidade/valor. |
+| `produtoIds[].(opção 1)` | integer | não |  |
+| `produtoIds[].(opção 2)` | objeto | não |  |
+| `produtoIds[].id` | integer | não |  |
+| `produtoIds[].quantidade` | number | não | padrão `1` |
+| `produtoIds[].valorUnitario` | number | não | Em reais. |
+| `equipamentoIds` | lista de integer ou objeto | não |  |
+| `equipamentoIds[].(opção 1)` | integer | não |  |
+| `equipamentoIds[].(opção 2)` | objeto | não |  |
+| `equipamentoIds[].id` | integer | não |  |
+| `servicosRelacionados` | lista de integer ou objeto | não | Serviços que compõem este serviço: ID (quantidade 1) ou objeto com quantidade. |
+| `servicosRelacionados[].(opção 1)` | integer | não |  |
+| `servicosRelacionados[].(opção 2)` | objeto | não |  |
+| `servicosRelacionados[].servicoId` | integer | não |  |
+| `servicosRelacionados[].quantidade` | number | não | padrão `1` |
+| `servicoTaxa` | lista de objeto | não | Taxas vinculadas ao serviço. |
+| `servicoTaxa[].taxaId` | integer | não |  |
+| `servicoTaxa[].quantidade` | number | não | padrão `1` |
 | `habilitarAgendamentoOnline` | boolean | não | padrão `False` |
 | `apenasComColaboradorDesignado` | boolean | não | padrão `False` |
 
@@ -93,12 +106,25 @@
 | `servicos[].tabelaANS87ID` | integer | não | aceita null |
 | `servicos[].regimeDeAtendimentoId` | integer | não | aceita null |
 | `servicos[].tipoAtendimento` | integer | não | aceita null; ID do tipo de atendimento |
-| `servicos[].taxaServicoId` | integer | não | aceita null |
-| `servicos[].valorTaxaServico` | number | não | aceita null |
 | `servicos[].especialidadesId` | lista de integer | não |  |
-| `servicos[].produtoIds` | lista de integer | não |  |
-| `servicos[].equipamentoIds` | lista de integer | não |  |
-| `servicos[].servicosRelacionados` | lista de integer | não | IDs de serviços que compõem este serviço |
+| `servicos[].produtoIds` | lista de integer ou objeto | não | ID do produto (quantidade 1) ou objeto com quantidade/valor. |
+| `servicos[].produtoIds[].(opção 1)` | integer | não |  |
+| `servicos[].produtoIds[].(opção 2)` | objeto | não |  |
+| `servicos[].produtoIds[].id` | integer | não |  |
+| `servicos[].produtoIds[].quantidade` | number | não | padrão `1` |
+| `servicos[].produtoIds[].valorUnitario` | number | não | Em reais. |
+| `servicos[].equipamentoIds` | lista de integer ou objeto | não |  |
+| `servicos[].equipamentoIds[].(opção 1)` | integer | não |  |
+| `servicos[].equipamentoIds[].(opção 2)` | objeto | não |  |
+| `servicos[].equipamentoIds[].id` | integer | não |  |
+| `servicos[].servicosRelacionados` | lista de integer ou objeto | não | Serviços que compõem este serviço: ID (quantidade 1) ou objeto com quantidade. |
+| `servicos[].servicosRelacionados[].(opção 1)` | integer | não |  |
+| `servicos[].servicosRelacionados[].(opção 2)` | objeto | não |  |
+| `servicos[].servicosRelacionados[].servicoId` | integer | não |  |
+| `servicos[].servicosRelacionados[].quantidade` | number | não | padrão `1` |
+| `servicos[].servicoTaxa` | lista de objeto | não | Taxas vinculadas ao serviço. |
+| `servicos[].servicoTaxa[].taxaId` | integer | não |  |
+| `servicos[].servicoTaxa[].quantidade` | number | não | padrão `1` |
 | `servicos[].habilitarAgendamentoOnline` | boolean | não | padrão `False` |
 | `servicos[].apenasComColaboradorDesignado` | boolean | não | padrão `False` |
 
@@ -152,12 +178,25 @@
 | `tabelaANS87ID` | integer | não | aceita null |
 | `regimeDeAtendimentoId` | integer | não | aceita null |
 | `tipoAtendimento` | integer | não | aceita null; ID do tipo de atendimento |
-| `taxaServicoId` | integer | não | aceita null |
-| `valorTaxaServico` | number | não | aceita null |
 | `especialidadesId` | lista de integer | não |  |
-| `produtoIds` | lista de integer | não |  |
-| `equipamentoIds` | lista de integer | não |  |
-| `servicosRelacionados` | lista de integer | não | IDs de serviços que compõem este serviço |
+| `produtoIds` | lista de integer ou objeto | não | ID do produto (quantidade 1) ou objeto com quantidade/valor. |
+| `produtoIds[].(opção 1)` | integer | não |  |
+| `produtoIds[].(opção 2)` | objeto | não |  |
+| `produtoIds[].id` | integer | não |  |
+| `produtoIds[].quantidade` | number | não | padrão `1` |
+| `produtoIds[].valorUnitario` | number | não | Em reais. |
+| `equipamentoIds` | lista de integer ou objeto | não |  |
+| `equipamentoIds[].(opção 1)` | integer | não |  |
+| `equipamentoIds[].(opção 2)` | objeto | não |  |
+| `equipamentoIds[].id` | integer | não |  |
+| `servicosRelacionados` | lista de integer ou objeto | não | Serviços que compõem este serviço: ID (quantidade 1) ou objeto com quantidade. |
+| `servicosRelacionados[].(opção 1)` | integer | não |  |
+| `servicosRelacionados[].(opção 2)` | objeto | não |  |
+| `servicosRelacionados[].servicoId` | integer | não |  |
+| `servicosRelacionados[].quantidade` | number | não | padrão `1` |
+| `servicoTaxa` | lista de objeto | não | Taxas vinculadas ao serviço. |
+| `servicoTaxa[].taxaId` | integer | não |  |
+| `servicoTaxa[].quantidade` | number | não | padrão `1` |
 | `habilitarAgendamentoOnline` | boolean | não | padrão `False` |
 | `apenasComColaboradorDesignado` | boolean | não | padrão `False` |
 

@@ -25,10 +25,13 @@ Uso:
 Forma REAL medida em produção (GET de 25/09/2026; testes em test_corpo_escrita.py):
 - `GET /servicos/{id}` traz os ids no primeiro nível (`tipoServicoId`, `tipoCodigoId`, `tipoGuiaId`,
   `tipoAtendimentoId`, `regimeDeAtendimentoId`, `tabelaANS87ID`), `codigoTUSS`, `tempoServico`,
-  `somarItens` e `valor`, mas **NÃO traz** a composição (`produtoIds`, `taxaServicoId`,
-  `valorTaxaServico`, `servicosRelacionados`, `equipamentoIds`), as especialidades
-  (`especialidadesId`) nem `preparo`. Esses vêm SEMPRE por `complementos`: do dicionário de IDs /
-  da foto da prova da criação (S08). Nunca "reenvie vazio".
+  `somarItens` e `valor`. **Desde 28/09/2026 (medido)** traz também `especialidadesId` e
+  `servicosRelacionados` (`[{servicoId, quantidade}]`, também em `composicao`). Continua **sem**
+  `produtoIds`, `servicoTaxa`, `equipamentoIds` e `preparo`: esses vêm SEMPRE por `complementos`
+  (dicionário de IDs / foto da prova da criação, S08). Nunca "reenvie vazio".
+- Escrita (Swagger de 28/09): `servicoTaxa` = `[{taxaId, quantidade}]` substitui
+  `taxaServicoId`/`valorTaxaServico`; `produtoIds`, `equipamentoIds` e `servicosRelacionados`
+  aceitam ID puro ou objeto (com `quantidade`); listas omitidas não quebram mais a rota.
 - `GET /produtos/{id}` traz `Fabricante`, `TipoProduto`, `UnidadeDeMedida` e `deposito` aninhados
   (convertidos para ids aqui) e `permitirEstoqueNegativo`; não traz princípio ativo, CD, tipo de
   código, tabela 87, última pesquisa, fornecedores nem anexos (→ `complementos`).
@@ -45,8 +48,8 @@ from typing import Any, Callable, Iterable
 CAMPOS_SERVICO = (
     "nome", "descricao", "codigo", "codigoTUSS", "valor", "tempoServico", "somarItems",
     "linkAuxiliar", "preparamentos", "preparo", "tipoServicoId", "tipoCodigoId", "tipoGuiaId",
-    "tabelaANS87ID", "regimeDeAtendimentoId", "tipoAtendimento", "taxaServicoId",
-    "valorTaxaServico", "especialidadesId", "produtoIds", "equipamentoIds",
+    "tabelaANS87ID", "regimeDeAtendimentoId", "tipoAtendimento", "servicoTaxa",
+    "especialidadesId", "produtoIds", "equipamentoIds",
     "servicosRelacionados", "habilitarAgendamentoOnline", "apenasComColaboradorDesignado",
 )
 OBRIGATORIOS_SERVICO = ("nome", "descricao")
@@ -153,6 +156,50 @@ def _lista_ids(chaves: Iterable[str], chave_id: str, aninhados: Iterable[str]) -
     return r
 
 
+def _lista_objetos(chaves: Iterable[str], chave_id: str, aninhados: Iterable[str],
+                   chaves_id_alternativas: Iterable[str] = ()) -> Callable[[dict], Any]:
+    """Lista de vínculos com QUANTIDADE ({<chave_id>, quantidade}); preserva a quantidade lida.
+
+    Desde 28/09/2026 a API externa aceita ID puro ou objeto em `servicosRelacionados` e
+    `servicoTaxa` — reduzir a ID perderia a quantidade (viraria 1)."""
+    alternativas = tuple(chaves_id_alternativas)
+
+    def r(d: dict) -> Any:
+        for n in chaves:
+            if n not in d:
+                continue
+            v = d[n]
+            if v is None:
+                return []
+            if isinstance(v, dict):  # formato antigo: um só vínculo (ex.: taxaServico: {id, ...})
+                v = [v]
+            if not isinstance(v, list):
+                raise CampoDeEscritaAusente("?", [], [f"'{n}' deveria ser lista: {type(v).__name__}"])
+            saida = []
+            for el in v:
+                if isinstance(el, (int, str)):
+                    saida.append({chave_id: el, "quantidade": 1})
+                    continue
+                if not isinstance(el, dict):
+                    raise CampoDeEscritaAusente("?", [], [f"item de '{n}' em formato inesperado: {el!r}"])
+                ident = next((el[k] for k in (chave_id, *alternativas) if k in el), None)
+                if ident is None:
+                    for a in aninhados:
+                        sub = el.get(a)
+                        if isinstance(sub, dict) and "id" in sub:
+                            ident = sub["id"]
+                            break
+                if ident is None and "id" in el and not [k for k in el if k != "id" and k.endswith("Id")]:
+                    ident = el["id"]  # o próprio objeto da entidade
+                if ident is None:
+                    raise CampoDeEscritaAusente(
+                        "?", [], [f"item de '{n}' sem '{chave_id}': chaves {sorted(el)}"])
+                saida.append({chave_id: ident, "quantidade": el.get("quantidade", 1)})
+            return saida
+        return _AUSENTE
+    return r
+
+
 def _anexos(d: dict) -> Any:
     if "anexos" not in d:
         return _AUSENTE
@@ -177,8 +224,8 @@ MAPA_SERVICO: dict[str, Callable[[dict], Any]] = {
     "tabelaANS87ID": _id_de("tabelaANS87ID", "tabelaANS87Id", "tabelaANS87", "TabelaANS87"),
     "regimeDeAtendimentoId": _id_de("regimeDeAtendimentoId", "regimeDeAtendimento", "RegimeDeAtendimento"),
     "tipoAtendimento": _id_de("tipoAtendimento", "tipoAtendimentoId", "TipoAtendimento"),
-    "taxaServicoId": _id_de("taxaServicoId", "taxaServico", "TaxaServico"),
-    "valorTaxaServico": _direto("valorTaxaServico"),
+    "servicoTaxa": _lista_objetos(("servicoTaxa", "TaxaServico", "taxaServico", "taxas"),
+                                  "taxaId", ("taxa", "Taxa")),
     "especialidadesId": _lista_ids(
         ("especialidadesId", "ServicoEspecialidade", "servicoEspecialidade", "especialidades"),
         "especialidadeId", ("especialidade", "Especialidade")),
@@ -188,9 +235,10 @@ MAPA_SERVICO: dict[str, Callable[[dict], Any]] = {
     "equipamentoIds": _lista_ids(
         ("equipamentoIds", "ServicoEquipamento", "servicoEquipamento", "equipamentos"),
         "equipamentoId", ("equipamento", "Equipamento")),
-    "servicosRelacionados": _lista_ids(
-        ("servicosRelacionados", "ServicoRelacionado", "servicoRelacionado"),
-        "servicoRelacionadoId", ("servicoRelacionado", "ServicoRelacionado", "servicoFilho")),
+    "servicosRelacionados": _lista_objetos(
+        ("servicosRelacionados", "ServicoRelacionado", "servicoRelacionado", "composicao"),
+        "servicoId", ("servicoRelacionado", "ServicoRelacionado", "servicoFilho"),
+        chaves_id_alternativas=("servicoRelacionadoId", "servicoFilhoId")),
     "habilitarAgendamentoOnline": _direto("habilitarAgendamentoOnline"),
     "apenasComColaboradorDesignado": _direto("apenasComColaboradorDesignado"),
 }

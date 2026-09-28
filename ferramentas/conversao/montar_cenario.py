@@ -100,23 +100,24 @@ def _nome_aninhado(d: dict, *nomes):
 def _composicao_do_get(s: dict) -> Optional[list]:
     """Composição a partir do GET do serviço (mesmos apelidos do conversor de escrita).
 
-    Devolve None se o GET não traz composição nenhuma. Quantidade: usa ``quantidade`` quando o
-    vínculo traz; senão 1.
+    Devolve None se o GET não traz a composição COMPLETA. Desde 28/09/2026 o GET traz
+    `servicosRelacionados`/`composicao` (subserviços), mas ainda não produtos nem taxas: sem
+    `produtoIds` (ou vínculo de produto) na leitura, a composição é tratada como ausente, para o
+    cenário pedir a composição do cadastro do repo em vez de esquecer os produtos.
     """
-    achou = False
+    if MAPA_SERVICO["produtoIds"](s) is _AUSENTE:
+        return None
     itens = []
-    for campo, tipo in (("produtoIds", "produto"), ("servicosRelacionados", "subservico"),
-                        ("equipamentoIds", "equipamento")):
+    for campo, tipo in (("produtoIds", "produto"), ("equipamentoIds", "equipamento")):
         v = MAPA_SERVICO[campo](s)
-        if v is _AUSENTE:
-            continue
-        achou = True
-        itens += [{"tipo": tipo, "id": int(i), "quantidade": 1} for i in v]
-    tx = MAPA_SERVICO["taxaServicoId"](s)
-    if tx is not _AUSENTE:
-        achou = True
-        if tx is not None:
-            itens.append({"tipo": "taxa", "id": int(tx), "quantidade": 1})
+        if v is not _AUSENTE:
+            itens += [{"tipo": tipo, "id": int(i), "quantidade": 1} for i in v]
+    for campo, tipo, chave in (("servicosRelacionados", "subservico", "servicoId"),
+                               ("servicoTaxa", "taxa", "taxaId")):
+        v = MAPA_SERVICO[campo](s)
+        if v is not _AUSENTE:
+            itens += [{"tipo": tipo, "id": int(el[chave]), "quantidade": float(el.get("quantidade", 1))}
+                      for el in v]
     # quantidade, quando o vínculo de produto a traz
     for chave in ("ServicoProduto", "servicoProduto", "produtos"):
         for el in s.get(chave) or []:
@@ -125,7 +126,7 @@ def _composicao_do_get(s: dict) -> Optional[list]:
                 for it in itens:
                     if it["tipo"] == "produto" and it["id"] == pid:
                         it["quantidade"] = float(el["quantidade"])
-    return itens if achou else None
+    return itens
 
 
 def montar_cenario(fotos: dict, politicas: list, *, convenio_id: int = 0, nome: str = "",

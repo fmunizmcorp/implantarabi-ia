@@ -145,3 +145,10 @@ def test_farol_produtos_real_supre_custo_fonte_e_confere_preco():
     fotos["farol_produtos"] = fp
     _, lac2 = mc.montar_cenario(fotos, pols, convenio_id=12)
     assert any(x.startswith("produto 103: previsão R$ 4.00 ≠ Farol R$ 9.99") for x in lac2)
+
+
+def test_get_de_28_09_so_com_subservicos_nao_vira_composicao_incompleta():
+    """Desde 28/09/2026 o GET traz servicosRelacionados, mas não produtos: não pode "esquecer" os produtos."""
+    s = {"id": 1, "nome": "X", "servicosRelacionados": [{"servicoId": 2, "quantidade": 1}],
+         "composicao": [{"servicoId": 2, "nome": "Y", "quantidade": 1}], "especialidadesId": []}
+    assert mc._composicao_do_get(s) is None

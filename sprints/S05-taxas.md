@@ -73,7 +73,7 @@ paga fica na aba Taxas do convênio (S10b) — **não** aqui.
 - Corpo mínimo: `{"taxas":"Taxa de sala","codigoTaxa":"TX-001","tipoTaxaId":<id>,"valor":45.00}`
   (valores fictícios).
 - `POST /taxas` responde **200** (não 201) ao criar — não é erro.
-- Guardar `taxaId` no dicionário: usado por `taxaServicoId` do serviço (S08), pela
+- Guardar `taxaId` no dicionário: usado por `servicoTaxa[].taxaId` do serviço (S08), pela
   tabela interna e pela aba Taxas do convênio.
 
 ## Prova

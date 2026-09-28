@@ -166,7 +166,7 @@ mas omitir (ou mandar `0`, `""`, `false`) em `categoriaPagamentoId`/`centroDeCus
 |---|---|
 | `PUT /servicos/{id}` | sobrescreve — omitido **não é preservado** (inclusive composição, especialidades, valor) |
 | `PUT /pacientes/{id}` | sobrescreve os dados cadastrais |
-| `PUT /convenios/{id}` | substitui: `empresaId` e `unidadesIds` obrigatórios (unidade fora da lista é desativada); omitir `operadoraId` **remove** a operadora; omitir `dataFim`/`dataReajuste`/`dataRenovacao` **limpa**; omitir `exigirToken` grava `false`; `politicasPorTipoProduto`, se enviado, é a lista completa. **O `GET /convenios/{id}` real (medido 25/09) traz mais que o Swagger** — datas (`dataInicio`, `dataFim`, `dataReajuste`, `dataRenovacao`), prazos (`prazoAutorizacao`, `prazoLimiteEntregaGuias`, `prazoPagamento`, `prazoPagamentoRecursoGlosa`, `prazoReajuste`, `prazoRecursoGlosa`, `prazoRetorno`), `exigirToken`, `faturadoPagamento`, `operadoraId`, contato, observação e ids de XML/kits: **use-o como base**. Mas **`unidadesIds`, `politicasPorTipoProduto` e `fatorK` NÃO vêm**: complete da régua contratual + dicionário de IDs do repo da clínica. E **confira os nomes de leitura × escrita** no schema `ConvenioUpdate` antes de reenviar: a leitura traz `empresaPrincipalId` (a escrita pede `empresaId`) e `kitDocumentosId`/`limiteParcelasConvenios` (a escrita tem `kitDocumentosPadrao`/`limiteParcelasConvenioParticular` — correspondência provável, **não confirmada**); `id`, `ativo`, `createdAt`, `updatedAt`, `markup`, `perfilFiscalId`, `kitDeProdutosId`, `photoConvenio` não entram no corpo. Confira na tela antes e depois |
+| `PUT /convenios/{id}` | substitui: `empresaId` e `unidadesIds` obrigatórios (unidade fora da lista é desativada); omitir `operadoraId` **remove** a operadora; omitir `dataFim`/`dataReajuste`/`dataRenovacao` **limpa**; omitir `exigirToken` grava `false`; `politicasPorTipoProduto`, se enviado, é a lista completa. **O `GET /convenios/{id}` real (medido 25/09) traz mais que o Swagger** — datas (`dataInicio`, `dataFim`, `dataReajuste`, `dataRenovacao`), prazos (`prazoAutorizacao`, `prazoLimiteEntregaGuias`, `prazoPagamento`, `prazoPagamentoRecursoGlosa`, `prazoReajuste`, `prazoRecursoGlosa`, `prazoRetorno`), `exigirToken`, `faturadoPagamento`, `operadoraId`, contato, observação e ids de XML/kits: **use-o como base**. Desde **28/09** o GET traz também `unidadesIds` e `politicasPorTipoProduto` (em 25/09 não trazia; `fatorK` segue fora): **confira-os contra a régua contratual + dicionário de IDs** antes de reenviar — lista vazia no PUT desativa unidades/apaga políticas. E **confira os nomes de leitura × escrita** no schema `ConvenioUpdate` antes de reenviar: a leitura traz `empresaPrincipalId` (a escrita pede `empresaId`) e `kitDocumentosId`/`limiteParcelasConvenios` (a escrita tem `kitDocumentosPadrao`/`limiteParcelasConvenioParticular` — correspondência provável, **não confirmada**); `id`, `ativo`, `createdAt`, `updatedAt`, `markup`, `perfilFiscalId`, `kitDeProdutosId`, `photoConvenio` não entram no corpo. Confira na tela antes e depois |
 | `PUT /empresas/{id}` | substitui o cadastro inteiro |
 | `PUT /operadoras/{id}` | as listas `plano` e `contato` são sincronizadas: o que não vier é **removido** |
 | `POST /atendimentos/prontuario` | sobrescreve o texto sem guardar versão anterior |
@@ -254,6 +254,28 @@ especialidade de um serviço. Por isso o ritual sempre tem foto antes e depois.
 | 503 | `"Não foi possível validar a chave de API."` = **chave não aceita** (inexistente, revogada ou não ativada) — medido em 25/09/2026 duas vezes, em produção **e** homologação; o 401 do Swagger ainda não vale para isso | uma vez | depois parar e tratar como problema de chave (pedir ativação/renovação ao time Rabi) |
 
 Corpo de erro: `{ "error": "mensagem" }`.
+
+## 7b. Mudanças de 28/09/2026 (correção geral da API externa, em produção às 17:43 de Brasília)
+Fonte: commit `c73e84de` do rabi-api ("campos opcionais omitidos pela API externa quebravam ou
+gravavam dados errados"), no `deploy_prd` de 28/09 20:43 UTC, + Swagger de 28/09 (snapshot
+`spec/openapi-2026-09-28.json`, 269 operações).
+- **Campo opcional omitido não derruba mais a rota** (antes: 500 `TypeError` ou 400 genérico) em
+  serviço, produto, taxa, equipamento, colaborador (e login), grades, convênio, empresa, local,
+  depósito, operadora, parâmetros, paciente, agendamento, orçamento, atendimento,
+  pré-faturamento, fornecedor e fabricante. Continue mandando o corpo completo (ritual).
+- **Serviço:** `produtoIds`, `equipamentoIds` e `servicosRelacionados` aceitam **ID puro ou objeto**
+  (`{id, quantidade, valorUnitario}` · `{id}` · `{servicoId, quantidade}`); taxas vão em
+  **`servicoTaxa: [{taxaId, quantidade}]`** (saíram `taxaServicoId`/`valorTaxaServico`).
+- **Estoque:** saída e transferência exigem **`lote`** (mande `null` para produto sem lote); antes, sem
+  lote, o Rabi usava um lote qualquer.
+- **Leituras mais completas:** `GET /servicos/{id}` traz `especialidadesId` e subserviços;
+  `GET /convenios/{id}` traz `unidadesIds` e `politicasPorTipoProduto` (confira contra a régua).
+- **Farol:** o Swagger agora descreve os campos reais; rota nova
+  `GET /convenios/{id}/farol/itens/{servicoRaizId}` (árvore de **um** serviço, sem paginação).
+- **401 só é chave:** o Rabi parou de transformar em 401 qualquer erro com a palavra "token"
+  (ex.: token obrigatório do convênio).
+- **Gravações que antes saíam erradas sem aviso — confira o que foi gravado ANTES dessa hora:**
+  ver [FAQ F006](../faq-ias/F006-conferir-gravacoes-anteriores-a-28-09.md).
 
 ## 8. Idempotência
 

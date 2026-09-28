@@ -21,7 +21,7 @@ A API recusa com código de erro quando a ordem é violada (a tela só "não mos
    depósito padrão de saída selecionado está inativo ou não existe").
 2. Serviço de medicamento aponta para o produto (`produtoIds`) → **produtos antes dos
    serviços** (senão a composição não tem para onde apontar e consertar exige PUT completo).
-3. Abas Taxas/Serviços do convênio, tabela interna e `taxaServicoId` do serviço exigem as
+3. Abas Taxas/Serviços do convênio, tabela interna e `servicoTaxa` do serviço exigem as
    taxas → **taxas antes de produtos, serviços e convênios** (senão 207 com ERRO "taxa
    inexistente").
 

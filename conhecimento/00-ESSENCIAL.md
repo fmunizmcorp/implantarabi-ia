@@ -1,7 +1,7 @@
 # 00-ESSENCIAL — o mínimo que toda sessão sabe de cor
 
 > **Fonte:** manual oficial https://www.rabisistemas.com.br/manual/ (v2.3, 25/09/2026) + Swagger https://api.rabisistemas.com.br/external-docs/ + experiência de implantação real · **Conferido em:** 2026-09-25
-> **Vale para:** produção em 25/09/2026 · **Kit:** v0.3.0
+> **Vale para:** produção em 25/09/2026 · **Kit:** v0.3.2
 >
 > Este arquivo é importado no boot. Todo o resto é lido **sob demanda pelo índice** (`INDICE.md`).
 
@@ -83,7 +83,7 @@ Referência completa: `conhecimento/api-externa/00-INDICE.md`.
 - Envelope padrão `{dados, page, pageSize, total, totalPages}` em todas as listagens (as exceções antigas foram corrigidas em produção em 25/09; o cliente ainda aceita os formatos antigos).
 
 **Escrita**
-- **PUT sobrescreve** o registro inteiro. Exceções: as abas do convênio e `/parametros/desconto`. `/parametros/financeiro` é misto: sempre reenvie `categoriaPagamentoId` e `centroDeCustoId`. Regra prática: GET antes e reenvie o objeto completo — em serviço/produto convertido por `ferramentas/rabi_api/corpo_escrita.py` (a leitura tem outros nomes); nos dados do convênio o GET real serve de base, mas `unidadesIds` e `politicasPorTipoProduto` **não vêm** (complete da régua + dicionário de IDs e confira os nomes de leitura × escrita). O GET de serviço **não traz** composição nem especialidades.
+- **PUT sobrescreve** o registro inteiro. Exceções: as abas do convênio e `/parametros/desconto`. `/parametros/financeiro` é misto: sempre reenvie `categoriaPagamentoId` e `centroDeCustoId`. Regra prática: GET antes e reenvie o objeto completo — em serviço/produto convertido por `ferramentas/rabi_api/corpo_escrita.py` (a leitura tem outros nomes); nos dados do convênio o GET real serve de base; desde 28/09 ele traz `unidadesIds` e `politicasPorTipoProduto`, mas **confira contra a régua + dicionário de IDs** antes de reenviar (lista vazia no PUT desativa unidades/apaga políticas) e confira os nomes de leitura × escrita. O GET de serviço traz desde 28/09 `especialidadesId` e os subserviços (`servicosRelacionados`/`composicao`), mas **não** produtos, taxas (`servicoTaxa`) nem equipamentos — esses vêm do cadastro do repo.
 - `DELETE` é inativação lógica.
 
 **Lotes**
