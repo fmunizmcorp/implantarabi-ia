@@ -25,7 +25,7 @@ Python 3 só com biblioteca padrão. Todos devolvem código 0 (pass) ou 1 (fail)
 | `sincronizar_claude_modelo.py` | copia `.claude/{agents,skills,commands}` do kit para o modelo, reescrevendo caminhos para `.kit/` (`--checar` para a CI) | depois de alterar agente, skill ou comando do kit |
 | `verificar_tamanhos.py` | `.md` ≤ 40 KB, demais ≤ 5 MB, toda pasta com `.md`/dados tem `00-INDICE.md` ou `README.md` | antes de todo commit do kit (CI) |
 | `verificar_links.py` | links relativos dos `.md` existem (ignora http, âncoras, placeholders e `.kit/`) | antes de todo commit do kit (CI) |
-| `verificar_vazamento.py` | chave `rbk_`, CPF real, nome de clínica real, `senha:` com valor (fora do modelo) | antes de todo commit do kit (CI) |
+| `verificar_vazamento.py` | token `rbt_` / chave `rbk_`, CPF real, nome de clínica real, `senha:` com valor (fora do modelo) | antes de todo commit do kit (CI) |
 | `gerar_sprints_modelo.py` | copia o "Checklist de itens" de cada playbook `sprints/Sxx-*.md` para `modelo-repo-clinica/sprints/Sxx.md` (fonte única); `--checar` na CI | depois de editar qualquer playbook |
 | `_comum.py` | utilidades compartilhadas pelos verificadores | — |
 | `tests/` | testes pytest (`python3 -m pytest ferramentas/kit -q`) | CI |

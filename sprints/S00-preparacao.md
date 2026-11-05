@@ -1,7 +1,7 @@
 # S00 — Preparação
 
 > **Fonte:** https://www.rabisistemas.com.br/manual/api-externa/implantacao-via-api.html#passo-0 · https://www.rabisistemas.com.br/manual/implantacao/guia-implantacao.html#inicio-rapido · spec `conhecimento/api-externa/spec/openapi-2026-09-25.json` · **Conferido em:** 2026-09-25
-> **Vale para:** produção (API externa, Swagger de 25/09/2026) · **Kit:** v0.1.0
+> **Vale para:** produção (API externa, Swagger de 25/09/2026) · **Kit:** v0.3.3
 
 ## Objetivo
 
@@ -31,8 +31,9 @@ indispensáveis **CL-1** e **CL-3**.
 
 | dado | campo API | obrigatório? | onde costuma estar no material do cliente | padrão sugerível | pergunta ao usuário se faltar |
 |---|---|---|---|---|---|
-| Chave da API da clínica | cabeçalho `Authorization: Bearer rbk_…` | sim | portal comercial do Rabi (mostrada uma única vez) | — | "Você já gerou a chave de integração do Rabi para a clínica? Ela começa com rbk_. Guarde no segredo do ambiente com o nome RABI_API_KEY." |
-| Validade da chave | cabeçalho `X-ApiKey-Expires-At` | sim (registrar) | vem na 1ª resposta da API | — | (a IA lê sozinha) |
+| Token da API da clínica — **`rbt_` (recomendado)** | cabeçalho `Authorization: Bearer rbt_…` | sim (este **ou** o `rbk_`) | gerado pela própria clínica no Rabi: **Configurações › Parâmetros › Integrações**, tipo **"Implantação e manutenção"** | só as permissões da implantação (kit mínimo em `conhecimento/api-externa/chave-e-token.md` §6) | "Você já gerou no Rabi o token de integração do tipo 'Implantação e manutenção'? Fica em Configurações › Parâmetros › Integrações e começa com rbt_. Marque só as permissões da implantação. Guarde no segredo do ambiente com o nome RABI_API_KEY — não cole aqui no chat." |
+| Chave do time Rabi — **`rbk_` (alternativa)** | cabeçalho `Authorization: Bearer rbk_…` | só se não usar o `rbt_` | pedida ao time Rabi (mostrada uma única vez) | — | "Se preferir, a chave pode vir do time Rabi; ela começa com rbk_ e vai no mesmo segredo RABI_API_KEY." |
+| Validade do token/chave | cabeçalho `X-ApiKey-Expires-At` | sim (registrar) | vem na 1ª resposta da API; no `rbt_`, também na tela do token | — | (a IA lê sozinha; para estender, o `rbt_` é renovado pela clínica no botão **Renovar**; o `rbk_`, pelo time Rabi) |
 | Ambiente (produção ou homologação) | base `https://api.rabisistemas.com.br/api/v1/integrations` ou `https://api.hmg.rabisistemas.dev/api/v1/integrations` | sim | quem gerou a chave sabe | produção só com autorização | "Esta chave é do ambiente de teste ou do sistema de verdade da clínica?" |
 | Repo da clínica é privado? | — | sim | GitHub da clínica | privado | "Seu repositório no GitHub está como privado? Ele vai guardar senhas." |
 | Porte da clínica | — | sim | CL-3, PE-1, CV-1 | o menor dos dois em dúvida | "Quantos profissionais atendem e em quantos endereços?" |
@@ -44,13 +45,13 @@ indispensáveis **CL-1** e **CL-3**.
 
 1. Modo da sessão (Implantação / Atualização / Convênio / Diagnóstico) — ver
    [modos de sessão](../metodologia/modos-de-sessao.md).
-2. Chave (se não estiver no segredo do ambiente) e ambiente.
+2. Token — **primeiro o `rbt_` "Implantação e manutenção"** gerado pela clínica (onde gerar, só as permissões da implantação, validade e botão Renovar); o `rbk_` do time Rabi só como alternativa — se não estiver no segredo do ambiente; e o ambiente.
 3. Quem aprova (papéis).
 4. Porte (confirmar o que a IA deduziu dos documentos).
 5. **Enviar o pedido único de documentos** (uma mensagem só).
 6. Data desejada de go-live.
 
-Confirmar: o que a IA já deduziu (porte, papéis). Pedir: a chave e a autorização
+Confirmar: o que a IA já deduziu (porte, papéis). Pedir: o token (`rbt_` recomendado, ou `rbk_`) e a autorização
 de ambiente. Nunca perguntar o que a API responde sozinha.
 
 ## Enriquecimento possível
@@ -101,10 +102,12 @@ chave em si preferencialmente no segredo `RABI_API_KEY`), `ESTADO.md`,
 **Teste da chave:** `GET /empresas` → 200; ler `X-ApiKey-Expires-At`; testar a
 leitura das 25 áreas (ferramenta do kit `ferramentas/rabi_api/testar_chave.py`)
 e registrar quais áreas a chave alcança. 403 numa área = a chave não tem aquela
-permissão: anotar e pedir ao time Rabi uma chave com o kit de implantação.
-401/503 = problema com a chave: parar, sem repetir em laço. Se a chave vence
-antes do fim previsto da implantação, pedir a nova **agora** (não há renovação
-automática nem autoatendimento).
+permissão: anotar e, no `rbt_`, pedir ao dono que **edite o token** no Rabi e marque a
+permissão que falta (no `rbk_`, pedir ao time Rabi uma chave com o kit de implantação).
+401/503 = problema com a chave: parar, sem repetir em laço. Se o token vence
+antes do fim previsto da implantação, resolver **agora**: no `rbt_` o dono usa o
+botão **Renovar** em Configurações › Parâmetros › Integrações; no `rbk_` não há
+autoatendimento — pedir a nova ao time Rabi.
 
 **IDs que só existem na tela** (não há rota de listagem na API externa) — anotar
 no dicionário de IDs (`dados/dicionario-de-ids.md` do repo da clínica: nome ↔ ID de tudo que é criado ou reaproveitado, iniciado nesta sprint com os auxiliares) quando a sprint precisar: especialidades (catálogo),
@@ -128,8 +131,8 @@ de contrato, tipos de anexo, perfis de permissão, fontes de preço de compra.
   `totalPages`.
 - Leitura com 200 e corpo vazio = leitura falhada.
 - Tratar 503 como instabilidade e repetir em laço.
-- Chave com permissões demais usada na integração contínua depois: no go-live, a
-  chave de implantação é revogada ou reduzida (S16).
+- Chave com permissões demais usada na integração contínua depois: no go-live, o
+  token `rbt_` de implantação (ou a chave `rbk_`) é revogado ou reduzido (S16).
 
 ## Definition of Ready / Definition of Done
 

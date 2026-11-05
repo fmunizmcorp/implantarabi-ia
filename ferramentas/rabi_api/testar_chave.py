@@ -11,7 +11,7 @@ Uso (a partir da raiz do repo da clínica ou do kit):
 Leitura do resultado:
     OK            a chave lê esta área (a coluna "total" mostra quantos registros existem)
     OK (validação) a rota respondeu erro de validação (400/404/422) → a permissão existe
-    SEM PERMISSÃO 403 → falta a permissão indicada; peça ao time Rabi
+    SEM PERMISSÃO 403 → falta a permissão indicada; rbt_: o dono edita o token; rbk_: peça ao time Rabi
     CHAVE         401/503 → problema com a chave; o teste para na hora (sem repetir)
     SEM CONEXÃO   não chegou à API (rede/DNS/conexão recusada); o teste para na primeira área
 
@@ -117,8 +117,12 @@ def relatorio_md(res: dict) -> str:
            + (f" · **faltam {res['dias']} dias**" if res["dias"] is not None else ""),
            f"- **Áreas alcançadas:** {ok} de {len(SONDAS)}", ""]
     if res["dias"] is not None and res["dias"] < 15:
-        out += [f"> ⚠️ **A chave vence em {res['dias']} dias.** Peça a chave nova ao time Rabi agora "
-                "(não há renovação automática nem autoatendimento).", ""]
+        if str(res["chave"]).startswith("rbt_"):
+            out += [f"> ⚠️ **O token vence em {res['dias']} dias.** Renove agora: no Rabi, Configurações › "
+                    "Parâmetros › Integrações → token 'Implantação e manutenção' → **Renovar**.", ""]
+        else:
+            out += [f"> ⚠️ **A chave vence em {res['dias']} dias.** Peça a chave nova ao time Rabi agora "
+                    "(a chave rbk_ não tem renovação automática nem autoatendimento).", ""]
     if res["parou"] == "conexão":
         out += [f"> ⛔ **O teste parou: sem conexão com a API** ({res['base']}). Não é problema de chave. "
                 "Confira a internet do ambiente, o endereço (RABI_API_BASE) e se a API está no ar; "
@@ -126,7 +130,7 @@ def relatorio_md(res: dict) -> str:
     elif res["parou"]:
         out += [f"> ⛔ **O teste parou com {res['parou']}:** a API não aceitou a chave. Não repita em loop. "
                 "Confira a chave (ver .kit/conhecimento/api-externa/chave-e-token.md no repo da clínica) e, se estiver certa, "
-                "avise o time Rabi.", ""]
+                "renove o token rbt_ em Configurações › Parâmetros › Integrações ou, na chave rbk_, avise o time Rabi.", ""]
     out += ["| Área | Rota testada | Permissão | Resultado | Total | HTTP |", "|---|---|---|---|---|---|"]
     for g, r, p, s, t, h in res["linhas"]:
         out.append(f"| {g} | `{r}` | `{p}` | {s} | {t} | {h} |")

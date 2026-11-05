@@ -34,6 +34,7 @@ Legenda: ✅ em produção · 🔵 concluído no desenvolvimento, chegando · �
 | Item | Desde |
 |---|---|
 | 268 operações / 191 caminhos / 25 grupos; chave `Bearer rbk_…` | 23–24/09/2026 |
+| Token `rbt_` da clínica (Configurações › Parâmetros › Integrações, tipo "Implantação e manutenção", editável, botão Renovar) — caminho recomendado do kit desde 30/09/2026; `rbk_` segue valendo | 30/09/2026 |
 | Correções do QA externo rodadas 1 a 3 (listas no envelope padrão, paginação real, `GET /agendamentos` exige data, filtro `servicoAtivo` no Farol, cabeçalho `X-ApiKey-Expires-At`, chave inválida → 401) | 24–25/09/2026 |
 | Criação de login do colaborador: `POST /colaboradores/{id}/usuario` | 24/09/2026 |
 
@@ -65,8 +66,7 @@ Legenda: ✅ em produção · 🔵 concluído no desenvolvimento, chegando · �
 
 ## 3. Aberto na Sprint 11 (segue para a próxima, sem data prometida)
 
-Expandir serviço (#625, finalização) · Tokens de integração self-service em
-Configurações (#624 — hoje a chave vem do portal comercial) · DRE gerencial
+Expandir serviço (#625, finalização) · DRE gerencial
 (#617) · Revisão de telas (#605) · Pagamento parcial obrigatório (#604) · MFA e
 bloqueio de conta (#602) · Validação de tenant TalkMe (#597) · Filtros padrão
 (#396) · Assinatura digital — finalização (#394) · **Pré-solicitação de

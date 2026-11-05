@@ -7,7 +7,7 @@
 
 A **API externa** do Sistema Rabi é uma API REST (padrão OpenAPI 3.0, versão 1.0.0).
 Ela deixa um sistema de fora — ou uma IA, como você — **cadastrar e consultar a
-clínica inteira usando uma chave** (`rbk_...`), sem abrir a tela e sem login de pessoa.
+clínica inteira usando um token** (`rbt_...`, gerado pela própria clínica — recomendado — ou a chave `rbk_...` do time Rabi), sem abrir a tela e sem login de pessoa.
 
 - Passa pelas **mesmas validações da tela**: o que a tela recusa, a API também recusa,
   com um código de erro que diz o motivo.
@@ -70,7 +70,7 @@ Conferência feita por script em 25/09/2026: soma = 268 operações, 191 caminho
 
 | Caminho | O que é | Use quando | Não use quando |
 |---|---|---|---|
-| **API externa** (esta) | chave `rbk_` da clínica, rotas documentadas no Swagger | **sempre que a rota existir** — é o caminho principal do kit | a rota não existe ou tem defeito conhecido ([defeitos-conhecidos.md](defeitos-conhecidos.md)) |
+| **API externa** (esta) | token `rbt_` da clínica (recomendado) ou chave `rbk_`, rotas documentadas no Swagger | **sempre que a rota existir** — é o caminho principal do kit | a rota não existe ou tem defeito conhecido ([defeitos-conhecidos.md](defeitos-conhecidos.md)) |
 | **Tela** do sistema (`https://app.rabisistemas.com.br/portal/...`) | uma pessoa (ou você guiando a pessoa) clica | o que a API não cobre: tipos auxiliares, especialidades, perfis de permissão, documentos e impressão, contas/caixas, categorias, centros de custo… | quando a API cobre (a tela é lenta e sem prova automática) |
 | **API interna** (a que a tela usa) | token de login de pessoa, curto | **só como último recurso**, com aprovação escrita, para o que nem a API externa nem uma pessoa na tela resolvem | como caminho normal — não é contrato público, muda sem aviso |
 
@@ -95,12 +95,13 @@ Ferramentas: [../../ferramentas/rabi_api/README.md](../../ferramentas/rabi_api/R
 | Data | Mudança | Efeito prático |
 |---|---|---|
 | 24/09/2026 (tarde) | API passa de 29 operações em 3 áreas para 268 em 25 | a implantação quase inteira passa a ser pela API externa |
-| 24/09/2026 | autenticação é `Authorization: Bearer rbk_...` | o cabeçalho antigo `X-API-Key` responde 401 |
+| 24/09/2026 | autenticação é `Authorization: Bearer rbk_...` (desde 30/09/2026 o kit recomenda o `rbt_`, mesmo cabeçalho) | o cabeçalho antigo `X-API-Key` responde 401 |
 | 24/09/2026 (noite) | nova rota `POST /colaboradores/{id}/usuario` | o login do colaborador é criado pela API externa |
 | 24/09/2026 | `equipamento:read` passou a existir na chave | grupo Equipamentos legível |
 | 25/09/2026 | envelope único nas listagens; `GET /agendamentos` exige `data`; grades paginadas | ver [convencoes.md](convencoes.md) |
 | 25/09/2026 | cabeçalho `X-ApiKey-Expires-At` em toda resposta de sucesso | monitorar a validade — ver [chave-e-token.md](chave-e-token.md) |
 | 25/09/2026 | documentação: chave rejeitada responde **401**; 503 fica para falha de rede | **medido em 25/09/2026 03:07: chave inexistente ainda responde 503.** Trate 401 e 503 como problema de chave, sem repetir em loop |
 
-Roadmap (não prometer): geração de chave self-service dentro do sistema (issue #624,
-sem data).
+Geração do token pela própria clínica: **disponível** — token `rbt_` em Configurações ›
+Parâmetros › Integrações, tipo "Implantação e manutenção" (caminho recomendado do kit desde
+30/09/2026; ver [chave-e-token.md](chave-e-token.md)).

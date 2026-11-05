@@ -6,4 +6,4 @@
 |---|---|
 | [00-LEIA-ME.md](00-LEIA-ME.md) | regras: texto claro, nunca mascarar, nunca em issue/prova |
 | [CREDENCIAIS.md](CREDENCIAIS.md) | credenciais por serviço e ambiente (Rabi web, usuários criados, GitHub, outros) |
-| [rabi-api-externa.md](rabi-api-externa.md) | chave `rbk_` da API externa, validade, permissões testadas, histórico |
+| [rabi-api-externa.md](rabi-api-externa.md) | token `rbt_` (recomendado) ou chave `rbk_` da API externa, validade, permissões testadas, histórico |

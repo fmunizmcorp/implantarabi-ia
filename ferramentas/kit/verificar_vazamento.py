@@ -2,7 +2,8 @@
 """Procura vazamento de segredo ou de dado real no kit (metodologia/politicas.md §3).
 
 Padrões:
-- chave da API: rbk_ seguido de 8+ caracteres alfanuméricos;
+- chave/token da API: rbt_ (token da clínica) ou rbk_ (chave do time Rabi) seguido de
+  8+ caracteres alfanuméricos;
 - CPF formatado (000.000.000-00), exceto CPFs de teste conhecidos;
 - o nome da clínica de origem da experiência (proibido no kit);
 - `senha: <valor>` com cara de senha real, fora de modelo-repo-clinica/.
@@ -24,7 +25,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _comum import RAIZ_KIT, arquivos, rel  # noqa: E402
 
-CHAVE = re.compile(r"rbk_[A-Za-z0-9]{8,}")
+CHAVE = re.compile(r"(?:rbt|rbk)_[A-Za-z0-9]{8,}")
 CPF = re.compile(r"(?<!\d)\d{3}\.\d{3}\.\d{3}-\d{2}(?!\d)")
 NOME_PROIBIDO = re.compile("clin" + "fec", re.IGNORECASE)  # montado para não casar consigo mesmo
 SENHA = re.compile(r"\bsenha\s*:\s*[`\"']?([^\s`\"'|]+)", re.IGNORECASE)
@@ -68,7 +69,7 @@ def verificar(raiz: Path) -> list[str]:
             if MARCADOR in linha:
                 continue
             for m in CHAVE.finditer(linha):
-                achados.append(f"{r}:{n} CHAVE rbk_ ({_mascara(m.group(0))})")
+                achados.append(f"{r}:{n} CHAVE {m.group(0)[:4]} ({_mascara(m.group(0))})")
             for m in CPF.finditer(linha):
                 if m.group(0) not in CPFS_TESTE:
                     achados.append(f"{r}:{n} CPF ({m.group(0)[:4]}…)")

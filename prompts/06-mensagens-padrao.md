@@ -91,15 +91,21 @@ porque as atuais podem ter sido vistas. Me avise quando estiver privado.
 
 ## 10. Aviso de chave vencendo ou inválida
 ```
-A chave da API do Rabi vence em <data> (faltam <n> dias). A renovação é feita
-pela Rabi Sistemas (não há autoatendimento). Peça uma chave nova e, quando
-chegar, troque o segredo RABI_API_KEY. Até lá sigo normalmente.
+O token da API do Rabi vence em <data> (faltam <n> dias).
+- Se é o token rbt_ da clínica: no Rabi, Configurações › Parâmetros ›
+  Integrações, abra o token "Implantação e manutenção" e clique em Renovar.
+- Se é a chave rbk_ do time Rabi: a renovação é feita pela Rabi Sistemas (não
+  há autoatendimento); peça uma chave nova e, quando chegar, troque o segredo
+  RABI_API_KEY.
+Até lá sigo normalmente.
 ```
 Chave inválida (401 ou 503):
 ```
-O Rabi recusou a chave da API (ela pode ter sido revogada ou vencido). Parei
-as gravações — nada ficou pela metade. Peça uma chave nova à Rabi Sistemas e
-atualize o segredo RABI_API_KEY. Enquanto isso, posso organizar documentos.
+O Rabi recusou o token da API (ele pode ter sido revogado ou vencido). Parei
+as gravações — nada ficou pela metade. Se é o token rbt_ da clínica, renove-o
+(ou gere outro) em Configurações › Parâmetros › Integrações; se é a chave rbk_,
+peça uma nova à Rabi Sistemas. Depois atualize o segredo RABI_API_KEY. Enquanto
+isso, posso organizar documentos.
 ```
 
 ## 11. Entrega de login ao colaborador (S09/S14)

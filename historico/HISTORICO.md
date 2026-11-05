@@ -26,3 +26,8 @@
 
 ## 2026-09-28 — v0.3.2 — correção geral da API externa pelo Rabi
 - Commit `c73e84de` (produção 17:43 BRT) corrigiu o 500 do cadastro de serviço (F001) e ~20 outros defeitos de campo omitido/gravação errada. Kit: F001 corrigida, F006 (conferência retroativa), defeitos e convenções atualizados, Swagger 28/09, `corpo_escrita.py` com `servicoTaxa` e quantidades.
+
+## 2026-11-05 — v0.3.3 — token `rbt_` da clínica como caminho recomendado
+- Decisão do Diretor (30/09/2026): o kit recomenda o token `rbt_` gerado pela clínica (Configurações › Parâmetros › Integrações, tipo "Implantação e manutenção"; editável; botão Renovar); `rbk_` do time Rabi segue como alternativa.
+- `cliente.py` aceita os dois prefixos; detector de vazamento e filtro de aprendizado passaram a pegar `rbt_` (fecha o furo de segurança); testes novos; docs (S00, ESSENCIAL §6, chave-e-token, manual, prompts, modelo) atualizados.
+- Próximo passo: republicar o repo-modelo (`exportar_modelo.py`) e, na 1ª clínica, conferir com um `rbt_` real (`testar_chave.py`, só leitura) o cabeçalho `X-ApiKey-Expires-At` e as 25 áreas; registrar o resultado no chave-e-token.

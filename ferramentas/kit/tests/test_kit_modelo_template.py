@@ -183,3 +183,8 @@ def test_resumo_primeira_vez_e_retomada(tmp_path):
     assert "2099-01-01" in saida
     assert "RABI_API_KEY: definida" in saida
     assert "rbk_teste_ficticio" not in saida and "rbk_fic_arquivo" not in saida
+    # token rbt_ da clínica (recomendado) registrado só no arquivo, sem a variável no ambiente
+    (repo / "credenciais" / "rabi-api-externa.md").write_text("api_key: " + "rbt_" + "fic_arquivo\n", encoding="utf-8")
+    saida = _rodar_inicio(repo, RABI_API_KEY="")
+    assert "há chave registrada em credenciais/rabi-api-externa.md" in saida
+    assert "rbt_" + "fic_arquivo" not in saida

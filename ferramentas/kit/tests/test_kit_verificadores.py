@@ -105,6 +105,27 @@ def test_vazamento_rbk_curto_ou_placeholder_nao_acusa(tmp_path):
     assert vv.verificar(tmp_path) == []
 
 
+def test_vazamento_detecta_token_rbt(tmp_path):
+    token = "rbt_" + "Abcdef123456789"
+    escrever(tmp_path / "doc.md", f"token da clínica {token}\n")
+    achados = vv.verificar(tmp_path)
+    assert len(achados) == 1 and "CHAVE rbt_" in achados[0]
+    assert token not in " ".join(achados)  # nunca imprime o token inteiro
+
+
+def test_vazamento_ignora_rbt_nas_mesmas_excecoes(tmp_path):
+    escrever(tmp_path / "referencias" / "t.csv", "rbt_" + "Abcdef123456789\n")
+    escrever(tmp_path / "conhecimento" / "api-externa" / "spec" / "s.json", '{"x":"' + "rbt_" + 'Abcdef12345678"}')
+    escrever(tmp_path / "ok.md", "rbt_" + "Abcdef123456789  <!-- vazamento-ok: exemplo -->\n")
+    assert vv.verificar(tmp_path) == []
+
+
+def test_vazamento_rbt_curto_ou_placeholder_nao_acusa(tmp_path):
+    escrever(tmp_path / "doc.md", "Authorization: Bearer rbt_...\napi_key: " + "rbt_" + "COLE_O_TOKEN_AQUI\n"
+             + "token " + "rbt_" + "Abc1234\n")  # 7 caracteres: curto demais para ser token
+    assert vv.verificar(tmp_path) == []
+
+
 # ---------- sincronização .claude → modelo ----------
 def test_reescrever_caminhos_do_kit():
     t = "Leia `conhecimento/x.md`, rode `python3 ferramentas/conversao/motor.py`, playbook `sprints/S10-convenios.md` e `sprints/S10b-convenio-abas-e-precos.md`."

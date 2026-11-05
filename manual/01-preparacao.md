@@ -1,7 +1,7 @@
 # Parte A — Preparação (uma vez por clínica, ~15 minutos)
 
 > **Fonte:** este kit ([chave-e-token](../conhecimento/api-externa/chave-e-token.md)) + https://www.rabisistemas.com.br/manual/api-externa/index.html#permissoes + https://code.claude.com/docs/en/claude-code-on-the-web · **Conferido em:** 2026-09-25
-> **Vale para:** produção em 25/09/2026 · **Kit:** v0.1.2
+> **Vale para:** produção em 25/09/2026 · **Kit:** v0.3.3
 
 Faça os passos **na ordem**. Cada passo diz o que você vai ver na tela e o que
 fazer se não vir. As telas do GitHub e do Claude mudam de vez em quando: se um
@@ -11,7 +11,7 @@ Voltar ao [manual](../MANUAL-PASSO-A-PASSO.md).
 
 ---
 
-> 🔒 **Validade curta é proteção, não problema** (decisão do proprietário, 25/09/2026): a chave **deve** expirar, e pedir uma chave nova ao time Rabi é o **fluxo normal** da implantação. A sessão avisa com antecedência, pede a chave nova ao dono e segue — nunca trata o vencimento como falha nem tenta contornar a expiração.
+> 🔒 **Validade curta é proteção, não problema** (decisão do proprietário, 25/09/2026): o token **deve** expirar, e renová-lo é o **fluxo normal** da implantação — no `rbt_` (recomendado) a clínica clica em **Renovar** no Rabi; na `rbk_` (alternativa) pede-se uma chave nova ao time Rabi. A sessão avisa com antecedência, pede a chave nova ao dono e segue — nunca trata o vencimento como falha nem tenta contornar a expiração.
 
 ## A1 — Contas necessárias
 
@@ -31,18 +31,32 @@ implantação):
      repositório (ou para conectar o GitHub), está certo. Se aparecer um convite
      para assinar, o plano atual não inclui.
 
-## A2 — Pedir a chave da API do Rabi
+## A2 — Gerar o token da API no Rabi (`rbt_`, recomendado) ou pedir a chave ao time Rabi (`rbk_`)
 
-A **chave da API** é o código (começa com `rbk_`) que deixa a IA ler e gravar
-os cadastros **desta** clínica no Rabi. Quem gera é a **Rabi Sistemas**, pelo
-portal comercial (time Rabi). Não há autoatendimento.
+O **token da API** é o código que deixa a IA ler e gravar os cadastros
+**desta** clínica no Rabi. Há dois jeitos de ter um (a API e o uso são os
+mesmos; muda só quem gera):
 
-Peça ao time Rabi (pelo mesmo canal de contato comercial ou de suporte):
+**Caminho recomendado — token `rbt_` da própria clínica** (aprovado em 30/09/2026):
+
+1. Entre no Rabi da clínica com um usuário administrador.
+2. Vá em **Configurações › Parâmetros › Integrações**.
+3. Crie um token do tipo **"Implantação e manutenção"**.
+4. Marque **só as permissões da implantação** (lista abaixo).
+5. Copie o token (começa com `rbt_`) assim que ele aparecer e guarde-o num
+   gerenciador de senhas. Ele vai para o ambiente do Claude no passo A6.
+
+O token é **editável** (dá para acrescentar ou tirar permissões depois) e tem o
+botão **Renovar** para estender a validade — sem depender do time Rabi.
+
+**Alternativa — chave `rbk_` do time Rabi.** Se preferir (ou se a tela de
+Integrações não estiver disponível), peça ao time Rabi (pelo mesmo canal de
+contato comercial ou de suporte):
 
 > "Preciso de uma chave da API externa para a implantação da clínica
 > <Nome da Clínica>, com as permissões completas de implantação."
 
-**Permissões completas de implantação** (o time Rabi entende esta lista;
+**Permissões completas de implantação** (valem para os dois caminhos;
 cada item é `recurso:ação`):
 
 - `empresa:read/create/update` · `deposito:read/create` · `local:read/create` · `auxiliar:read`
@@ -54,22 +68,24 @@ cada item é `recurso:ação`):
 - Se for migrar histórico de atendimentos: `atendimento:read/create/update`.
 - Opcionais (saldo de estoque, financeiro, parâmetros): `estoque:read/create` ·
   `financeiro:read/create` · `parametro:read/update`.
-- **Não peça** (a IA não usa sem ordem escrita): nenhum `:delete`, nada de
+- **Não marque / não peça** (a IA não usa sem ordem escrita): nenhum `:delete`, nada de
   `nfse` de escrita, `agendamento:create`, `orcamento:create/update`,
   `faturamento:create/update`.
 
 Detalhe e explicação de cada permissão: [chave-e-token.md §6](../conhecimento/api-externa/chave-e-token.md).
 
 **Três avisos importantes:**
-- **A chave aparece uma vez só**, quando é criada. Guarde-a num lugar seguro
-  (gerenciador de senhas). Perdeu? Não há como recuperar: peça outra.
-- **Validade curta.** Uma chave de implantação medida em 25/09/2026 valia
-  **cerca de 7 dias**. Anote a data. Peça a renovação **alguns dias antes** de
-  vencer, não no dia. A IA mostra a validade no começo de toda sessão.
-- **Nunca mande a chave por e-mail, WhatsApp ou no chat do Claude.** Ela vai
+- **Copie na hora.** A chave `rbk_` aparece uma vez só, quando é criada
+  (perdeu? peça outra). Com o `rbt_`, copie assim que aparecer; se perder,
+  gere outro em Integrações. Guarde num gerenciador de senhas.
+- **Validade curta.** Uma chave `rbk_` de implantação medida em 25/09/2026 valia
+  **cerca de 7 dias**. Anote a data e renove **alguns dias antes** de vencer,
+  não no dia: no `rbt_`, botão **Renovar**; na `rbk_`, pedido ao time Rabi. A
+  IA mostra a validade no começo de toda sessão.
+- **Nunca mande o token por e-mail, WhatsApp ou no chat do Claude.** Ele vai
   só no ambiente do Claude (passo A6).
 
-Enquanto a chave não chega, você pode seguir A3–A5 e até abrir a primeira
+Enquanto o token não está pronto, você pode seguir A3–A5 e até abrir a primeira
 sessão: a IA organiza os documentos e espera a chave para gravar.
 
 ## A3 — Criar o repositório da clínica pelo modelo
@@ -172,10 +188,11 @@ clínica**, para a chave de uma clínica nunca se misturar com a de outra.
    clínica, por exemplo `Rabi - Clínica Exemplo`. Se já existe, escolha-o e
    clique em **Edit**.
 4. **Chave da API:**
-   - Se a tela tiver a seção **"API credentials"**, cadastre a chave ali.
+   - Se a tela tiver a seção **"API credentials"**, cadastre o token ali.
    - Se não tiver, em **Environment variables** (variáveis de ambiente)
-     escreva uma linha exatamente assim, trocando pelo valor recebido do Rabi:
-     `RABI_API_KEY=rbk_...` (sem espaços, sem aspas).
+     escreva uma linha exatamente assim, trocando pelo seu token:
+     `RABI_API_KEY=rbt_...` (recomendado) ou `RABI_API_KEY=rbk_...` (alternativa)
+     — sem espaços, sem aspas.
 5. **Acesso à rede (Network access):** a IA precisa falar com o GitHub (para
    baixar o kit) e com a API do Rabi. Se a opção de rede for limitada a
    domínios confiáveis, **acrescente aos domínios permitidos**:
@@ -197,7 +214,7 @@ de ambiente).
 
 - [ ] Conta no GitHub (da clínica) criada e e-mail confirmado.
 - [ ] Claude com acesso a https://claude.ai/code.
-- [ ] Chave da API pedida ao time Rabi (com as permissões de implantação); data de validade anotada.
+- [ ] Token `rbt_` "Implantação e manutenção" gerado no Rabi (Configurações › Parâmetros › Integrações) com as permissões de implantação — ou chave `rbk_` pedida ao time Rabi; data de validade anotada.
 - [ ] Repositório `rabi-implantacao-<clínica>` criado pelo modelo e marcado **Private**.
 - [ ] *Settings → Actions → General → Workflow permissions* = **Read and write**.
 - [ ] GitHub conectado ao Claude e app Claude instalado no repositório.

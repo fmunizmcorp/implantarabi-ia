@@ -155,7 +155,7 @@ fi
 # 5) Chave da API (sem imprimir o valor)
 if [ -n "${RABI_API_KEY:-}" ]; then
   echo "Chave RABI_API_KEY: definida no ambiente (valor não exibido)."
-elif grep -qE '^api_key: *rbk_' credenciais/rabi-api-externa.md 2>/dev/null; then
+elif grep -qE '^api_key: *(rbt|rbk)_' credenciais/rabi-api-externa.md 2>/dev/null; then
   echo "Chave RABI_API_KEY: não está no ambiente; há chave registrada em credenciais/rabi-api-externa.md."
 else
   echo "Chave RABI_API_KEY: NÃO definida. Peça ao dono (modelo em .kit/prompts/01-abertura-sessao.md)."

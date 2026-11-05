@@ -83,9 +83,13 @@ Pergunta: qual desses modos vamos usar hoje?
 ## Se não houver chave
 
 ```
-Para eu ler e configurar o Rabi preciso da chave da API da clínica (começa com
-"rbk_"). Quem entrega é a Rabi Sistemas. Quando tiver, NÃO cole aqui no chat:
-coloque-a na variável RABI_API_KEY do ambiente desta clínica (menu do ambiente
+Para eu ler e configurar o Rabi preciso do token da API da clínica. O jeito
+recomendado: a própria clínica gera no Rabi, em Configurações › Parâmetros ›
+Integrações, um token do tipo "Implantação e manutenção" (começa com "rbt_"),
+marcando só as permissões da implantação (passo A2 de .kit/manual/01-preparacao.md);
+ele é editável e tem o botão Renovar. Se preferir, a Rabi Sistemas entrega uma
+chave "rbk_". Quando tiver, NÃO cole aqui no chat: coloque o token na variável
+RABI_API_KEY do ambiente desta clínica (menu do ambiente
 na barra de título → Edit; passo A6 de .kit/manual/01-preparacao.md) e abra
 uma sessão nova. Enquanto isso, posso organizar os documentos da clínica. Pode ser?
 ```

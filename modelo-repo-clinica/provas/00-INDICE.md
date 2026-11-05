@@ -24,7 +24,7 @@ Gerar com `python3 .kit/ferramentas/rabi_api/foto.py`.
 ## Regras
 - **Sem PII:** nada de nome, CPF, nascimento ou prontuário de paciente. Provas de
   pacientes (S13) guardam só IDs internos e contagens.
-- **Sem credencial:** nunca a chave `rbk_` nem senha em prova.
+- **Sem credencial:** nunca o token `rbt_`, a chave `rbk_` nem senha em prova.
 - Não relido depois = **NÃO CONFIRMADO** (escrito assim no log da sprint).
 - JSON grande: guarde o arquivo, mas mostre ao usuário só o resumo.
 

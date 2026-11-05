@@ -63,7 +63,7 @@ CAMPOS_CABECALHO = [("Tipo", "tipo"), ("Arquivo do kit afetado", "arquivo_kit"),
 # Filtro de privacidade
 # ---------------------------------------------------------------------------
 PADROES = [
-    ("chave da API", re.compile(r"rbk_[A-Za-z0-9_-]{3,}")),
+    ("chave da API", re.compile(r"(?:rbt|rbk)_[A-Za-z0-9_-]{3,}")),  # rbt_ = token da clínica; rbk_ = chave do time Rabi
     ("token do GitHub", re.compile(r"\b(?:gh[pousr]_[A-Za-z0-9]{10,}|github_pat_[A-Za-z0-9_]{10,})")),
     ("CPF", re.compile(r"(?<!\d)(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{11})(?!\d)")),
     ("CNPJ", re.compile(r"(?<!\d)(\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}|\d{14})(?!\d)")),

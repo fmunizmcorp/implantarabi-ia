@@ -47,7 +47,7 @@ antes × depois).
 | Montar perfis, grupos e atribuir ao usuário | Configurações → Colaboradores → editar → perfis | **Não** — a API externa não cobre perfis e permissões. Faça com o implantador na tela, a partir da matriz aprovada |
 | Alçadas de desconto | Configurações → Parâmetros (descontos) | Parâmetros de desconto têm rota própria (ver [../api-externa/00-INDICE.md](../api-externa/00-INDICE.md)) |
 
-A **chave da API** (`rbk_`) tem as **próprias** permissões (ex.:
+O **token da API** (`rbt_` recomendado, ou a chave `rbk_`) tem as **próprias** permissões (ex.:
 `convenio:read`, `servico:update`, `equipamento:read`…). Elas controlam o que a
 IA pode fazer pela API — **não** são as permissões dos usuários da clínica.
 

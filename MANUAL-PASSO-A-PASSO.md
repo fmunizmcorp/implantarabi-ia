@@ -1,7 +1,7 @@
 # Manual passo a passo — implantar o Sistema Rabi com a IA
 
 > **Fonte:** este kit + guia oficial https://www.rabisistemas.com.br/manual/implantacao/guia-implantacao.html + documentação do Claude Code na web https://code.claude.com/docs/en/claude-code-on-the-web · **Conferido em:** 2026-09-25
-> **Vale para:** produção em 25/09/2026 (repositório-modelo por "Use this template") · **Kit:** v0.3.0
+> **Vale para:** produção em 25/09/2026 (repositório-modelo por "Use this template") · **Kit:** v0.3.3
 >
 > 🌐 **Versão web (pública, no manual oficial do Rabi):** https://www.rabisistemas.com.br/manual/implantacao/implantacao-com-ia.html
 
@@ -45,7 +45,7 @@ clínica, para ver o progresso, e a conversa com o Claude).
   REPOSITÓRIO-MODELO (público)                                  ▼
   implantarabi-modelo-clinica  ── "Use this template" ──►  CLAUDE (IA) no Claude Code na web
   (o formulário em branco que vira o caderno)               conversa com você, uma pergunta por vez
-                                                               │ chave da API (rbk_…) da clínica
+                                                               │ token da API (rbt_… ou rbk_…)
                                                                ▼
                                                         SISTEMA RABI da clínica
                                                         (onde os cadastros ficam de verdade)
@@ -61,14 +61,16 @@ clínica, para ver o progresso, e a conversa com o Claude).
   aprovação para gravar.
 - **Sistema Rabi** — o sistema da clínica. A IA fala com ele pela **API
   externa** (um "canal oficial" de computador para computador), usando a
-  **chave da API** da clínica (um código que começa com `rbk_`).
+  **token da API** da clínica: de preferência o `rbt_`, que a própria clínica gera
+  no Rabi (Configurações › Parâmetros › Integrações, tipo "Implantação e
+  manutenção"); como alternativa, a chave `rbk_` emitida pelo time Rabi.
 
 ### Quem faz o quê
 
 | Papel | Quem é | O que faz |
 |---|---|---|
 | **Mantenedor** | equipe Rabi | cuida do kit e do repositório-modelo (Parte H) |
-| **Dono da clínica** | a clínica | tem as contas (GitHub, Claude), recebe a chave da API, decide regras de negócio |
+| **Dono da clínica** | a clínica | tem as contas (GitHub, Claude), gera o token `rbt_` da API (ou recebe a chave `rbk_`), decide regras de negócio |
 | **Implantador** | alguém da clínica, um parceiro ou a Rabi | abre as conversas, manda documentos, responde, aprova e confere |
 | **IA implantadora** | o Claude, na conversa | todo o trabalho técnico, sempre com prévia e aprovação |
 
@@ -78,9 +80,9 @@ O implantador faz **só três coisas**: (1) entrega documentos e informações;
 ## O caminho inteiro em 6 linhas
 
 1. Contas: GitHub e Claude com Claude Code na web (A1).
-2. Pedir a chave da API ao time Rabi (A2).
+2. Gerar o token `rbt_` no Rabi (recomendado) ou pedir a chave `rbk_` ao time Rabi (A2).
 3. Criar o repositório **privado** da clínica pelo modelo (A3) e liberar a gravação automática (A4).
-4. Ligar o GitHub ao Claude (A5) e criar o **ambiente da clínica** com a chave (A6).
+4. Ligar o GitHub ao Claude (A5) e criar o **ambiente da clínica** com o token (A6).
 5. Abrir uma sessão e escrever: `Vamos implantar <Nome da Clínica>` (Parte B).
 6. Nos outros dias: nova sessão, mesma frase (ou "continuar") (Parte C).
 

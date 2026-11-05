@@ -4,6 +4,8 @@
 > Organização: **serviço → ambiente**. Atualizado em: AAAA-MM-DD.
 
 ## 1. Rabi — API externa
+Token `rbt_` da clínica (recomendado; Configurações › Parâmetros › Integrações, tipo
+"Implantação e manutenção") ou chave `rbk_` do time Rabi (alternativa).
 Ver [rabi-api-externa.md](rabi-api-externa.md).
 
 ## 2. Rabi — acesso web

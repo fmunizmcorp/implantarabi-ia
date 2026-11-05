@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## v0.3.3 — 2026-11-05
+- Token **`rbt_`** da própria clínica passa a ser o caminho **recomendado** (aprovado pelo Diretor em 30/09/2026):
+  gerado no Rabi em Configurações › Parâmetros › Integrações, tipo "Implantação e manutenção", só com as
+  permissões da implantação, editável e com botão Renovar. A chave **`rbk_`** do time Rabi segue como alternativa
+  (mesmo cabeçalho `Authorization: Bearer`, mesma API externa).
+- `cliente.py` aceita `rbt_` e `rbk_` (variável `RABI_API_KEY` e linha `api_key:`), recusa outro prefixo com
+  mensagem citando os dois, e orienta 401/403/503 conforme o tipo (Renovar/editar o token × pedir ao time Rabi);
+  `testar_chave.py` avisa a validade conforme o tipo; hook de início do modelo reconhece `api_key: rbt_`.
+- Segurança: `verificar_vazamento.py` e `filtrar_aprendizado.py` passam a detectar `rbt_` (antes um token `rbt_`
+  vazaria), com as mesmas regras de tamanho e placeholder do `rbk_`. Testes novos para `rbt_`.
+- Documentação: S00 pergunta primeiro pelo `rbt_` "Implantação e manutenção"; ESSENCIAL §6, chave-e-token,
+  manual A2/A6, MANUAL-PASSO-A-PASSO, prompts 00/01/06, credenciais do modelo, glossário e demais pontos dizem
+  "`rbt_` (recomendado) ou `rbk_`".
+- Ação nas clínicas: aplicar a estrutura nova (`atualizar_repo_clinica.py --aplicar`, depois `--marcar-visto`) — traz o hook que reconhece `api_key: rbt_` e o modelo de `credenciais/rabi-api-externa.md` com o tipo de token.
+- Ação nas clínicas: na próxima renovação, ofereça ao dono trocar a `rbk_` pelo token `rbt_` "Implantação e manutenção" (só as permissões da implantação; atualizar `RABI_API_KEY`, a linha `api_key:` e o histórico de chaves; rodar `testar_chave.py`). Quem continuar com `rbk_` não precisa fazer nada.
+
 ## v0.3.2 — 2026-09-28
 - Correção geral da API externa pelo Rabi (commit `c73e84de`, produção 28/09 17:43 BRT) absorvida: FAQ F001
   **corrigida** (com a explicação técnica), nova **FAQ F006** (conferir gravações feitas antes dessa hora),

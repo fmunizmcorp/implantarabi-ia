@@ -1,24 +1,30 @@
-# Chave (`rbk_`), permissões, validade e configuração na clínica
+# Token (`rbt_` recomendado ou `rbk_`), permissões, validade e configuração na clínica
 
-> **Fonte:** https://www.rabisistemas.com.br/manual/api-externa/index.html#autenticacao · #permissoes · Swagger https://api.rabisistemas.com.br/external-docs/ (seção "Autenticação" e "Permissões", snapshot `spec/openapi-2026-09-25.json`) · **Conferido em:** 2026-09-25
-> **Vale para:** produção (Swagger de 25/09/2026) · **Kit:** v0.1.0
+> **Fonte:** https://www.rabisistemas.com.br/manual/api-externa/index.html#autenticacao · #permissoes · Swagger https://api.rabisistemas.com.br/external-docs/ (seção "Autenticação" e "Permissões", snapshot `spec/openapi-2026-09-25.json`) · **Conferido em:** 2026-09-25 (tipos de token: decisão de 30/09/2026)
+> **Vale para:** produção (Swagger de 25/09/2026) · **Kit:** v0.3.3
 
-> 🔒 **Validade curta é proteção, não problema** (decisão do proprietário, 25/09/2026): a chave **deve** expirar, e pedir uma chave nova ao time Rabi é o **fluxo normal** da implantação. A sessão avisa com antecedência, pede a chave nova ao dono e segue — nunca trata o vencimento como falha nem tenta contornar a expiração.
+> 🔒 **Validade curta é proteção, não problema** (decisão do proprietário, 25/09/2026): o token **deve** expirar, e renová-lo é o **fluxo normal** da implantação (no `rbt_`, a clínica clica em **Renovar**; na `rbk_`, chave nova pelo time Rabi). A sessão avisa com antecedência, pede a renovação ao dono e segue — nunca trata o vencimento como falha nem tenta contornar a expiração.
 
-## 1. De onde vem a chave
+## 1. De onde vem o token — `rbt_` (recomendado) ou `rbk_` (alternativa)
 
-- A chave é gerada **no portal comercial da Rabi**, **por clínica**. Na geração são
-  definidos: a **clínica** (a chave só enxerga os dados dela), as **permissões** e a
-  **validade**.
-- O token completo (`rbk_...`) aparece **uma única vez**, na criação. Perdeu? Não há como
-  recuperar: peça outra chave.
-- **Não existe renovação automática nem autoatendimento.** Chave nova é emitida pelo **time
-  Rabi**, pelo mesmo canal usado para gerar a atual. (Geração self-service dentro do
-  sistema é **roadmap** — issue #624, sem data.)
-- Toda chamada leva o cabeçalho `Authorization: Bearer rbk_...`. O cabeçalho antigo
-  `X-API-Key` **não funciona mais** (401).
+Desde **30/09/2026** (decisão do Diretor) o kit usa **dois tipos**, com a mesma API
+externa e o mesmo cabeçalho `Authorization: Bearer <token>`:
 
-Quem pede a chave é o **dono da clínica** (ver `metodologia/politicas.md`, papéis). A IA
+| | **`rbt_` — token da clínica (RECOMENDADO)** | **`rbk_` — chave do time Rabi (alternativa)** |
+|---|---|---|
+| Quem gera | a **própria clínica**, no Rabi: **Configurações › Parâmetros › Integrações**, tipo **"Implantação e manutenção"** | o **time Rabi**, no portal comercial |
+| Permissões | só as da implantação (kit mínimo da §6), marcadas pela clínica; **editável** depois | definidas na geração pelo time Rabi |
+| Validade | renovada pela clínica no botão **Renovar** da tela do token | sem renovação automática nem autoatendimento: chave nova pelo time Rabi |
+| Onde vai no kit | `RABI_API_KEY` e/ou linha `api_key: rbt_...` | `RABI_API_KEY` e/ou linha `api_key: rbk_...` |
+
+- O token só enxerga os dados **da clínica** a que pertence.
+- Copie o token assim que ele aparecer. A chave `rbk_` aparece **uma única vez**, na
+  criação (perdeu? peça outra). Com o `rbt_`, se perder, gere outro em Integrações.
+- Toda chamada leva o cabeçalho `Authorization: Bearer rbt_...` (ou `rbk_...`). O
+  cabeçalho antigo `X-API-Key` **não funciona mais** (401).
+- O `cliente.py` aceita os dois prefixos; qualquer outro é recusado com erro claro.
+
+Quem gera o `rbt_` (ou pede a `rbk_`) é o **dono da clínica** (ver `metodologia/politicas.md`, papéis). A IA
 nunca pede para o usuário colar a chave na conversa.
 
 ## 2. Configurar a chave na clínica (faça as duas coisas)
@@ -38,7 +44,7 @@ Passos simples para o dono da clínica (ou implantador):
 3. Se houver a seção **"API credentials"**, cadastre ali; se não houver, adicione
    uma **variável de ambiente**:
    - nome: `RABI_API_KEY`
-   - valor: a chave `rbk_...` recebida do time Rabi
+   - valor: o token `rbt_...` gerado pela clínica (recomendado) ou a chave `rbk_...` recebida do time Rabi
 4. (Opcional) para ensaiar em homologação, outra variável:
    `RABI_API_BASE=https://api.hmg.rabisistemas.dev/api/v1/integrations`.
 5. Salve e **abra uma sessão nova** — a variável passa a ser enxergada nas sessões
@@ -66,18 +72,18 @@ Arquivo `credenciais/rabi-api-externa.md` (modelo — valores fictícios):
 ```markdown
 # Chave da API externa do Rabi — Clínica Exemplo
 
-api_key: rbk_COLE_A_CHAVE_AQUI
+api_key: rbt_COLE_O_TOKEN_AQUI
 base: https://api.rabisistemas.com.br/api/v1/integrations
 ambiente: produção
 validade (X-ApiKey-Expires-At): 2026-12-31T23:59:59.000Z
 permissões testadas: 25/25 áreas OK em 2026-10-01 (provas/S00/teste-chave-2026-10-01.md)
 registrada em: 2026-10-01 · por: implantador (nome no PAPEIS.md)
 onde é usada: sessão Claude da clínica (segredo RABI_API_KEY) e ferramentas/rabi_api
-como trocar: pedir chave nova ao time Rabi; atualizar o segredo e esta linha; rodar testar_chave
+como trocar: rbt_ → Renovar (ou novo token) em Configurações › Parâmetros › Integrações; rbk_ → pedir ao time Rabi; atualizar o segredo e esta linha; rodar testar_chave
 ```
 
 Regras:
-- a linha **`api_key: rbk_...`** fica sozinha na linha, no começo — é ela que o
+- a linha **`api_key: rbt_...`** (ou `api_key: rbk_...`) fica sozinha na linha, no começo — é ela que o
   `cliente.py` procura (`grep -n "^api_key:" credenciais/rabi-api-externa.md`);
 - **quem escreve o arquivo**: a IA, lendo a variável `RABI_API_KEY` que já está no
   ambiente (sem a chave passar pela conversa), ou o implantador, editando o arquivo
@@ -93,21 +99,22 @@ Regras:
 - O `cliente.py` guarda o valor da última resposta (`cliente.validade`) e calcula
   `cliente.dias_restantes()`.
 - **Alerta 15 dias antes:** se faltarem menos de 15 dias, a IA avisa o dono da clínica
-  **no começo da sessão** e registra a pendência (`pendencias/PENDENCIAS.md`): "pedir chave
-  nova ao time Rabi". Sem chave nova, a integração para com 401 no dia do vencimento.
+  **no começo da sessão** e registra a pendência (`pendencias/PENDENCIAS.md`): "renovar o
+  token `rbt_` (botão Renovar)" ou, na `rbk_`, "pedir chave nova ao time Rabi". Sem chave nova, a integração para com 401 no dia do vencimento.
 - Antes de uma implantação longa: se a chave vence antes do fim previsto, peça a nova
   **antes de começar**.
 - **Validade medida: ~7 dias.** Numa leitura real em produção (25/09/2026), a chave de
   implantação vinha com `X-ApiKey-Expires-At` cerca de **7 dias depois da emissão**. Com
   prazo tão curto, o alerta de 15 dias dispara desde o primeiro dia: a IA mostra a data de
   vencimento **em toda abertura de sessão**, registra em `pendencias/PENDENCIAS.md` e pede
-  a renovação ao time Rabi (via dono da clínica) **alguns dias antes** — não no dia. Não
-  há autoatendimento para renovar. Chave vencida ou não renovada a tempo = 503/401 e a
+  a renovação ao dono **alguns dias antes** — não no dia. No `rbt_`, o dono renova sozinho
+  (botão **Renovar**); na `rbk_` não há autoatendimento: pedido ao time Rabi. Chave vencida ou não renovada a tempo = 503/401 e a
   implantação para.
 
 ## 4. Revogação
 
-- A chave é revogada no portal comercial (pelo time Rabi / dono da clínica).
+- O `rbt_` é revogado ou editado pela clínica em Configurações › Parâmetros › Integrações;
+  a `rbk_`, no portal comercial (pelo time Rabi / dono da clínica).
 - Depois de revogada, **pode continuar aceita por até 60 segundos**.
 - Ao terminar a implantação (S16/S17): revogar a chave de implantação ou reduzi-la às
   permissões da integração contínua (checklist do manual,
@@ -126,9 +133,9 @@ restantes, e grava um resumo Markdown **sem a chave**.
 
 | Resposta | O que significa | O que fazer |
 |---|---|---|
-| **401** | sem cabeçalho de autorização (`"Token não fornecido."`); pelo Swagger, também chave rejeitada | **não repetir**; conferir se a chave foi carregada; pedir nova ao time Rabi |
-| **403** | chave válida, mas **sem a permissão** da rota (a mensagem diz qual, ex.: `'paciente:read'`) | pedir chave com a permissão (tabela da seção 7) |
-| **503** | `"Não foi possível validar a chave de API."` = **chave não aceita**: inexistente, revogada ou ainda não ativada. Medido em 25/09/2026 (madrugada e ~12h) em produção **e** homologação, inclusive com uma chave real ainda não validada; o 401 que o Swagger promete ainda não vale para isso | o cliente tenta **uma vez** de novo e depois para com `ChaveInvalida`; sem loop. Com a chave certa: pedir ao time Rabi para ativá-la/renová-la |
+| **401** | sem cabeçalho de autorização (`"Token não fornecido."`); pelo Swagger, também chave rejeitada | **não repetir**; conferir se o token foi carregado; `rbt_`: renovar/gerar outro em Integrações; `rbk_`: pedir nova ao time Rabi |
+| **403** | chave válida, mas **sem a permissão** da rota (a mensagem diz qual, ex.: `'paciente:read'`) | `rbt_`: o dono edita o token e marca a permissão; `rbk_`: pedir chave com a permissão (tabela da seção 7) |
+| **503** | `"Não foi possível validar a chave de API."` = **chave não aceita**: inexistente, revogada ou ainda não ativada. Medido em 25/09/2026 (madrugada e ~12h) em produção **e** homologação, inclusive com uma chave real ainda não validada; o 401 que o Swagger promete ainda não vale para isso | o cliente tenta **uma vez** de novo e depois para com `ChaveInvalida`; sem loop. Com a chave certa: `rbt_` → o dono confere/renova o token em Integrações; `rbk_` → pedir ao time Rabi para ativá-la/renová-la |
 
 Atenção: em 3 rotas de parâmetros e nas 3 rotas `PUT /faturamento/glosas/*`, **401 não é
 problema de chave** — ver [defeitos-conhecidos.md](defeitos-conhecidos.md). O cliente
@@ -136,7 +143,7 @@ trata essas rotas à parte.
 
 ## 6. Kit mínimo de permissões
 
-Peça ao time Rabi uma chave com **só o necessário** (manual,
+Marque no token `rbt_` (ou peça ao time Rabi na `rbk_`) **só o necessário** (manual,
 https://www.rabisistemas.com.br/manual/api-externa/index.html#permissoes). Cada recurso
 tem catálogo próprio: `empresa:*` não dá acesso a `convenio` nem a `local`.
 
