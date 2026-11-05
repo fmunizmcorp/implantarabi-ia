@@ -24,7 +24,7 @@ implantadora vê esses dados pela API — e responde por não espalhá-los.
    `dados/pacientes/`. Apague arquivos temporários ao fim.
 4. **Não despeje JSON de paciente** no contexto da conversa: grave em arquivo
    temporário fora do repo e leia só contagens/resumos.
-5. **Credenciais** (chave `rbk_`, senhas iniciais) só em `credenciais/` do repo
+5. **Credenciais** (token `rbt_` ou chave `rbk_`, senhas iniciais) só em `credenciais/` do repo
    **privado** da clínica. Confira que o repo é privado na abertura.
 6. **Dados de profissionais** (CPF, conselho) também são pessoais: repo
    privado, nunca no kit.

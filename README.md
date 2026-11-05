@@ -20,7 +20,7 @@ cada gravação.
  │ ferramentas/ (Python)                    │  na      │ documentos-do-cliente/ + inventário│
  │ referencias/ (TUSS, CMED, Brasíndice…)   │  sessão) │ provas/ · credenciais/ · histórico│
  │ modelo-repo-clinica/                     │          └───────────────┬──────────────────┘
- └──────────────────────────────────────────┘                          │ API externa (rbk_ da clínica)
+ └──────────────────────────────────────────┘                          │ API externa (rbt_ da clínica, ou rbk_)
                                                                         ▼
                                                                Sistema Rabi da clínica
 ```
@@ -30,7 +30,7 @@ cada gravação.
 | Papel | Quem | Responsabilidade |
 |---|---|---|
 | Mantenedor do kit | Rabi Sistemas | evolui este repo; nunca guarda dado de clínica aqui |
-| Dono da clínica | a clínica | conta Claude, GitHub e chave `rbk_` próprios; decide regras de negócio |
+| Dono da clínica | a clínica | conta Claude, GitHub e token `rbt_` (recomendado; ou chave `rbk_`) próprios; decide regras de negócio |
 | Implantador | da clínica, parceiro ou Rabi | entrega documentos, aprova prévias, confere resultados |
 | IA implantadora | sessão Claude da clínica | todo o trabalho técnico, com aprovação antes de gravar |
 

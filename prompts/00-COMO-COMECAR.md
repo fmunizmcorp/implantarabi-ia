@@ -9,15 +9,18 @@ O passo a passo completo, clique a clique, está no
 ## Uma vez por clínica (~15 min) — [Parte A](../manual/01-preparacao.md)
 
 1. **Contas:** GitHub (gratuito) e Claude com acesso ao Claude Code na web (https://claude.ai/code).
-2. **Chave da API** (`rbk_…`): pedir ao time Rabi, com as permissões de
-   implantação. Aparece uma vez só; vale ~7 dias — renovar antes de vencer.
+2. **Token da API — `rbt_…` (recomendado):** a clínica gera no Rabi em
+   *Configurações › Parâmetros › Integrações*, tipo **"Implantação e manutenção"**,
+   só com as permissões de implantação; editável e com botão **Renovar** — renovar
+   antes de vencer. **Alternativa:** chave `rbk_…` pedida ao time Rabi (aparece uma
+   vez só; vale ~7 dias).
 3. **Repositório da clínica:** https://github.com/fmunizmcorp/implantarabi-modelo-clinica/generate
    → Owner = conta da clínica → nome `rabi-implantacao-<clinica>` → **Private** → *Create repository*.
    (Link não abre? Plano B na [Parte A, passo A3](../manual/01-preparacao.md#a3--criar-o-repositório-da-clínica-pelo-modelo).)
 4. **Gravação automática:** *Settings → Actions → General → Workflow permissions → Read and write → Save*.
 5. **GitHub no Claude:** https://claude.ai/connect-github e app Claude no repositório.
 6. **Ambiente da clínica** no Claude Code (menu do ambiente → *Edit*):
-   `RABI_API_KEY=rbk_…` e rede liberada para `api.rabisistemas.com.br`.
+   `RABI_API_KEY=rbt_…` (ou `rbk_…`) e rede liberada para `api.rabisistemas.com.br`.
    **Nunca cole a chave no chat.**
 
 ## Toda sessão — [Partes B e C](../manual/02-primeira-sessao.md)

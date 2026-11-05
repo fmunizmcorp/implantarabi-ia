@@ -17,7 +17,8 @@ Todo o resto (ler, extrair, montar, gravar, provar, registrar) é da IA.
 
 ## Como abrir uma sessão
 1. Abra o Claude Code na web (https://claude.ai/code) **neste repositório** e
-   no **ambiente desta clínica** (onde está a variável `RABI_API_KEY`).
+   no **ambiente desta clínica** (onde está a variável `RABI_API_KEY` com o token `rbt_` da clínica — ou a
+   chave `rbk_` do time Rabi).
 2. Escreva só: `Vamos implantar <NOME_DA_CLINICA>` (ou "continuar").
    A sessão lê o `ESTADO.md`, diz onde parou e faz a próxima pergunta.
 3. Outros modos: "atualizar configuração: …", "convênio: …", "diagnóstico: …".

@@ -21,7 +21,7 @@ Cada item tem um **código** (ex.: `CL-1`). As sprints citam esse código na se�
 - Nunca pedir ao cliente para organizar, renomear ou montar planilha. Isso é
   trabalho da IA.
 - Consultório individual recebe a **versão curta** (marcada ⭐ abaixo).
-- Nada de credencial por e-mail ou chat público: a chave `rbk_` vai para o
+- Nada de credencial por e-mail ou chat público: o token `rbt_` (recomendado) ou a chave `rbk_` vai para o
   segredo do ambiente ou para `credenciais/` do repo privado.
 
 ## A lista, agrupada

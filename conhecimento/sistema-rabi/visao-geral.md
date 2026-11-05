@@ -19,7 +19,7 @@ compras, relatórios e notificações.
   lugares ao mesmo tempo.
 - **API externa** (o caminho da IA implantadora):
   `https://api.rabisistemas.com.br/api/v1/integrations` — 268 operações em
-  25 grupos, chave `Bearer rbk_…` por clínica. Detalhes em
+  25 grupos, token `Bearer rbt_…` (recomendado; gerado pela clínica) ou `Bearer rbk_…` (time Rabi) por clínica. Detalhes em
   [../api-externa/00-INDICE.md](../api-externa/00-INDICE.md).
 
 ## 2. Módulos (menu principal)

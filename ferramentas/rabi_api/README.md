@@ -12,11 +12,12 @@ Python 3.11, sem `pip install`.
 ## 1. Chave e ambiente
 
 Ordem de busca: `RABI_API_KEY` (segredo de ambiente do Claude web) → linha
-`api_key: rbk_...` em `credenciais/rabi-api-externa.md` (procurado na pasta atual e nas de
+`api_key: rbt_...` (token da clínica, recomendado) ou `api_key: rbk_...` (chave do time Rabi) em `credenciais/rabi-api-externa.md` (procurado na pasta atual e nas de
 cima) → erro `ChaveAusente` com instruções. Base: `RABI_API_BASE` ou produção
 (`https://api.rabisistemas.com.br/api/v1/integrations`). Homologação:
 `RABI_API_BASE=https://api.hmg.rabisistemas.dev/api/v1/integrations`.
-A chave **nunca** é impressa (aparece como `rbk_…abcd`). Detalhes:
+Aceita os dois prefixos (`rbt_`, `rbk_`); outro prefixo → `ChaveInvalida`.
+A chave **nunca** é impressa (aparece como `rbt_…abcd` / `rbk_…abcd`). Detalhes:
 `conhecimento/api-externa/chave-e-token.md`.
 
 ## 2. Testar a chave (sempre no começo)

@@ -65,6 +65,20 @@ def test_filtro_bloqueia_cada_padrao():
         assert fa.filtrar_texto(texto), f"não bloqueou: {nome}"
 
 
+def test_filtro_bloqueia_token_rbt():
+    for texto in ["use " + "rbt" + "_abcDEF123456 aqui", "rbt" + "_abc", "Bearer " + "rbt" + "_x-y_z9"]:
+        problemas = fa.filtrar_texto(texto)
+        assert problemas and any("chave da API" in p for p in problemas), f"deixou passar: {texto}"
+    longo = "rbt" + "_abcDEF123456789"
+    assert longo not in " ".join(fa.filtrar_texto(longo))  # nunca imprime o token inteiro
+
+
+def test_filtro_placeholder_rbt_e_rbk_curto_passa():
+    for texto in ["o token começa com " + "rbt" + "_ e vai no RABI_API_KEY",
+                  "cabeçalho Bearer " + "rbt" + "_... (ou " + "rbk" + "_...)", "prefixo " + "rbt" + "_ab"]:
+        assert fa.filtrar_texto(texto) == [], f"falso positivo: {texto}"
+
+
 def test_filtro_nunca_imprime_valor_inteiro():
     problemas = fa.filtrar_texto("" + "rbk" + "_abcDEF123456789")
     assert problemas and "" + "rbk" + "_abcDEF123456789" not in " ".join(problemas)

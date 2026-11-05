@@ -13,6 +13,7 @@ from ..foto import diff, foto
 from .. import testar_chave
 
 CHAVE = "rbk_" + "teste" * 6
+CHAVE_RBT = "rbt_" + "clinica" * 4  # token da própria clínica (recomendado desde 30/09/2026)
 ITENS = [{"id": i, "nome": f"Item {i}"} for i in range(1, 8)]  # 7 itens
 
 
@@ -50,7 +51,7 @@ class Falso(BaseHTTPRequestHandler):
         q = {k: v[0] for k, v in parse_qs(u.query).items()}
         rota = u.path.replace("/api/v1/integrations", "")
         page, size = int(q.get("page", 1)), int(q.get("pageSize", 50))
-        if self.headers.get("Authorization") != f"Bearer {CHAVE}":
+        if self.headers.get("Authorization") not in (f"Bearer {CHAVE}", f"Bearer {CHAVE_RBT}"):
             return self._enviar(401, {"error": "Token não fornecido."})
         tp = -(-len(ITENS) // size)
         if rota == "/env/dados":
@@ -316,3 +317,72 @@ def test_testar_chave_codigo_de_saida(monkeypatch, servidor):
     assert testar_chave.main(["--base", servidor]) == 0      # servidor falso: áreas OK
     monkeypatch.setenv("RABI_API_KEY", "rbk_" + "errada" * 5)
     assert testar_chave.main(["--base", servidor]) == 1      # 401: parou na chave
+
+
+# ------------------------------------------------------------------ token rbt_ (recomendado) e rbk_ (alternativa)
+
+def test_rbt_aceito_e_usado_no_cabecalho(servidor):
+    c = ClienteRabi(servidor, CHAVE_RBT, esperas_503=(0,))
+    assert c.tipo_chave == "rbt_"
+    assert len(c.ler_tudo("/env/dados", page_size=3)) == 7  # mesmo cabeçalho Bearer, mesma API
+    assert CHAVE_RBT not in repr(c) and repr(c).count("rbt_") == 1
+
+
+def test_rbt_lido_do_arquivo_e_do_ambiente(tmp_path, monkeypatch):
+    monkeypatch.delenv("RABI_API_KEY", raising=False)
+    (tmp_path / "credenciais").mkdir()
+    (tmp_path / "credenciais" / "rabi-api-externa.md").write_text(
+        f"# Token\n\n- api_key: `{CHAVE_RBT}`\n", encoding="utf-8")
+    chave, _ = ler_chave_do_arquivo(str(tmp_path))
+    assert chave == CHAVE_RBT
+    assert ClienteRabi("http://127.0.0.1:1", raiz=str(tmp_path)).tipo_chave == "rbt_"
+    monkeypatch.setenv("RABI_API_KEY", CHAVE_RBT)
+    c = ClienteRabi("http://127.0.0.1:1", raiz=str(tmp_path))
+    assert c.origem_chave.startswith("variável de ambiente") and c.tipo_chave == "rbt_"
+
+
+def test_prefixo_desconhecido_recusado_citando_os_dois(tmp_path, monkeypatch):
+    monkeypatch.delenv("RABI_API_KEY", raising=False)
+    with pytest.raises(ChaveInvalida) as e:
+        ClienteRabi("http://127.0.0.1:1", "xyz_" + "abc" * 6)
+    msg = str(e.value)
+    assert "rbt_" in msg and "rbk_" in msg
+    (tmp_path / "credenciais").mkdir()
+    (tmp_path / "credenciais" / "rabi-api-externa.md").write_text("api_key: " + "rbx_" + "abc" * 6 + "\n",
+                                                                  encoding="utf-8")
+    assert ler_chave_do_arquivo(str(tmp_path))[0] is None  # linha com outro prefixo não é chave
+
+
+def test_sem_chave_cita_rbt_e_rbk(tmp_path, monkeypatch):
+    monkeypatch.delenv("RABI_API_KEY", raising=False)
+    monkeypatch.chdir(tmp_path)
+    with pytest.raises(ChaveAusente) as e:
+        ClienteRabi("http://127.0.0.1:1", raiz=str(tmp_path))
+    assert "rbt_" in str(e.value) and "rbk_" in str(e.value) and "Integrações" in str(e.value)
+
+
+def test_mascarar_rbt():
+    assert mascarar(CHAVE_RBT) == "rbt_…" + CHAVE_RBT[-4:]
+    assert mascarar("rbt_" + "ab") == "rbt_…"
+
+
+def test_erros_orientam_conforme_o_tipo(servidor):
+    rbt = ClienteRabi(servidor, CHAVE_RBT, esperas_503=(0,))
+    with pytest.raises(SemPermissao) as e:
+        rbt.get("/proibido")
+    assert "Integrações" in str(e.value) and "paciente:read" in str(e.value)
+    errado = ClienteRabi(servidor, "rbt_" + "errada" * 5, esperas_503=(0,))
+    with pytest.raises(ChaveInvalida) as e:
+        errado.get("/env/dados")
+    assert "Renovar" in str(e.value) and "errada" * 5 not in str(e.value)
+    rbk = ClienteRabi(servidor, "rbk_" + "errada" * 5, esperas_503=(0,))
+    with pytest.raises(ChaveInvalida) as e:
+        rbk.get("/env/dados")
+    assert "time Rabi" in str(e.value)
+
+
+def test_testar_chave_aviso_de_validade_por_tipo():
+    base = {"base": "x", "origem": "teste", "dias": 3, "parou": None, "linhas": [], "validade": "2099-01-01"}
+    md_rbt = testar_chave.relatorio_md(dict(base, chave=mascarar(CHAVE_RBT)))
+    md_rbk = testar_chave.relatorio_md(dict(base, chave=mascarar(CHAVE)))
+    assert "Renovar" in md_rbt and "time Rabi" in md_rbk

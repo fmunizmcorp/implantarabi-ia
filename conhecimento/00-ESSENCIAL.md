@@ -1,7 +1,7 @@
 # 00-ESSENCIAL — o mínimo que toda sessão sabe de cor
 
 > **Fonte:** manual oficial https://www.rabisistemas.com.br/manual/ (v2.3, 25/09/2026) + Swagger https://api.rabisistemas.com.br/external-docs/ + experiência de implantação real · **Conferido em:** 2026-09-25
-> **Vale para:** produção em 25/09/2026 · **Kit:** v0.3.2
+> **Vale para:** produção em 25/09/2026 · **Kit:** v0.3.3
 >
 > Este arquivo é importado no boot. Todo o resto é lido **sob demanda pelo índice** (`INDICE.md`).
 
@@ -72,10 +72,11 @@ Referência completa: `conhecimento/api-externa/00-INDICE.md`.
 
 **Conexão**
 - Base: `https://api.rabisistemas.com.br/api/v1/integrations`.
-- Cabeçalho: `Authorization: Bearer rbk_…`. A chave carrega a clínica e as permissões.
-- A chave é lida da variável de ambiente `RABI_API_KEY`; se não houver, de `credenciais/rabi-api-externa.md`.
+- Cabeçalho: `Authorization: Bearer <token>`, com **`rbt_` (recomendado) ou `rbk_`**. O token carrega a clínica e as permissões.
+- **`rbt_` (recomendado, aprovado em 30/09/2026):** token da própria clínica, gerado por ela no Rabi em **Configurações › Parâmetros › Integrações**, tipo **"Implantação e manutenção"**, só com as permissões da implantação; editável e com botão **Renovar**. **`rbk_` (alternativa):** chave emitida pelo time Rabi. Mesma API, mesmo cabeçalho. Detalhe: `conhecimento/api-externa/chave-e-token.md`.
+- O token (`rbt_` ou `rbk_`) é lido da variável de ambiente `RABI_API_KEY`; se não houver, de `credenciais/rabi-api-externa.md`.
 - Chave não aceita (inexistente, revogada, não ativada): responde **503** "Não foi possível validar a chave de API." (medido em 25/09 em produção e homologação; o 401 do Swagger ainda não vale). Sem cabeçalho: 401. Trate os dois como problema de chave e não repita em loop.
-- Validade: cabeçalho `X-ApiKey-Expires-At`. A chave dura poucos dias (**~7 dias** medidos) **de propósito — é proteção**: renovar é o fluxo normal, não um problema. Olhe a validade ao abrir a sessão e peça a chave nova ao dono/time Rabi com antecedência (alerta automático a 15 dias).
+- Validade: cabeçalho `X-ApiKey-Expires-At`. A chave dura poucos dias (**~7 dias** medidos) **de propósito — é proteção**: renovar é o fluxo normal, não um problema. Olhe a validade ao abrir a sessão e, com antecedência (alerta automático a 15 dias), peça ao dono que **renove o `rbt_`** no Rabi (botão Renovar) ou, se usar `rbk_`, que peça a chave nova ao time Rabi.
 
 **Leitura**
 - `page` começa em **1**; `pageSize` máximo é **200**.

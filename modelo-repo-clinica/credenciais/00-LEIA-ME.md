@@ -9,7 +9,7 @@
    não se apaga: vai para o histórico com a situação (revogada, vencida).
 2. **Nunca** copiar credencial para issue, prova, relatório, daily, review,
    mensagem pública ou para o kit.
-3. A chave da API do Rabi deve estar **também** no segredo de ambiente
+3. O token da API do Rabi (`rbt_` recomendado ou `rbk_`) deve estar **também** no segredo de ambiente
    `RABI_API_KEY` do Claude web (preferido pelas ferramentas). O arquivo
    `rabi-api-externa.md` é o registro para consulta humana.
 4. Se o repositório ficar **público**: avise o dono por escrito, não faça push,
@@ -19,4 +19,4 @@
 | Arquivo | O que tem |
 |---|---|
 | [CREDENCIAIS.md](CREDENCIAIS.md) | todas as credenciais por serviço e ambiente (Rabi web, usuários criados, GitHub, outros) |
-| [rabi-api-externa.md](rabi-api-externa.md) | a chave `rbk_` da API externa, validade, permissões testadas e histórico de chaves |
+| [rabi-api-externa.md](rabi-api-externa.md) | o token da API externa — `rbt_` da clínica (recomendado) ou chave `rbk_` do time Rabi —, validade, permissões testadas e histórico |

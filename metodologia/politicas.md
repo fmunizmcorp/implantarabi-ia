@@ -42,7 +42,7 @@ Cabeçalho obrigatório (bloco de citação logo abaixo do título):
 ## 3. O kit é público-seguro
 
 **Nunca** entram no kit:
-- chave `rbk_`, senha, token, URL com credencial;
+- token `rbt_` ou chave `rbk_`, senha, outro token, URL com credencial;
 - nome, CPF, CNPJ, e-mail ou telefone de pessoa ou clínica real;
 - IDs internos, preços ou contratos de uma clínica real.
 
@@ -94,7 +94,7 @@ em `referencias/LICENCAS.md`.
 | Papel | Quem | Pode | Não pode |
 |---|---|---|---|
 | **Mantenedor do kit** | Rabi / Diretor | alterar o kit | guardar dado de clínica no kit |
-| **Dono da clínica** | a clínica | contratar, decidir regra de negócio, ter a conta Claude, o GitHub e a chave `rbk_` | — |
+| **Dono da clínica** | a clínica | contratar, decidir regra de negócio, ter a conta Claude, o GitHub e o token `rbt_` (recomendado; gerado no Rabi) ou a chave `rbk_` | — |
 | **Implantador** | alguém da clínica, parceiro ou o próprio Rabi | entregar documentos, aprovar prévias, conferir resultados | delegar decisão de negócio à IA |
 | **IA implantadora** | a sessão Claude da clínica | ler o kit; ler e gravar no Rabi pela API **com aprovação**; gravar no repo da clínica; commit+push | alterar o kit; chamar rota proibida sem ordem escrita; inventar dado |
 

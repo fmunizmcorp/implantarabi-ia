@@ -7,7 +7,7 @@
 
 | Papel | Nome | Contato (e-mail/telefone) | Observação |
 |---|---|---|---|
-| **Dono da clínica** (decide regra de negócio; dono da conta Claude, do GitHub e da chave `rbk_`) | | | |
+| **Dono da clínica** (decide regra de negócio; dono da conta Claude, do GitHub e do token `rbt_` — ou da chave `rbk_`) | | | |
 | **Implantador** (entrega documentos, aprova prévias, confere resultados) | | | |
 | Responsável pelo **faturamento/convênios** | | | |
 | Responsável pelo **financeiro** | | | |

@@ -1,9 +1,13 @@
-# Rabi — API externa (chave rbk_) · <NOME_DA_CLINICA>
+# Rabi — API externa (token rbt_ recomendado ou chave rbk_) · <NOME_DA_CLINICA>
 
 > Texto claro por decisão do proprietário. Repo **privado**. Como a chave
 > funciona: `.kit/conhecimento/api-externa/` (autenticação e chave).
 
 api_key: <preenchido pela sessão a partir da variável RABI_API_KEY>
+
+> **Tipo de token:** `rbt_` = token da clínica, gerado no Rabi em Configurações ›
+> Parâmetros › Integrações, tipo "Implantação e manutenção" (**recomendado**);
+> `rbk_` = chave emitida pelo time Rabi (alternativa). Mesmo cabeçalho e mesma API.
 
 > **Ninguém cola a chave no chat.** O dono põe a chave na variável
 > `RABI_API_KEY` do ambiente desta clínica (um ambiente por clínica) e a sessão
@@ -16,9 +20,10 @@ api_key: <preenchido pela sessão a partir da variável RABI_API_KEY>
 | Ambiente desta chave | prd · hmg |
 | Cabeçalho | `Authorization: Bearer <a chave acima>` |
 | Documentação oficial | https://api.rabisistemas.com.br/external-docs/ |
-| Entregue por / em | |
+| Tipo | rbt_ (Implantação e manutenção) · rbk_ (time Rabi) |
+| Gerado/entregue por / em | |
 | Validade (`X-ApiKey-Expires-At`) | (preenchido por `testar_chave.py`) |
-| Renovação | pelo time Rabi (sem autoatendimento); pedir **15 dias antes** de vencer |
+| Renovação | `rbt_`: a clínica clica em **Renovar** em Configurações › Parâmetros › Integrações · `rbk_`: pelo time Rabi (sem autoatendimento) — em ambos, **15 dias antes** de vencer |
 | Segredo de ambiente | `RABI_API_KEY` configurado no ambiente desta clínica no Claude web? sim · não |
 
 ## Permissões testadas (`python3 .kit/ferramentas/rabi_api/testar_chave.py`)

@@ -2,7 +2,9 @@
 
 O que ele faz por você:
 - acha a chave: variável de ambiente RABI_API_KEY → arquivo credenciais/rabi-api-externa.md
-  (linha `api_key: rbk_...`) → erro claro em português;
+  (linha `api_key: rbt_...` ou `api_key: rbk_...`) → erro claro em português;
+- aceita o token rbt_ da própria clínica (recomendado; Configurações › Parâmetros ›
+  Integrações, tipo "Implantação e manutenção") e a chave rbk_ do time Rabi (alternativa);
 - base por RABI_API_BASE (padrão: produção);
 - nunca imprime a chave (mascara em logs e repr);
 - leitura que falha de verdade: status fora de 2xx ou corpo vazio = exceção;
@@ -39,7 +41,9 @@ ARQUIVO_CREDENCIAL = os.path.join("credenciais", "rabi-api-externa.md")
 ROTAS_401_SEM_SER_CHAVE = re.compile(
     r"^/(parametros/desconto/colaborador/[^/]+|parametros/alcada-compra/colaborador/[^/]+|"
     r"parametros/acolhimento/atualizar-validacoes/[^/]+|faturamento/glosas/(produto|taxa|servico))$")
-PADRAO_LINHA_CHAVE = re.compile(r"^\s*[-*>]?\s*`?\s*api_key\s*:\s*`?\s*(rbk_[^\s`'\"]+)", re.I | re.M)
+# Prefixos aceitos: rbt_ = token da própria clínica (recomendado); rbk_ = chave do time Rabi.
+PREFIXOS_CHAVE = ("rbt_", "rbk_")
+PADRAO_LINHA_CHAVE = re.compile(r"^\s*[-*>]?\s*`?\s*api_key\s*:\s*`?\s*((?:rbt|rbk)_[^\s`'\"]+)", re.I | re.M)
 
 
 def _dica_faq(mensagem: str, status: int | None, rota: str) -> str:
@@ -106,10 +110,12 @@ class FormatoInesperado(ErroRabi):
 # --------------------------------------------------------------------------- utilidades
 
 def mascarar(chave: str | None) -> str:
-    """'rbk_abc...xyz9' -> 'rbk_…xyz9' (nunca mostra a chave inteira)."""
+    """'rbt_abc...xyz9' -> 'rbt_…xyz9' (nunca mostra a chave inteira)."""
     if not chave:
         return "(sem chave)"
-    return f"{chave[:4]}…{chave[-4:]}" if len(chave) > 12 else "rbk_…"
+    if len(chave) > 12:
+        return f"{chave[:4]}…{chave[-4:]}"
+    return f"{chave[:4]}…" if chave.startswith(PREFIXOS_CHAVE) else "…"
 
 
 def ler_chave_do_arquivo(raiz: str | None = None) -> tuple[str | None, str | None]:
@@ -227,10 +233,13 @@ class ClienteRabi:
         if not chave:
             raise ChaveAusente(
                 "Não achei a chave da API do Rabi. Configure o segredo de ambiente RABI_API_KEY "
-                "(preferido) ou registre a linha 'api_key: rbk_...' em credenciais/rabi-api-externa.md "
-                "no repo da clínica. Passo a passo: (.kit/conhecimento/api-externa/chave-e-token.md no repo da clínica).")
-        if not chave.startswith("rbk_"):
-            raise ChaveInvalida("A chave não começa com 'rbk_' — confira se copiou a chave certa "
+                "(preferido) ou registre a linha 'api_key: rbt_...' (token da clínica, recomendado) ou "
+                "'api_key: rbk_...' (chave do time Rabi) em credenciais/rabi-api-externa.md "
+                "no repo da clínica. O token rbt_ é gerado no Rabi em Configurações › Parâmetros › "
+                "Integrações, tipo 'Implantação e manutenção'. Passo a passo: (.kit/conhecimento/api-externa/chave-e-token.md no repo da clínica).")
+        if not chave.startswith(PREFIXOS_CHAVE):
+            raise ChaveInvalida("A chave não começa com 'rbt_' (token da clínica) nem com 'rbk_' "
+                                "(chave do time Rabi) — confira se copiou a chave certa "
                                 f"(origem: {self.origem_chave}).")
         self._chave = chave
         self.timeout = timeout
@@ -247,6 +256,17 @@ class ClienteRabi:
     @property
     def chave_mascarada(self) -> str:
         return mascarar(self._chave)
+
+    @property
+    def tipo_chave(self) -> str:
+        """'rbt_' (token da clínica, recomendado) ou 'rbk_' (chave do time Rabi)."""
+        return self._chave[:4]
+
+    def _como_trocar(self) -> str:
+        if self.tipo_chave == "rbt_":
+            return ("No token rbt_ da clínica: renove (botão Renovar) ou gere outro em "
+                    "Configurações › Parâmetros › Integrações, tipo 'Implantação e manutenção'")
+        return "Na chave rbk_: peça chave nova ao time Rabi pelo mesmo canal em que a chave foi gerada"
 
     # ------------------------------------------------------------------ validade
     def dias_restantes(self, agora: _dt.datetime | None = None) -> int | None:
@@ -324,23 +344,25 @@ class ClienteRabi:
         if resp.status == 401:
             raise ChaveInvalida(
                 f"401 em {onde}: a API recusou a chave (ausente, errada, vencida ou revogada). "
-                f"Servidor: '{msg_srv}'. Não vou repetir. Peça chave nova ao time Rabi pelo mesmo canal "
-                f"em que a chave foi gerada (chave atual: {mascarar(self._chave)}, origem: {self.origem_chave}). "
+                f"Servidor: '{msg_srv}'. Não vou repetir. {self._como_trocar()} "
+                f"(chave atual: {mascarar(self._chave)}, origem: {self.origem_chave}). "
                 "Atenção: nas rotas PUT /faturamento/glosas/* um motivo de glosa inválido também devolve 401.",
                 resp.status, resp.texto, metodo, caminho)
         if resp.status == 403:
             m = re.search(r"'([A-Za-z]+:[a-z]+)'", msg_srv)
             perm = m.group(1) if m else "(ver a rota no Swagger)"
             raise SemPermissao(
-                f"403 em {onde}: a chave não tem a permissão {perm}. Peça ao time Rabi uma chave que inclua "
-                "essa permissão (lista em .kit/conhecimento/api-externa/chave-e-token.md no repo da clínica).",
+                f"403 em {onde}: a chave não tem a permissão {perm}. "
+                + ("No token rbt_: o dono edita o token em Configurações › Parâmetros › Integrações e marca "
+                   if self.tipo_chave == "rbt_" else "Na chave rbk_: peça ao time Rabi uma chave que inclua ")
+                + "essa permissão (lista em .kit/conhecimento/api-externa/chave-e-token.md no repo da clínica).",
                 resp.status, resp.texto, metodo, caminho)
         if resp.status == 503:
             raise ChaveInvalida(
                 f"503 em {onde} depois de nova tentativa: a API não aceitou a chave (\"Não foi possível validar "
                 "a chave de API.\"). Medido em 25/09 em produção e homologação: é assim que responde para chave "
                 "inexistente, revogada ou ainda não ativada (o 401 do Swagger ainda não vale). Não vou repetir em "
-                "loop: confira a chave e, se ela estiver certa, peça ao time Rabi para ativá-la ou renová-la.",
+                f"loop: confira a chave e, se ela estiver certa: {self._como_trocar()}.",
                 resp.status, resp.texto, metodo, caminho)
         raise ErroRabi(f"{resp.status} em {onde}: {msg_srv}.{_dica_faq(msg_srv or resp.texto, resp.status, onde)}",
                        resp.status, resp.texto, metodo, caminho)

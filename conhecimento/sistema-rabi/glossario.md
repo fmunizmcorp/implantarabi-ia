@@ -97,5 +97,6 @@ Use estas palavras do mesmo jeito com o usuário. Explique a sigla na primeira v
 | **Depósito** | Local físico de estoque; todo local de atendimento precisa de um depósito padrão de saída ativo. |
 | **Estoque Atual** | Estoque mínimo do produto (nome antigo: "Estoque Base"); abaixo dele o item fica CRÍTICO. |
 | **Grade** | Horários agendáveis do profissional ou equipamento. |
-| **Chave `rbk_`** | Chave da API externa da clínica. Vai só no repo privado da clínica. |
+| **Token `rbt_`** | Token da API externa gerado pela própria clínica no Rabi (Configurações › Parâmetros › Integrações, tipo "Implantação e manutenção"); editável e com botão Renovar. Caminho **recomendado** pelo kit. Vai só no repo privado da clínica. |
+| **Chave `rbk_`** | Chave da API externa emitida pelo time Rabi; **alternativa** ao `rbt_` (mesmo cabeçalho, mesma API). Vai só no repo privado da clínica. |
 | **ATIVO / INATIVO** | Cadastros com histórico são inativados, não excluídos. Sempre confira se o item está ativo antes de mexer. |
