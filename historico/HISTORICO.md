@@ -37,3 +37,4 @@
 - PUT parcial no kit inteiro + `corpo_parcial` no código; FAQ F007–F011; novidades do sistema; lições do NotaPlano; validação cruzada independente (2 ALTO + 10 MÉDIO corrigidos antes da publicação).
 - Aviso ao manual (`manualrabi/entrada/atualizacao-2026-11-22-api-externa-limites-e-codigos.md`): limite por token, textos de 401, 409 ITEM_EM_USO, `version`, PUT do convênio parcial no código (pendência C11).
 - Próximo passo: na 1ª clínica, aplicar a estrutura nova, fazer a conferência F006 ampliada e medir, num PUT real de serviço com só um campo, que o resto ficou intacto (prova antes/depois).
+- Repositório-modelo republicado pela sessão do kit (`implantarabi-modelo-clinica` `e2c4450`, kit 0.4.0; `exportar_modelo.py --checar` PASS; `verificar_vazamento` PASS). O workflow `publicar-modelo` não publica sozinho: falta o secret `MODELO_PUSH_TOKEN`.
