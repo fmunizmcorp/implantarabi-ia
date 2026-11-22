@@ -1,7 +1,7 @@
 # Rotas — Tabelas de Preço (8 operações)
 
-> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-09-28.json`) · **Conferido em:** 2026-09-28
-> **Vale para:** produção (Swagger publicado em 2026-09-28) · **Kit:** v0.3.1
+> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-11-22.json`) · **Conferido em:** 2026-11-22
+> **Vale para:** produção (Swagger publicado em 2026-11-22) · **Kit:** v0.3.3
 
 > Arquivo **gerado** por `ferramentas/rabi_api/gerar_rotas.py` — não edite à mão; rode `python3 ferramentas/rabi_api/atualizar_spec.py` para atualizar. Toda rota pode responder também `401` (chave rejeitada), `403` (chave sem a permissão) e `503` (falha ao validar a chave) — ver [convenções](../convencoes.md) e [chave e token](../chave-e-token.md).
 
@@ -107,7 +107,7 @@
 
 - **Permissão:** `tabelaPreco:update` · **Manual:** [op-post-tabelas-preco-produtos](https://www.rabisistemas.com.br/manual/api-externa/referencia-cadastros.html#op-post-tabelas-preco-produtos)
 - **Resumo:** Cadastrar/atualizar preço de um produto na tabela
-- **Descrição:** É upsert — chamar de novo com o mesmo `productId`/`purchasePriceSourceId` atualiza o preço em vez de duplicar. **Bug conhecido: a resposta não espera a gravação terminar** (`execute()` chama o repository sem `await` nem `return`) — o corpo devolvido é vazio (`undefined`), e a chamada pode responder sucesso antes mesmo do preço estar de fato salvo. Reportado ao time; para confirmar a gravação, faça um `GET /tabelas-preco/produtos` logo em seguida.
+- **Descrição:** É upsert — chamar de novo com o mesmo `productId`/`purchasePriceSourceId` atualiza o preço em vez de duplicar. Preços (`priceType1..3`) **em reais**, mesma unidade do `POST /tabelas-preco/produtos/bulk` e do `GET /tabelas-preco/produtos`.
 
 **Corpo** (`application/json`, obrigatório):
 
@@ -118,18 +118,18 @@
 | `parcelas_maximas` | integer | não | aceita null |
 | `productCode` | string | não | aceita null |
 | `productCodeTypeId` | integer | não | aceita null |
-| `priceType1` | number | não | aceita null |
-| `priceType2` | number | não | aceita null |
-| `priceType3` | number | não | aceita null |
+| `priceType1` | number | não | aceita null; Em reais (ex.: 19547.56 = R$ 19.547,56). Gravado em centavos. Omitido mantém; `null` limpa. |
+| `priceType2` | number | não | aceita null; Em reais. Mesmas regras de `priceType1`. |
+| `priceType3` | number | não | aceita null; Em reais. Mesmas regras de `priceType1`. |
 
 **Respostas:**
-- `200` Corpo vazio — ver descrição sobre o bug de gravação não aguardada.
+- `200` Registro gravado, cru do banco: `precificacao1..3` vêm **em centavos** (ex.: 1954756 = R$ 19.547,56). O `GET /tabelas-preco/produtos` devolve em reais. — campos: `produtoId`, `fontePrecoCompraOptionId`, `precificacao1`, `precificacao2`, `precificacao3`, `parcelas_maximas`, `codigoProduto`, `tipoDeCodigoid`
 
 ### `POST /tabelas-preco/produtos/bulk`
 
 - **Permissão:** `tabelaPreco:update` · **Manual:** [op-post-tabelas-preco-produtos-bulk](https://www.rabisistemas.com.br/manual/api-externa/referencia-cadastros.html#op-post-tabelas-preco-produtos-bulk)
 - **Resumo:** Cadastrar/atualizar preço de vários produtos de uma vez
-- **Descrição:** Até 200 itens por requisição (chave `precos`). `207` = falha parcial.
+- **Descrição:** Até 200 itens por requisição (chave `precos`). `207` = falha parcial. Preços (`priceType1..3`) **em reais**, mesma unidade do `POST /tabelas-preco/produtos` — o mesmo valor enviado pelas duas rotas grava igual. Até 28/09/2026 17:43 (Brasília) esta rota gravava o valor sem converter para centavos (aparecia dividido por 100); corrigido desde então.
 
 **Corpo** (`application/json`, obrigatório):
 
@@ -141,9 +141,9 @@
 | `precos[].parcelas_maximas` | integer | não | aceita null |
 | `precos[].productCode` | string | não | aceita null |
 | `precos[].productCodeTypeId` | integer | não | aceita null |
-| `precos[].priceType1` | number | não | aceita null |
-| `precos[].priceType2` | number | não | aceita null |
-| `precos[].priceType3` | number | não | aceita null |
+| `precos[].priceType1` | number | não | aceita null; Em reais (ex.: 19547.56 = R$ 19.547,56). Gravado em centavos. Omitido mantém; `null` limpa. |
+| `precos[].priceType2` | number | não | aceita null; Em reais. Mesmas regras de `priceType1`. |
+| `precos[].priceType3` | number | não | aceita null; Em reais. Mesmas regras de `priceType1`. |
 
 **Respostas:**
 - `201` Todos processados — campos: `total`, `criados`, `falhas`, `resultados`; item de `resultados`: `indice`, `status`, `id`, `identificador`, `erro`

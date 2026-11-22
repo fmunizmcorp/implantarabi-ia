@@ -1,7 +1,7 @@
 # Rotas — Produtos (6 operações)
 
-> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-09-28.json`) · **Conferido em:** 2026-09-28
-> **Vale para:** produção (Swagger publicado em 2026-09-28) · **Kit:** v0.3.1
+> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-11-22.json`) · **Conferido em:** 2026-11-22
+> **Vale para:** produção (Swagger publicado em 2026-11-22) · **Kit:** v0.3.3
 
 > Arquivo **gerado** por `ferramentas/rabi_api/gerar_rotas.py` — não edite à mão; rode `python3 ferramentas/rabi_api/atualizar_spec.py` para atualizar. Toda rota pode responder também `401` (chave rejeitada), `403` (chave sem a permissão) e `503` (falha ao validar a chave) — ver [convenções](../convencoes.md) e [chave e token](../chave-e-token.md).
 
@@ -39,9 +39,9 @@
 | Campo | Tipo | Obrig. | Observação |
 |---|---|---|---|
 | `nome` | string | **sim** |  |
-| `codigoProduto` | string | **sim** |  |
-| `codigoEAN` | integer | não | aceita null |
-| `codigoNCM` | integer | não | aceita null |
+| `codigoProduto` | string | **sim** | Até 10 caracteres: letras, números, ponto, hífen ou barra (TISS st_texto10) |
+| `codigoEAN` | string | não | aceita null; GTIN com 8, 12, 13 ou 14 dígitos, como texto (preserva zeros à esquerda). Number ainda é aceito por compatibilidade, mas perde zeros à esquerda. |
+| `codigoNCM` | string | não | aceita null; NCM com exatamente 8 dígitos, como texto. Number ainda é aceito por compatibilidade, mas perde zeros à esquerda. |
 | `apresentacao` | string | **sim** |  |
 | `contendo` | integer | **sim** | Quantidade na embalagem |
 | `depositoId` | integer | **sim** |  |
@@ -77,9 +77,9 @@
 |---|---|---|---|
 | `produtos` | lista de objeto | **sim** | máx. itens 50 |
 | `produtos[].nome` | string | **sim** |  |
-| `produtos[].codigoProduto` | string | **sim** |  |
-| `produtos[].codigoEAN` | integer | não | aceita null |
-| `produtos[].codigoNCM` | integer | não | aceita null |
+| `produtos[].codigoProduto` | string | **sim** | Até 10 caracteres: letras, números, ponto, hífen ou barra (TISS st_texto10) |
+| `produtos[].codigoEAN` | string | não | aceita null; GTIN com 8, 12, 13 ou 14 dígitos, como texto (preserva zeros à esquerda). Number ainda é aceito por compatibilidade, mas perde zeros à esquerda. |
+| `produtos[].codigoNCM` | string | não | aceita null; NCM com exatamente 8 dígitos, como texto. Number ainda é aceito por compatibilidade, mas perde zeros à esquerda. |
 | `produtos[].apresentacao` | string | **sim** |  |
 | `produtos[].contendo` | integer | **sim** | Quantidade na embalagem |
 | `produtos[].depositoId` | integer | **sim** |  |
@@ -134,9 +134,9 @@
 | Campo | Tipo | Obrig. | Observação |
 |---|---|---|---|
 | `nome` | string | **sim** |  |
-| `codigoProduto` | string | **sim** |  |
-| `codigoEAN` | integer | não | aceita null |
-| `codigoNCM` | integer | não | aceita null |
+| `codigoProduto` | string | **sim** | Até 10 caracteres: letras, números, ponto, hífen ou barra (TISS st_texto10) |
+| `codigoEAN` | string | não | aceita null; GTIN com 8, 12, 13 ou 14 dígitos, como texto (preserva zeros à esquerda). Number ainda é aceito por compatibilidade, mas perde zeros à esquerda. |
+| `codigoNCM` | string | não | aceita null; NCM com exatamente 8 dígitos, como texto. Number ainda é aceito por compatibilidade, mas perde zeros à esquerda. |
 | `apresentacao` | string | **sim** |  |
 | `contendo` | integer | **sim** | Quantidade na embalagem |
 | `depositoId` | integer | **sim** |  |
@@ -158,12 +158,13 @@
 
 **Respostas:**
 - `200` Row crua de Produto, sem includes — ver descrição. — object
+- `409` `ativo: false` recusado: produto na composição de serviço ativo
 
 ### `DELETE /produtos/{id}`
 
 - **Permissão:** `produto:delete` · **Manual:** [op-delete-produtos-id](https://www.rabisistemas.com.br/manual/api-externa/referencia-cadastros.html#op-delete-produtos-id)
 - **Resumo:** Desativar produto
-- **Descrição:** É uma **desativação** (`ativo = false`), não uma exclusão física. Também desativa os fornecedores vinculados e remove a configuração de estoque do produto (hard delete). Se qualquer passo falhar, a mensagem de erro ("Não autorizado.") é enganosa — pode ser erro de integridade/not-found, não de permissão.
+- **Descrição:** É uma **desativação** (`ativo = false`), não uma exclusão física. Também desativa os fornecedores vinculados e remove a configuração de estoque do produto (hard delete). **Recusa com `409` se o produto estiver na composição de algum serviço ativo**: a resposta traz a lista em `servicos`; corrija a composição (substitua ou retire o produto) e tente de novo. Serviço inativo não bloqueia. O mesmo bloqueio vale para `PUT /produtos/{id}` com `ativo: false`.
 
 | Parâmetro | Onde | Tipo | Obrig. | Observação |
 |---|---|---|---|---|
@@ -171,3 +172,6 @@
 
 **Respostas:**
 - `200` **Corpo de sucesso é o número cru `201`**, não um objeto. — integer
+- `404` Produto não encontrado
+- `409` Produto na composição de serviço ativo
+- `500` Erro ao excluir produto

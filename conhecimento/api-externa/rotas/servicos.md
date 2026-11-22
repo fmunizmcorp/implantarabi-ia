@@ -1,7 +1,7 @@
 # Rotas — Serviços (6 operações)
 
-> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-09-28.json`) · **Conferido em:** 2026-09-28
-> **Vale para:** produção (Swagger publicado em 2026-09-28) · **Kit:** v0.3.1
+> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-11-22.json`) · **Conferido em:** 2026-11-22
+> **Vale para:** produção (Swagger publicado em 2026-11-22) · **Kit:** v0.3.3
 
 > Arquivo **gerado** por `ferramentas/rabi_api/gerar_rotas.py` — não edite à mão; rode `python3 ferramentas/rabi_api/atualizar_spec.py` para atualizar. Toda rota pode responder também `401` (chave rejeitada), `403` (chave sem a permissão) e `503` (falha ao validar a chave) — ver [convenções](../convencoes.md) e [chave e token](../chave-e-token.md).
 
@@ -55,6 +55,9 @@
 | `regimeDeAtendimentoId` | integer | não | aceita null |
 | `tipoAtendimento` | integer | não | aceita null; ID do tipo de atendimento |
 | `especialidadesId` | lista de integer | não |  |
+| `documentos` | lista de objeto | não | Documentos obrigatórios do serviço (ex.: PRESCRIÇÃO MÉDICA) — exigidos no agendamento, acolhimento, autorização e pela IA. No PUT, lista enviada substitui; omi… |
+| `documentos[].id` | integer | não | ID do documento |
+| `perfilFiscalId` | string | não | aceita null; Perfil fiscal (NFS-e) do serviço. `null` desvincula; omitido mantém (no PUT). |
 | `produtoIds` | lista de integer ou objeto | não | ID do produto (quantidade 1) ou objeto com quantidade/valor. |
 | `produtoIds[].(opção 1)` | integer | não |  |
 | `produtoIds[].(opção 2)` | objeto | não |  |
@@ -107,6 +110,9 @@
 | `servicos[].regimeDeAtendimentoId` | integer | não | aceita null |
 | `servicos[].tipoAtendimento` | integer | não | aceita null; ID do tipo de atendimento |
 | `servicos[].especialidadesId` | lista de integer | não |  |
+| `servicos[].documentos` | lista de objeto | não | Documentos obrigatórios do serviço (ex.: PRESCRIÇÃO MÉDICA) — exigidos no agendamento, acolhimento, autorização e pela IA. No PUT, lista enviada substitui; omi… |
+| `servicos[].documentos[].id` | integer | não | ID do documento |
+| `servicos[].perfilFiscalId` | string | não | aceita null; Perfil fiscal (NFS-e) do serviço. `null` desvincula; omitido mantém (no PUT). |
 | `servicos[].produtoIds` | lista de integer ou objeto | não | ID do produto (quantidade 1) ou objeto com quantidade/valor. |
 | `servicos[].produtoIds[].(opção 1)` | integer | não |  |
 | `servicos[].produtoIds[].(opção 2)` | objeto | não |  |
@@ -138,7 +144,7 @@
 
 - **Permissão:** `servico:read` · **Manual:** [op-get-servicos-id](https://www.rabisistemas.com.br/manual/api-externa/referencia-cadastros.html#op-get-servicos-id)
 - **Resumo:** Consultar serviço
-- **Descrição:** Traz o serviço completo, incluindo serviços relacionados (composição).
+- **Descrição:** Traz o serviço completo, incluindo composição (`servicosRelacionados`), especialidades (`especialidadesId`), documentos obrigatórios (`documentos`), produtos (`produtoIds`, valor em reais), equipamentos (`equipamentoIds`) e taxas (`servicoTaxa`) — com os mesmos nomes que o `PUT` aceita (também `somarItems`, `procedimentos`, `tipoAtendimento`, `perfilFiscalId`). Ler e reenviar sem alterar não muda nada.
 
 | Parâmetro | Onde | Tipo | Obrig. | Observação |
 |---|---|---|---|---|
@@ -152,7 +158,7 @@
 
 - **Permissão:** `servico:update` · **Manual:** [op-put-servicos-id](https://www.rabisistemas.com.br/manual/api-externa/referencia-cadastros.html#op-put-servicos-id)
 - **Resumo:** Atualizar serviço
-- **Descrição:** Sobrescreve os dados — envie o objeto completo, campos omitidos não são preservados.
+- **Descrição:** **Atualização parcial**: envie só o que quer mudar — todos os campos são opcionais. - Campo omitido: mantém o valor atual. - `null`: limpa o campo (ex.: `linkAuxiliar: null`, `perfilFiscalId: null`; `valor: null` vira 0). - Lista omitida (`documentos`, `produtoIds`, `equipamentoIds`, `servicoTaxa`, `especialidadesId`, `servicosRelacionados`): mantém os vínculos atuais. - Lista enviada: **substitui** os vínculos por exatamente o que veio. Para remover todos, envie `[]`. Ex.: `{ "nome": "X" }` só renomeia; `{ "documentos": [{ "id": 3 }] }` deixa só o documento 3.
 
 | Parâmetro | Onde | Tipo | Obrig. | Observação |
 |---|---|---|---|---|
@@ -179,6 +185,9 @@
 | `regimeDeAtendimentoId` | integer | não | aceita null |
 | `tipoAtendimento` | integer | não | aceita null; ID do tipo de atendimento |
 | `especialidadesId` | lista de integer | não |  |
+| `documentos` | lista de objeto | não | Documentos obrigatórios do serviço (ex.: PRESCRIÇÃO MÉDICA) — exigidos no agendamento, acolhimento, autorização e pela IA. No PUT, lista enviada substitui; omi… |
+| `documentos[].id` | integer | não | ID do documento |
+| `perfilFiscalId` | string | não | aceita null; Perfil fiscal (NFS-e) do serviço. `null` desvincula; omitido mantém (no PUT). |
 | `produtoIds` | lista de integer ou objeto | não | ID do produto (quantidade 1) ou objeto com quantidade/valor. |
 | `produtoIds[].(opção 1)` | integer | não |  |
 | `produtoIds[].(opção 2)` | objeto | não |  |

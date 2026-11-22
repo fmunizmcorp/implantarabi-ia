@@ -1,7 +1,7 @@
 # Rotas — Taxas (6 operações)
 
-> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-09-28.json`) · **Conferido em:** 2026-09-28
-> **Vale para:** produção (Swagger publicado em 2026-09-28) · **Kit:** v0.3.1
+> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-11-22.json`) · **Conferido em:** 2026-11-22
+> **Vale para:** produção (Swagger publicado em 2026-11-22) · **Kit:** v0.3.3
 
 > Arquivo **gerado** por `ferramentas/rabi_api/gerar_rotas.py` — não edite à mão; rode `python3 ferramentas/rabi_api/atualizar_spec.py` para atualizar. Toda rota pode responder também `401` (chave rejeitada), `403` (chave sem a permissão) e `503` (falha ao validar a chave) — ver [convenções](../convencoes.md) e [chave e token](../chave-e-token.md).
 
@@ -117,7 +117,7 @@
 
 - **Permissão:** `taxa:delete` · **Manual:** [op-delete-taxas-id](https://www.rabisistemas.com.br/manual/api-externa/referencia-cadastros.html#op-delete-taxas-id)
 - **Resumo:** Desativar taxa
-- **Descrição:** É uma **desativação** lógica — mas diferente dos outros cadastros, o model `Taxas` não tem campo `ativo`; usa `delete: true` (mapeado pra coluna `deleted`), é o único recurso desta lista que funciona assim.
+- **Descrição:** É uma **desativação** lógica — mas diferente dos outros cadastros, o model `Taxas` não tem campo `ativo`; usa `delete: true` (mapeado pra coluna `deleted`), é o único recurso desta lista que funciona assim. **Recusa com `409` se a taxa estiver na composição de algum serviço ativo**: a resposta traz a lista em `servicos`; corrija a composição e tente de novo. Serviço inativo não bloqueia.
 
 | Parâmetro | Onde | Tipo | Obrig. | Observação |
 |---|---|---|---|---|
@@ -125,4 +125,6 @@
 
 **Respostas:**
 - `200` **Corpo de sucesso é o número cru `201`**, não um objeto. — integer
+- `404` Taxa não encontrada
+- `409` Taxa na composição de serviço ativo
 - `422` Erro ao excluir taxa

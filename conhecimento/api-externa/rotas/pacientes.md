@@ -1,7 +1,7 @@
 # Rotas — Pacientes (11 operações)
 
-> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-09-28.json`) · **Conferido em:** 2026-09-28
-> **Vale para:** produção (Swagger publicado em 2026-09-28) · **Kit:** v0.3.1
+> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-11-22.json`) · **Conferido em:** 2026-11-22
+> **Vale para:** produção (Swagger publicado em 2026-11-22) · **Kit:** v0.3.3
 
 > Arquivo **gerado** por `ferramentas/rabi_api/gerar_rotas.py` — não edite à mão; rode `python3 ferramentas/rabi_api/atualizar_spec.py` para atualizar. Toda rota pode responder também `401` (chave rejeitada), `403` (chave sem a permissão) e `503` (falha ao validar a chave) — ver [convenções](../convencoes.md) e [chave e token](../chave-e-token.md).
 
@@ -31,7 +31,7 @@
 | `ativo` | query | boolean | não | Sem informar, lista ativos e inativos. |
 
 **Respostas:**
-- `200` Lista paginada — campos: `page`, `pageSize`, `total`, `totalPages`, `dados`; item de `dados`: `id`, `nome`, `cpf`, `rg`, `numeroDocumento`, `orgaoEmissor`, `ufRg`, `dataDeNascimento`, `estrangeiro`, `estadoCivil`, `profissao`, `atendimentoRN`, `sexoId`, `ativo`, `createdAt`, `updatedAt`, `contatos`, `endereco`
+- `200` Lista paginada — campos: `page`, `pageSize`, `total`, `totalPages`, `dados`; item de `dados`: `id`, `nome`, `nomeSocial`, `cpf`, `rg`, `numeroDocumento`, `orgaoEmissor`, `ufRg`, `dataDeNascimento`, `estrangeiro`, `estadoCivil`, `profissao`, `atendimentoRN`, `sexoId`, `ativo`, `createdAt`, `updatedAt`, `contatos`, `endereco`
 
 ### `POST /pacientes`
 
@@ -42,7 +42,8 @@
 
 | Campo | Tipo | Obrig. | Observação |
 |---|---|---|---|
-| `nome` | string | **sim** |  |
+| `nome` | string | **sim** | Nome civil (oficial) |
+| `nomeSocial` | string | não | aceita null; Nome social (opcional). Exibido nas telas como `SOCIAL (civil)` e enviado automaticamente no campo Nome Social da guia/XML TISS. `null` ou vazio limpa. |
 | `rg` | string | não | aceita null |
 | `cpf` | string | não | Obrigatório, salvo para recém-nascido sem CPF (usar `cpfMae`) |
 | `orgaoEmissor` | string | não | aceita null |
@@ -75,7 +76,7 @@
 | `convenioPlano[].ativo` | boolean | não | padrão `True` |
 
 **Respostas:**
-- `201` Paciente criado — campos: `id`, `nome`, `cpf`, `rg`, `numeroDocumento`, `orgaoEmissor`, `ufRg`, `dataDeNascimento`, `estrangeiro`, `estadoCivil`, `profissao`, `atendimentoRN`, `sexoId`, `ativo`, `createdAt`, `updatedAt`, `contatos`, `endereco`
+- `201` Paciente criado — campos: `id`, `nome`, `nomeSocial`, `cpf`, `rg`, `numeroDocumento`, `orgaoEmissor`, `ufRg`, `dataDeNascimento`, `estrangeiro`, `estadoCivil`, `profissao`, `atendimentoRN`, `sexoId`, `ativo`, `createdAt`, `updatedAt`, `contatos`, `endereco`
 - `400` CPF inválido, contato obrigatório ausente ou dado inconsistente
 - `409` CPF já cadastrado nesta clínica
 
@@ -90,7 +91,8 @@
 | Campo | Tipo | Obrig. | Observação |
 |---|---|---|---|
 | `pacientes` | lista de objeto | **sim** | máx. itens 50 |
-| `pacientes[].nome` | string | **sim** |  |
+| `pacientes[].nome` | string | **sim** | Nome civil (oficial) |
+| `pacientes[].nomeSocial` | string | não | aceita null; Nome social (opcional). Exibido nas telas como `SOCIAL (civil)` e enviado automaticamente no campo Nome Social da guia/XML TISS. `null` ou vazio limpa. |
 | `pacientes[].rg` | string | não | aceita null |
 | `pacientes[].cpf` | string | não | Obrigatório, salvo para recém-nascido sem CPF (usar `cpfMae`) |
 | `pacientes[].orgaoEmissor` | string | não | aceita null |
@@ -138,7 +140,7 @@
 | `id` | path | integer | **sim** | mín. 1; ID do paciente |
 
 **Respostas:**
-- `200` Paciente — campos: `id`, `nome`, `cpf`, `rg`, `numeroDocumento`, `orgaoEmissor`, `ufRg`, `dataDeNascimento`, `estrangeiro`, `estadoCivil`, `profissao`, `atendimentoRN`, `sexoId`, `ativo`, `createdAt`, `updatedAt`, `contatos`, `endereco`
+- `200` Paciente — campos: `id`, `nome`, `nomeSocial`, `cpf`, `rg`, `numeroDocumento`, `orgaoEmissor`, `ufRg`, `dataDeNascimento`, `estrangeiro`, `estadoCivil`, `profissao`, `atendimentoRN`, `sexoId`, `ativo`, `createdAt`, `updatedAt`, `contatos`, `endereco`
 - `400` `id` inválido
 - `404` Paciente não encontrado
 
@@ -146,7 +148,7 @@
 
 - **Permissão:** `paciente:update` · **Manual:** [op-put-pacientes-id](https://www.rabisistemas.com.br/manual/api-externa/referencia-cadastros.html#op-put-pacientes-id)
 - **Resumo:** Atualizar paciente
-- **Descrição:** Sobrescreve os dados cadastrais — envie o objeto completo, campos omitidos não são preservados.
+- **Descrição:** **Atualização parcial**: campo omitido mantém o valor atual; `null` limpa; lista omitida mantém; lista enviada substitui (`[]` apaga). - `atendimentoRn`, `estrangeiro`, `cpf` e `cpfMae` omitidos mantêm (o CPF só é revalidado quando um deles vem). - `contato` omitido mantém os contatos. Enviado, substitui: contatos com `id` que não vieram são inativados; contato com `ativo: false` continua inativo. - `convenioPlano` omitido mantém as carteiras. Enviado, substitui: carteira com `id` que não veio é inativada (sem `id` em nenhuma, todas são inativadas e as enviadas criadas de novo). - `endereco`: campo omitido mantém; `numero`/`complemento` `null` limpa. - Aceita os nomes da leitura: `contatos`, `atendimentoRN`, endereço com maiúsculas (`Cep`, `Endereco`, `Numero`, `Complemento`, `Bairro`, `Cidade`) e `responsavelLegalNome`/`responsavelLegalCpf`/`responsavelLegalParentesco`.
 
 | Parâmetro | Onde | Tipo | Obrig. | Observação |
 |---|---|---|---|---|
@@ -156,7 +158,8 @@
 
 | Campo | Tipo | Obrig. | Observação |
 |---|---|---|---|
-| `nome` | string | **sim** |  |
+| `nome` | string | **sim** | Nome civil (oficial) |
+| `nomeSocial` | string | não | aceita null; Nome social (opcional). Exibido nas telas como `SOCIAL (civil)` e enviado automaticamente no campo Nome Social da guia/XML TISS. `null` ou vazio limpa. |
 | `rg` | string | não | aceita null |
 | `cpf` | string | não | Obrigatório, salvo para recém-nascido sem CPF (usar `cpfMae`) |
 | `orgaoEmissor` | string | não | aceita null |
@@ -189,7 +192,7 @@
 | `convenioPlano[].ativo` | boolean | não | padrão `True` |
 
 **Respostas:**
-- `200` Paciente atualizado — campos: `id`, `nome`, `cpf`, `rg`, `numeroDocumento`, `orgaoEmissor`, `ufRg`, `dataDeNascimento`, `estrangeiro`, `estadoCivil`, `profissao`, `atendimentoRN`, `sexoId`, `ativo`, `createdAt`, `updatedAt`, `contatos`, `endereco`
+- `200` Paciente atualizado — campos: `id`, `nome`, `nomeSocial`, `cpf`, `rg`, `numeroDocumento`, `orgaoEmissor`, `ufRg`, `dataDeNascimento`, `estrangeiro`, `estadoCivil`, `profissao`, `atendimentoRN`, `sexoId`, `ativo`, `createdAt`, `updatedAt`, `contatos`, `endereco`
 - `400` CPF inválido ou dado inconsistente
 - `404` Paciente não encontrado
 
@@ -252,7 +255,7 @@
 
 - **Permissão:** `paciente:update` · **Manual:** [op-put-pacientes-id-convenios-vinculoid](https://www.rabisistemas.com.br/manual/api-externa/referencia-cadastros.html#op-put-pacientes-id-convenios-vinculoid)
 - **Resumo:** Atualizar um vínculo de convênio do paciente
-- **Descrição:** `vinculoId` é o `id` retornado por `GET /pacientes/{id}/convenios`, não o id do convênio.
+- **Descrição:** `vinculoId` é o `id` retornado por `GET /pacientes/{id}/convenios`, não o id do convênio. Atualização parcial: `convenioId`, `planoId`, `numeroDaCarterinha` e `validade` omitidos mantêm; `null` ou `""` limpa.
 
 | Parâmetro | Onde | Tipo | Obrig. | Observação |
 |---|---|---|---|---|

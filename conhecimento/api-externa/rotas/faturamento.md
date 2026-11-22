@@ -1,7 +1,7 @@
 # Rotas — Faturamento (24 operações)
 
-> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-09-28.json`) · **Conferido em:** 2026-09-28
-> **Vale para:** produção (Swagger publicado em 2026-09-28) · **Kit:** v0.3.1
+> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-11-22.json`) · **Conferido em:** 2026-11-22
+> **Vale para:** produção (Swagger publicado em 2026-11-22) · **Kit:** v0.3.3
 
 > Arquivo **gerado** por `ferramentas/rabi_api/gerar_rotas.py` — não edite à mão; rode `python3 ferramentas/rabi_api/atualizar_spec.py` para atualizar. Toda rota pode responder também `401` (chave rejeitada), `403` (chave sem a permissão) e `503` (falha ao validar a chave) — ver [convenções](../convencoes.md) e [chave e token](../chave-e-token.md).
 
@@ -148,7 +148,7 @@
 
 - **Permissão:** `faturamento:update` · **Manual:** [op-put-faturamento-guias-servicoatendimentoid](https://www.rabisistemas.com.br/manual/api-externa/referencia-operacao.html#op-put-faturamento-guias-servicoatendimentoid)
 - **Resumo:** Editar a guia por completo
-- **Descrição:** Edição completa: número da guia, conversão de convênio/colaborador, valores de produto/taxa/serviço. Não sensibiliza estoque (já foi baixado no consumo real do atendimento).
+- **Descrição:** Edição da guia: número da guia, conversão de convênio/colaborador, valores de produto/taxa/serviço. Não sensibiliza estoque (já foi baixado no consumo real do atendimento). **Atualização parcial**: campo omitido mantém o valor atual; `null` limpa; lista omitida mantém; lista enviada substitui (`[]` apaga). - `colaborador`, `colaboradorConvertido`, `servicoConvertido`, `produtos` e `taxas` são opcionais. - `centroConsumoId`, especialidade do executante (`colaborador.colaboradorEspecialidadeId`) e colaborador convertido omitidos mantêm; `null` desvincula. - Produto/taxa com `produtoAtendimentoId`/`taxaAtendimentoId`: só os campos enviados mudam (quantidade, valor, código etc. omitidos mantêm). Produto/taxa sem esse id é adicionado. Itens que não vieram **não** são removidos.
 
 | Parâmetro | Onde | Tipo | Obrig. | Observação |
 |---|---|---|---|---|

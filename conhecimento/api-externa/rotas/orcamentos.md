@@ -1,7 +1,7 @@
 # Rotas — Orçamentos (10 operações)
 
-> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-09-28.json`) · **Conferido em:** 2026-09-28
-> **Vale para:** produção (Swagger publicado em 2026-09-28) · **Kit:** v0.3.1
+> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-11-22.json`) · **Conferido em:** 2026-11-22
+> **Vale para:** produção (Swagger publicado em 2026-11-22) · **Kit:** v0.3.3
 
 > Arquivo **gerado** por `ferramentas/rabi_api/gerar_rotas.py` — não edite à mão; rode `python3 ferramentas/rabi_api/atualizar_spec.py` para atualizar. Toda rota pode responder também `401` (chave rejeitada), `403` (chave sem a permissão) e `503` (falha ao validar a chave) — ver [convenções](../convencoes.md) e [chave e token](../chave-e-token.md).
 
@@ -114,7 +114,7 @@
 
 - **Permissão:** `orcamento:read` · **Manual:** [op-get-orcamentos-status](https://www.rabisistemas.com.br/manual/api-externa/referencia-operacao.html#op-get-orcamentos-status)
 - **Resumo:** Listar status possíveis de orçamento
-- **Descrição:** `findMany()` sem filtro nem ordenação — vem tudo, inclusive status com `ativo:false`, em ordem não garantida. **Não inclui o status "Vencido" (id 8)**, que é calculado em runtime em `GET /orcamentos` e não existe como registro aqui.
+- **Descrição:** `findMany()` sem filtro nem ordenação — vem tudo, inclusive status com `ativo:false`, em ordem não garantida. Inclui os status automáticos (campo `automatico: true`: 8 Vencido, 10 Pago, 11 Agendado, 12 Concluído, 13 Renegociado), que só o sistema grava.
 
 **Respostas:**
 - `200` Array direto (sem envelope). — lista crua: `id`, `descricao`, `ativo`, `createdAt`, `updatedAt`
@@ -132,7 +132,7 @@
 
 - **Permissão:** `orcamento:update` · **Manual:** [op-put-orcamentos-id](https://www.rabisistemas.com.br/manual/api-externa/referencia-operacao.html#op-put-orcamentos-id)
 - **Resumo:** Atualizar orçamento
-- **Descrição:** Orçamento já aprovado não pode ter procedimentos/valores editados (precisa criar um novo) — exceção: registrar pagamento continua funcionando.
+- **Descrição:** Orçamento já aprovado não pode ter procedimentos/valores editados (precisa criar um novo) — exceção: registrar pagamento continua funcionando. **Atualização parcial**: campo omitido mantém o valor atual; `null` limpa; lista omitida mantém; lista enviada substitui (`[]` apaga). - `procedimentos` omitido: os serviços do orçamento não mudam. - `procedimentos` enviado substitui a lista, sem perder histórico: o serviço já existente é reconhecido por `orcamentoServicoId` (ou pelo `procedimentoId` quando só há um igual) e atualizado no lugar — mantém sessões realizadas e o vínculo com agendamentos. Serviço sem correspondência é criado; serviço que não veio sai do orçamento (o agendamento ligado a ele tem o serviço desativado, como na tela). - Por serviço: campo omitido (valor, sessões, senha, carteira, plano, profissional, grade, especialidade, solicitante) mantém; `produtos`/`taxas` omitidos mantêm, enviados substituem. - Valores em reais. A leitura devolve produtos e taxas em **centavos** — divida por 100 antes de reenviar.
 
 | Parâmetro | Onde | Tipo | Obrig. | Observação |
 |---|---|---|---|---|
@@ -207,7 +207,7 @@
 
 - **Permissão:** `orcamento:update` · **Manual:** [op-put-orcamentos-status-idorcamento-idstatus](https://www.rabisistemas.com.br/manual/api-externa/referencia-operacao.html#op-put-orcamentos-status-idorcamento-idstatus)
 - **Resumo:** Alterar status do orçamento
-- **Descrição:** Ao aprovar, promove agendamentos vinculados que estavam pendentes de orçamento e sincroniza o financeiro.
+- **Descrição:** Ao aprovar, promove agendamentos vinculados que estavam pendentes de orçamento e sincroniza o financeiro. **Status automáticos (8 Vencido, 10 Pago, 11 Agendado, 12 Concluído, 13 Renegociado) são definidos pelo sistema e recusados aqui (422).** Com o status automático ativo na clínica: só trocas permitidas (ex.: Vencido só vai para Cancelado); cancelar exige `motivo` no corpo e, havendo agendamento futuro ou pagamento, responde 409 `ORCAMENTO_CANCELAR_CONFIRMAR` até reenviar com `confirmarCancelamento: true`; reabrir Cancelado/Concluído exige `autorizacao: { colaboradorId, senha }` de nível 3 (403).
 
 | Parâmetro | Onde | Tipo | Obrig. | Observação |
 |---|---|---|---|---|

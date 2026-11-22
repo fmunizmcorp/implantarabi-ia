@@ -1,7 +1,7 @@
 # Rotas — Colaboradores (7 operações)
 
-> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-09-28.json`) · **Conferido em:** 2026-09-28
-> **Vale para:** produção (Swagger publicado em 2026-09-28) · **Kit:** v0.3.1
+> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-11-22.json`) · **Conferido em:** 2026-11-22
+> **Vale para:** produção (Swagger publicado em 2026-11-22) · **Kit:** v0.3.3
 
 > Arquivo **gerado** por `ferramentas/rabi_api/gerar_rotas.py` — não edite à mão; rode `python3 ferramentas/rabi_api/atualizar_spec.py` para atualizar. Toda rota pode responder também `401` (chave rejeitada), `403` (chave sem a permissão) e `503` (falha ao validar a chave) — ver [convenções](../convencoes.md) e [chave e token](../chave-e-token.md).
 
@@ -75,7 +75,7 @@
 | `especialidades[].evolucaoPadrao` | string | não | aceita null |
 | `especialidades[].observacoes` | string | não | aceita null |
 | `especialidades[].conselhoProfissionalId` | integer | não |  |
-| `vinculoRepasse` | objeto | não | Regras de comissão/repasse do colaborador. |
+| `vinculoRepasse` | objeto | não | Regras de comissão/repasse do colaborador. Em cada lista, o item vazio (`servico`/`produto`/`taxa` omitido ou `null`) é a linha geral do tipo: vale para todo i… |
 | `vinculoRepasse.tipoVinculo` | string | não |  |
 | `vinculoRepasse.produtos` | lista de objeto | não |  |
 | `vinculoRepasse.produtos[].valorPercentual` | number | não |  |
@@ -83,17 +83,17 @@
 | `vinculoRepasse.produtos[].tipoCalculo` | string | não |  |
 | `vinculoRepasse.produtos[].tipoProduto` | integer | não |  |
 | `vinculoRepasse.produtos[].material` | integer | não |  |
-| `vinculoRepasse.produtos[].produto` | integer | não |  |
+| `vinculoRepasse.produtos[].produto` | integer | não | aceita null; Produto da linha; vazio = todos os produtos (linha geral). |
 | `vinculoRepasse.servicos` | lista de objeto | não |  |
 | `vinculoRepasse.servicos[].valorPercentual` | number | não |  |
 | `vinculoRepasse.servicos[].valorMonetario` | number | não |  |
 | `vinculoRepasse.servicos[].tipoCalculo` | string | não |  |
-| `vinculoRepasse.servicos[].servico` | integer | não |  |
+| `vinculoRepasse.servicos[].servico` | integer | não | aceita null; Serviço da linha; vazio = todos os serviços (linha geral). |
 | `vinculoRepasse.taxas` | lista de objeto | não |  |
 | `vinculoRepasse.taxas[].valorPercentual` | number | não |  |
 | `vinculoRepasse.taxas[].valorMonetario` | number | não |  |
 | `vinculoRepasse.taxas[].tipoCalculo` | string | não |  |
-| `vinculoRepasse.taxas[].taxa` | integer | não |  |
+| `vinculoRepasse.taxas[].taxa` | integer | não | aceita null; Taxa da linha; vazio = todas as taxas (linha geral). |
 
 **Respostas:**
 - `201` Colaborador criado — campos: `id`, `nome`, `cpf`, `dataDeNascimento`, `sexoId`, `ativo`, `isParceiro`, `telefone`, `telefone2`, `celular`, `celular2`, `email`, `email2`, `corNaAgenda`, `createdAt`, `updatedAt`, `endereco`, `colaboradorEspecialidades`, `colaboradorEmpresas`
@@ -145,7 +145,7 @@
 | `colaboradores[].especialidades[].evolucaoPadrao` | string | não | aceita null |
 | `colaboradores[].especialidades[].observacoes` | string | não | aceita null |
 | `colaboradores[].especialidades[].conselhoProfissionalId` | integer | não |  |
-| `colaboradores[].vinculoRepasse` | objeto | não | Regras de comissão/repasse do colaborador. |
+| `colaboradores[].vinculoRepasse` | objeto | não | Regras de comissão/repasse do colaborador. Em cada lista, o item vazio (`servico`/`produto`/`taxa` omitido ou `null`) é a linha geral do tipo: vale para todo i… |
 | `colaboradores[].vinculoRepasse.tipoVinculo` | string | não |  |
 | `colaboradores[].vinculoRepasse.produtos` | lista de objeto | não |  |
 | `colaboradores[].vinculoRepasse.produtos[].valorPercentual` | number | não |  |
@@ -153,17 +153,17 @@
 | `colaboradores[].vinculoRepasse.produtos[].tipoCalculo` | string | não |  |
 | `colaboradores[].vinculoRepasse.produtos[].tipoProduto` | integer | não |  |
 | `colaboradores[].vinculoRepasse.produtos[].material` | integer | não |  |
-| `colaboradores[].vinculoRepasse.produtos[].produto` | integer | não |  |
+| `colaboradores[].vinculoRepasse.produtos[].produto` | integer | não | aceita null; Produto da linha; vazio = todos os produtos (linha geral). |
 | `colaboradores[].vinculoRepasse.servicos` | lista de objeto | não |  |
 | `colaboradores[].vinculoRepasse.servicos[].valorPercentual` | number | não |  |
 | `colaboradores[].vinculoRepasse.servicos[].valorMonetario` | number | não |  |
 | `colaboradores[].vinculoRepasse.servicos[].tipoCalculo` | string | não |  |
-| `colaboradores[].vinculoRepasse.servicos[].servico` | integer | não |  |
+| `colaboradores[].vinculoRepasse.servicos[].servico` | integer | não | aceita null; Serviço da linha; vazio = todos os serviços (linha geral). |
 | `colaboradores[].vinculoRepasse.taxas` | lista de objeto | não |  |
 | `colaboradores[].vinculoRepasse.taxas[].valorPercentual` | number | não |  |
 | `colaboradores[].vinculoRepasse.taxas[].valorMonetario` | number | não |  |
 | `colaboradores[].vinculoRepasse.taxas[].tipoCalculo` | string | não |  |
-| `colaboradores[].vinculoRepasse.taxas[].taxa` | integer | não |  |
+| `colaboradores[].vinculoRepasse.taxas[].taxa` | integer | não | aceita null; Taxa da linha; vazio = todas as taxas (linha geral). |
 
 **Respostas:**
 - `201` Todos criados — campos: `total`, `criados`, `falhas`, `resultados`; item de `resultados`: `indice`, `status`, `id`, `identificador`, `erro`
@@ -189,7 +189,7 @@
 
 - **Permissão:** `colaborador:update` · **Manual:** [op-put-colaboradores-id](https://www.rabisistemas.com.br/manual/api-externa/referencia-cadastros.html#op-put-colaboradores-id)
 - **Resumo:** Atualizar colaborador
-- **Descrição:** **Não devolve o colaborador atualizado — o corpo de sucesso é o número cru `201`.** É a exceção real dentro do padrão "PUT devolve o recurso" usado no resto da API.
+- **Descrição:** **Não devolve o colaborador atualizado — o corpo de sucesso é o número cru `201`.** É a exceção real dentro do padrão "PUT devolve o recurso" usado no resto da API. **Atualização parcial**: campo omitido mantém o valor atual; `null` limpa; lista omitida mantém; lista enviada substitui (`[]` apaga). - Não reativa colaborador desativado. - `vinculoRepasse`: `tipoVinculo` omitido mantém (`null` desvincula); `produtos`, `servicos` e `taxas` são trocadas só quando enviadas. - `perguntasIds` omitido mantém. - `endereco`: aceita os nomes da leitura (`Cep`, `Endereco`, `Numero`...) e `unidadeFederativaId`; sem UF mantém a atual. - O `GET /colaboradores/{id}` devolve `perguntasIds`, `vinculoRepasse` e `mensagem` no formato deste `PUT`.
 
 | Parâmetro | Onde | Tipo | Obrig. | Observação |
 |---|---|---|---|---|
@@ -235,7 +235,7 @@
 | `especialidades[].evolucaoPadrao` | string | não | aceita null |
 | `especialidades[].observacoes` | string | não | aceita null |
 | `especialidades[].conselhoProfissionalId` | integer | não |  |
-| `vinculoRepasse` | objeto | não | Regras de comissão/repasse do colaborador. |
+| `vinculoRepasse` | objeto | não | Regras de comissão/repasse do colaborador. Em cada lista, o item vazio (`servico`/`produto`/`taxa` omitido ou `null`) é a linha geral do tipo: vale para todo i… |
 | `vinculoRepasse.tipoVinculo` | string | não |  |
 | `vinculoRepasse.produtos` | lista de objeto | não |  |
 | `vinculoRepasse.produtos[].valorPercentual` | number | não |  |
@@ -243,17 +243,17 @@
 | `vinculoRepasse.produtos[].tipoCalculo` | string | não |  |
 | `vinculoRepasse.produtos[].tipoProduto` | integer | não |  |
 | `vinculoRepasse.produtos[].material` | integer | não |  |
-| `vinculoRepasse.produtos[].produto` | integer | não |  |
+| `vinculoRepasse.produtos[].produto` | integer | não | aceita null; Produto da linha; vazio = todos os produtos (linha geral). |
 | `vinculoRepasse.servicos` | lista de objeto | não |  |
 | `vinculoRepasse.servicos[].valorPercentual` | number | não |  |
 | `vinculoRepasse.servicos[].valorMonetario` | number | não |  |
 | `vinculoRepasse.servicos[].tipoCalculo` | string | não |  |
-| `vinculoRepasse.servicos[].servico` | integer | não |  |
+| `vinculoRepasse.servicos[].servico` | integer | não | aceita null; Serviço da linha; vazio = todos os serviços (linha geral). |
 | `vinculoRepasse.taxas` | lista de objeto | não |  |
 | `vinculoRepasse.taxas[].valorPercentual` | number | não |  |
 | `vinculoRepasse.taxas[].valorMonetario` | number | não |  |
 | `vinculoRepasse.taxas[].tipoCalculo` | string | não |  |
-| `vinculoRepasse.taxas[].taxa` | integer | não |  |
+| `vinculoRepasse.taxas[].taxa` | integer | não | aceita null; Taxa da linha; vazio = todas as taxas (linha geral). |
 
 **Respostas:**
 - `202` Corpo de sucesso é o número cru `201`, não o objeto Colaborador. — integer

@@ -1,7 +1,7 @@
 # Rotas — Convênios (22 operações) — parte 2 de 2
 
-> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-09-28.json`) · **Conferido em:** 2026-09-28
-> **Vale para:** produção (Swagger publicado em 2026-09-28) · **Kit:** v0.3.1
+> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-11-22.json`) · **Conferido em:** 2026-11-22
+> **Vale para:** produção (Swagger publicado em 2026-11-22) · **Kit:** v0.3.3
 
 > Arquivo **gerado** por `ferramentas/rabi_api/gerar_rotas.py` — não edite à mão; rode `python3 ferramentas/rabi_api/atualizar_spec.py` para atualizar. Toda rota pode responder também `401` (chave rejeitada), `403` (chave sem a permissão) e `503` (falha ao validar a chave) — ver [convenções](../convencoes.md) e [chave e token](../chave-e-token.md).
 
@@ -253,7 +253,7 @@ Outras partes: [parte 1](convenios-parte-1.md).
 
 - **Permissão:** `convenio:update` · **Manual:** [op-put-convenios-id](https://www.rabisistemas.com.br/manual/api-externa/referencia-cadastros.html#op-put-convenios-id)
 - **Resumo:** Atualizar convênio
-- **Descrição:** **Atenção — a atualização substitui o cadastro, não faz merge parcial.** Envie sempre o convênio completo: - `empresaId` e `unidadesIds` são obrigatórios. As unidades que não estiverem na lista são **desativadas** no convênio. - Omitir `operadoraId` **remove** a operadora do convênio. - Omitir `dataFim`, `dataReajuste` ou `dataRenovacao` **limpa** essas datas. - Omitir `exigirToken` grava `false`. - `politicasPorTipoProduto`, quando enviado, é a lista completa: políticas que não estiverem nela são inativadas. Se for omitido, as políticas existentes não são alteradas.
+- **Descrição:** **Atualização parcial**: campo omitido mantém o valor atual; `null` limpa; lista omitida mantém; lista enviada substitui. - `empresaId` e `unidadesIds` omitidos mantêm. `unidadesIds` enviado é a lista completa: unidades fora dela são **desativadas** no convênio. - `operadoraId`, `dataFim`, `dataReajuste`, `dataRenovacao`, `exigirToken` e `prazoLimiteEntregaGuias` omitidos mantêm; `null` limpa/desvincula. - `politicasPorTipoProduto`, quando enviado, é a lista completa: políticas que não estiverem nela são inativadas. Se for omitido, as políticas existentes não são alteradas. - Aceita os nomes da leitura `limiteParcelasConvenios` e `kitDocumentosId`.
 
 | Parâmetro | Onde | Tipo | Obrig. | Observação |
 |---|---|---|---|---|

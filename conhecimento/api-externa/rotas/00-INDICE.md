@@ -1,7 +1,7 @@
 # Índice das rotas da API externa
 
-> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-09-28.json`) · **Conferido em:** 2026-09-28
-> **Vale para:** produção (Swagger publicado em 2026-09-28) · **Kit:** v0.3.1
+> **Fonte:** Swagger oficial https://api.rabisistemas.com.br/external-docs/ (snapshot `spec/openapi-2026-11-22.json`) · **Conferido em:** 2026-11-22
+> **Vale para:** produção (Swagger publicado em 2026-11-22) · **Kit:** v0.3.3
 
 > Arquivo **gerado** por `ferramentas/rabi_api/gerar_rotas.py` — não edite à mão; rode `python3 ferramentas/rabi_api/atualizar_spec.py` para atualizar. Toda rota pode responder também `401` (chave rejeitada), `403` (chave sem a permissão) e `503` (falha ao validar a chave) — ver [convenções](../convencoes.md) e [chave e token](../chave-e-token.md).
 
@@ -25,7 +25,7 @@ Um arquivo por grupo (tag) do Swagger, na ordem do roteiro de implantação do m
 | 14 | Convênios | 22 | [convenios-parte-1.md](convenios-parte-1.md) · [convenios-parte-2.md](convenios-parte-2.md) | [referencia-cadastros.html](https://www.rabisistemas.com.br/manual/api-externa/referencia-cadastros.html#grupo-convenios) |
 | 15 | Grade de Colaborador | 7 | [grade-de-colaborador.md](grade-de-colaborador.md) | [referencia-cadastros.html](https://www.rabisistemas.com.br/manual/api-externa/referencia-cadastros.html#grupo-grade-colaborador) |
 | 16 | Grade de Equipamento | 5 | [grade-de-equipamento.md](grade-de-equipamento.md) | [referencia-cadastros.html](https://www.rabisistemas.com.br/manual/api-externa/referencia-cadastros.html#grupo-grade-equipamento) |
-| 17 | Financeiro | 5 | [financeiro.md](financeiro.md) | [referencia-operacao.html](https://www.rabisistemas.com.br/manual/api-externa/referencia-operacao.html#grupo-financeiro) |
+| 17 | Financeiro | 13 | [financeiro.md](financeiro.md) | [referencia-operacao.html](https://www.rabisistemas.com.br/manual/api-externa/referencia-operacao.html#grupo-financeiro) |
 | 18 | Estoque | 12 | [estoque.md](estoque.md) | [referencia-operacao.html](https://www.rabisistemas.com.br/manual/api-externa/referencia-operacao.html#grupo-estoque) |
 | 19 | Pacientes | 11 | [pacientes.md](pacientes.md) | [referencia-cadastros.html](https://www.rabisistemas.com.br/manual/api-externa/referencia-cadastros.html#grupo-pacientes) |
 | 20 | Parâmetros | 45 | [parametros-parte-1.md](parametros-parte-1.md) · [parametros-parte-2.md](parametros-parte-2.md) | [referencia-parametros.html](https://www.rabisistemas.com.br/manual/api-externa/referencia-parametros.html#grupo-parametros) |
@@ -34,6 +34,6 @@ Um arquivo por grupo (tag) do Swagger, na ordem do roteiro de implantação do m
 | 23 | Atendimentos | 6 | [atendimentos.md](atendimentos.md) | [referencia-operacao.html](https://www.rabisistemas.com.br/manual/api-externa/referencia-operacao.html#grupo-atendimentos) |
 | 24 | Faturamento | 24 | [faturamento.md](faturamento.md) | [referencia-operacao.html](https://www.rabisistemas.com.br/manual/api-externa/referencia-operacao.html#grupo-faturamento) |
 | 25 | NFS-e | 28 | [nfse.md](nfse.md) | [referencia-operacao.html](https://www.rabisistemas.com.br/manual/api-externa/referencia-operacao.html#grupo-nfse) |
-| | **Total** | **269** | 27 arquivos | 192 caminhos |
+| | **Total** | **277** | 27 arquivos | 198 caminhos |
 
-**Conferência:** soma das operações = **269** (esperado no Swagger de 25/09/2026: 268); caminhos = **192** (esperado: 191).
+**Conferência:** soma das operações = **277** (esperado no Swagger de 25/09/2026: 268); caminhos = **198** (esperado: 191).
