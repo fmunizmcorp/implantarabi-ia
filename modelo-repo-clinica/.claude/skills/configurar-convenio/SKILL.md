@@ -24,7 +24,7 @@ Prompt completo do modo: `.kit/prompts/04-modo-convenio.md`. Regras de preço:
    `python3 .kit/ferramentas/conversao/simulador.py <cenario.json> --csv precos-<slug>.csv` → Σ do
    serviço, linha "valor próprio" e Farol previstos. Mostre a prévia em tabela.
 6. **Montar os corpos:** `python3 .kit/ferramentas/conversao/montar_convenio.py`
-   (ordem: Utiliza → valores → textos/códigos → tipo de atendimento → Pacote/Zerar).
+   (ordem: Especialidades (Atende) → Utiliza → valores → textos/códigos → tipo de atendimento → Pacote/Zerar — serviço de especialidade não atendida recusa Utiliza desde 29/09).
 7. **Gravar** pela skill `ritual-de-carga`, **um convênio por vez**, lote ≤ 200
    por aba, um lote por vez (senão 429).
 8. **Conferir:** `python3 .kit/ferramentas/conversao/conferir_farol.py` + agente

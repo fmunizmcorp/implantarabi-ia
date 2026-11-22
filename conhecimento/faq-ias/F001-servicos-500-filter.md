@@ -4,7 +4,7 @@
 - **Status HTTP:** 500
 - **Mensagem contém:** reading 'filter' | Cannot read properties of undefined
 - **Causa:** confirmada no código do Rabi (`CreateServicoUseCase` faz `especialidadesId.filter(...)` sem valor padrão; leitura do `deploy_prd` em 28/09/2026)
-- **Status:** **corrigido pelo Rabi em 28/09/2026, em produção às 17:43 (Brasília)** — commit `c73e84de` ("campos opcionais omitidos pela API externa quebravam ou gravavam dados errados"). Mandar as 4 listas continua sendo boa prática (corpo completo)
+- **Status:** **corrigido pelo Rabi em 28/09/2026, em produção às 17:43 (Brasília)** — commit `4a79cab7` (antes citado como `c73e84de`; a história do `deploy_prd` foi reescrita) ("campos opcionais omitidos pela API externa quebravam ou gravavam dados errados"). Mandar as 4 listas continua sendo boa prática (corpo completo)
 - **Origem:** implantação real (clínica anônima), 28/09/2026
 
 ## O que acontecia (explicação técnica, para a equipe)

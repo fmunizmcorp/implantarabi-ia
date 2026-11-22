@@ -108,6 +108,14 @@ codificar), SA-3 (cadastro do sistema anterior).
 ## Armadilhas desta sprint
 
 - Produto sem fabricante não salva — cadastre o fabricante na S04 antes.
+- **Códigos como texto (02/10/2026):** `codigoEAN` com 8, 12, 13 ou 14 dígitos e `codigoNCM` com 8,
+  **sempre como string** (número perde o zero à esquerda); `codigoProduto` até 10 caracteres
+  (letras, números, `. - /`, padrão TISS). Fora disso, 400. `corpo_put_produto` confere.
+- **Referências oficiais** (15/10, #662): a aba Referências oficiais do produto guarda o código
+  na publicação (SIMPRO/Brasíndice/CMED/TUSS) e o **fator de conversão** (preço unitário = preço
+  publicado ÷ fator). Só é usada no preço se o convênio tiver o bloco correspondente; a
+  importação por planilha foi retirada da tela — carga do nível 2 depende do time Rabi.
+- Inativar produto que está em serviço ativo é recusado com 409 (FAQ F007).
 - Nome sem dose gera casamento errado em convênio e em referência.
 - Mesmo produto duas vezes (nome da nota × nome da prescrição): unifique antes.
 - Tipo de produto errado quebra a **política de preço por tipo** do convênio

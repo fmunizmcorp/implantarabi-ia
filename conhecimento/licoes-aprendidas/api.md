@@ -8,21 +8,32 @@ Origem das lições: [origem.md](origem.md).
 
 ## L01 — Chave inválida já respondeu 503, não 401
 
+> **Atualização 22/11/2026:** corrigido no Rabi — chave/token rejeitado responde **401** (medido com
+> `rbk_` e `rbt_` falsos). 503 ficou só para falha real do validador. A lição de "não repetir em laço"
+> continua; o resto é histórico. FAQ F003.
+
 **O que aconteceu:** a chave foi trocada três vezes num mesmo dia; as revogadas
 passaram a responder 503 (`"Não foi possível validar a chave de API."`). Reconfirmado em
 25/09 ~12h em produção **e** homologação: chave inexistente e chave real não aceita
 (revogada/não ativada) → 503; sem cabeçalho → 401. Uma sessão que tratasse 503
 como instabilidade ficaria em laço de nova tentativa, sem nunca avisar que a
 chave morreu.
-**Regra que ficou:** 401 **e** 503 no primeiro teste = problema de chave. Pare,
-avise o usuário, peça a chave nova. Sem retry em loop. (O Swagger de 25/09 diz 401 para chave rejeitada e 503 só para falha de rede —
-na prática, 503 = chave não aceita. Trate os dois do mesmo jeito.) A validade
+**Regra que ficou (atualizada em 22/11/2026):** 401 = problema de chave. Pare, avise o
+usuário, peça a renovação (rbt_) ou a chave nova (rbk_). 503 = Rabi indisponível: **uma**
+nova tentativa depois de alguns minutos, e pare. Sem retry em loop nos dois casos.
+(Histórico: em 24–25/09 a chave não aceita respondia 503.) A validade
 medida de uma chave de implantação foi de **~7 dias**: olhe
 `X-ApiKey-Expires-At` em toda abertura e peça a renovação cedo.
 **Como detectar:** toda chamada falha com 401/503 desde o início da sessão;
 cabeçalho `X-ApiKey-Expires-At` ausente ou vencido.
 
 ## L02 — PUT sobrescreve: campo omitido ou com nome errado é APAGADO
+
+> **Atualização 22/11/2026:** desde 01–02/10/2026 o PUT é **parcial** em serviço, convênio,
+> paciente, colaborador, grades, orçamento, movimentação e guia (omitido mantém; lista enviada
+> substitui). A lição continua valendo nas rotas que não declaram (produto, taxa, local,
+> parâmetros, empresa) e para **nome de leitura** mandado na escrita (a API ignora e a mudança se
+> perde). Regra atual: [../api-externa/convencoes.md](../api-externa/convencoes.md) §4.
 
 **O que aconteceu:** para tirar um vínculo de um serviço, a sessão montou o
 corpo do PUT com os nomes de campo que a **leitura** devolve. A gravação usa

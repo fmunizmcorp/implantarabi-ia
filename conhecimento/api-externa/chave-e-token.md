@@ -1,7 +1,7 @@
 # Token (`rbt_` recomendado ou `rbk_`), permissões, validade e configuração na clínica
 
-> **Fonte:** https://www.rabisistemas.com.br/manual/api-externa/index.html#autenticacao · #permissoes · Swagger https://api.rabisistemas.com.br/external-docs/ (seção "Autenticação" e "Permissões", snapshot `spec/openapi-2026-09-25.json`) · **Conferido em:** 2026-09-25 (tipos de token: decisão de 30/09/2026)
-> **Vale para:** produção (Swagger de 25/09/2026) · **Kit:** v0.3.3
+> **Fonte:** https://www.rabisistemas.com.br/manual/api-externa/index.html#autenticacao · #permissoes · Swagger https://api.rabisistemas.com.br/external-docs/ (seção "Autenticação" e "Permissões", snapshot `spec/openapi-2026-11-22.json`) · **Conferido em:** 2026-11-22 (tipos de token: decisão de 30/09/2026; 401 medido em 22/11)
+> **Vale para:** produção (Swagger de 22/11/2026) · **Kit:** v0.4.0
 
 > 🔒 **Validade curta é proteção, não problema** (decisão do proprietário, 25/09/2026): o token **deve** expirar, e renová-lo é o **fluxo normal** da implantação (no `rbt_`, a clínica clica em **Renovar**; na `rbk_`, chave nova pelo time Rabi). A sessão avisa com antecedência, pede a renovação ao dono e segue — nunca trata o vencimento como falha nem tenta contornar a expiração.
 
@@ -14,7 +14,7 @@ externa e o mesmo cabeçalho `Authorization: Bearer <token>`:
 |---|---|---|
 | Quem gera | a **própria clínica**, no Rabi: **Configurações › Parâmetros › Integrações**, tipo **"Implantação e manutenção"** | o **time Rabi**, no portal comercial |
 | Permissões | só as da implantação (kit mínimo da §6), marcadas pela clínica; **editável** depois | definidas na geração pelo time Rabi |
-| Validade | renovada pela clínica no botão **Renovar** da tela do token | sem renovação automática nem autoatendimento: chave nova pelo time Rabi |
+| Validade | escolhida na geração: **30, 90 ou 365 dias, ou sem validade**; renovada pela clínica no botão **Renovar** (gera valor novo e invalida o anterior na hora) | sem renovação automática nem autoatendimento: chave nova pelo time Rabi |
 | Onde vai no kit | `RABI_API_KEY` e/ou linha `api_key: rbt_...` | `RABI_API_KEY` e/ou linha `api_key: rbk_...` |
 
 - O token só enxerga os dados **da clínica** a que pertence.
@@ -95,7 +95,10 @@ Regras:
 ## 3. Validade — `X-ApiKey-Expires-At`
 
 - Toda resposta **autenticada com sucesso** traz o cabeçalho `X-ApiKey-Expires-At`
-  (data/hora ISO 8601, ex.: `2026-12-31T23:59:59.000Z`).
+  (data/hora ISO 8601, UTC, ex.: `2026-12-31T23:59:59.000Z`) — a validade **do token usado**,
+  `rbk_` ou `rbt_`. **Token sem validade não envia o cabeçalho** (não é erro).
+- **Recomendação do kit para o `rbt_` de implantação:** 30 dias (ou 90 numa implantação longa),
+  nunca "sem validade" — validade é proteção. Na manutenção contínua, o dono decide.
 - O `cliente.py` guarda o valor da última resposta (`cliente.validade`) e calcula
   `cliente.dias_restantes()`.
 - **Alerta 15 dias antes:** se faltarem menos de 15 dias, a IA avisa o dono da clínica
@@ -103,19 +106,19 @@ Regras:
   token `rbt_` (botão Renovar)" ou, na `rbk_`, "pedir chave nova ao time Rabi". Sem chave nova, a integração para com 401 no dia do vencimento.
 - Antes de uma implantação longa: se a chave vence antes do fim previsto, peça a nova
   **antes de começar**.
-- **Validade medida: ~7 dias.** Numa leitura real em produção (25/09/2026), a chave de
-  implantação vinha com `X-ApiKey-Expires-At` cerca de **7 dias depois da emissão**. Com
+- **Validade medida da `rbk_`: ~7 dias.** Numa leitura real em produção (25/09/2026), a chave de
+  implantação `rbk_` vinha com `X-ApiKey-Expires-At` cerca de **7 dias depois da emissão**. Com
   prazo tão curto, o alerta de 15 dias dispara desde o primeiro dia: a IA mostra a data de
   vencimento **em toda abertura de sessão**, registra em `pendencias/PENDENCIAS.md` e pede
   a renovação ao dono **alguns dias antes** — não no dia. No `rbt_`, o dono renova sozinho
-  (botão **Renovar**); na `rbk_` não há autoatendimento: pedido ao time Rabi. Chave vencida ou não renovada a tempo = 503/401 e a
+  (botão **Renovar**); na `rbk_` não há autoatendimento: pedido ao time Rabi. Chave vencida ou não renovada a tempo = 401 e a
   implantação para.
 
 ## 4. Revogação
 
 - O `rbt_` é revogado ou editado pela clínica em Configurações › Parâmetros › Integrações;
   a `rbk_`, no portal comercial (pelo time Rabi / dono da clínica).
-- Depois de revogada, **pode continuar aceita por até 60 segundos**.
+- Depois de revogada, a `rbk_` **pode continuar aceita por até 60 segundos**; o `rbt_` é conferido a cada requisição (revogou, parou).
 - Ao terminar a implantação (S16/S17): revogar a chave de implantação ou reduzi-la às
   permissões da integração contínua (checklist do manual,
   https://www.rabisistemas.com.br/manual/api-externa/implantacao-via-api.html#checklist-final).
@@ -133,9 +136,9 @@ restantes, e grava um resumo Markdown **sem a chave**.
 
 | Resposta | O que significa | O que fazer |
 |---|---|---|
-| **401** | sem cabeçalho de autorização (`"Token não fornecido."`); pelo Swagger, também chave rejeitada | **não repetir**; conferir se o token foi carregado; `rbt_`: renovar/gerar outro em Integrações; `rbk_`: pedir nova ao time Rabi |
-| **403** | chave válida, mas **sem a permissão** da rota (a mensagem diz qual, ex.: `'paciente:read'`) | `rbt_`: o dono edita o token e marca a permissão; `rbk_`: pedir chave com a permissão (tabela da seção 7) |
-| **503** | `"Não foi possível validar a chave de API."` = **chave não aceita**: inexistente, revogada ou ainda não ativada. Medido em 25/09/2026 (madrugada e ~12h) em produção **e** homologação, inclusive com uma chave real ainda não validada; o 401 que o Swagger promete ainda não vale para isso | o cliente tenta **uma vez** de novo e depois para com `ChaveInvalida`; sem loop. Com a chave certa: `rbt_` → o dono confere/renova o token em Integrações; `rbk_` → pedir ao time Rabi para ativá-la/renová-la |
+| **401** | chave/token rejeitado (`"Token de integração inválido, revogado ou expirado."` — **medido em 22/11/2026** com `rbk_` e `rbt_` falsos) ou sem cabeçalho (`"Token não fornecido."`) — [FAQ F003](../faq-ias/F003-chave-recusada.md) | **não repetir**; conferir se o token foi carregado; `rbt_`: renovar/gerar outro em Integrações; `rbk_`: pedir nova ao time Rabi |
+| **403** | chave válida, mas **sem a permissão** da rota: vem em `escopoFaltante` (ex.: `paciente:read`) e `error` diz onde liberar | `rbt_`: o dono edita as permissões do **mesmo** token (vale na requisição seguinte); `rbk_`: pedir chave com a permissão (tabela da seção 7) — [FAQ F008](../faq-ias/F008-403-escopo-faltante.md) |
+| **503** | hoje: falha de rede/validação do lado do Rabi. **Histórico:** até 25/09/2026 a chave não aceita respondia 503 `"Não foi possível validar a chave de API."`; em 22/11 isso já era 401 | o cliente tenta **uma vez** de novo e para; persistindo, é o Rabi, não a chave |
 
 Atenção: em 3 rotas de parâmetros e nas 3 rotas `PUT /faturamento/glosas/*`, **401 não é
 problema de chave** — ver [defeitos-conhecidos.md](defeitos-conhecidos.md). O cliente

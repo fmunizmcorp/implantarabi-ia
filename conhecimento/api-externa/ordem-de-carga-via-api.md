@@ -20,7 +20,7 @@ A API recusa com código de erro quando a ordem é violada (a tela só "não mos
    exige `depositoId`) → **depósito mínimo por unidade antes dos locais** (senão 422 "O
    depósito padrão de saída selecionado está inativo ou não existe").
 2. Serviço de medicamento aponta para o produto (`produtoIds`) → **produtos antes dos
-   serviços** (senão a composição não tem para onde apontar e consertar exige PUT completo).
+   serviços** (senão a composição não tem para onde apontar e consertar exige reenviar a lista inteira).
 3. Abas Taxas/Serviços do convênio, tabela interna e `servicoTaxa` do serviço exigem as
    taxas → **taxas antes de produtos, serviços e convênios** (senão 207 com ERRO "taxa
    inexistente").
@@ -44,7 +44,7 @@ A API recusa com código de erro quando a ordem é violada (a tela só "não mos
 | **10** | **S10** | Convênios — **fase 2: abas**, uma por vez por convênio: Planos → Especialidades → Taxas → Produtos → Serviços → Colaboradores | `PUT /convenios/{id}/planos` · `/especialidades` · `/taxas` · `/produtos` · `/servicos` (200) · `/colaboradores` (100) — upsert | tudo acima | a configuração de preço | `GET` de cada aba; 207 → reenviar só ERRO |
 | **10b** | **S10** | Grades de horário | `POST /grades-colaborador` (lista em `colaboradorGrade`) · `POST /grades-equipamento` (lista direta) | colaboradores, equipamentos, locais, convênios | agenda pronta | `GET /grades-colaborador?colaboradorId=…&localId=…&vigenteEm=…` (grade de equipamento grava e devolve 500 — reler) |
 | **11** | **S11** | Conferência pelo **Farol** (todo convênio) | `GET /convenios/{id}/farol/itens?apenasAtivosNoConvenio=true&servicoAtivo=true` · `/farol/servicos` · `/farol/produtos` | abas gravadas | relatório: vermelhos e roxos explicados | mínimo 3 serviços por convênio (simples, com medicamento, com pacote) |
-| **12** | **S12** | Financeiro, fiscal e estoque (entradas com `valorCompra` → custo do Farol) | `POST /estoque/entrada` · `POST /financeiro/movimentacoes(/bulk)` — **só com ordem escrita** | depósitos, produtos, `responsavelId`, `motivoId`, contas/categorias (ids da tela) | saldo e custo; roxos do Farol somem | `GET /estoque/saldo-produtos`; reler o Farol |
+| **12** | **S12** | Financeiro, fiscal e estoque (entradas com `valorCompra` → custo do Farol) | `GET/POST/PUT /financeiro/contas-caixa` (novo em 18/11: contas e caixas pela API; sem `tipoDeContaId` = Conta Corrente; número repetido → 409 com o id; dados bancários só de documento do dono) · `POST /estoque/entrada` · `POST /financeiro/movimentacoes(/bulk)` — **só com ordem escrita** | depósitos **ativos** (depósito inativo recusa movimento com 422), produtos, `responsavelId`, `motivoId`, contas (agora com leitura em `GET /financeiro/contas-caixa`), categorias (ids da tela) | saldo e custo; roxos do Farol somem | `GET /estoque/saldo-produtos`; reler o Farol |
 | **13** | **S13** | Pacientes (e, se houver, histórico) | `POST /pacientes/bulk` (50, um lote por vez) · `/pacientes/{id}/convenios` · `/anexos` · `POST /atendimentos` + `PUT /atendimentos/{id}` · `POST /atendimentos/prontuario` | convênios e planos; colaboradores | base de pacientes | amostra por GET (sem PII na prova); `GET /atendimentos/historico?pacienteId=…` |
 | **14** | **S14** | Parâmetros e permissões | `/parametros/*` (GET antes de PUT, objeto completo) · perfis de permissão **pela tela** | tudo | regras de negócio | GET depois de cada PUT |
 | — | **S15** | Testes de validação (10 cenários do guia) | leitura + agendamento/orçamento **só em homologação ou com ordem** | S01–S14 | aprovação dos cenários | manual #etapa-15 |
@@ -62,7 +62,7 @@ A API recusa com código de erro quando a ordem é violada (a tela só "não mos
 - [ ] Todo serviço composto criado depois dos seus subserviços e produtos.
 - [ ] Cada convênio com as 6 abas conferidas por GET e o Farol lido — vermelhos e roxos explicados.
 - [ ] Colaboradores que usam o sistema têm login.
-- [ ] Nenhuma correção por PUT parcial (fora das abas do convênio, PUT com objeto completo, conferido por GET).
+- [ ] Toda correção conferida por GET depois: nas rotas parciais só o que mudou (listas enviadas completas); nas demais, PUT com objeto completo.
 - [ ] Valores de faturamento lidos conforme a descrição da rota (reais × centavos/texto).
 - [ ] Data de `X-ApiKey-Expires-At` registrada, com alerta de renovação.
 - [ ] Chave de implantação revogada (ou reduzida às permissões da integração contínua).

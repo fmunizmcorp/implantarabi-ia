@@ -123,7 +123,17 @@ Matriz de partida (o manual indica e a clínica refina por ação):
 
 - Dar Configurações para recepção ou Financeiro para profissional sem motivo
   escrito.
-- PUT parcial de parâmetro gravando `null` em vínculos.
+- PUT parcial de parâmetro gravando `null` em vínculos (os PUT de `/parametros/*` **não** declaram
+  parcial: objeto completo).
+- **Token de implantação mínimo:** ao fechar a implantação, retire do `rbt_` as permissões que não
+  serão usadas na manutenção — em especial `*:delete`, NFS-e e financeiro — ou revogue
+  (`metodologia/licoes-de-implantacao-com-ia.md` §1).
+- **Permissões novas que não nascem com ninguém:** as 9 ações de CONTAS CAIXAS (#650) e
+  TISS_INTEGRACAO / TISS_ELEGIBILIDADE (#619). Inclua no perfil certo, com motivo escrito.
+- Administrador não troca senha/e-mail de quem tem acesso a outra clínica (13/10): o próprio
+  usuário usa "Esqueci minha senha". MFA existe mas não é obrigatório.
+- Orçamento: aprovação da **assistência** (registro de conselho) obrigatória para agendar desde
+  18/11 (#705) — confira quem tem esse papel.
 - Tentar gravar nível de desconto/alçada pela API (falha por defeito conhecido).
 - `desabilitarBloqueioFarol` ligado "para facilitar": desliga todo bloqueio de
   margem — só com decisão escrita.

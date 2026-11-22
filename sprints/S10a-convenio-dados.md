@@ -119,10 +119,15 @@ Exemplo fictício: `{"descricao":"Operadora Exemplo — Empresarial","dataInicio
 
 ## Armadilhas desta sprint
 
-- **`PUT /convenios/{id}` substitui o cadastro:** unidades fora da lista são
-  **desativadas** no convênio; omitir `operadoraId` remove a operadora; omitir
-  datas (`dataFim`, `dataReajuste`, `dataRenovacao`) as limpa; omitir `exigirToken`
-  grava `false`; `politicasPorTipoProduto`, quando enviado, é a lista **completa**.
+- **`PUT /convenios/{id}` é parcial desde 01–02/10/2026:** campo omitido mantém, `null`
+  limpa (desvincula operadora, apaga data). Mas **`unidadesIds` enviado é a lista completa**
+  (unidade fora dela é desativada) e `politicasPorTipoProduto` enviado também (as que não
+  vierem são inativadas; `[]` apaga). Mande só o que muda com
+  `corpo_parcial("convenios", ..., listas_conferidas=(...))`. Até 30/09 o PUT substituía o
+  cadastro (omitir datas as limpava) — convênio gravado antes disso: FAQ F006.
+- **A tela do convênio abre em modo visualização** (Liberar para edição → Salvar no
+  cabeçalho; abas em rascunho até o Salvar) — FAQ F011. A conta de recebimento é
+  obrigatória para gerar contas a receber.
 - **O `GET /convenios/{id}` real traz datas, prazos, `exigirToken` e
   `faturadoPagamento` — use-o como base; mas `unidadesIds` e
   `politicasPorTipoProduto` NÃO vêm** (nem `fatorK`). Medido em produção em

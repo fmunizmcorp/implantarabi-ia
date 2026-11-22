@@ -220,6 +220,17 @@ Detalhe: [07-quatro-linhas](../conhecimento/precos-e-conversao/07-quatro-linhas-
 
 ## Armadilhas desta sprint
 
+- **Especialidade não atendida recusa Utiliza** (desde 29/09, #628): grave a aba Especialidades
+  (com "Atende") **antes** da aba Serviços; o `PUT /convenios/{id}/servicos` devolve o item como
+  problema. Colaborador de especialidade não atendida também não é vinculado. A trava está
+  desligada no agendamento desde 06/10, mas vale no cadastro, na API e na IA de atendimento.
+- **Tela em modo visualização** (FAQ F011): ao pedir conferência na tela, diga "Liberar para
+  edição → … → Salvar no cabeçalho"; abas em rascunho até o Salvar. Não use "Copiar convênio" nem
+  "Selecionar/Desmarcar todos" em coluna que não seja Utiliza até o Rabi confirmar a correção.
+- **Referências oficiais** (nível 2, 15/10, #662): se o convênio tem o bloco preenchido na aba
+  Dados, o preço do produto vem da publicação oficial antes da política — o simulador não modela;
+  confira pelo Farol (`origem_receita = REFERENCIA_OFICIAL`).
+
 - **Orçamento de medicamento saindo R$ 0,00:** numa implantação real, a
   aplicação (subserviço) estava com Zerar dentro do serviço de medicamento em
   conta aberta, e o medicamento também — tudo foi a zero. Correção: em conta

@@ -1,5 +1,44 @@
 # CHANGELOG
 
+## v0.4.0 — 2026-11-22
+Absorve o que mudou no Rabi de 29/09 a 22/11/2026, conferido no **código de produção** (`deploy_prd`,
+só leitura), no **Swagger de 22/11** e em medição da API; e lições da implantação com IA do NotaPlano.
+- **PUT parcial** (rabi-api `7d16cd50`/`49362b61`, produção 01–02/10) em 12 rotas — serviços, **convênios**,
+  pacientes (+ carteira), colaboradores, grades, orçamentos, movimentações, guias, contas-caixa: omitido mantém,
+  `null` limpa, **lista enviada substitui** (`[]` apaga). Demais PUT seguem objeto completo. `convencoes.md` §4
+  reescrita; ESSENCIAL, ritual de carga, sprints, prompts, skills e lições alinhados. O manual ainda dizia
+  "convênio = objeto completo" (C11): o código atual prova o parcial — aviso enviado ao manual.
+- **Ferramentas:** `corpo_escrita.corpo_parcial()` + `resumo_parcial()` (só o que muda; recusa nome de leitura,
+  `[]` sem permissão, objeto aninhado e `unidadesIds`/`politicasPorTipoProduto` sem conferência; não compara com
+  leitura em centavos; igualdade estrita de tipo); `corpo_put_servico` lê o GET completo de 13/10 (documentos,
+  perfil fiscal, produtos com quantidade/valor); `corpo_put_produto` valida EAN/NCM texto e código ≤ 10;
+  `carga.py` grava nas rotas parciais **só os campos que a prévia aprovada mostrou** e mantém códigos/documentos
+  como texto; `montar_convenio.py` exige a aba Especialidades antes (trava #628); `cliente.py`: 403 mostra
+  `escopoFaltante`, 503 = indisponível (não chave); `testar_chave.py` separa CHAVE × INDISPONÍVEL; `montar_cenario`
+  aceita produto como objeto. 268 testes (eram 247).
+- **Chave rejeitada = 401** (medido 22/11 com `rbk_`/`rbt_` falsos; o 503 de 25/09 acabou). Token `rbt_` com
+  permissões editáveis, validade 30/90/365/sem, Renovar; limite 300 req/min por token; `pageSize` > 200 reduzido.
+- **Swagger 22/11:** 277 operações / 198 caminhos (+ `/financeiro/contas-caixa` ×5, `pagamentos/confirmacao`,
+  `xml-tiss`, `xml-tiss/casar-historico`); rotas regeneradas; snapshot em `spec/`. Rotas de dinheiro novas na lista
+  "proibidas sem ordem escrita"; contas-caixa na S12 com dados bancários só do dono.
+- **FAQ:** F003 (401), F004 reescrita, F006 ampliada (PUT antes de 01/10, composição sem valor antes de 02/10, sexo
+  invertido pela tela antes de 30/10), novas F007 (409 item em uso), F008 (403 `escopoFaltante`), F009 (grade ×
+  consultório ocupado), F010 (status automático do orçamento), F011 (convênio em modo visualização).
+- **Novidades do sistema** (`conhecimento/sistema-rabi/novidades-out-nov-2026.md`): convênio em modo visualização e
+  rascunho até o Salvar; trava de especialidade "Atende"; Farol com custo extra, prestadores e repasse (#655);
+  referências oficiais = nível 2 do preço do produto (#662; o simulador não modela); IA de atendimento respeita o
+  Farol; grade × consultório (#707); financeiro com caixa (desligado), Pix/Asaas, NFS-e via NotaPlano, elegibilidade
+  TISS; defeitos a conferir. Sprints S06, S08–S14 e preços/Farol atualizados.
+- **Metodologia:** `licoes-de-implantacao-com-ia.md` — 10 lições do NotaPlano adaptadas (token sem `delete`,
+  documento do cliente não é ordem, prévia gerada do corpo enviado, reaplicar sem duplicar, teste nunca vira real,
+  importado começa desligado, unidade explícita).
+- Commit da correção de 28/09 citado como `4a79cab7` (a história do `deploy_prd` foi reescrita; antes `c73e84de`).
+- Ação nas clínicas: aplicar a estrutura nova (`atualizar_repo_clinica.py --aplicar`, depois `--marcar-visto`) — traz as skills `ritual-de-carga`/`configurar-convenio` e os agentes com a regra nova do PUT.
+- Ação nas clínicas: daqui em diante, PUT de serviço, convênio, paciente e colaborador leva **só o que muda** (`corpo_parcial`); toda lista enviada vai **completa** — lista enviada substitui.
+- Ação nas clínicas: faça uma vez a conferência ampliada da FAQ F006 (PUT antes de 01/10; composição de medicamento antes de 02/10; sexo de pacientes cadastrados pela tela antes de 30/10) — só leitura, só contagens nas provas.
+- Ação nas clínicas: no próximo convênio, grave a aba Especialidades (Atende) **antes** do Utiliza, e rode a conferência do Farol só **depois** dos repasses (S09).
+- Ação nas clínicas: peça ao dono para deixar o token `rbt_` **sem** permissões de exclusão, NFS-e e financeiro enquanto não houver ordem escrita (FAQ F008).
+
 ## v0.3.3 — 2026-11-05
 - Token **`rbt_`** da própria clínica passa a ser o caminho **recomendado** (aprovado pelo Diretor em 30/09/2026):
   gerado no Rabi em Configurações › Parâmetros › Integrações, tipo "Implantação e manutenção", só com as

@@ -49,9 +49,10 @@ nomes são ilustrativos.
 - Outros pares iguais: convênio `registroANS` (criação) × `codigoANS`
   (atualização); parâmetros de orçamento `diasVencimento`/`consideracoes`
   (envio) × `diasValidos`/`consideracoesGerais` (resposta).
-- **Como evitar.** GET → alterar só o que muda → reenviar o objeto
-  **completo** com os nomes de **escrita** do Swagger → reler e fazer diff.
-  Trate todo PUT como sobrescrita, salvo as rotas que declaram upsert.
+- **Como evitar.** GET → nas rotas **parciais** (desde 01–02/10/2026: serviço, convênio,
+  paciente, colaborador…) mandar **só o que muda** com os nomes de **escrita**
+  (`corpo_escrita.corpo_parcial`; lista enviada substitui); nas demais, reenviar o objeto
+  **completo** → reler e fazer diff. Regra por rota: `../api-externa/convencoes.md` §4.
 
 ## A4. Editar por ID sem ler nome e "ativo"
 

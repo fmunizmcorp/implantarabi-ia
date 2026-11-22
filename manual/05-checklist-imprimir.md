@@ -34,6 +34,6 @@ Chave pedida em: ___/___/____  Vence em: ___/___/____  (pedir outra ___ dias ant
 
 ## Se der problema — [Parte E](04-problemas-e-seguranca.md)
 
-Chave 503/401 → chave nova + trocar no ambiente · Repo público → Settings →
+Chave 401 → Renovar o rbt_ (ou rbk_ nova) + trocar no ambiente · Repo público → Settings →
 Change visibility → Private · Kit não baixou → sessão nova / ZIP · Actions
 vermelho → A4 + Re-run · Trabalho sumiu → ver branch `claude/...`

@@ -60,12 +60,17 @@ Prova **nunca** contém dado de paciente (ver [politicas.md](politicas.md) §5).
 ## Passo 4 — Grava
 
 - Chame a rota e guarde a **resposta crua com o status** em `resposta.json`.
-- **PUT = sobrescrita.** Antes de todo PUT: GET do objeto completo → altere só o
-  que foi aprovado → reenvie **o objeto inteiro**. Exceções (upsert, campo
-  omitido mantém, `null` limpa, `0` é zero): as abas
-  `PUT /convenios/{id}/servicos|taxas|produtos|colaboradores|especialidades|planos`
-  e `/parametros/desconto`. Mesmo em `/parametros/financeiro`, reenvie tudo:
-  omitir conta ou centro de custo já gravou `null` na prática.
+- **PUT: parcial ou completo, conforme a rota** ([../conhecimento/api-externa/convencoes.md](../conhecimento/api-externa/convencoes.md) §4).
+  - **Parciais** (desde 01–02/10/2026): serviços, convênios, pacientes (+carteira),
+    colaboradores, grades, orçamentos, movimentações, guias, contas-caixa e as abas do
+    convênio. Mande **só o que foi aprovado** (`corpo_escrita.corpo_parcial`); omitido
+    mantém, `null` limpa, **lista enviada substitui** (`[]` apaga). Toda lista e todo `null`
+    aparecem na prévia (`resumo_parcial`).
+  - **Completas** (não declaram): produto, taxa, equipamento, local, depósito, fornecedor,
+    fabricante, tabela de preço, parâmetros, empresa: GET → altere só o aprovado → reenvie
+    **o objeto inteiro**. Em `/parametros/financeiro`, reenvie sempre conta e centro de custo.
+  - A prévia mostra o "de → para" gerado **do corpo que vai ser enviado**, não de uma lista
+    escrita à mão ([licoes-de-implantacao-com-ia.md](licoes-de-implantacao-com-ia.md) §3).
 - **Lotes:** até 50 nos `/bulk` de cadastro; 200 nas abas do convênio (100 na
   aba Colaboradores) e em `/tabelas-preco/produtos/bulk`; 100 em
   `/nfse/tomadores/bulk`. **Um lote por vez** por clínica (o segundo simultâneo
@@ -77,8 +82,8 @@ Prova **nunca** contém dado de paciente (ver [politicas.md](politicas.md) §5).
 - **409** = já existe: busque pelo GET, reutilize o ID, **não crie outro**.
 - **422** = falta pré-requisito (ordem das sprints!). **400** = campo inválido
   (leia `issues[]`). **403** = a chave não tem essa permissão: pare e avise.
-- **401 ou 503** = problema com a chave (a documentação diz 401; na prática, chave
-  revogada já respondeu 503). **Não entre em laço de nova tentativa.** Tente uma
+- **401** = problema com a chave (medido em 22/11/2026; até 25/09 a recusa vinha como
+  503 — hoje 503 é o Rabi indisponível). **Não entre em laço de nova tentativa.** Tente uma
   vez depois de alguns segundos; se repetir, pare, registre e avise o
   implantador (a chave pode ter vencido — veja `X-ApiKey-Expires-At`).
 - **500 depois de gravar:** a rota `POST|PUT|DELETE /grades-equipamento` tem um
@@ -131,6 +136,6 @@ A lista completa e atualizada fica em `conhecimento/api-externa/` do kit
 2. Ativo/inativo e nome antes de mexer.
 3. Prévia em tabela, com origem de cada valor.
 4. Aprovação item a item no novo; em bloco só depois do primeiro provado.
-5. PUT = objeto completo (salvo abas do convênio e desconto).
+5. PUT: só o que muda nas rotas parciais (lista enviada substitui); objeto completo nas demais.
 6. Grava, guarda resposta crua; 207 → reenvia só os com erro.
 7. Foto depois + diff; sem releitura = NÃO CONFIRMADO.

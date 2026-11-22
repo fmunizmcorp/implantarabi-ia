@@ -107,6 +107,14 @@ limite amarelo; 🟡 amarelo entre os limites; 🔴 vermelho ≤ limite vermelho
 
 ## Armadilhas desta sprint
 
+- **Desde 12/10/2026 (#655) o custo do Farol inclui** custo extra do convênio, prestadores e o
+  **repasse** do profissional (sem profissional: o maior repasse entre quem atende e aceita o
+  convênio). Rode a conferência depois da S09 (repasses) e dos custos extras; cores podem mudar
+  em serviços sem produto. O bloqueio por esses custos nasce **desligado** (Parâmetros ›
+  Orçamento — "Custos extras … também bloqueiam"; antes, "Ver serviços que mudam de cor"): ligar
+  é decisão do dono. A IA de atendimento (TalkMe) não oferece serviço bloqueado ou que pede
+  aprovação (#664).
+
 - Aceitar vermelho "em silêncio": vermelho é dinheiro perdido naquele serviço,
   naquele convênio — sempre investigado e decidido.
 - Roxo logo após a implantação costuma ser **falta de custo** (as entradas de

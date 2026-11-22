@@ -1,7 +1,7 @@
 # Convenções da API externa (paginação, envelope, valores, PUT, DELETE, lotes, erros)
 
-> **Fonte:** https://www.rabisistemas.com.br/manual/api-externa/index.html#convencoes (#paginacao, #valores, #put, #delete, #lotes, #codigos) · https://www.rabisistemas.com.br/manual/api-externa/erros-e-boas-praticas.html#armadilhas · Swagger (seção "Convenções gerais", snapshot `spec/openapi-2026-09-25.json`) · experiência de implantação real (24/09/2026) · leitura real (só GET) da API de produção em 25/09/2026 ~12h · **Conferido em:** 2026-09-25
-> **Vale para:** produção (Swagger de 25/09/2026) · **Kit:** v0.1.0
+> **Fonte:** https://www.rabisistemas.com.br/manual/api-externa/index.html#convencoes (#paginacao, #valores, #put, #delete, #lotes, #codigos) · https://www.rabisistemas.com.br/manual/api-externa/erros-e-boas-praticas.html#armadilhas · Swagger (seção "Convenções gerais", snapshot `spec/openapi-2026-11-22.json`) · experiência de implantação real (24/09/2026) · leitura real (só GET) da API de produção em 25/09/2026 ~12h · **Conferido em:** 2026-11-22 (PUT parcial e limites conferidos no código `deploy_prd`)
+> **Vale para:** produção (Swagger de 22/11/2026) · **Kit:** v0.4.0
 
 O `ferramentas/rabi_api/cliente.py` já aplica quase tudo isto. Este arquivo explica o
 porquê, para você não errar quando precisar sair do caminho feliz.
@@ -11,7 +11,7 @@ porquê, para você não errar quando precisar sair do caminho feliz.
 | Regra | Valor |
 |---|---|
 | `page` | começa em **1**. `page=0` → **400** (`"Too small: expected number to be >0"`) |
-| `pageSize` | padrão **50**, máximo **200** (acima → 400) nas rotas que declaram limite |
+| `pageSize` | padrão **50**, máximo **200** — desde out/2026 a API externa **reduz em silêncio** para 200 o que vier acima (`tetoPaginacao`): leia sempre o `pageSize` devolvido |
 | Como percorrer | loop de `page=1` até `page = totalPages` — **não** pare porque a página veio menor que `pageSize` |
 | Conferência | ao final, **itens lidos = `total`**. Se não bater, a leitura **falhou** (leia de novo) |
 
@@ -129,71 +129,76 @@ Para ver todas: `grep -rn -i "centavos" conhecimento/api-externa/rotas/`.
 - **Sucesso não é só 200/201:** `POST /taxas` responde 200 ao criar; vários `PUT`
   respondem 202. Trate 2xx como sucesso.
 
-## 4. PUT e PATCH — na dúvida, é sobrescrita
+## 4. PUT e PATCH — parcial onde o Rabi declara; no resto, objeto completo
 
-Regra do Swagger (25/09/2026): "o comportamento só está confirmado nos recursos cuja
-descrição diz isso explicitamente; para qualquer outro PUT, trate como se sobrescrevesse
-tudo". Regra do kit: **GET antes → altere só o que muda → reenvie o objeto COMPLETO**,
-salvo nas rotas marcadas como upsert abaixo. Atenção: a **leitura nem sempre traz o que
-a escrita exige** (nomes diferentes, objetos aninhados em vez de IDs, campos ausentes).
-Para `/servicos` e `/produtos` use o conversor `ferramentas/rabi_api/corpo_escrita.py`;
-para `/convenios/{id}` veja a linha da tabela 4.2. São 53 rotas PUT/PATCH (classificação feita
-lendo a descrição de cada uma no spec atual).
+**Mudou em 01–02/10/2026** (rabi-api `7d16cd50` e `49362b61`, em produção; Swagger de 22/11).
+Até 30/09 a regra era "PUT sobrescreve: campo omitido é apagado". Agora há **três grupos**:
 
-**4.1 Declaram upsert / "omitido mantém" (7)**
+**Regra da API para as rotas parciais:** campo **omitido mantém** o valor atual · **`null` limpa** ·
+**lista omitida mantém** os vínculos · **lista enviada substitui** os vínculos por exatamente o que
+veio (**`[]` apaga todos**). A leitura (`GET`) devolve os nomes que o `PUT` aceita, e o PUT aceita
+também os nomes de leitura conhecidos (contatos, endereço com maiúsculas, `limiteParcelasConvenios`,
+`kitDocumentosId`).
 
-| Rota | Comportamento |
+**Regra do kit, valendo para os três grupos:** foto antes → mande **só o que muda** (nas rotas
+parciais) ou o **objeto completo** (nas demais) → foto depois + diff. Toda **lista** que for no corpo
+precisa estar **completa** (o que ficar fora é desvinculado) e aparece na prévia. Corpo gerado por
+`ferramentas/rabi_api/corpo_escrita.py` (`corpo_parcial()` nas rotas parciais; `corpo_put_produto()` no produto).
+
+**4.1 Parciais — 12 rotas** (11 declaradas na descrição da rota no Swagger de 22/11 e confirmadas no código `deploy_prd`; `PUT /financeiro/contas-caixa/{id}` declara "grava só os campos enviados" no **resumo** da rota, rota criada em 18/11 com o commit `03a8199c`)
+
+| Rota | Atenção específica |
 |---|---|
-| `PUT /convenios/{id}/servicos` | upsert por `servicoId`; omitido mantém; `valorInternoConvenio: null` limpa |
-| `PUT /convenios/{id}/taxas` | upsert por `taxaId`; omitido mantém; `valorConvertido: null` limpa |
-| `PUT /convenios/{id}/produtos` | upsert por `produtoId`; omitido mantém; `valorUnitarioConversao`/`fatorK: null` limpam |
-| `PUT /convenios/{id}/colaboradores` | upsert; omitido mantém; listas de especialidades **aditivas** (nunca remove — remover só pela tela) |
-| `PUT /convenios/{id}/especialidades` | upsert por `especialidadeId`; omitido mantém |
-| `PUT /parametros/desconto` | campo omitido não altera |
-| `PATCH /parametros/servicos-online/textos-informativos` | omitido fica inalterado |
+| `PUT /servicos/{id}` | listas `documentos`, `produtoIds`, `equipamentoIds`, `servicoTaxa`, `especialidadesId`, `servicosRelacionados`: omitida mantém, enviada substitui; `valor: null` vira 0. Produto da composição enviado **sem** `valorUnitario` mantém o valor que já tinha (`f8c7f474`) |
+| `PUT /convenios/{id}` | `empresaId`/`unidadesIds` omitidos mantêm; **`unidadesIds` enviado é a lista completa** (unidade fora dela é desativada no convênio); `operadoraId`, `dataFim`, `dataReajuste`, `dataRenovacao`, `exigirToken`, `prazoLimiteEntregaGuias` omitidos mantêm, `null` limpa; `politicasPorTipoProduto`, se enviado, é a lista completa. O manual ainda recomendava (05/11, pendência C11) mandar o objeto completo por cautela (#698); o **código** de `deploy_prd` é parcial — **conferido pelo mantenedor em 22/11** em `src/modules/convenio/controllers/updateConvenio/updateConvenioController.ts` ("#640 prática 2 — grava só o que veio (tela e API externa): omitido mantém, null limpa"). O kit segue o código, mas **nunca** manda `unidadesIds`/`politicasPorTipoProduto` sem ter lido e conferido contra a régua. A leitura traz `empresaPrincipalId` (escrita: `empresaId`) |
+| `PUT /convenios/{id}/servicos` · `/taxas` · `/produtos` | upsert por id do item; omitido mantém; `null` ou `""` limpa código, Tabela 87, fonte de preço, `valorInternoConvenio`/`valorConvertido`/`valorUnitarioConversao`/`fatorK`. Utiliza em serviço de especialidade **não atendida** pelo convênio é recusado como problema do item (trava #628) — grave a aba Especialidades antes |
+| `PUT /pacientes/{id}` | `contato` e `convenioPlano` enviados substituem (contato/carteira com `id` que não veio é **inativado**); CPF só revalidado quando vem |
+| `PUT /pacientes/{id}/convenios/{vinculoId}` | `convenioId`, `planoId`, `numeroDaCarterinha`, `validade` omitidos mantêm; `null`/`""` limpa |
+| `PUT /colaboradores/{id}` | não reativa colaborador desativado; `vinculoRepasse` (`produtos`/`servicos`/`taxas`) trocado só quando enviado; item de repasse vazio = **linha geral** do tipo (#643); `perguntasIds` omitido mantém; o GET traz `perguntasIds`, `vinculoRepasse` e `mensagem` no formato do PUT |
+| `PUT /grades-colaborador/{id}` | `agendamentoOnline`, `modoConvenio` (`INCLUIR`/`EXCLUIR` — trocar inverte o sentido da lista) e `limitesConvenio` só mudam quando enviados. Segue: corpo é **lista direta**, cada item com o próprio `id`; o `{id}` do caminho é ignorado (defeito aberto) |
+| `PUT /grades-equipamento/{id}` | `profissionais` (aceita `colaboradores`), `convenios`, `servicos`: omitidas mantêm, enviadas substituem |
+| `PUT /orcamentos/{id}` | `procedimentos` enviado substitui, reconhecendo o serviço existente por `orcamentoServicoId`; **leitura em centavos** (÷100 antes de reenviar). Operação da clínica — ordem escrita |
+| `PUT /financeiro/movimentacoes/{id}` | `registroFinanceiro`/`duplicatas`: item com `id` atualizado no lugar, sem `id` criado, que não veio **removido**; leitura em centavos. Dinheiro — ordem escrita |
+| `PUT /faturamento/guias/{servicoAtendimentoId}` | produtos/taxas que não vieram **não** são removidos. Ordem escrita |
+| `PUT /financeiro/contas-caixa/{id}` | grava só os campos enviados; `ativo: false` desativa (não há DELETE) |
 
-`PUT /convenios/{id}/planos` fica **fora** deste grupo: o spec só diz "upsert por
-`planoId`, idempotente" e não fala de campo omitido. Mande o item completo, com
-`utiliza` sempre.
+Também mantêm o omitido (já antes de 01/10): `PUT /convenios/{id}/colaboradores` (listas de
+especialidades **aditivas** — remover só pela tela), `PUT /convenios/{id}/especialidades` (upsert por
+`especialidadeId`; sem "Atende" no corpo mantém o valor), `PUT /parametros/desconto`,
+`PATCH /parametros/servicos-online/textos-informativos`. `PUT /parametros/financeiro` é **misto**:
+omitir (ou mandar `0`, `""`, `false`) em `categoriaPagamentoId`/`centroDeCustoId` **grava null** —
+mande sempre os dois. `PUT /convenios/{id}/planos`: mande o item completo, com `utiliza`.
 
-`PUT /parametros/financeiro` é **misto**: os 3 campos numéricos omitidos ficam como estão,
-mas omitir (ou mandar `0`, `""`, `false`) em `categoriaPagamentoId`/`centroDeCustoId`
-**grava null**. Mande sempre os dois.
-
-**4.2 Declaram sobrescrita / substituição (6)**
+**4.2 Sobrescrevem / sincronizam (declarado)**
 
 | Rota | O que acontece |
 |---|---|
-| `PUT /servicos/{id}` | sobrescreve — omitido **não é preservado** (inclusive composição, especialidades, valor) |
-| `PUT /pacientes/{id}` | sobrescreve os dados cadastrais |
-| `PUT /convenios/{id}` | substitui: `empresaId` e `unidadesIds` obrigatórios (unidade fora da lista é desativada); omitir `operadoraId` **remove** a operadora; omitir `dataFim`/`dataReajuste`/`dataRenovacao` **limpa**; omitir `exigirToken` grava `false`; `politicasPorTipoProduto`, se enviado, é a lista completa. **O `GET /convenios/{id}` real (medido 25/09) traz mais que o Swagger** — datas (`dataInicio`, `dataFim`, `dataReajuste`, `dataRenovacao`), prazos (`prazoAutorizacao`, `prazoLimiteEntregaGuias`, `prazoPagamento`, `prazoPagamentoRecursoGlosa`, `prazoReajuste`, `prazoRecursoGlosa`, `prazoRetorno`), `exigirToken`, `faturadoPagamento`, `operadoraId`, contato, observação e ids de XML/kits: **use-o como base**. Desde **28/09** o GET traz também `unidadesIds` e `politicasPorTipoProduto` (em 25/09 não trazia; `fatorK` segue fora): **confira-os contra a régua contratual + dicionário de IDs** antes de reenviar — lista vazia no PUT desativa unidades/apaga políticas. E **confira os nomes de leitura × escrita** no schema `ConvenioUpdate` antes de reenviar: a leitura traz `empresaPrincipalId` (a escrita pede `empresaId`) e `kitDocumentosId`/`limiteParcelasConvenios` (a escrita tem `kitDocumentosPadrao`/`limiteParcelasConvenioParticular` — correspondência provável, **não confirmada**); `id`, `ativo`, `createdAt`, `updatedAt`, `markup`, `perfilFiscalId`, `kitDeProdutosId`, `photoConvenio` não entram no corpo. Confira na tela antes e depois |
-| `PUT /empresas/{id}` | substitui o cadastro inteiro |
-| `PUT /operadoras/{id}` | as listas `plano` e `contato` são sincronizadas: o que não vier é **removido** |
+| `PUT /empresas/{id}` | substitui o cadastro inteiro. (O Swagger de 22/11 ainda diz "mesmo comportamento do `PUT /convenios/{id}`", mas o de convênio passou a ser parcial — texto incoerente; o kit trata empresa como **objeto completo**, defeitos-conhecidos.md) |
+| `PUT /operadoras/{id}` | listas `plano` e `contato` sincronizadas: o que não vier é **removido** |
 | `POST /atendimentos/prontuario` | sobrescreve o texto sem guardar versão anterior |
 
-**4.3 Não declaram → trate como sobrescrita (39)**
+**4.3 Não declaram → objeto completo (GET → altera → reenvia tudo)**
 
-`PUT /locais/{id}` · `PUT /pacientes/{id}/convenios/{vinculoId}` · `PUT /colaboradores/{id}` ·
-`PUT /produtos/{id}` · `PUT /equipamentos/{id}` · `PUT /taxas/{id}` · `PUT /fornecedores/{id}` ·
-`PUT /fabricantes/{id}` · `PUT /depositos/{id}` · `PUT /grades-colaborador/{id}` (corpo é
-**lista direta**; o `{id}` do caminho é ignorado — cada item leva o seu `id`) ·
-`PUT /grades-equipamento/{id}` · `PUT /financeiro/movimentacoes/{id}` · `PUT /tabelas-preco/{id}` ·
+`PUT /locais/{id}` · `PUT /produtos/{id}` · `PUT /equipamentos/{id}` · `PUT /taxas/{id}` ·
+`PUT /fornecedores/{id}` · `PUT /fabricantes/{id}` · `PUT /depositos/{id}` · `PUT /tabelas-preco/{id}` ·
 `PUT /nfse/tomadores/{id}` · `PUT /nfse/notas/{id}/tomador` · `PATCH /agendamentos/{id}/cancelar` ·
-`PUT /orcamentos/{id}` · `PUT /orcamentos/status/{idOrcamento}/{idStatus}` ·
-`PUT /faturamento/guias/{servicoAtendimentoId}` · `PUT /faturamento/guias/{guiaMae}/confirmar` ·
-`PUT /faturamento/glosas/produto` · `PUT /faturamento/glosas/taxa` · `PUT /faturamento/glosas/servico` ·
-`PUT /atendimentos/{id}` · `PUT /parametros/orcamento` · `PUT /parametros/estoque` ·
-`PUT /parametros/avisos/{chave}` · `PUT /parametros/acolhimento` ·
-`PATCH /parametros/servicos-online/habilitar` · `PATCH /parametros/servicos-online/agendamento/habilitar` ·
-`PATCH /parametros/servicos-online/agendamento/mudanca-colaborador/habilitar` ·
-`PATCH /parametros/servicos-online/confirmacao/habilitar` · `PATCH /parametros/servicos-online/prontuario/habilitar` ·
-`PATCH /parametros/servicos-online/lista-medico-convenio/habilitar` ·
-`PUT /parametros/servicos-online/agendamento/perguntas/{id}` · `PUT /parametros/termo` ·
-`PUT /parametros/dashboard-permissoes/graficos` · `PUT /parametros/dashboard-permissoes/dashboards` ·
-`PUT /parametros/dashboard-atribuicao`.
+`PUT /orcamentos/status/{idOrcamento}/{idStatus}` · `PUT /faturamento/guias/{guiaMae}/confirmar` ·
+`PUT /faturamento/glosas/produto` · `/taxa` · `/servico` · `PUT /atendimentos/{id}` ·
+`PUT /parametros/orcamento` · `/estoque` · `/avisos/{chave}` · `/acolhimento` · `/termo` ·
+`/dashboard-permissoes/graficos` · `/dashboard-permissoes/dashboards` · `/dashboard-atribuicao` ·
+`PUT /parametros/servicos-online/agendamento/perguntas/{id}` · os `PATCH .../habilitar` de
+servicos-online. Para `/produtos` use `corpo_escrita.corpo_put_produto` (modo completo).
+`PUT /produtos/{id}` com `ativo: false` também é recusado com **409** se o produto estiver em serviço
+ativo (FAQ F007).
 
-Lição de implantação real: um PUT parcial em `/servicos/{id}` apagou o valor e a
-especialidade de um serviço. Por isso o ritual sempre tem foto antes e depois.
+**4.4 Controle de versão (409 de conflito)** — desde 01–02/10 as tabelas de configuração do
+convênio (e outras) têm `version`. O PUT **só confere** a versão se o corpo trouxer `version`; sem
+ela, grava como antes. Com versão velha → **409** (alguém mudou na tela depois do seu GET): releia,
+refaça a prévia, não force. Não documentado no Swagger externo (`ff78db95`, `e8c3364f`). As gravações
+da API ficam na auditoria com origem `API_EXTERNA`.
+
+**Gravações antigas:** serviço, paciente ou convênio gravado por PUT **antes de 01/10/2026** seguiu a
+regra antiga (omitido apagava) — conferência única na [FAQ F006](../faq-ias/F006-conferir-gravacoes-anteriores-a-28-09.md).
 
 ## 5. DELETE = inativação lógica
 
@@ -244,19 +249,19 @@ especialidade de um serviço. Por isso o ritual sempre tem foto antes e depois.
 | 200/201/202 | sucesso | — | guarde o id devolvido |
 | 207 | lote com falha parcial | — | seção 6 |
 | 400 | dado inválido (a resposta traz a mensagem; às vezes `issues[]` com `path`/`message`) — ou DELETE com vínculos | não | corrigir o corpo |
-| 401 | sem cabeçalho (`"Token não fornecido."`); pelo Swagger, também chave rejeitada — mas na prática chave rejeitada ainda dá **503** (abaixo). **Exceto** nas rotas com defeito ([defeitos-conhecidos.md](defeitos-conhecidos.md)) | não | parar; ver [chave-e-token.md](chave-e-token.md) |
-| 403 | chave sem a permissão da rota | não | pedir a permissão |
+| 401 | chave/token rejeitado (`rbt_`: "Token de integração inválido, revogado ou expirado."; `rbk_`: "Chave de API inválida ou expirada.") ou sem cabeçalho ("Token não fornecido.") — **medido 22/11/2026**. **Exceto** nas rotas com defeito ([defeitos-conhecidos.md](defeitos-conhecidos.md)) | não | parar; [FAQ F003](../faq-ias/F003-chave-recusada.md) |
+| 403 | sem a permissão da rota (em `escopoFaltante`); ou `COLABORADOR_INATIVO` | não | liberar só a permissão necessária — [FAQ F008](../faq-ias/F008-403-escopo-faltante.md) |
 | 404 | id não existe nesta clínica/ambiente | não | conferir o id (homologação ≠ produção) |
-| 409 | já existe (CNPJ, CPF, nome de local/depósito/equipamento, login, conflito de grade) | não | buscar pelo GET e **reutilizar** o id |
-| 422 | referência inválida/inativa (quase sempre ordem de implantação) | não | criar/ativar o pré-requisito — [ordem-de-carga-via-api.md](ordem-de-carga-via-api.md) |
-| 429 | lote em andamento | sim, depois de esperar | um lote por vez |
-| 500 | erro do servidor | às vezes | reler para ver se gravou (há rotas que gravam e devolvem 500) |
-| 503 | `"Não foi possível validar a chave de API."` = **chave não aceita** (inexistente, revogada ou não ativada) — medido em 25/09/2026 duas vezes, em produção **e** homologação; o 401 do Swagger ainda não vale para isso | uma vez | depois parar e tratar como problema de chave (pedir ativação/renovação ao time Rabi) |
+| 409 | já existe (CNPJ, CPF, nome de local/depósito/equipamento, login, conta com o mesmo número, conflito de grade); `ITEM_EM_USO_EM_SERVICOS` (produto/taxa em serviço ativo — F007); `version` velha (§4.4); `ORCAMENTO_CANCELAR_CONFIRMAR` (F010) | não | buscar pelo GET e **reutilizar** o id; nos outros, ver a FAQ |
+| 422 | referência inválida/inativa (quase sempre ordem de implantação; depósito inativo recusa movimento de estoque); status automático de orçamento (F010) | não | criar/ativar o pré-requisito — [ordem-de-carga-via-api.md](ordem-de-carga-via-api.md) |
+| 429 | lote em andamento; ou limite do token `rbt_` (**300 requisições/min**, "Limite de requisições do token excedido") ou do IP (1.200/min) — limites lidos no código `deploy_prd` em 22/11 (`rateLimitTokenIntegracao.ts`, commit `d20d4be2`); **não** documentados no Swagger | sim, depois de esperar | um lote por vez; não paralelizar leituras em massa |
+| 500 | erro do servidor — desde 10/10/2026 a mensagem técnica vira "Ocorreu um erro inesperado… (código xxx)" | às vezes | reler para ver se gravou; buscar na FAQ pela **rota e status** (o texto técnico não chega mais); guardar o código |
+| 503 | serviço do Rabi indisponível (falha real da validação/rede). **Até 25/09/2026** era a resposta para chave não aceita; medido em 22/11: já é 401 | uma vez | depois parar e avisar; não é a chave |
 
 Corpo de erro: `{ "error": "mensagem" }`.
 
 ## 7b. Mudanças de 28/09/2026 (correção geral da API externa, em produção às 17:43 de Brasília)
-Fonte: commit `c73e84de` do rabi-api ("campos opcionais omitidos pela API externa quebravam ou
+Fonte: commit `4a79cab7` (antes citado como `c73e84de`; a história do `deploy_prd` foi reescrita) do rabi-api ("campos opcionais omitidos pela API externa quebravam ou
 gravavam dados errados"), no `deploy_prd` de 28/09 20:43 UTC, + Swagger de 28/09 (snapshot
 `spec/openapi-2026-09-28.json`, 269 operações).
 - **Campo opcional omitido não derruba mais a rota** (antes: 500 `TypeError` ou 400 genérico) em
@@ -276,6 +281,14 @@ gravavam dados errados"), no `deploy_prd` de 28/09 20:43 UTC, + Swagger de 28/09
   (ex.: token obrigatório do convênio).
 - **Gravações que antes saíam erradas sem aviso — confira o que foi gravado ANTES dessa hora:**
   ver [FAQ F006](../faq-ias/F006-conferir-gravacoes-anteriores-a-28-09.md).
+
+## 7c. Mudanças de 01/10 a 22/11/2026 (resumo)
+
+PUT parcial (§4), 401 para chave rejeitada (§7), 403 com `escopoFaltante`, 409 de produto/taxa em
+serviço, controle de versão opcional (§4.4), limite de 300 req/min por token `rbt_`, `pageSize` > 200
+reduzido em silêncio, mensagem de 500 genérica com código, `GET /servicos/{id}` completo (produtos,
+equipamentos, taxas, documentos), EAN/NCM/código do produto como texto, rotas novas de financeiro.
+Visão completa e o que mudou nas telas: [../sistema-rabi/novidades-out-nov-2026.md](../sistema-rabi/novidades-out-nov-2026.md).
 
 ## 8. Idempotência
 

@@ -9,6 +9,9 @@ no manual publicado. Regra do manual: **concluído no GitLab = concluído no
 desenvolvimento**; chega ao ambiente da clínica nas atualizações da semana. Se
 a tela ainda não mostra, diga "ainda não chegou no seu ambiente".
 
+> ⚠️ **Retrato de 25/09.** O que entrou de 29/09 a 22/11/2026 está em
+> [novidades-out-nov-2026.md](novidades-out-nov-2026.md) — leia os dois juntos.
+
 Legenda: ✅ em produção · 🔵 concluído no desenvolvimento, chegando · 🟠 roadmap.
 
 ## 1. Em produção (vale hoje)

@@ -62,34 +62,63 @@ def test_pacientes_exige_lgpd(tmp_path):
     assert carga.gravar(ClienteFalso([]), p, "x", False, False, False) == 2
 
 
-def _plano_alterar(tmp_path, recurso, id_, item):
+def _plano_alterar(tmp_path, recurso, id_, item, difs=None):
     (tmp_path / "antes.json").write_text(json.dumps({"dados": []}), encoding="utf-8")
     p = tmp_path / "plano.json"
+    if difs is None:  # a prévia aprovou todos os campos do item
+        difs = [[k, None, v] for k, v in item.items() if k != "origem"]
     p.write_text(json.dumps({"recurso": recurso, "pasta": str(tmp_path), "criar": [],
-                             "alterar": [{"id": id_, "item": item, "difs": []}]}), encoding="utf-8")
+                             "alterar": [{"id": id_, "item": item, "difs": difs}]}), encoding="utf-8")
     return p
 
 
-def test_alterar_servico_usa_conversor(tmp_path):
-    from ferramentas.rabi_api.corpo_escrita import CAMPOS_SERVICO
-    leitura = {"id": 46, "nome": "Aplicação", "descricao": "Aplicação", "valor": 600.0, "somarItens": False,
-               "ServicoEspecialidade": [{"id": 1, "servicoId": 46, "especialidadeId": 12}], "ativo": True}
-    leitura.update({c: None for c in CAMPOS_SERVICO if c not in leitura and c not in
-                    ("somarItems", "especialidadesId")})
-    for c in ("produtoIds", "equipamentoIds", "servicosRelacionados"):
-        leitura[c] = []
-    cli = ClienteFalso([leitura])
+def test_alterar_servico_manda_so_o_que_muda(tmp_path):
+    # PUT /servicos é parcial desde 01–02/10/2026: omitido mantém — vai só o valor
+    cli = ClienteFalso([{"id": 46, "nome": "Consulta", "descricao": "Consulta", "valor": 250, "ativo": True}])
     p = _plano_alterar(tmp_path, "servicos", 46, {"valor": 40.0, "origem": "tabela p.1"})
     assert carga.gravar(cli, p, "teste", False, True, False) == 0
     put = [c for c in cli.chamadas if c[0] == "put"][0][2]
-    assert put["valor"] == 40.0 and put["somarItems"] is False and put["especialidadesId"] == [12]
-    assert "somarItens" not in put and "ServicoEspecialidade" not in put and "origem" not in put
+    assert put == {"valor": 40.0}
 
 
-def test_alterar_servico_sem_campos_nao_grava(tmp_path):
+def test_alterar_servico_com_nome_de_leitura_nao_grava(tmp_path):
     cli = ClienteFalso([{"id": 46, "nome": "Consulta", "descricao": "Consulta", "valor": 250, "ativo": True}])
-    p = _plano_alterar(tmp_path, "servicos", 46, {"valor": 40.0, "origem": "tabela p.1"})
+    p = _plano_alterar(tmp_path, "servicos", 46, {"somarItens": True, "origem": "tabela p.1"})
     assert carga.gravar(cli, p, "teste", False, True, False) == 2
     assert not [c for c in cli.chamadas if c[0] == "put"]
     resp = json.loads((tmp_path / "resposta.json").read_text(encoding="utf-8"))
-    assert "especialidadesId" in resp["alteracoes"][0]["faltam"]
+    assert "somarItems" in resp["alteracoes"][0]["nao_gravado"]
+
+
+def test_alterar_convenio_unidades_exige_conferencia(tmp_path):
+    cli = ClienteFalso([{"id": 7, "nome": "Plano X", "unidadesIds": [1], "ativo": True}])
+    p = _plano_alterar(tmp_path, "convenios", 7, {"unidadesIds": [1, 2], "origem": "contrato"})
+    assert carga.gravar(cli, p, "teste", False, True, False) == 2
+    assert not [c for c in cli.chamadas if c[0] == "put"]
+    assert carga.gravar(cli, p, "teste", False, True, False, listas_conferidas=("unidadesIds",)) == 0
+    assert [c for c in cli.chamadas if c[0] == "put"][0][2] == {"unidadesIds": [1, 2]}
+
+
+def test_alterar_parcial_manda_so_o_que_a_previa_mostrou(tmp_path):
+    # a prévia viu "nome" igual (só caixa diferente) e "valor" diferente: só "valor" pode ir
+    cli = ClienteFalso([{"id": 46, "nome": "CONSULTA", "descricao": "Consulta", "valor": 250, "ativo": True}])
+    p = _plano_alterar(tmp_path, "servicos", 46, {"nome": "consulta", "valor": 40.0, "origem": "tab"},
+                       difs=[["valor", 250, 40.0]])
+    assert carga.gravar(cli, p, "teste", False, True, False) == 0
+    assert [c for c in cli.chamadas if c[0] == "put"][0][2] == {"valor": 40.0}
+
+
+def test_alterar_parcial_sem_difs_nao_grava(tmp_path):
+    cli = ClienteFalso([{"id": 46, "nome": "Consulta", "descricao": "Consulta", "valor": 250, "ativo": True}])
+    p = _plano_alterar(tmp_path, "servicos", 46, {"valor": 250, "origem": "tab"}, difs=[])
+    assert carga.gravar(cli, p, "teste", False, True, False) == 0
+    assert not [c for c in cli.chamadas if c[0] == "put"]
+
+
+def test_ler_entrada_mantem_codigos_como_texto(tmp_path):
+    ent = tmp_path / "e.csv"
+    ent.write_text("nome;codigoEAN;cpf;valor;quantidade;origem\nX;07891234567895;01234567890;12,5;3;doc\n",
+                   encoding="utf-8")
+    item = carga._ler_entrada(ent)[0]
+    assert item["codigoEAN"] == "07891234567895" and item["cpf"] == "01234567890"
+    assert item["valor"] == 12.5 and item["quantidade"] == 3

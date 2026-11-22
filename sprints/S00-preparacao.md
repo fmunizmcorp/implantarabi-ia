@@ -104,7 +104,7 @@ leitura das 25 áreas (ferramenta do kit `ferramentas/rabi_api/testar_chave.py`)
 e registrar quais áreas a chave alcança. 403 numa área = a chave não tem aquela
 permissão: anotar e, no `rbt_`, pedir ao dono que **edite o token** no Rabi e marque a
 permissão que falta (no `rbk_`, pedir ao time Rabi uma chave com o kit de implantação).
-401/503 = problema com a chave: parar, sem repetir em laço. Se o token vence
+401 = problema com a chave (503 = Rabi indisponível): parar, sem repetir em laço. Se o token vence
 antes do fim previsto da implantação, resolver **agora**: no `rbt_` o dono usa o
 botão **Renovar** em Configurações › Parâmetros › Integrações; no `rbk_` não há
 autoatendimento — pedir a nova ao time Rabi.
@@ -130,7 +130,7 @@ de contrato, tipos de anexo, perfis de permissão, fontes de preço de compra.
 - Parar a leitura quando uma página vem menor que `pageSize` — errado; vá até
   `totalPages`.
 - Leitura com 200 e corpo vazio = leitura falhada.
-- Tratar 503 como instabilidade e repetir em laço.
+- Repetir em laço depois de 401 ou 503.
 - Chave com permissões demais usada na integração contínua depois: no go-live, o
   token `rbt_` de implantação (ou a chave `rbk_`) é revogado ou reduzido (S16).
 

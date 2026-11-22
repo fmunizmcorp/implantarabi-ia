@@ -43,6 +43,9 @@ marca **não confirmado** e diz como verificar.
   `/parametros/financeiro` é **misto**: omitir `categoriaPagamentoId`/`centroDeCustoId`
   grava null — reenvie sempre os dois.
 - **Prevalece:** Swagger 25/09 (descrição de cada rota).
+- **Revisão de 22/11/2026:** o Rabi tornou o PUT **parcial** em 13 rotas (rabi-api `7d16cd50`/`49362b61`,
+  01–02/10): omitido mantém, `null` limpa, lista enviada substitui. A decisão vale agora só para as
+  rotas que **não** declaram. Regra atual: `../api-externa/convencoes.md` §4.
 
 ### C4. 0,00 × vazio
 - **Versões:** (a) documentos até 22/09: "0 no serviço vira vazio e cai no

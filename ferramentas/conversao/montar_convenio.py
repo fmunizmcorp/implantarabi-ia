@@ -83,6 +83,11 @@ FASES = [
     ("5-pacote-zerar", {"pacote", "zerarValor"}),
 ]
 ORDEM_ABAS = ["produto", "taxa", "servico"]
+# Pré-requisito (fora deste CSV): desde 29/09/2026 (#628) o Rabi recusa Utiliza em serviço de
+# especialidade que o convênio não atende — a aba Especialidades ("Atende") vai ANTES destas fases.
+PRE_REQUISITO = ("Antes da fase 1: grave e confira a aba **Especialidades** do convênio "
+                 "(`PUT /convenios/{id}/especialidades`, com Atende) — serviço de especialidade não "
+                 "atendida tem o Utiliza recusado (#628).")
 
 
 @dataclass
@@ -436,7 +441,8 @@ def montar_previa(linhas: List[LinhaPreco], achados: List[Achado], atual: Option
     if atual is not None:
         out += ["", f"Campos já iguais ao atual (não mudam): {iguais}."]
     if chamadas:
-        out += ["", "## Sequência de envio", "", "| # | Fase | Chamada | Itens |", "|---|---|---|---|"]
+        out += ["", "## Sequência de envio", "", f"> {PRE_REQUISITO}", "",
+                "| # | Fase | Chamada | Itens |", "|---|---|---|---|"]
         for ch in chamadas:
             out.append(f"| {ch['ordem']} | {ch['fase']} | {ch['metodo']} {ch['caminho']} (lote {ch['lote']}) "
                        f"| {ch['itens']} |")
@@ -475,7 +481,8 @@ def main(argv=None) -> int:
         manifesto.append({k: ch[k] for k in ("ordem", "fase", "aba", "metodo", "caminho", "itens", "lote")}
                          | {"arquivo": arq})
     with open(os.path.join(a.saida, "manifesto.json"), "w", encoding="utf-8") as f:
-        json.dump({"convenio_id": a.convenio_id, "erros": len(erros), "chamadas": manifesto}, f,
+        json.dump({"convenio_id": a.convenio_id, "erros": len(erros), "pre_requisito": PRE_REQUISITO,
+                   "chamadas": manifesto}, f,
                   ensure_ascii=False, indent=1)
     for x in achados:
         print(f"{x.nivel}: linha {x.linha or '—'} · {x.item} · {x.mensagem}")

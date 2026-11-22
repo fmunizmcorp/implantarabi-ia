@@ -12,10 +12,11 @@ Leitura do resultado:
     OK            a chave lê esta área (a coluna "total" mostra quantos registros existem)
     OK (validação) a rota respondeu erro de validação (400/404/422) → a permissão existe
     SEM PERMISSÃO 403 → falta a permissão indicada; rbt_: o dono edita o token; rbk_: peça ao time Rabi
-    CHAVE         401/503 → problema com a chave; o teste para na hora (sem repetir)
+    CHAVE         401 → chave/token rejeitado; o teste para na hora (sem repetir) — FAQ F003
+    INDISPONÍVEL  503 → o Rabi não respondeu (desde out/2026 chave rejeitada é 401); o teste para
     SEM CONEXÃO   não chegou à API (rede/DNS/conexão recusada); o teste para na primeira área
 
-Código de saída: 0 = ao menos uma área OK e sem parada; 1 = parou (chave/conexão) ou 0 áreas OK.
+Código de saída: 0 = ao menos uma área OK e sem parada; 1 = parou (chave, Rabi indisponível ou conexão) ou 0 áreas OK.
 """
 from __future__ import annotations
 
@@ -97,7 +98,7 @@ def testar(cliente: ClienteRabi) -> dict:
         elif r.status in (400, 404, 422):
             linhas.append((grupo, rota, perm, "OK (validação)", "-", str(r.status)))
         elif r.status in (401, 503):
-            linhas.append((grupo, rota, perm, "CHAVE", "-", str(r.status)))
+            linhas.append((grupo, rota, perm, "CHAVE" if r.status == 401 else "INDISPONÍVEL", "-", str(r.status)))
             parou = r.status
             break
         else:

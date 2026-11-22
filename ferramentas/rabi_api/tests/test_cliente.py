@@ -74,6 +74,12 @@ class Falso(BaseHTTPRequestHandler):
             return self._enviar(200, None)
         if rota == "/proibido":
             return self._enviar(403, {"error": "Chave de API sem permissão para 'paciente:read'."})
+        if rota == "/proibido-escopo":
+            return self._enviar(403, {"error": "Libere em Configurações > Parâmetros > Integrações.",
+                                      "escopoFaltante": ["convenio:update"]})
+        if rota == "/fora-do-ar":
+            self._conta(rota)
+            return self._enviar(503, {"error": "Service Unavailable"})
         if rota == "/indisponivel":
             self._conta(rota)
             return self._enviar(503, {"error": "Não foi possível validar a chave de API."})
@@ -188,6 +194,19 @@ def test_503_uma_nova_tentativa_e_depois_chave_invalida(cli):
         cli.get("/indisponivel")
     assert e.value.status == 503
     assert Estado.contagem["/indisponivel"] == 2  # 1 chamada + 1 nova tentativa, sem loop
+
+
+def test_403_le_escopo_faltante(cli):
+    with pytest.raises(SemPermissao, match="convenio:update"):
+        cli.get("/proibido-escopo")
+
+
+def test_503_sem_mensagem_de_chave_e_indisponibilidade_nao_chave(cli):
+    with pytest.raises(ErroRabi) as e:
+        cli.get("/fora-do-ar")
+    assert not isinstance(e.value, ChaveInvalida)
+    assert e.value.status == 503 and "indisponível" in str(e.value)
+    assert Estado.contagem["/fora-do-ar"] == 2
 
 
 def test_429_espera_e_tenta_de_novo(cli):

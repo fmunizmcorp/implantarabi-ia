@@ -70,3 +70,15 @@ def test_extrair_swaggerdoc_e_comparar():
     c = comparar(menor, spec)
     assert c["adicionadas"] == ["POST /empresas"]
     assert c["alteradas"] == [("GET /empresas", ["summary"])]
+
+
+def test_spec_de_22_11_tem_277_operacoes_e_rotas_novas(tmp_path):
+    spec = os.path.join(gerar_rotas.PASTA_SPEC, "openapi-2026-11-22.json")
+    r = gerar_rotas.gerar(spec, str(tmp_path))
+    assert r["total"] == 277 and r["caminhos"] == 198
+    ops = {f"{m.upper()} {p}" for _, m, p, _ in gerar_rotas.operacoes(json.load(open(spec, encoding="utf-8")))}
+    for nova in ("POST /financeiro/contas-caixa", "POST /financeiro/pagamentos/confirmacao",
+                 "POST /financeiro/xml-tiss", "POST /financeiro/xml-tiss/casar-historico"):
+        assert nova in ops
+    for arq in glob.glob(os.path.join(tmp_path, "*.md")):
+        assert os.path.getsize(arq) <= 40 * 1024, arq

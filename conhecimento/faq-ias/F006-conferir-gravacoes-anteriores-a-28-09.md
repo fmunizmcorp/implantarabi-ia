@@ -1,9 +1,9 @@
-# F006 — Gravações feitas pela API antes de 28/09/2026 17:43 que podem ter saído erradas sem aviso
+# F006 — Gravações antigas (antes de 28/09, 01–02/10 e 30/10/2026) que podem ter saído erradas sem aviso
 
-- **Rotas:** POST /pacientes/bulk · POST /colaboradores/bulk · POST /tabelas-preco/produtos/bulk · PUT /financeiro/movimentacoes/{id} · PUT /fornecedores/{id} · POST /estoque/saida · POST /estoque/transferencia · POST /grades-equipamento · PUT /faturamento/glosas/produto
+- **Rotas:** PUT /servicos/{id} · PUT /pacientes/{id} · PUT /convenios/{id} · POST /pacientes/bulk · POST /colaboradores/bulk · POST /tabelas-preco/produtos/bulk · PUT /financeiro/movimentacoes/{id} · PUT /fornecedores/{id} · POST /estoque/saida · POST /estoque/transferencia · POST /grades-equipamento · PUT /faturamento/glosas/produto
 - **Status HTTP:** 200 | 201 | 207
 - **Mensagem contém:** CRIADO
-- **Causa:** confirmada no código do Rabi — commit `c73e84de` ("campos opcionais omitidos pela API externa quebravam ou gravavam dados errados"), em produção em 28/09/2026 às 17:43 (Brasília)
+- **Causa:** confirmada no código do Rabi — commit `4a79cab7` (antes citado como `c73e84de`; a história do `deploy_prd` foi reescrita) ("campos opcionais omitidos pela API externa quebravam ou gravavam dados errados"), em produção em 28/09/2026 às 17:43 (Brasília)
 - **Status:** corrigido no Rabi; o que foi gravado **antes** precisa ser conferido uma vez
 - **Origem:** leitura do código do rabi-api (`deploy_prd`) pelo mantenedor, 28/09/2026
 
@@ -21,6 +21,9 @@
 | `PUT /faturamento/glosas/*` | sem `motivoGlosado`, conectava um motivo qualquer | conferir o motivo das glosas lançadas pela API |
 | `POST/PUT/DELETE /grades-equipamento` | 500 **depois** de gravar | reler as grades (a gravação costumava estar lá) |
 | grade de colaborador | ficava órfã quando a associação falhava | reler as grades de colaborador |
+| **até 01–02/10/2026:** `PUT /servicos/{id}`, `/pacientes/{id}`, `/convenios/{id}`, `/colaboradores/{id}` | o PUT **sobrescrevia**: campo/lista omitido era apagado (composição, especialidades, valor, carteiras, contatos, unidades do convênio) | reler os cadastros alterados por PUT antes dessa data e comparar com a foto antes |
+| **até 02/10/2026:** composição do serviço | produto enviado sem `valorUnitario` ia a **0** | reler a composição dos serviços com medicamento |
+| **até 30/10/2026 (tela):** paciente | **sexo gravado invertido** no cadastro/edição pela tela | conferir por amostra, só contagem nas provas |
 
 ## O que fazer
 1. Veja no histórico/provas da clínica se alguma dessas rotas foi usada **antes de 28/09/2026 17:43**.

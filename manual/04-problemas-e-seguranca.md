@@ -11,9 +11,12 @@ Voltar ao [manual](../MANUAL-PASSO-A-PASSO.md).
 
 ### A chave está vencendo ou venceu
 **Sintoma:** a IA avisa "a chave vence em N dias", ou diz que a API respondeu
-**503** ("Não foi possível validar a chave de API") ou **401**.
+**401** ("Token de integração inválido, revogado ou expirado"). Até setembro/2026 a
+mesma recusa aparecia como **503**; hoje 503 é o Rabi fora do ar.
 **O que fazer:**
-1. Peça uma **chave nova** ao time Rabi (mesmas permissões — lista no passo A2
+1. Token `rbt_` (recomendado): o administrador da clínica abre **Configurações ›
+   Parâmetros › Integrações** e clica **Renovar** (o valor antigo para na hora). Chave
+   `rbk_`: peça uma **chave nova** ao time Rabi (mesmas permissões — lista no passo A2
    da [Parte A](01-preparacao.md)).
 2. No Claude Code: menu do ambiente da clínica → **Edit** → troque o valor de
    `RABI_API_KEY` (ou em "API credentials") → **Save**.

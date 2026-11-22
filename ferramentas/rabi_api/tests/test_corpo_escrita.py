@@ -1,4 +1,4 @@
-"""Conversor leitura → escrita de /servicos e /produtos (PUT sobrescreve: nada pode sumir em silêncio)."""
+"""Corpo de escrita: modo completo (/produtos; /servicos se preciso) e modo parcial (rotas parciais desde 01–02/10/2026)."""
 import json
 import os
 
@@ -6,8 +6,9 @@ import pytest
 
 from .. import gerar_rotas
 from ..corpo_escrita import (CAMPOS_PRODUTO, CAMPOS_SERVICO, OBRIGATORIOS_PRODUTO,
-                             OBRIGATORIOS_SERVICO, CampoDeEscritaAusente,
-                             corpo_put_produto, corpo_put_servico)
+                             OBRIGATORIOS_SERVICO, OMITIVEIS_SERVICO, CampoDeEscritaAusente,
+                             CorpoParcialInvalido, corpo_parcial, corpo_put_produto,
+                             corpo_put_servico, problemas_codigos_produto, resumo_parcial)
 
 SPEC = sorted(__import__("glob").glob(os.path.join(gerar_rotas.PASTA_SPEC, "openapi-*.json")))[-1]  # o mais novo
 
@@ -46,7 +47,7 @@ def _leitura_servico():
 
 def test_servico_mapeia_nomes_e_aninhados():
     corpo = corpo_put_servico({"dados": _leitura_servico()}, complementos={"valor": 40.0})
-    assert set(corpo) == set(CAMPOS_SERVICO)
+    assert set(corpo) == set(CAMPOS_SERVICO) - set(OMITIVEIS_SERVICO)
     assert "somarItens" not in corpo and corpo["somarItems"] is False
     assert corpo["valor"] == 40.0  # mudança aplicada
     assert corpo["tipoServicoId"] == 3 and corpo["tipoCodigoId"] == 22 and corpo["tabelaANS87ID"] is None
@@ -165,11 +166,12 @@ def test_servico_forma_real_com_complementos_da_s08():
     comp = {"preparo": None, "servicoTaxa": [{"taxaId": 9, "quantidade": 1}], "especialidadesId": [12],
             "produtoIds": [501, 502], "equipamentoIds": [], "servicosRelacionados": [47], "valor": 90.0}
     corpo = corpo_put_servico(_leitura_servico_real(), complementos=comp)
-    assert set(corpo) == set(CAMPOS_SERVICO)
+    # perfilFiscalId já vinha na leitura de 25/09 e desde 13/10 é campo de escrita: passa adiante
+    assert set(corpo) == set(CAMPOS_SERVICO) - {"documentos"}
     assert corpo["somarItems"] is False and corpo["tipoAtendimento"] == 5  # tipoAtendimentoId → tipoAtendimento
     assert corpo["tabelaANS87ID"] == 22 and corpo["tempoServico"] == 30 and corpo["codigoTUSS"] == "20104090"
     assert corpo["tipoServicoId"] == 4 and corpo["regimeDeAtendimentoId"] == 1 and corpo["valor"] == 90.0
-    for k in ("informacoesProAtendente", "perfilFiscalId", "agendamentoId", "convenioId", "id", "ativo"):
+    for k in ("informacoesProAtendente", "agendamentoId", "convenioId", "id", "ativo"):
         assert k not in corpo
 
 
@@ -209,3 +211,115 @@ def test_produto_forma_real_mapeia_aninhados_e_lista_o_resto():
     corpo = corpo_put_produto(_leitura_produto_real(), complementos=comp)
     assert (corpo["fabricanteId"], corpo["tipoProdutoId"], corpo["unidadeDeMedidaId"], corpo["depositoId"]) == (8, 4, 6, 2)
     assert corpo["estoquePodeNegativar"] is False and "valorUnitario" not in corpo
+
+
+# ---------------- desde 13/10/2026: GET completo, PUT parcial, códigos de produto como texto
+
+def _leitura_servico_13_10():
+    return {
+        "id": 46, "nome": "Aplicação endovenosa", "descricao": "Aplicação endovenosa", "codigo": "A1",
+        "codigoTUSS": "20104090", "valor": 600.0, "tempoServico": 30, "somarItems": True,
+        "linkAuxiliar": None, "preparamentos": None, "preparo": None, "tipoServicoId": 3,
+        "tipoCodigoId": 22, "tipoGuiaId": 2, "tabelaANS87ID": None, "regimeDeAtendimentoId": 1,
+        "tipoAtendimento": 5, "servicoTaxa": [{"taxaId": 9, "quantidade": 2}],
+        "especialidadesId": [12], "produtoIds": [{"id": 501, "quantidade": 3, "valorUnitario": 12.5}, 502],
+        "equipamentoIds": [31], "servicosRelacionados": [{"servicoId": 47, "quantidade": 1}],
+        "documentos": [{"id": 3}], "perfilFiscalId": None,
+        "habilitarAgendamentoOnline": False, "apenasComColaboradorDesignado": False, "ativo": True,
+    }
+
+
+def test_servico_get_de_13_10_reenvia_completo_sem_complementos_e_preserva_quantidades():
+    corpo = corpo_put_servico(_leitura_servico_13_10())
+    assert set(corpo) == set(CAMPOS_SERVICO)
+    assert corpo["produtoIds"] == [{"id": 501, "quantidade": 3, "valorUnitario": 12.5}, 502]
+    assert corpo["servicoTaxa"] == [{"taxaId": 9, "quantidade": 2}]
+    assert corpo["documentos"] == [{"id": 3}] and corpo["perfilFiscalId"] is None
+
+
+def test_parcial_manda_so_o_que_muda():
+    corpo = corpo_parcial("servicos", {"valor": 40.0, "nome": "Aplicação endovenosa"},
+                          leitura={"dados": _leitura_servico_13_10()})
+    assert corpo == {"valor": 40.0}  # o nome já era esse
+    assert resumo_parcial(corpo) == ["valor: → 40.0"]
+
+
+def test_parcial_recusa_nome_de_leitura_e_campo_desconhecido():
+    with pytest.raises(CorpoParcialInvalido, match="somarItems"):
+        corpo_parcial("servicos", {"somarItens": True})
+    with pytest.raises(CorpoParcialInvalido, match="não existe"):
+        corpo_parcial("servicos", {"campoInventado": 1})
+
+
+def test_parcial_lista_vazia_so_com_permissao_e_resumo_avisa():
+    with pytest.raises(CorpoParcialInvalido, match="APAGA"):
+        corpo_parcial("servicos", {"documentos": []})
+    corpo = corpo_parcial("servicos", {"documentos": [], "perfilFiscalId": None},
+                          permitir_lista_vazia=("documentos",))
+    r = resumo_parcial(corpo)
+    assert any("APAGA todos" in x for x in r) and any("LIMPO" in x for x in r)
+
+
+def test_parcial_convenio_exige_conferir_unidades_e_politicas():
+    with pytest.raises(CorpoParcialInvalido, match="lista COMPLETA"):
+        corpo_parcial("convenios", {"unidadesIds": [1, 2]})
+    assert corpo_parcial("convenios", {"unidadesIds": [1, 2]}, listas_conferidas=("unidadesIds",)) == {
+        "unidadesIds": [1, 2]}
+
+
+def test_parcial_recusa_rota_que_sobrescreve():
+    with pytest.raises(CorpoParcialInvalido, match="não é parcial"):
+        corpo_parcial("produtos", {"nome": "X"})
+
+
+def test_parcial_sem_mudanca_real_e_recusado():
+    with pytest.raises(CorpoParcialInvalido, match="nada a gravar"):
+        corpo_parcial("servicos", {"valor": 600.0}, leitura=_leitura_servico_13_10())
+
+
+def test_codigos_de_produto_como_texto():
+    assert problemas_codigos_produto({"codigoEAN": "07891234567895", "codigoNCM": "30049099",
+                                      "codigoProduto": "MED-01/A"}) == []
+    p = problemas_codigos_produto({"codigoEAN": 7891234567895, "codigoNCM": "3004909",
+                                   "codigoProduto": "CODIGO-LONGO-12"})
+    assert len(p) == 3 and "TEXTO" in p[0]
+
+
+def test_parcial_comparacao_estrita_de_tipo():
+    # True == 1 em Python: não pode virar "nada a gravar"
+    assert corpo_parcial("servicos", {"somarItems": True}, leitura={"somarItems": 1}) == {"somarItems": True}
+    assert corpo_parcial("servicos", {"codigo": "100"}, leitura={"codigo": 100}) == {"codigo": "100"}
+
+
+def test_parcial_nao_compara_com_leitura_em_centavos():
+    # orçamento/movimentação: leitura em centavos, escrita em reais
+    assert corpo_parcial("orcamentos", {"valor": 40}, leitura={"valor": 40}) == {"valor": 40}
+    assert corpo_parcial("financeiro/movimentacoes", {"valor": 10.0}, leitura={"valor": 1000}) == {"valor": 10.0}
+
+
+def test_parcial_objeto_aninhado_exige_permissao():
+    with pytest.raises(CorpoParcialInvalido, match="objeto aninhado"):
+        corpo_parcial("pacientes", {"endereco": {"cep": "70000000"}})
+    assert corpo_parcial("pacientes", {"endereco": {"cep": "70000000", "numero": "1"}},
+                         permitir_objeto=("endereco",))["endereco"]["numero"] == "1"
+
+
+def test_resumo_valor_null_do_servico_vira_zero():
+    assert resumo_parcial({"valor": None}, "servicos") == ["valor: null → R$ 0,00 (no serviço, valor null vira 0)"]
+
+
+def test_lista_produtos_quantidade_1_sai_como_id_e_valor_sai_como_objeto():
+    corpo = corpo_put_servico({**_leitura_servico_13_10(),
+                               "produtoIds": [{"id": 9, "quantidade": 1}, {"id": 8, "valorUnitario": 2.5}]})
+    assert corpo["produtoIds"] == [9, {"id": 8, "valorUnitario": 2.5}]
+
+
+def test_produto_com_ean_numerico_na_leitura_orienta_complemento():
+    from ..corpo_escrita import CAMPOS_PRODUTO
+    leitura = {c: None for c in CAMPOS_PRODUTO}
+    leitura.update({"nome": "Soro", "codigoProduto": "S1", "apresentacao": "fr", "contendo": 1, "depositoId": 1,
+                    "tipoProdutoId": 1, "fabricanteId": 1, "unidadeDeMedidaId": 1, "prazoDeReposicao": 1,
+                    "codigoEAN": 7891234567895, "fornecedores": [], "anexos": []})
+    with pytest.raises(CampoDeEscritaAusente, match="complementos"):
+        corpo_put_produto(leitura)
+    assert corpo_put_produto(leitura, complementos={"codigoEAN": "7891234567895"})["codigoEAN"] == "7891234567895"

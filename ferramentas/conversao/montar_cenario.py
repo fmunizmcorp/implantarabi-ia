@@ -100,18 +100,22 @@ def _nome_aninhado(d: dict, *nomes):
 def _composicao_do_get(s: dict) -> Optional[list]:
     """Composição a partir do GET do serviço (mesmos apelidos do conversor de escrita).
 
-    Devolve None se o GET não traz a composição COMPLETA. Desde 28/09/2026 o GET traz
-    `servicosRelacionados`/`composicao` (subserviços), mas ainda não produtos nem taxas: sem
-    `produtoIds` (ou vínculo de produto) na leitura, a composição é tratada como ausente, para o
-    cenário pedir a composição do cadastro do repo em vez de esquecer os produtos.
+    Devolve None se o GET não traz a composição COMPLETA. Desde 13/10/2026 o GET traz tudo
+    (`produtoIds` com quantidade, `equipamentoIds`, `servicoTaxa`, `servicosRelacionados`); leituras
+    antigas (28/09) só traziam subserviços: sem `produtoIds` na leitura, a composição é tratada como
+    ausente, para o cenário pedir a composição do cadastro do repo em vez de esquecer os produtos.
     """
     if MAPA_SERVICO["produtoIds"](s) is _AUSENTE:
         return None
     itens = []
     for campo, tipo in (("produtoIds", "produto"), ("equipamentoIds", "equipamento")):
         v = MAPA_SERVICO[campo](s)
-        if v is not _AUSENTE:
-            itens += [{"tipo": tipo, "id": int(i), "quantidade": 1} for i in v]
+        if v is not _AUSENTE:  # id puro ou, desde 13/10/2026, {id, quantidade, valorUnitario}
+            for i in v:
+                if isinstance(i, dict):
+                    itens.append({"tipo": tipo, "id": int(i["id"]), "quantidade": float(i.get("quantidade", 1))})
+                else:
+                    itens.append({"tipo": tipo, "id": int(i), "quantidade": 1})
     for campo, tipo, chave in (("servicosRelacionados", "subservico", "servicoId"),
                                ("servicoTaxa", "taxa", "taxaId")):
         v = MAPA_SERVICO[campo](s)

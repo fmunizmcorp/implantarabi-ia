@@ -48,4 +48,4 @@ O que NÃO consegui conferir e por quê: …
 ## Regras
 - **Nunca grava** no Rabi, nunca edita o CSV. Divergência vira relatório.
 - Sem PII em nada que escrever.
-- Se a chave falhar (401 ou 503), pare e reporte: é problema de chave, sem retry em laço.
+- Se a chave falhar (401) ou o Rabi não responder (503), pare e reporte, sem retry em laço.

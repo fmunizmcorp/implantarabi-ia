@@ -67,7 +67,7 @@ perguntas (B), as lacunas (C). **Pare e espere a aprovação item a item.**
 
 ## Passo 5 · Gravar só o aprovado
 `python3 .kit/ferramentas/conversao/montar_convenio.py` monta os corpos na
-ordem Utiliza → valores → textos/códigos → tipo de atendimento → Pacote/Zerar.
+ordem **Especialidades (Atende)** → Utiliza → valores → textos/códigos → tipo de atendimento → Pacote/Zerar (desde 29/09 serviço de especialidade não atendida recusa Utiliza — #628).
 Abas do convênio são **upsert** (campo omitido mantém, `null` limpa, `0` é zero).
 Até 200 itens por chamada, **um lote por vez** (senão 429). **207 = falha
 parcial**: reenvie só `ERRO`/`NAO_PROCESSADO` (índice começa em 0).
@@ -103,6 +103,6 @@ de paciente em arquivo.
 | leitura com status 200 e corpo vazio | conferir status **e** bytes; sem bytes = leitura falhada |
 | gravar em item inativo | conferir ativo/inativo e o nome |
 | 207 tratado como sucesso | ler `resultados` item a item |
-| chave revogada responde 503 (não 401) | parar; é chave, sem retry em laço |
+| chave revogada responde 401 (até 25/09 vinha 503) | parar; é chave, sem retry em laço (F003) |
 | alteração em massa fora da sessão | agrupar por `updatedAt` (mesmo item, mesma hora, vários convênios) |
 | contar vínculos incluindo serviços desativados | cruzar com `GET /servicos` (`ativo`) |

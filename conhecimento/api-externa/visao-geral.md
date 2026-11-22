@@ -13,7 +13,7 @@ clínica inteira usando um token** (`rbt_...`, gerado pela própria clínica —
   com um código de erro que diz o motivo.
 - A chave já carrega **a clínica** (não se informa "tenant" nas chamadas), **as
   permissões** e **a validade**.
-- No Swagger de 25/09/2026: **191 caminhos**, **268 operações** (método + caminho),
+- No Swagger de 22/11/2026: **198 caminhos**, **277 operações** (em 25/09: 191/268),
   **25 grupos**, **88 permissões**, 155 schemas.
 
 ## 2. Endereços
@@ -100,7 +100,7 @@ Ferramentas: [../../ferramentas/rabi_api/README.md](../../ferramentas/rabi_api/R
 | 24/09/2026 | `equipamento:read` passou a existir na chave | grupo Equipamentos legível |
 | 25/09/2026 | envelope único nas listagens; `GET /agendamentos` exige `data`; grades paginadas | ver [convencoes.md](convencoes.md) |
 | 25/09/2026 | cabeçalho `X-ApiKey-Expires-At` em toda resposta de sucesso | monitorar a validade — ver [chave-e-token.md](chave-e-token.md) |
-| 25/09/2026 | documentação: chave rejeitada responde **401**; 503 fica para falha de rede | **medido em 25/09/2026 03:07: chave inexistente ainda responde 503.** Trate 401 e 503 como problema de chave, sem repetir em loop |
+| 25/09/2026 | documentação: chave rejeitada responde **401**; 503 fica para falha de rede | medido em 25/09/2026 03:07: chave inexistente ainda respondia 503. **Corrigido — medido em 22/11/2026: 401.** Hoje 503 = indisponibilidade |
 
 Geração do token pela própria clínica: **disponível** — token `rbt_` em Configurações ›
 Parâmetros › Integrações, tipo "Implantação e manutenção" (caminho recomendado do kit desde

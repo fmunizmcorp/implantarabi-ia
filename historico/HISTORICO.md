@@ -31,3 +31,9 @@
 - Decisão do Diretor (30/09/2026): o kit recomenda o token `rbt_` gerado pela clínica (Configurações › Parâmetros › Integrações, tipo "Implantação e manutenção"; editável; botão Renovar); `rbk_` do time Rabi segue como alternativa.
 - `cliente.py` aceita os dois prefixos; detector de vazamento e filtro de aprendizado passaram a pegar `rbt_` (fecha o furo de segurança); testes novos; docs (S00, ESSENCIAL §6, chave-e-token, manual, prompts, modelo) atualizados.
 - Próximo passo: republicar o repo-modelo (`exportar_modelo.py`) e, na 1ª clínica, conferir com um `rbt_` real (`testar_chave.py`, só leitura) o cabeçalho `X-ApiKey-Expires-At` e as 25 áreas; registrar o resultado no chave-e-token.
+
+## 2026-11-22 — v0.4.0 — novidades do Rabi 29/09→22/11 + Swagger 22/11 + lições do NotaPlano
+- Pedido do Diretor (raw maestro 2026-11-22b). Fontes: Swagger 22/11 (277 ops), código `deploy_prd` (agente de pesquisa + conferência do mantenedor no `updateConvenioController.ts`), manual D-37…D-54, base `conhecimento/` do Maestro, medição de chave (401).
+- PUT parcial no kit inteiro + `corpo_parcial` no código; FAQ F007–F011; novidades do sistema; lições do NotaPlano; validação cruzada independente (2 ALTO + 10 MÉDIO corrigidos antes da publicação).
+- Aviso ao manual (`manualrabi/entrada/atualizacao-2026-11-22-api-externa-limites-e-codigos.md`): limite por token, textos de 401, 409 ITEM_EM_USO, `version`, PUT do convênio parcial no código (pendência C11).
+- Próximo passo: na 1ª clínica, aplicar a estrutura nova, fazer a conferência F006 ampliada e medir, num PUT real de serviço com só um campo, que o resto ficou intacto (prova antes/depois).

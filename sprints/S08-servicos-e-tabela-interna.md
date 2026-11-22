@@ -102,7 +102,7 @@ venda tabela".
   prova da criação** (`provas/S08/servico-<codigo>/` — guarde sempre o corpo
   enviado no POST). Sem isso, não há como corrigir o serviço sem apagar a
   composição.
-- Serviço existente: **GET completo antes de qualquer mudança**; o PUT sobrescreve.
+- Serviço existente: **GET antes de qualquer mudança** (foto antes). Desde 01–02/10/2026 o `PUT /servicos/{id}` é **parcial**: mande só o que muda; lista enviada (`produtoIds`, `servicoTaxa`, `especialidadesId`, `documentos`…) **substitui** a atual. Desde 13/10 o GET traz a composição inteira (produtos com quantidade/valor, taxas, equipamentos, documentos, perfil fiscal).
 - Serviços duplicados (mesma consulta cadastrada duas vezes) são sintoma de
   cadastro repetido: resolver com o dono **antes** dos convênios.
 
@@ -115,7 +115,8 @@ venda tabela".
 | 3 | Serviços pais/compostos, com `servicosRelacionados`, `produtoIds`, `servicoTaxa` | idem | um por um no começo |
 | 4 | `POST /tabelas-preco` (`name`, `priceType1`) | `tabelaPreco:create` | — |
 | 5 | `POST /tabelas-preco/produtos/bulk` (chave `precos`) | `tabelaPreco:update` | até 200; é upsert |
-| Correção | `GET /servicos/{id}` → `corpo_put_servico()` (`ferramentas/rabi_api/corpo_escrita.py`) → alterar → `PUT /servicos/{id}` **objeto completo** | `servico:update` | — |
+| Correção | `GET /servicos/{id}` (foto antes) → `corpo_parcial("servicos", {só o que muda}, leitura=GET)` (`ferramentas/rabi_api/corpo_escrita.py`) → `PUT /servicos/{id}` → GET depois + diff | `servico:update` | — |
+| Documentos obrigatórios / perfil fiscal (novos em 13/10) | `documentos: [{id}]` (exigidos no agendamento, acolhimento, autorização e pela IA de atendimento) e `perfilFiscalId` (NFS-e) — no POST ou no PUT parcial | `servico:update` | — |
 
 Exemplo fictício de composto (subserviço 46 e produto 120 já criados):
 `{"nome":"Medicamento X aplicado EV","descricao":"Medicamento X aplicado EV","somarItems":true,"produtoIds":[120],"servicosRelacionados":[46]}`
@@ -141,9 +142,12 @@ em https://www.rabisistemas.com.br/manual/precos/guia-implantador.html#regra-uni
 ## Armadilhas desta sprint
 
 - **Pai antes do filho:** não dá para apontar ID que não existe; corrigir depois
-  exige PUT completo.
-- **PUT /servicos/{id} sobrescreve tudo.** Numa implantação real, um serviço
-  perdeu valor e especialidade por um PUT parcial.
+  exige reenviar a **lista inteira** daquele vínculo.
+- **Lista enviada substitui.** Desde 01–02/10/2026 o PUT é parcial, mas a lista que vai no
+  corpo é a lista **completa** daquele vínculo: mandar `produtoIds: [novo]` tira os outros
+  produtos. Antes de 01/10 o PUT sobrescrevia tudo — numa implantação real, um serviço
+  perdeu valor e especialidade (FAQ F006 para conferir os antigos).
+- **Inativar produto/taxa usado no serviço** é recusado com 409 (FAQ F007).
 - **Nome de escrita ≠ nome de leitura:** escreve-se `somarItems` e
   `especialidadesId`; a leitura devolve `somarItens` (e as especialidades em
   outra estrutura). Nome errado apaga o campo em silêncio. **Nunca reenvie o GET

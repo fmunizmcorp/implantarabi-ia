@@ -34,8 +34,8 @@ api_key: <preenchido pela sessão a partir da variável RABI_API_KEY>
 
 ## Cuidados
 - A chave **grava de verdade em produção**. Nada se grava sem prévia e aprovação.
-- Chave inválida ou revogada: a documentação diz **401**; na prática já respondeu
-  **503**. Trate os dois como problema de chave — **sem retry em laço**.
+- Chave/token inválido, revogado, vencido ou renovado: **401** (medido em 22/11/2026; até
+  25/09 vinha 503). **Sem retry em laço** — FAQ F003 do kit. 503 = Rabi indisponível.
 - Revogada pode continuar aceita por alguns segundos.
 
 ## Histórico de chaves (não apagar: rastreia qual chave assinou cada gravação)

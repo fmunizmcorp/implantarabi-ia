@@ -14,7 +14,7 @@
 ## Pastas
 | Pasta | Conteúdo |
 |---|---|
-| [conhecimento/](conhecimento/00-INDICE.md) | preços e conversão (o coração) · API externa (268 operações) · Sistema Rabi · negócio de clínica/TISS · lições aprendidas · aprendizados das clínicas (caixa de entrada + consolidados) |
+| [conhecimento/](conhecimento/00-INDICE.md) | preços e conversão (o coração) · API externa (277 operações) · Sistema Rabi · negócio de clínica/TISS · lições aprendidas · aprendizados das clínicas (caixa de entrada + consolidados) |
 | [metodologia/](metodologia/00-INDICE.md) | políticas · Scrum da implantação · ritual de carga · conversa com o usuário · ingestão de documentos · modos de sessão · agentes e produtividade · lista única de documentos |
 | [sprints/](sprints/00-INDICE.md) | S00 preparação · S01–S16 = etapas 1–16 do guia oficial · S17 estabilização (S10a/S10b: convênio) |
 | [prompts/](prompts/00-INDICE.md) | abertura de sessão · modos implantação / atualização / convênio / diagnóstico · mensagens-padrão · coordenação multi-sessão · contribuir com o kit · consolidar aprendizados |

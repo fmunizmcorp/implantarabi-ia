@@ -79,10 +79,22 @@ DI-1 (contas e caixas), DI-2 (formas de pagamento e taxas de cartão), DI-3
 - `GET /parametros/financeiro` e `/estoque` (sem configuração, vêm reduzidos).
 - `GET /depositos`, `GET /estoque/saldo-produtos` (confira o formato do
   envelope), `GET /estoque?produtoId=&localizacaoId=` (paginado).
-- `GET /colaboradores/{id}` antes de gravar repasse (PUT completo).
-- Contas, categorias, tipos de pagamento e centros de custo **não têm leitura**
-  na API externa: a conferência é na tela, com o implantador (print ou
-  confirmação), e os IDs vão para o dicionário.
+- `GET /colaboradores/{id}` antes de gravar repasse (foto antes; o GET traz `vinculoRepasse` no formato do PUT).
+- **Contas e caixas têm API desde 18/11/2026:** `GET /financeiro/contas-caixa` (filtro `numero`
+  com ou sem pontuação, `busca`, `ativo`), `GET /financeiro/contas-caixa/tipos`,
+  `POST /financeiro/contas-caixa` (sem `tipoDeContaId` = Conta Corrente; número repetido → 409
+  com o id existente — complete pelo PUT) e `PUT /financeiro/contas-caixa/{id}` (grava só o
+  enviado; `ativo: false` desativa, não há DELETE). Uso típico: completar agência e número das
+  contas antigas. **Dados bancários só de documento do dono, destacados na prévia** (para onde
+  vai o dinheiro). Categorias, tipos de pagamento e centros de custo seguem **sem leitura** na
+  API externa: conferência na tela e IDs no dicionário.
+- **Financeiro com padrão de controle** (12/10, #650): caixa por atendente nasce **Desligado**;
+  as 9 ações novas de CONTAS CAIXAS não são dadas a ninguém automaticamente (incluir no perfil
+  certo na S14). Pix/links e Asaas (13/10 e 06/11), NFS-e via NotaPlano por unidade (30/10;
+  credenciais em Parâmetros › Integrações) e elegibilidade TISS (15/10) são **configuração do
+  dono na tela** — a IA lista o que falta e não liga nada que cobre ou emita sozinho
+  (`metodologia/licoes-de-implantacao-com-ia.md` §5–§6). Nota de teste é nota **real**.
+- Depósito **inativo** recusa entrada/saída/transferência com 422 (21/10).
 
 ## Gravação
 
@@ -116,8 +128,11 @@ DI-1 (contas e caixas), DI-2 (formas de pagamento e taxas de cartão), DI-3
 
 - `PUT /parametros/financeiro`: omitir `categoriaPagamentoId`/`centroDeCustoId`
   (ou mandar 0, "" ou false) grava `null` — reenvie tudo.
-- Repasse é gravado **no colaborador** (quem procura em Financeiro não acha), e o
-  PUT do colaborador sobrescreve: GET antes.
+- Repasse é gravado **no colaborador** (quem procura em Financeiro não acha). O PUT do
+  colaborador é parcial desde 01/10: `vinculoRepasse` só muda quando enviado, e as listas
+  `produtos`/`servicos`/`taxas` enviadas substituem as atuais. Item com serviço/produto/taxa
+  vazio = **linha geral** daquele tipo (no máximo uma por tipo, #643). O repasse entra no
+  **custo do Farol** desde 12/10 — rode a conferência da S11 depois.
 - NFS-e é opt-in e tem custo: sem o módulo, o cenário 7 da S15 é **escopo não
   contratado**, não teste reprovado.
 - `valorCompra` em reais.

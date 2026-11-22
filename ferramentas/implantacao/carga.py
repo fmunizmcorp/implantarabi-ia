@@ -2,10 +2,12 @@
 
   1) previa  — foto ANTES + casamento com o que já existe + prévia legível (nada é gravado)
   2) (humano aprova na conversa — a sessão registra a aprovação em historico/requisitos/raw/)
-  3) gravar  — grava SÓ o plano aprovado (novos via /bulk em fatias; alterações via GET→merge→PUT
-               com o objeto completo; em servicos/produtos o GET passa pelo conversor
-               rabi_api/corpo_escrita.py e, se faltar campo de escrita, o item NÃO é gravado),
-               guarda resposta crua, foto DEPOIS e diff.
+  3) gravar  — grava SÓ o plano aprovado (novos via /bulk em fatias; alterações: nos recursos de PUT
+               PARCIAL — servicos, colaboradores, convenios, pacientes — vai só o que muda
+               (corpo_escrita.corpo_parcial; [] e listas sensíveis do convênio exigem confirmação);
+               nos demais, GET→merge→PUT com o objeto completo, e em produtos o GET passa pelo
+               conversor rabi_api/corpo_escrita.py — se faltar campo de escrita, o item NÃO é
+               gravado), guarda resposta crua, foto DEPOIS e diff.
 
 Exemplos (a partir da raiz do repo da clínica):
   python3 .kit/ferramentas/implantacao/carga.py previa --recurso taxas --sprint S05 \
@@ -33,7 +35,9 @@ if str(RAIZ_KIT) not in sys.path:
 
 from ferramentas.rabi_api.cliente import ClienteRabi, ErroRabi, resumo_lote  # noqa: E402
 from ferramentas.rabi_api import foto as _foto  # noqa: E402
-from ferramentas.rabi_api.corpo_escrita import CONVERSORES, CampoDeEscritaAusente  # noqa: E402
+from ferramentas.rabi_api.corpo_escrita import (CONVERSORES, RECURSOS_PARCIAIS,  # noqa: E402
+                                                 CampoDeEscritaAusente, CorpoParcialInvalido,
+                                                 corpo_parcial, resumo_parcial)
 
 # recurso → (listagem, bulk, chave do corpo, limite, campo id)
 RECURSOS = {
@@ -59,6 +63,11 @@ def _norm(v) -> str:
     return "".join(c for c in t if unicodedata.category(c) != "Mn").strip().lower()
 
 
+# Colunas que são CÓDIGO/DOCUMENTO: ficam texto (número perderia zero à esquerda — EAN, NCM, CPF, CEP…).
+_COLUNA_TEXTO = __import__("re").compile(
+    r"(cpf|cnpj|cep|telefone|celular|fone|codigo|tuss|ean|ncm|carteir|rg$|numero|registro|cbo|crm|conselho)", __import__("re").I)
+
+
 def _ler_entrada(caminho: Path) -> list[dict]:
     if caminho.suffix.lower() == ".json":
         dados = json.loads(caminho.read_text(encoding="utf-8"))
@@ -76,6 +85,8 @@ def _ler_entrada(caminho: Path) -> list[dict]:
                 v = True
             elif v.lower() in ("false", "nao", "não", "n"):
                 v = False
+            elif _COLUNA_TEXTO.search(k.split(".")[-1]) or (v.isdigit() and v.startswith("0") and len(v) > 1):
+                pass  # código/documento: mantém o texto como veio
             else:
                 try:
                     v = int(v) if v.isdigit() else float(v.replace(",", ".")) if v.replace(",", "", 1).replace(".", "", 1).isdigit() else v
@@ -153,7 +164,8 @@ def previa(cli: ClienteRabi, recurso: str, entrada: Path, casar_por: str, sprint
 
 
 def gravar(cli: ClienteRabi, plano_arq: Path, aprovado_por: str, apenas_primeiro: bool,
-           incluir_alteracoes: bool, lgpd_ciente: bool) -> int:
+           incluir_alteracoes: bool, lgpd_ciente: bool,
+           listas_vazias_ok: tuple = (), listas_conferidas: tuple = ()) -> int:
     plano = json.loads(plano_arq.read_text(encoding="utf-8"))
     recurso = plano["recurso"]
     listar, bulk, chave, limite, campo_id = RECURSOS[recurso]
@@ -177,11 +189,31 @@ def gravar(cli: ClienteRabi, plano_arq: Path, aprovado_por: str, apenas_primeiro
                 codigo = 1 if rel["reenviar"] else 0
             else:
                 respostas["criacao"] = [cli.post(listar, i) for i in criar]
-        for alt in alterar:  # PUT = sobrescrita: GET → (conversor) → aplicar mudanças → PUT objeto completo
+        for alt in alterar:
             atual = cli.get(f"{listar}/{alt['id']}")
             atual = atual.get("dados", atual) if isinstance(atual, dict) else atual
             mudancas = {k: v for k, v in alt["item"].items() if k != "origem"}
-            if recurso in CONVERSORES:
+            if recurso in RECURSOS_PARCIAIS:
+                # Só o que a PRÉVIA aprovada mostrou como diferente (difs), nem um campo a mais.
+                chaves_aprovadas = {str(d[0]).split(".", 1)[0] for d in alt.get("difs", [])}
+                mudancas = {k: v for k, v in mudancas.items() if k in chaves_aprovadas}
+                if not mudancas:
+                    respostas["alteracoes"].append({"id": alt["id"], "nao_gravado": "prévia sem diferença: nada a gravar"})
+                    print(f"id {alt['id']}: prévia sem diferença — nada a gravar")
+                    continue
+                # PUT parcial (desde 01–02/10/2026): só o que muda; lista enviada substitui.
+                try:
+                    novo = corpo_parcial(recurso, mudancas, leitura=atual,
+                                         permitir_lista_vazia=listas_vazias_ok,
+                                         listas_conferidas=listas_conferidas)
+                except CorpoParcialInvalido as e:
+                    respostas["alteracoes"].append({"id": alt["id"], "nao_gravado": str(e)})
+                    print(f"NÃO GRAVADO id {alt['id']}: {e}")
+                    if "nada a gravar" not in str(e):
+                        codigo = 2
+                    continue
+                print(f"id {alt['id']}: " + "; ".join(resumo_parcial(novo, recurso)))
+            elif recurso in CONVERSORES:
                 # /servicos e /produtos: a leitura tem outros nomes/formatos que a escrita
                 # (somarItens × somarItems, objetos × IDs); reenviar o GET cru apagaria campos.
                 try:
@@ -227,12 +259,17 @@ def main(argv=None) -> int:
     g.add_argument("--apenas-primeiro", action="store_true")
     g.add_argument("--incluir-alteracoes", action="store_true")
     g.add_argument("--lgpd-ciente", action="store_true")
+    g.add_argument("--permitir-lista-vazia", nargs="*", default=[], metavar="CAMPO",
+                   help="campos de lista em que [] (apagar todos os vínculos) foi aprovado na prévia")
+    g.add_argument("--listas-conferidas", nargs="*", default=[], metavar="CAMPO",
+                   help="convênio: unidadesIds/politicasPorTipoProduto conferidos contra a régua (lista completa)")
     a = ap.parse_args(argv)
     cli = ClienteRabi()
     if a.cmd == "previa":
         previa(cli, a.recurso, Path(a.entrada), a.casar_por, a.sprint, Path(a.repo))
         return 0
-    return gravar(cli, Path(a.plano), a.aprovado_por, a.apenas_primeiro, a.incluir_alteracoes, a.lgpd_ciente)
+    return gravar(cli, Path(a.plano), a.aprovado_por, a.apenas_primeiro, a.incluir_alteracoes, a.lgpd_ciente,
+                  tuple(a.permitir_lista_vazia), tuple(a.listas_conferidas))
 
 
 if __name__ == "__main__":

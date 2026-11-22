@@ -99,7 +99,7 @@ O token da API do Rabi vence em <data> (faltam <n> dias).
   RABI_API_KEY.
 Até lá sigo normalmente.
 ```
-Chave inválida (401 ou 503):
+Chave inválida (401; até set/2026 vinha 503):
 ```
 O Rabi recusou o token da API (ele pode ter sido revogado ou vencido). Parei
 as gravações — nada ficou pela metade. Se é o token rbt_ da clínica, renove-o

@@ -18,7 +18,7 @@ compras, relatórios e notificações.
   usuário e senha). **Sessão única:** o mesmo usuário não fica logado em dois
   lugares ao mesmo tempo.
 - **API externa** (o caminho da IA implantadora):
-  `https://api.rabisistemas.com.br/api/v1/integrations` — 268 operações em
+  `https://api.rabisistemas.com.br/api/v1/integrations` — 277 operações (Swagger de 22/11/2026) em
   25 grupos, token `Bearer rbt_…` (recomendado; gerado pela clínica) ou `Bearer rbk_…` (time Rabi) por clínica. Detalhes em
   [../api-externa/00-INDICE.md](../api-externa/00-INDICE.md).
 

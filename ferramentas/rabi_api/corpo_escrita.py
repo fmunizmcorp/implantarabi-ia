@@ -1,44 +1,44 @@
-"""Converte a forma de LEITURA (GET) na forma de ESCRITA (corpo do PUT) — /servicos e /produtos.
+"""Monta o corpo dos PUT de /servicos e /produtos (e o corpo PARCIAL das rotas parciais).
 
-Por que existe: o `PUT /servicos/{id}` e o `PUT /produtos/{id}` SOBRESCREVEM o cadastro, e a
-leitura usa nomes e formatos diferentes da escrita. Exemplos (spec de 25/09/2026 + implantação
-real):
-- serviço: a leitura traz `somarItens` (com N); a escrita exige `somarItems` (com S);
-- a leitura traz objetos aninhados (`tipoServico: {id, nome}`, `ServicoEspecialidade: [...]`,
-  `TipoProduto: {id, nome}`, `Fabricante`, `deposito`, `UnidadeDeMedida`); a escrita exige IDs
-  (`tipoServicoId`, `especialidadesId`, `tipoProdutoId`, `fabricanteId`, `depositoId`…);
-- produto: a leitura traz `permitirEstoqueNegativo`; a escrita exige `estoquePodeNegativar`.
-Mandar o GET de volta no PUT faz a API ignorar os nomes de leitura e APAGAR os campos (numa
-implantação real o valor de um serviço foi a R$ 0,00 e a especialidade sumiu).
+Dois modos, conforme a rota (conhecimento/api-externa/convencoes.md §4):
 
-Regra desta ferramenta: TODO campo do schema de escrita (`ServicoCreate` / `ProdutoCreate`) tem
-de ser resolvido — pela leitura (com os apelidos conhecidos) ou por `complementos` (valor
-explícito; `None` explícito = "quero limpar"). Se algum não puder ser resolvido, levanta
-`CampoDeEscritaAusente` listando TODOS os que faltam. Nunca omite em silêncio.
+1) PARCIAL — `corpo_parcial(recurso, mudancas, leitura=None)`: rotas que o Rabi declara parciais
+   desde 01–02/10/2026 (rabi-api `7d16cd50`/`49362b61`): servicos, convenios, pacientes (+ carteira),
+   colaboradores, grades, orcamentos, movimentações, guias, contas-caixa. Campo omitido MANTÉM;
+   `null` LIMPA; lista omitida mantém; lista enviada SUBSTITUI (`[]` apaga). Aqui o corpo leva SÓ o
+   que muda; listas vazias são recusadas sem `permitir_lista_vazia`; `null` e listas aparecem em
+   `resumo_parcial()` para a prévia. É o modo padrão do kit nessas rotas.
+
+2) COMPLETO — `corpo_put_servico` / `corpo_put_produto`: GET → corpo completo do schema de escrita.
+   Obrigatório em /produtos (o PUT de produto não declara parcial = sobrescreve) e útil em /servicos
+   quando se quer reenviar o cadastro inteiro. A leitura usa nomes diferentes da escrita:
+   - serviço: `somarItens` (leitura) × `somarItems` (escrita); objetos aninhados × IDs;
+   - produto: `permitirEstoqueNegativo` × `estoquePodeNegativar`; `Fabricante`/`TipoProduto`/… × ids.
+   TODO campo do schema de escrita (`ServicoCreate` / `ProdutoCreate`) tem de ser resolvido — pela
+   leitura ou por `complementos` (`None` explícito = limpar). Faltou algum → `CampoDeEscritaAusente`.
+
+Forma REAL da leitura:
+- `GET /servicos/{id}` (desde 13/10/2026, Swagger 22/11): traz tudo com os nomes do PUT —
+  `documentos` ([{id}]), `produtoIds` (id ou {id, quantidade, valorUnitario em reais}),
+  `equipamentoIds`, `servicoTaxa` ([{taxaId, quantidade}]), `especialidadesId`,
+  `servicosRelacionados` ([{servicoId, quantidade}], também `composicao`), `somarItems`/`somarItens`,
+  `tipoAtendimento`, `perfilFiscalId`. "Ler e reenviar sem alterar não muda nada." Leituras antigas
+  (25–28/09, sem produtos/taxas/equipamentos) seguem aceitas com `complementos`.
+- Produto da composição enviado SEM `valorUnitario` mantém o valor que já tinha (desde 02/10).
+- `GET /produtos/{id}` traz `Fabricante`, `TipoProduto`, `UnidadeDeMedida` e `deposito` aninhados;
+  não traz princípio ativo, CD, tipo de código, tabela 87, última pesquisa, fornecedores nem anexos.
+- Produto (02/10): `codigoEAN` texto 8/12/13/14 dígitos, `codigoNCM` texto 8 dígitos (número perde
+  zero à esquerda), `codigoProduto` até 10 caracteres (letras, números, `. - /`). Validado aqui.
+
+Colaborador: desde 13/10 o GET traz `perguntasIds`, `vinculoRepasse` e `mensagem` no formato do PUT,
+e o PUT é parcial — use `corpo_parcial("colaboradores", ...)` com só o que muda.
 
 Uso:
-    from ferramentas.rabi_api.corpo_escrita import corpo_put_servico
+    from ferramentas.rabi_api.corpo_escrita import corpo_parcial, resumo_parcial
     atual = c.get("/servicos/46")
-    corpo = corpo_put_servico(atual, complementos={"valor": 40.0})   # aplica a mudança
+    corpo = corpo_parcial("servicos", {"valor": 40.0}, leitura=atual)   # {"valor": 40.0}
+    print(resumo_parcial(corpo))                                         # vai na prévia
     c.put("/servicos/46", corpo)
-
-Forma REAL medida em produção (GET de 25/09/2026; testes em test_corpo_escrita.py):
-- `GET /servicos/{id}` traz os ids no primeiro nível (`tipoServicoId`, `tipoCodigoId`, `tipoGuiaId`,
-  `tipoAtendimentoId`, `regimeDeAtendimentoId`, `tabelaANS87ID`), `codigoTUSS`, `tempoServico`,
-  `somarItens` e `valor`. **Desde 28/09/2026 (medido)** traz também `especialidadesId` e
-  `servicosRelacionados` (`[{servicoId, quantidade}]`, também em `composicao`). Continua **sem**
-  `produtoIds`, `servicoTaxa`, `equipamentoIds` e `preparo`: esses vêm SEMPRE por `complementos`
-  (dicionário de IDs / foto da prova da criação, S08). Nunca "reenvie vazio".
-- Escrita (Swagger de 28/09): `servicoTaxa` = `[{taxaId, quantidade}]` substitui
-  `taxaServicoId`/`valorTaxaServico`; `produtoIds`, `equipamentoIds` e `servicosRelacionados`
-  aceitam ID puro ou objeto (com `quantidade`); listas omitidas não quebram mais a rota.
-- `GET /produtos/{id}` traz `Fabricante`, `TipoProduto`, `UnidadeDeMedida` e `deposito` aninhados
-  (convertidos para ids aqui) e `permitirEstoqueNegativo`; não traz princípio ativo, CD, tipo de
-  código, tabela 87, última pesquisa, fornecedores nem anexos (→ `complementos`).
-
-Colaborador NÃO tem conversor: o GET de colaborador não traz `conselho`, `vinculoRepasse`,
-`mensagem` nem `uf`/`conselhoProfissionalId` de cada especialidade, que o `ColaboradorCreate`
-exige. Monte o corpo do PUT de colaborador a partir do cadastro do repo (dados da S09).
 """
 from __future__ import annotations
 
@@ -51,8 +51,12 @@ CAMPOS_SERVICO = (
     "tabelaANS87ID", "regimeDeAtendimentoId", "tipoAtendimento", "servicoTaxa",
     "especialidadesId", "produtoIds", "equipamentoIds",
     "servicosRelacionados", "habilitarAgendamentoOnline", "apenasComColaboradorDesignado",
+    "documentos", "perfilFiscalId",
 )
 OBRIGATORIOS_SERVICO = ("nome", "descricao")
+# Campos novos (13/10/2026) que leituras antigas não trazem: como o PUT de serviço é parcial,
+# omiti-los MANTÉM o valor atual — no modo completo, ficam fora do corpo em vez de dar erro.
+OMITIVEIS_SERVICO = ("documentos", "perfilFiscalId")
 
 CAMPOS_PRODUTO = (
     "nome", "codigoProduto", "codigoEAN", "codigoNCM", "apresentacao", "contendo", "depositoId",
@@ -77,7 +81,8 @@ class CampoDeEscritaAusente(ValueError):
         if self.faltam:
             partes.append(
                 f"PUT de {recurso}: a leitura não traz {len(self.faltam)} campo(s) que a escrita "
-                f"exige: {', '.join(self.faltam)}. O PUT sobrescreve — omitir apagaria. Informe-os "
+                f"exige: {', '.join(self.faltam)}. No modo completo, omitir apagaria (produto) ou "
+                "deixaria o corpo incompleto. Informe-os "
                 "em `complementos` (valor do cadastro do repo; `None` explícito só se for para limpar)."
             )
         partes += self.problemas
@@ -200,6 +205,47 @@ def _lista_objetos(chaves: Iterable[str], chave_id: str, aninhados: Iterable[str
     return r
 
 
+def _lista_produtos(chaves: Iterable[str]) -> Callable[[dict], Any]:
+    """`produtoIds`: id puro, ou {id, quantidade, valorUnitario} — preserva quantidade e valor lidos.
+
+    Itens que vêm como id puro (ou como linha de vínculo sem quantidade/valor) saem como id puro,
+    como antes; itens com quantidade ≠ 1 ou `valorUnitario` saem como objeto (reduzir a id faria a
+    quantidade voltar a 1)."""
+    ids = _lista_ids(chaves, "produtoId", ("produto", "Produto"))
+
+    def r(d: dict) -> Any:
+        for n in chaves:
+            if n not in d:
+                continue
+            v = d[n]
+            if v is None:
+                return []
+            if not isinstance(v, list):
+                raise CampoDeEscritaAusente("?", [], [f"'{n}' deveria ser lista: {type(v).__name__}"])
+            base = ids({n: v})
+            saida = []
+            for el, ident in zip(v, base):
+                extra = {}
+                if isinstance(el, dict):
+                    if el.get("quantidade") not in (None, 1):
+                        extra["quantidade"] = el["quantidade"]
+                    if el.get("valorUnitario") is not None:
+                        extra["valorUnitario"] = el["valorUnitario"]
+                saida.append({"id": ident, **extra} if extra else ident)
+            return saida
+        return _AUSENTE
+    return r
+
+
+def _documentos(d: dict) -> Any:
+    for n in ("documentos", "ServicoDocumento", "servicoDocumento"):
+        if n not in d:
+            continue
+        v = d[n] or []
+        return [{"id": _item_para_id(el, "documentoId", ("documento", "Documento"), n)} for el in v]
+    return _AUSENTE
+
+
 def _anexos(d: dict) -> Any:
     if "anexos" not in d:
         return _AUSENTE
@@ -229,9 +275,7 @@ MAPA_SERVICO: dict[str, Callable[[dict], Any]] = {
     "especialidadesId": _lista_ids(
         ("especialidadesId", "ServicoEspecialidade", "servicoEspecialidade", "especialidades"),
         "especialidadeId", ("especialidade", "Especialidade")),
-    "produtoIds": _lista_ids(
-        ("produtoIds", "ServicoProduto", "servicoProduto", "produtos"),
-        "produtoId", ("produto", "Produto")),
+    "produtoIds": _lista_produtos(("produtoIds", "ServicoProduto", "servicoProduto", "produtos")),
     "equipamentoIds": _lista_ids(
         ("equipamentoIds", "ServicoEquipamento", "servicoEquipamento", "equipamentos"),
         "equipamentoId", ("equipamento", "Equipamento")),
@@ -241,6 +285,8 @@ MAPA_SERVICO: dict[str, Callable[[dict], Any]] = {
         chaves_id_alternativas=("servicoRelacionadoId", "servicoFilhoId")),
     "habilitarAgendamentoOnline": _direto("habilitarAgendamentoOnline"),
     "apenasComColaboradorDesignado": _direto("apenasComColaboradorDesignado"),
+    "documentos": _documentos,
+    "perfilFiscalId": _direto("perfilFiscalId"),
 }
 
 MAPA_PRODUTO: dict[str, Callable[[dict], Any]] = {
@@ -270,7 +316,7 @@ MAPA_PRODUTO: dict[str, Callable[[dict], Any]] = {
 
 
 def _converter(recurso: str, leitura: Any, complementos: dict | None,
-               campos: tuple, obrigatorios: tuple, mapa: dict) -> dict:
+               campos: tuple, obrigatorios: tuple, mapa: dict, omitiveis: tuple = ()) -> dict:
     d = _desembrulhar(leitura)
     complementos = dict(complementos or {})
     desconhecidos = sorted(k for k in complementos if k not in campos)
@@ -292,7 +338,8 @@ def _converter(recurso: str, leitura: Any, complementos: dict | None,
             problemas += [f"{campo}: {p}" for p in e.problemas]
             continue
         if v is _AUSENTE:
-            faltam.append(campo)
+            if campo not in omitiveis:
+                faltam.append(campo)
         else:
             corpo[campo] = v
     for campo in obrigatorios:
@@ -303,14 +350,145 @@ def _converter(recurso: str, leitura: Any, complementos: dict | None,
     return corpo
 
 
+_RE_EAN = __import__("re").compile(r"^(\d{8}|\d{12,14})$")
+_RE_NCM = __import__("re").compile(r"^\d{8}$")
+_RE_COD = __import__("re").compile(r"^[A-Za-z0-9./-]{1,10}$")
+
+
+def problemas_codigos_produto(corpo: dict) -> list[str]:
+    """Regras de 02/10/2026 (rabi-api `f3b63493`): EAN e NCM como TEXTO, código do produto ≤ 10."""
+    prob = []
+    for campo, regra, texto in (("codigoEAN", _RE_EAN, "8, 12, 13 ou 14 dígitos"),
+                                ("codigoNCM", _RE_NCM, "exatamente 8 dígitos")):
+        v = corpo.get(campo)
+        if v is None or v == "":
+            continue
+        if not isinstance(v, str):
+            prob.append(f"{campo} deve ir como TEXTO com {texto} (número perde zero à esquerda): {v!r}")
+        elif not regra.match(v):
+            prob.append(f"{campo} inválido — precisa de {texto}: {v!r}")
+    v = corpo.get("codigoProduto")
+    if isinstance(v, str) and v and not _RE_COD.match(v):
+        prob.append(f"codigoProduto até 10 caracteres (letras, números, ponto, hífen ou barra): {v!r}")
+    return prob
+
+
 def corpo_put_servico(leitura: dict, complementos: dict | None = None) -> dict:
     """GET /servicos/{id} → corpo completo do PUT /servicos/{id} (schema ServicoCreate)."""
-    return _converter("servicos", leitura, complementos, CAMPOS_SERVICO, OBRIGATORIOS_SERVICO, MAPA_SERVICO)
+    return _converter("servicos", leitura, complementos, CAMPOS_SERVICO, OBRIGATORIOS_SERVICO, MAPA_SERVICO,
+                      OMITIVEIS_SERVICO)
 
 
 def corpo_put_produto(leitura: dict, complementos: dict | None = None) -> dict:
     """GET /produtos/{id} → corpo completo do PUT /produtos/{id} (schema ProdutoCreate)."""
-    return _converter("produtos", leitura, complementos, CAMPOS_PRODUTO, OBRIGATORIOS_PRODUTO, MAPA_PRODUTO)
+    corpo = _converter("produtos", leitura, complementos, CAMPOS_PRODUTO, OBRIGATORIOS_PRODUTO, MAPA_PRODUTO)
+    prob = problemas_codigos_produto(corpo)
+    if prob:
+        raise CampoDeEscritaAusente("produtos", [], prob + [
+            "Se o código veio assim da leitura (cadastro antigo), mande-o como texto em `complementos` "
+            "(ex.: complementos={'codigoEAN': '07891234567895'}) — confirme o zero à esquerda no documento."])
+    return corpo
+
+
+# ---------------------------------------------------------------- modo PARCIAL
+# Rotas que o Rabi declara parciais (Swagger 22/11/2026 + código deploy_prd). Nas demais, PUT completo.
+RECURSOS_PARCIAIS = {
+    "servicos", "convenios", "pacientes", "colaboradores", "grades-colaborador",
+    "grades-equipamento", "orcamentos", "financeiro/movimentacoes", "faturamento/guias",
+    "financeiro/contas-caixa", "pacientes/convenios",
+}
+# Leitura em CENTAVOS e escrita em REAIS (Swagger 22/11): comparar com o GET daria resultado errado
+# (40 centavos ≠ R$ 40,00) — nesses recursos o corpo parcial NÃO é filtrado pela leitura.
+RECURSOS_LEITURA_EM_CENTAVOS = {"orcamentos", "financeiro/movimentacoes", "faturamento/guias"}
+# Nomes de leitura que a escrita de serviço NÃO aceita (mandar = a API ignora → mudança perdida).
+_LEITURA_SERVICO = {"somarItens": "somarItems", "tipoServico": "tipoServicoId", "tipoCodigo": "tipoCodigoId",
+                    "ServicoEspecialidade": "especialidadesId", "composicao": "servicosRelacionados"}
+# Listas de convênio que, enviadas incompletas, desativam unidades / apagam políticas.
+_LISTAS_SENSIVEIS = {"convenios": ("unidadesIds", "politicasPorTipoProduto")}
+
+
+class CorpoParcialInvalido(ValueError):
+    """O corpo parcial pedido tem campo desconhecido, nome de leitura, lista vazia sem permissão etc."""
+
+
+def _igual(a: Any, b: Any) -> bool:
+    """Igualdade estrita: mesmo tipo e mesmo valor (em Python True == 1 e 1 == 1.0)."""
+    if isinstance(a, bool) or isinstance(b, bool) or type(a) is not type(b):
+        if not (isinstance(a, (int, float)) and isinstance(b, (int, float))
+                and not isinstance(a, bool) and not isinstance(b, bool)):
+            return False
+    return a == b
+
+
+def corpo_parcial(recurso: str, mudancas: dict, leitura: Any = None,
+                  permitir_lista_vazia: Iterable[str] = (), listas_conferidas: Iterable[str] = (),
+                  permitir_objeto: Iterable[str] = ()) -> dict:
+    """Corpo de PUT PARCIAL com só o que muda (convencoes.md §4.1).
+
+    - `recurso` precisa estar em RECURSOS_PARCIAIS (produto, taxa, local… → use o modo completo);
+    - em `servicos`, os nomes têm de ser os do schema de escrita (ex.: `somarItems`, não `somarItens`);
+    - com `leitura` (o GET), tira do corpo o que já está igual — só vai o que de fato muda;
+    - lista `[]` só passa se o campo estiver em `permitir_lista_vazia` (apaga TODOS os vínculos);
+    - em convênio, `unidadesIds`/`politicasPorTipoProduto` só passam se estiverem em
+      `listas_conferidas` (conferidos contra a régua: lista enviada é a lista completa) — mesmo
+      que iguais à leitura;
+    - objeto aninhado (ex.: `endereco`, `vinculoRepasse`) só passa se estiver em `permitir_objeto`
+      e for o objeto COMPLETO: não há medição de que o Rabi mescle objeto parcial;
+    - em orçamentos, movimentações e guias a leitura vem em CENTAVOS: não se compara com ela.
+    """
+    if recurso not in RECURSOS_PARCIAIS:
+        raise CorpoParcialInvalido(
+            f"PUT de {recurso} não é parcial (não declarado) — campo omitido seria apagado. Use o "
+            "objeto completo (corpo_put_produto para produtos; GET + mudanças para os demais).")
+    if not isinstance(mudancas, dict) or not mudancas:
+        raise CorpoParcialInvalido("mudancas vazias: não há o que gravar.")
+    mudancas = {k: v for k, v in mudancas.items() if k != "origem"}
+    prob = []
+    if recurso == "servicos":
+        for k in mudancas:
+            if k in _LEITURA_SERVICO:
+                prob.append(f"'{k}' é nome de LEITURA; na escrita é '{_LEITURA_SERVICO[k]}'.")
+            elif k not in CAMPOS_SERVICO:
+                prob.append(f"'{k}' não existe no schema de escrita de serviço (a API ignoraria).")
+    permitidas = set(permitir_lista_vazia)
+    for k, v in mudancas.items():
+        if isinstance(v, list) and not v and k not in permitidas:
+            prob.append(f"'{k}': [] APAGA todos os vínculos. Se é isso mesmo, passe permitir_lista_vazia=('{k}',).")
+    objetos_ok = set(permitir_objeto)
+    for k, v in mudancas.items():
+        if isinstance(v, dict) and k not in objetos_ok:
+            prob.append(f"'{k}' é objeto aninhado: mande o objeto COMPLETO (o Rabi pode não mesclar) e "
+                        f"passe permitir_objeto=('{k}',).")
+    conferidas = set(listas_conferidas)
+    for k in _LISTAS_SENSIVEIS.get(recurso, ()):
+        if k in mudancas and k not in conferidas:
+            prob.append(f"'{k}' enviado é a lista COMPLETA (o que ficar fora é desativado/apagado). "
+                        f"Confira contra a régua e passe listas_conferidas=('{k}',).")
+    if prob:
+        raise CorpoParcialInvalido(" ".join(prob))
+    if leitura is not None and recurso not in RECURSOS_LEITURA_EM_CENTAVOS:
+        d = _desembrulhar(leitura)
+        iguais = [k for k, v in mudancas.items() if k in d and _igual(d[k], v)]
+        mudancas = {k: v for k, v in mudancas.items() if k not in iguais}
+        if not mudancas:
+            raise CorpoParcialInvalido("Tudo o que foi pedido já está igual no Rabi: nada a gravar.")
+    return mudancas
+
+
+def resumo_parcial(corpo: dict, recurso: str = "") -> list[str]:
+    """Linhas para a PRÉVIA: o que muda, o que será LIMPO (null) e as listas que SUBSTITUEM."""
+    linhas = []
+    for k, v in corpo.items():
+        if v is None and recurso == "servicos" and k == "valor":
+            linhas.append("valor: null → R$ 0,00 (no serviço, valor null vira 0)")
+        elif v is None:
+            linhas.append(f"{k}: será LIMPO (null)")
+        elif isinstance(v, list):
+            linhas.append(f"{k}: lista SUBSTITUI os vínculos atuais por {len(v)} item(ns)"
+                          + (" — APAGA todos" if not v else ""))
+        else:
+            linhas.append(f"{k}: → {v!r}")
+    return linhas
 
 
 CONVERSORES = {"servicos": corpo_put_servico, "produtos": corpo_put_produto}

@@ -106,7 +106,8 @@ sistema). Ver [lista única](../metodologia/lista-unica-de-documentos.md).
 - **207:** reenviar só os itens com `ERRO`/`NAO_PROCESSADO`, depois de corrigir a
   causa; 429 = outro lote em andamento (esperar).
 - 400 = CPF inválido ou contato obrigatório ausente.
-- `PUT /pacientes/{id}` **sobrescreve**: campo omitido é apagado. GET antes.
+- `PUT /pacientes/{id}` é **parcial** desde 01/10/2026: omitido mantém; mas `contato` e `convenioPlano` enviados **substituem** (contato/carteira com `id` que não veio é inativado). GET antes. Pacientes alterados por PUT antes de 01/10, ou cadastrados pela tela antes de 30/10 (sexo invertido), entram na conferência da FAQ F006.
+- `nomeSocial` existe desde 13/10 (o `nome` é o civil). CPF e RG do paciente passaram a ser guardados cifrados (19/10).
 - Histórico: o atendimento é gravado com a hora "agora" — o PUT com a data real é
   obrigatório; cria um agendamento sintético e um prontuário vazio; o texto do
   prontuário **sobrescreve** sem versão anterior; não há exclusão. Conferência:

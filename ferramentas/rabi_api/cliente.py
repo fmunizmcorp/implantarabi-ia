@@ -8,8 +8,10 @@ O que ele faz por você:
 - base por RABI_API_BASE (padrão: produção);
 - nunca imprime a chave (mascara em logs e repr);
 - leitura que falha de verdade: status fora de 2xx ou corpo vazio = exceção;
-- 401 → ChaveInvalida; 403 → SemPermissao; 503 → uma nova tentativa curta e depois
-  ChaveInvalida (já foi a resposta para chave inválida) — nunca repete em loop;
+- 401 → ChaveInvalida (medido 22/11/2026: chave/token rejeitado = 401); 403 → SemPermissao,
+  com a permissão que falta (`escopoFaltante`); 503 → uma nova tentativa curta e depois
+  ErroRabi "indisponível" (ou ChaveInvalida se a mensagem antiga "validar a chave" voltar) —
+  nunca repete em loop;
 - 429 → espera e tenta de novo (no máximo 3 vezes);
 - ler_tudo(): pagina até totalPages, normaliza os envelopes (dados | data | items | lista crua)
   e confere lidos = total;
@@ -88,7 +90,7 @@ class ChaveAusente(ErroRabi):
 
 
 class ChaveInvalida(ErroRabi):
-    """401 (chave ausente, errada, vencida ou revogada) ou 503 persistente."""
+    """401 (chave ausente, errada, vencida ou revogada); 503 só se voltar a mensagem antiga "validar a chave"."""
 
 
 class SemPermissao(ErroRabi):
@@ -349,20 +351,35 @@ class ClienteRabi:
                 "Atenção: nas rotas PUT /faturamento/glosas/* um motivo de glosa inválido também devolve 401.",
                 resp.status, resp.texto, metodo, caminho)
         if resp.status == 403:
-            m = re.search(r"'([A-Za-z]+:[a-z]+)'", msg_srv)
-            perm = m.group(1) if m else "(ver a rota no Swagger)"
+            perm = None
+            try:
+                corpo = json.loads(resp.texto) if resp.texto.strip() else None
+                esc = corpo.get("escopoFaltante") if isinstance(corpo, dict) else None
+                if esc:
+                    perm = ", ".join(esc) if isinstance(esc, list) else str(esc)
+            except ValueError:
+                pass
+            if not perm:
+                m = re.search(r"'?([A-Za-z]+:[a-zA-Z]+)'?", msg_srv)
+                perm = m.group(1) if m else "(ver a rota no Swagger)"
             raise SemPermissao(
                 f"403 em {onde}: a chave não tem a permissão {perm}. "
                 + ("No token rbt_: o dono edita o token em Configurações › Parâmetros › Integrações e marca "
                    if self.tipo_chave == "rbt_" else "Na chave rbk_: peça ao time Rabi uma chave que inclua ")
-                + "essa permissão (lista em .kit/conhecimento/api-externa/chave-e-token.md no repo da clínica).",
+                + "essa permissão (lista em .kit/conhecimento/api-externa/chave-e-token.md no repo da clínica). "
+                + "No rbt_ a permissão editada vale já na requisição seguinte. Peça só o necessário (FAQ F008).",
                 resp.status, resp.texto, metodo, caminho)
         if resp.status == 503:
-            raise ChaveInvalida(
-                f"503 em {onde} depois de nova tentativa: a API não aceitou a chave (\"Não foi possível validar "
-                "a chave de API.\"). Medido em 25/09 em produção e homologação: é assim que responde para chave "
-                "inexistente, revogada ou ainda não ativada (o 401 do Swagger ainda não vale). Não vou repetir em "
-                f"loop: confira a chave e, se ela estiver certa: {self._como_trocar()}.",
+            if "validar a chave" in (msg_srv or resp.texto or ""):
+                raise ChaveInvalida(
+                    f"503 em {onde} depois de nova tentativa: \"Não foi possível validar a chave de API.\" — até "
+                    "25/09/2026 era assim que a API respondia para chave não aceita (hoje responde 401). Não vou "
+                    f"repetir em loop: confira a chave e, se ela estiver certa: {self._como_trocar()}.",
+                    resp.status, resp.texto, metodo, caminho)
+            raise ErroRabi(
+                f"503 em {onde} depois de nova tentativa: o Rabi está indisponível ou com falha de rede/validação "
+                f"('{msg_srv}'). Não é a chave (chave rejeitada = 401). Espere alguns minutos e tente uma vez; "
+                "persistindo, avise o dono/time Rabi. Ver FAQ F003.",
                 resp.status, resp.texto, metodo, caminho)
         raise ErroRabi(f"{resp.status} em {onde}: {msg_srv}.{_dica_faq(msg_srv or resp.texto, resp.status, onde)}",
                        resp.status, resp.texto, metodo, caminho)

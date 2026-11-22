@@ -39,15 +39,14 @@ servicos = c.ler_tudo("/servicos", {"ativo": True})
 print(c.ultima_leitura)                            # lidos, total, páginas, formato do envelope
 um = c.get("/servicos/46")                         # falha se status≠2xx ou corpo vazio
 
-# PUT = sobrescrita, e a LEITURA tem outros nomes/formatos que a ESCRITA
-# (somarItens × somarItems, objetos aninhados × IDs). Nunca reenvie o GET cru:
-from ferramentas.rabi_api.corpo_escrita import corpo_put_servico, CampoDeEscritaAusente
+# PUT PARCIAL (desde 01–02/10/2026) em serviço, convênio, paciente, colaborador, grades…:
+# mande só o que muda, com os nomes de ESCRITA; lista enviada substitui ([] apaga).
+from ferramentas.rabi_api.corpo_escrita import corpo_parcial, resumo_parcial, corpo_put_produto
 atual = c.get("/servicos/46")
-try:
-    corpo = corpo_put_servico(atual, complementos={"valor": 40.0})  # mudança + campos que faltarem
-except CampoDeEscritaAusente as e:
-    print(e.faltam)   # a leitura não trouxe estes campos: pegue-os no cadastro do repo
-    raise
+corpo = corpo_parcial("servicos", {"valor": 40.0}, leitura=atual)   # recusa nome de leitura e []
+print(resumo_parcial(corpo, "servicos"))                           # vai na prévia
+# PUT de produto (e demais rotas que não declaram) SOBRESCREVE: objeto completo
+corpo_prod = corpo_put_produto(c.get("/produtos/7"), complementos={"prazoDeReposicao": 5})
 c.put("/servicos/46", corpo)                       # depois: GET e diff de TODOS os campos
 
 # lote: fatia no limite, lê 207 por indice, devolve o que reenviar
@@ -106,4 +105,4 @@ Se o proxy exigir certificado próprio, defina `SSL_CERT_FILE`.
 python3 -m pytest ferramentas/rabi_api -q
 ```
 Servidor HTTP falso local (sem rede): envelopes, paginação, 207, 429, 401/403/503, corpo
-vazio, máscara; e o gerador conferindo as 268 operações.
+vazio, máscara; e o gerador conferindo as 268 operações (spec de 25/09) e as 277 (spec de 22/11).

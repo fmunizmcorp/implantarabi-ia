@@ -7,6 +7,14 @@ O produto tem a cadeia de preço mais longa do Rabi. É onde mora a maior parte
 do dinheiro de medicamento e material — e onde erros de unidade (Fator K,
 embalagem) multiplicam o preço por 100 ou dividem por 50 sem ninguém ver.
 
+> ⚠️ **Novidade de 15/10/2026 (#662, 1ª fase):** se o convênio tiver preenchido, na aba Dados, o bloco
+> **Referências oficiais por tipo de produto**, entra um **nível 2** entre a linha do convênio e a
+> política: conversão do produto no convênio > **referência oficial** (SIMPRO/Brasíndice/CMED…, preço
+> publicado ÷ fator de conversão do produto, tipo de preço PF/PMC, ICMS e ajuste %) > política/cadastro.
+> Sem o bloco, a árvore abaixo vale como está. O simulador do kit **não** modela o nível 2: nesse caso,
+> a verdade é o Farol real. A carga de preços desse nível pela tela foi retirada em 15/10 (time Rabi).
+> Detalhe: [../sistema-rabi/novidades-out-nov-2026.md](../sistema-rabi/novidades-out-nov-2026.md) §2.
+
 ## 1. A árvore
 
 ```
@@ -113,16 +121,16 @@ tabela interna aparece na lista de fontes **uma vez por coluna configurada**
   `tipoProdutoId` (int), `fatorK` (**texto**, vírgula ou ponto) e `idJson`
   (texto JSON com `fontePrecoId` e `tipoPrecificacao` — use o `idJson` que
   `GET /tabelas-preco/precificacao` devolve).
-- ⚠️ `PUT /convenios/{id}` **substitui o cadastro**. Quando
+- ⚠️ `PUT /convenios/{id}` é parcial desde 01–02/10/2026, **mas** quando
   `politicasPorTipoProduto` é enviado, é a **lista completa**: as que não
   estiverem nela são **inativadas**. Omitido = não altera. Enviar lista vazia
   **apaga a política**. (Na tela também: salvar a política vazia já apagou as
   5 linhas de um convênio.)
-- ⚠️ O Swagger de leitura `GET /convenios/{id}` **não traz** a política nem os
-  prazos. Não é possível "ler, alterar e reenviar" com segurança só pela API
-  externa. Monte o objeto completo a partir da régua contratual confirmada
-  (arquivo 10) e confira depois na tela / relatório "Validação de
-  Configuração Por Convênio".
+- Desde 28/09 o `GET /convenios/{id}` real traz `politicasPorTipoProduto` e os prazos (o
+  Swagger documenta menos). Para mudar a política, monte a lista **completa** a partir da
+  régua contratual confirmada (arquivo 10), confira contra o GET, mande só esse campo
+  (`corpo_parcial(..., listas_conferidas=("politicasPorTipoProduto",))`) e confira depois na
+  tela / relatório "Validação de Configuração Por Convênio".
 
 ## 5. Fator K
 

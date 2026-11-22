@@ -25,8 +25,10 @@ caminhos das regras — não a conversa que o produziu.
    sem depósito; serviço de medicamento sem produto no catálogo).
 4. **Status honesto:** nada ensinado como vigente que seja "em implantação" ou "roadmap".
 5. **Rotas:** nenhuma rota proibida sem ordem escrita (NFS-e, financeiro,
-   estoque real, DELETE, bulk sem prévia). PUT = sobrescrita (GET antes e objeto
-   completo), salvo as rotas que declaram upsert.
+   estoque real, DELETE, bulk sem prévia). PUT parcial nas rotas que o Rabi declara
+   (serviço, convênio, paciente, colaborador, grades, orçamento, movimentação, guia, contas-caixa e
+   abas do convênio): só o aprovado, e toda lista enviada completa; demais PUT = objeto completo
+   (`conhecimento/api-externa/convencoes.md` §4).
 6. **LGPD e credenciais:** nenhum dado de paciente e nenhuma chave em prova/relatório.
 7. Números: refaço as contas de 3 itens por amostra.
 

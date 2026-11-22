@@ -22,10 +22,12 @@ novo profissional, preço, taxa, parâmetro, permissão, reajuste de convênio
      os convênios de uma vez: diga isso com todas as letras e peça aprovação do **dono**.
 4. **Prévia** em tabela (item · campo · de → para · por quê · quem é afetado).
 5. **Aprovação** → **grava** pelo ritual de 5 passos (skill `ritual-de-carga`).
-   PUT é **sobrescrita**: GET antes e reenviar o objeto completo, salvo as
-   rotas que declaram upsert (abas do convênio e `/parametros/desconto`).
-   `/parametros/financeiro` é **misto**: sempre reenvie `categoriaPagamentoId`
-   e `centroDeCustoId` (omitidos viram null). Campo omitido pode ser **apagado**.
+   PUT **parcial** (desde 01–02/10/2026) em serviço, convênio, paciente, colaborador,
+   grades e abas do convênio: mande só o que muda — mas **lista enviada substitui**
+   (`[]` apaga). Nas demais rotas (produto, taxa, local, parâmetros, empresa…) o PUT
+   **sobrescreve**: GET antes e objeto completo. `/parametros/financeiro` é **misto**:
+   sempre reenvie `categoriaPagamentoId` e `centroDeCustoId`. Regra por rota:
+   `conhecimento/api-externa/convencoes.md` §4.
    Serviço/produto: o GET **não** é o corpo do PUT (nomes e formatos diferentes) —
    use `corpo_put_servico` / `corpo_put_produto` de `ferramentas/rabi_api/corpo_escrita.py`.
    Dados do convênio: o GET nem traz o que o PUT exige — monte o objeto da régua

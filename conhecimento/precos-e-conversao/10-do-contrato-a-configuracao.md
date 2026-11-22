@@ -26,7 +26,7 @@ contrato é um contrato.
       │
  [6] PRÉVIA + APROVAÇÃO (item a item, grupos A/B/C)
       │
- [7] GRAVA em passes: política → Utiliza → valores → textos/códigos → tipo atend. → Pacote/Zerar
+ [7] GRAVA em passes: política → Especialidades (Atende) → Utiliza → valores → textos/códigos → tipo atend. → Pacote/Zerar
       │
  [8] FOTO DEPOIS + DIFF + FAROL (arquivo 13) → registra, commit, próximo convênio
 ```
@@ -35,8 +35,8 @@ contrato é um contrato.
 
 Leia o contrato **cláusula por cláusula** e monte a régua antes de olhar o
 sistema. Cada linha com a **cláusula de origem**. Destino no cadastro do
-convênio (`POST /convenios` na criação; `PUT /convenios/{id}` sobrescreve —
-ver §8.1):
+convênio (`POST /convenios` na criação; `PUT /convenios/{id}` **parcial** desde 01–02/10/2026 —
+lista enviada substitui; ver §8.1 e `../api-externa/convencoes.md` §4):
 
 | O que está no contrato | Campo (API) | Observação |
 |---|---|---|

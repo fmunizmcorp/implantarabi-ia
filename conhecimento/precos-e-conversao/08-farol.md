@@ -8,6 +8,14 @@ O Farol compara **quanto entra** com **quanto custa**:
 É a **prova** de que a conversão está certa: depois de configurar um
 convênio, o Farol mostra onde a clínica perde dinheiro.
 
+> ⚠️ **Desde 12/10/2026 (#655) o custo do Farol inclui** produtos + custo extra do convênio +
+> prestadores ("Serviços extras") + repasse do profissional (sem profissional: o maior repasse entre
+> quem atende e aceita o convênio). Sem cor só com custo total 0; roxo com produto de custo 0; no
+> limite exato do vermelho = amarelo. O **bloqueio** pelos custos novos nasce desligado (Parâmetros ›
+> Orçamento). Por isso a conferência da S11 só fecha depois dos repasses (S09) e custos extras do
+> convênio. A IA de atendimento (TalkMe) não oferece serviço que o Farol bloqueia ou que pede
+> aprovação (#664). Detalhe: [../sistema-rabi/novidades-out-nov-2026.md](../sistema-rabi/novidades-out-nov-2026.md) §2.
+
 ## 1. Cores e limiares
 
 | Cor | Significado | Efeito |

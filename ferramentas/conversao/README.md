@@ -45,8 +45,9 @@ O motor é uma **previsão**. Quem manda é o Rabi. Toda gravação termina com
    `python3 .kit/ferramentas/conversao/montar_convenio.py precos-convenio-a.csv --convenio-id 12 --saida saida/ --catalogo cenario.json --atual atual.json`.
    Mostre a `previa.md` (item · campo · de → para · porquê). Com erro, nenhum lote é gerado (código 2).
 5. **Aprovação** do implantador.
-6. **Grave** na ordem do `manifesto.json` (fases: Utiliza → valores → textos → tipo de
-   atendimento → Pacote/Zerar), um lote por vez:
+6. **Grave** na ordem do `manifesto.json` — **antes**, a aba Especialidades (com Atende; desde 29/09
+   serviço de especialidade não atendida recusa Utiliza, #628); depois as fases Utiliza → valores →
+   textos → tipo de atendimento → Pacote/Zerar, um lote por vez:
    `cliente.enviar_lote(ch["caminho"], ch["aba"], corpo[ch["aba"]], tamanho=200, metodo="PUT")`.
    Em 207, reenvie só os itens `reenviar`.
 7. **Foto depois + conferência:** leia `/farol/servicos`, `/farol/itens` e `/farol/produtos`

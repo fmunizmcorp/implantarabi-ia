@@ -79,7 +79,8 @@ parecidas. Na dúvida, "não tenho certeza" + pergunta.
 - `GET /colaboradores` (todas as páginas, ativos e inativos) — casar por **CPF**
   e por nome normalizado. **Nunca duplicar:** profissional duplicado quebra
   agenda, faturamento e vínculos com convênio.
-- Colaborador existente: GET completo antes de corrigir (PUT sobrescreve).
+- Colaborador existente: GET antes de corrigir (foto antes). O PUT é **parcial** desde 01/10: mande só o que muda; não reativa colaborador desativado (403 `COLABORADOR_INATIVO` nas rotas que exigem ativo).
+- **Grade recusada em consultório ocupado** no mesmo dia/horário (18/11, FAQ F009); inativar grade **realoca** os agendamentos futuros dela.
 - Login: `409` em `POST /colaboradores/{id}/usuario` = **já tem login**. Não é
   erro: anote "login já existia".
 
